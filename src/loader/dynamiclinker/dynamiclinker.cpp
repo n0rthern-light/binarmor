@@ -1,6 +1,6 @@
 #include "dynamiclinker.hpp"
 #include "../includes/exception.hpp"
-#include "../includes/linking.h"
+#include "../includes/linking.hpp"
 
 #include <cwchar>
 #include <clocale>

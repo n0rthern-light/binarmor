@@ -1,8 +1,8 @@
 #ifndef DYNAMICLINKER_H
 #define DYNAMICLINKER_H
 
-#include "../includes/winapi_typedefs.h"
-#include "librarydumper.h"
+#include "../../shared/winapi_typedefs.hpp"
+#include "librarydumper.hpp"
 #include <vector>
 #include <map>
 #include <string>

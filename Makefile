@@ -2,20 +2,20 @@ CC=g++
 PE_NAME=advanced-memory
 DLL_NAME=advanced-library
 
-RELEASE_DIR=release
-DEBUG_DIR=debug
-RELEASE_DLL_DIR=release_dll
-DEBUG_DLL_DIR=debug_dll
+RELEASE_DIR=build/release
+DEBUG_DIR=build/debug
+RELEASE_DLL_DIR=build/release_dll
+DEBUG_DLL_DIR=build/debug_dll
 
-SOURCES=$(wildcard ./src/*.cpp ./src/**/*.cpp)
-DLL_SOURCES=$(wildcard ./src_dll/*.cpp ./src_dll/**/*.cpp)
+SOURCES=$(wildcard ./src/loader/*.cpp ./src/loader/**/*.cpp ./src/shared/*.cpp ./src/shared/**/*.cpp)
+DLL_SOURCES=$(wildcard ./src/dll/*.cpp ./src/dll/**/*.cpp ./src/shared/*.cpp ./src/shared/**/*.cpp)
 
 RELEASE_OBJ=$(SOURCES:%.cpp=$(RELEASE_DIR)/obj/%.o)
 DEBUG_OBJ=$(SOURCES:%.cpp=$(DEBUG_DIR)/obj/%.o)
 DLL_RELEASE_OBJ=$(DLL_SOURCES:%.cpp=$(RELEASE_DLL_DIR)/obj/%.o)
 DLL_DEBUG_OBJ=$(DLL_SOURCES:%.cpp=$(DEBUG_DLL_DIR)/obj/%.o)
 
-HEADER_DIRS = $(shell find ./src ./src_dll -type d \( -name '*.h' -o -name '*.hpp' \) -exec dirname {} \; | sort -u)
+HEADER_DIRS = $(shell find ./src -type d \( -name '*.h' -o -name '*.hpp' \) -exec dirname {} \; | sort -u)
 
 CFLAGS=-Wall -Wextra -O2 -m32 $(foreach dir,$(HEADER_DIRS),-I$(dir))
 LDFLAGS=-static-libgcc -static-libstdc++ -m32

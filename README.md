@@ -2,7 +2,7 @@
 Program made from passion to Windows internals.
 
 ## Quick design overview
-The program is designed from two components the Loader and the DLL (engine). The loader source code is placed in `src` subdirectory, where the DLL code is inside `src_dll`. Both the loader and the dll share same code from `shared` directory.
+The program is designed from two components an Loader and an DLL. The loader source code is placed in `src/loader` subdirectory, where the DLL code is inside `src/dll`. Both the loader and the dll share same code from `src/shared` directory.
 
 ## Compiling the components
 
