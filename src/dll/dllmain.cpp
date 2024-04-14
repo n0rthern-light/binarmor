@@ -1,4 +1,4 @@
-#include <windows.h>
+#include "../shared/winapi_typedefs.hpp"
 
 extern "C" __declspec(dllexport) void ShowGreeting() {
     MessageBox(NULL, "Hi!!", "Greeting", MB_OK | MB_ICONINFORMATION);
