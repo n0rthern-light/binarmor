@@ -2,17 +2,6 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "clean_release",
-            "type": "shell",
-            "command": "make clean_release",
-            "group": "build",
-            "problemMatcher": "$gcc",
-            "presentation": {
-                "reveal": "always",
-                "panel": "new"
-            }
-        },
-        {
             "label": "build release",
             "type": "shell",
             "command": "make release",
@@ -21,17 +10,6 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": "$gcc",
-            "presentation": {
-                "reveal": "always",
-                "panel": "new"
-            }
-        },
-        {
-            "label": "clean_debug",
-            "type": "shell",
-            "command": "make clean_debug",
-            "group": "build",
             "problemMatcher": "$gcc",
             "presentation": {
                 "reveal": "always",

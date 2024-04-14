@@ -1,9 +1,11 @@
 #ifndef LINKING_H
 #define LINKING_H
 
-#define KERNEL32 "kernel32.dll"
-#define KERNEL32_GetModuleHandleA "GetModuleHandleA"
-#define KERNEL32_GetProcAddress "GetProcAddress"
-#define KERNEL32_LoadLibraryA "LoadLibraryA"
+#include "no_strings.hpp"
+
+#define KERNEL32 strenc("kernel32.dll")
+#define KERNEL32_GetModuleHandleA strenc("GetModuleHandleA")
+#define KERNEL32_GetProcAddress strenc("GetProcAddress")
+#define KERNEL32_LoadLibraryA strenc("LoadLibraryA")
 
 #endif

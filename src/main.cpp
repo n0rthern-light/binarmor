@@ -1,5 +1,6 @@
 #include "dynamiclinker/dynamiclinker.hpp"
 #include "dynamiclinker/librarydumper.h"
+#include "includes/no_strings.hpp"
 #include <iostream>
 
 static unsigned int it = 0;
@@ -11,6 +12,7 @@ class CStdOutDumper: public ILibraryDumper
         unsigned int f_it = 0;
         for (auto f : library->functions) {
             std::cout << "   " << "#" << f_it << " -> " << f.second->name << " at: " << std::hex << f.second->resolvedAddress << " rva: " << std::hex << f.second->rva << std::endl;
+            f_it++;
         }
         std::cout << "===========================================================================" << std::endl;
 
@@ -22,7 +24,10 @@ int main() {
     CStdOutDumper* stdImportDumper = new CStdOutDumper();
     CDynamicLinker* pDynamicLinker = new CDynamicLinker();
 
-    pDynamicLinker->LoadFunction("ntdll.dll", "NtQueryInformationProcess");
+    pDynamicLinker->LoadFunction(strenc("ntdll.dll"), strenc("NtQueryInformationProcess"));
+    pDynamicLinker->LoadFunction(strenc("ntdll.dll"), strenc("NtAllocateVirtualMemory"));
+    pDynamicLinker->LoadFunction(strenc("ntdll.dll"), strenc("NtFreeVirtualMemory"));
+    pDynamicLinker->LoadFunction(strenc("ntdll.dll"), strenc("NtProtectVirtualMemory"));
 
     pDynamicLinker->DumpLoaded(stdImportDumper);
 

@@ -1,45 +1,61 @@
 CC=g++
-
 PE_NAME=advanced-memory
+DLL_NAME=advanced-library
 
 RELEASE_DIR=release
 DEBUG_DIR=debug
+RELEASE_DLL_DIR=release_dll
+DEBUG_DLL_DIR=debug_dll
 
-CFLAGS=-Wall -Wextra -O2 -m32 -I./src -I./src/includes -I./src/dynamiclinker
-LDFLAGS=-static-libgcc -static-libstdc++ -m32
-
-SOURCES=./src/main.cpp ./src/dynamiclinker/dynamiclinker.cpp
+SOURCES=$(wildcard ./src/*.cpp ./src/**/*.cpp)
+DLL_SOURCES=$(wildcard ./src_dll/*.cpp ./src_dll/**/*.cpp)
 
 RELEASE_OBJ=$(SOURCES:%.cpp=$(RELEASE_DIR)/obj/%.o)
 DEBUG_OBJ=$(SOURCES:%.cpp=$(DEBUG_DIR)/obj/%.o)
+DLL_RELEASE_OBJ=$(DLL_SOURCES:%.cpp=$(RELEASE_DLL_DIR)/obj/%.o)
+DLL_DEBUG_OBJ=$(DLL_SOURCES:%.cpp=$(DEBUG_DLL_DIR)/obj/%.o)
 
-.PHONY: all release debug clean_release clean_debug
+HEADER_DIRS = $(shell find ./src ./src_dll -type d \( -name '*.h' -o -name '*.hpp' \) -exec dirname {} \; | sort -u)
 
-all: release
+CFLAGS=-Wall -Wextra -O2 -m32 $(foreach dir,$(HEADER_DIRS),-I$(dir))
+LDFLAGS=-static-libgcc -static-libstdc++ -m32
 
-release: CFLAGS += -O2
-release: TARGET=$(RELEASE_DIR)/$(PE_NAME)
+.PHONY: all release debug release_dll debug_dll clean
+
+all: release debug release_dll debug_dll
+
 release: $(RELEASE_OBJ)
-	@mkdir -p $(@D)
-	$(CC) $(LDFLAGS) -o $(TARGET) $(RELEASE_OBJ)
+	@mkdir -p $(RELEASE_DIR)
+	$(CC) $(LDFLAGS) -o $(RELEASE_DIR)/$(PE_NAME) $(RELEASE_OBJ)
 
-debug: CFLAGS += -g3 -O0
-debug: TARGET=$(DEBUG_DIR)/$(PE_NAME)
 debug: $(DEBUG_OBJ)
-	@mkdir -p $(@D)
-	$(CC) $(LDFLAGS) -o $(TARGET) $(DEBUG_OBJ)
+	@mkdir -p $(DEBUG_DIR)
+	$(CC) $(LDFLAGS) -g -o $(DEBUG_DIR)/$(PE_NAME) $(DEBUG_OBJ)
 
-# Generic rule for object files
+release_dll: $(DLL_RELEASE_OBJ)
+	@mkdir -p $(RELEASE_DLL_DIR)
+	$(CC) $(LDFLAGS) -shared -o $(RELEASE_DLL_DIR)/$(DLL_NAME).dll $(DLL_RELEASE_OBJ)
+
+debug_dll: $(DLL_DEBUG_OBJ)
+	@mkdir -p $(DEBUG_DLL_DIR)
+	$(CC) $(LDFLAGS) -shared -g -o $(DEBUG_DLL_DIR)/$(DLL_NAME).dll $(DLL_DEBUG_OBJ)
+
+# Rule to compile .cpp to .o
 $(RELEASE_DIR)/obj/%.o: %.cpp
-	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -O3 -c $< -o $@
 
 $(DEBUG_DIR)/obj/%.o: %.cpp
-	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -O0 -g -c $< -o $@
 
-clean_release:
-	@rm -rf $(RELEASE_DIR)
+$(RELEASE_DLL_DIR)/obj/%.o: %.cpp
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -O3 -c $< -o $@
 
-clean_debug:
-	@rm -rf $(DEBUG_DIR)
+$(DEBUG_DLL_DIR)/obj/%.o: %.cpp
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -O0 -g -c $< -o $@
+
+clean:
+	rm -rf $(RELEASE_DIR) $(DEBUG_DIR) $(RELEASE_DLL_DIR) $(DEBUG_DLL_DIR)

@@ -1,5 +1,5 @@
 #include "dynamiclinker.hpp"
-#include "../exception.hpp"
+#include "../includes/exception.hpp"
 #include "../includes/linking.h"
 
 #include <cwchar>
@@ -56,7 +56,7 @@ void CLibrary::LoadFunction(const char* functionName)
         }
     }
 
-    throw Exception("Failed to LoadFunction");
+    throw Exception(strenc("Failed to LoadFunction"));
 }
 
 Function* CLibrary::GetFunction(const char* functionName)
@@ -73,9 +73,9 @@ PPEB CDynamicLinker::GetPEB()
     PPEB peb;
 
     #ifdef _WIN64
-        __asm__("mov %%gs:0x60, %0" : "=r" (peb));
+        __asm__(strenc("mov %%gs:0x60, %0") : strenc("=r") (peb));
     #else
-        __asm__("mov %%fs:0x30, %0" : "=r" (peb));
+        __asm__(strenc("mov %%fs:0x30, %0") : strenc("=r") (peb));
     #endif
 
     return peb;
@@ -95,7 +95,7 @@ PVOID CDynamicLinker::FindLoadedLibraryBaseAddress(const char* moduleName)
         curr = curr->Flink;
     }
 
-    throw Exception("Failed to find already loaded library");
+    throw Exception(strenc("Failed to find already loaded library"));
 }
 
 void CDynamicLinker::LoadKernel32()
@@ -104,7 +104,7 @@ void CDynamicLinker::LoadKernel32()
     try {
         kernel32Address = this->FindLoadedLibraryBaseAddress(KERNEL32);
     } catch (Exception) {
-        throw Exception("Failed to load kernel32");
+        throw Exception(strenc("Failed to load kernel32"));
     }
 
     this->kernel32 = new CLibrary(KERNEL32, kernel32Address);
@@ -129,7 +129,7 @@ bool CDynamicLinker::HasLibrary(const char* moduleName)
 void CDynamicLinker::MarkLibraryLoaded(const char* moduleName)
 {
     if (this->HasLibrary(moduleName)) {
-        throw Exception("Library already initialized!");
+        throw Exception(strenc("Library already initialized!"));
     }
 
     auto baseAddress = this->FindLoadedLibraryBaseAddress(moduleName);
@@ -141,11 +141,11 @@ void CDynamicLinker::MarkLibraryLoaded(const char* moduleName)
 void CDynamicLinker::LoadLibraryMod(const char* moduleName)
 {
     if (!this->IsKernel32LibraryResolved()) {
-        throw Exception("Kernel32 is required to load library");
+        throw Exception(strenc("Kernel32 is required to load library"));
     }
 
     if (!this->kernel32->HasFunction(KERNEL32_LoadLibraryA)) {
-        throw Exception("Load library is required for this method");
+        throw Exception(strenc("Load library is required for this method"));
     }
 
     auto loadLibraryFn = this->kernel32->GetFunction(KERNEL32_LoadLibraryA);
@@ -153,7 +153,7 @@ void CDynamicLinker::LoadLibraryMod(const char* moduleName)
     auto handle = pLoadLibrary(moduleName);
 
     if (!handle) {
-        throw Exception("LoadLibrary API function failed!");
+        throw Exception(strenc("LoadLibrary API function failed!"));
     }
 
     this->MarkLibraryLoaded(moduleName);
