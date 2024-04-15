@@ -17,7 +17,7 @@ DLL_DEBUG_OBJ=$(DLL_SOURCES:%.cpp=$(DEBUG_DLL_DIR)/obj/%.o)
 
 HEADER_DIRS = $(shell find ./src -type d \( -name '*.h' -o -name '*.hpp' \) -exec dirname {} \; | sort -u)
 
-CFLAGS=-Wall -Wextra -O2 -m32 $(foreach dir,$(HEADER_DIRS),-I$(dir))
+CFLAGS=-Wall -Wextra -Wno-unused-parameter -O2 -m32 $(foreach dir,$(HEADER_DIRS),-I$(dir))
 LDFLAGS=-static-libgcc -static-libstdc++ -m32
 
 .PHONY: all release debug release_dll debug_dll clean
@@ -30,7 +30,7 @@ release: $(RELEASE_OBJ)
 
 debug: $(DEBUG_OBJ)
 	@mkdir -p $(DEBUG_DIR)
-	$(CC) $(LDFLAGS) -g -o $(DEBUG_DIR)/$(PE_NAME) $(DEBUG_OBJ)
+	$(CC) $(LDFLAGS) -g -o $(DEBUG_DIR)/$(PE_NAME)_debug $(DEBUG_OBJ)
 
 release_dll: $(DLL_RELEASE_OBJ)
 	@mkdir -p $(RELEASE_DLL_DIR)
@@ -38,7 +38,7 @@ release_dll: $(DLL_RELEASE_OBJ)
 
 debug_dll: $(DLL_DEBUG_OBJ)
 	@mkdir -p $(DEBUG_DLL_DIR)
-	$(CC) $(LDFLAGS) -shared -g -o $(DEBUG_DLL_DIR)/$(DLL_NAME).dll $(DLL_DEBUG_OBJ)
+	$(CC) $(LDFLAGS) -shared -g -o $(DEBUG_DLL_DIR)/$(DLL_NAME)_debug.dll $(DLL_DEBUG_OBJ)
 
 # Rule to compile .cpp to .o
 $(RELEASE_DIR)/obj/%.o: %.cpp
@@ -47,7 +47,7 @@ $(RELEASE_DIR)/obj/%.o: %.cpp
 
 $(DEBUG_DIR)/obj/%.o: %.cpp
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -O0 -g -c $< -o $@
+	$(CC) $(CFLAGS) -O0 -g -DDEBUG -c $< -o $@
 
 $(RELEASE_DLL_DIR)/obj/%.o: %.cpp
 	@mkdir -p $(dir $@)
@@ -55,7 +55,7 @@ $(RELEASE_DLL_DIR)/obj/%.o: %.cpp
 
 $(DEBUG_DLL_DIR)/obj/%.o: %.cpp
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -O0 -g -c $< -o $@
+	$(CC) $(CFLAGS) -O0 -g -DDEBUG -c $< -o $@
 
 clean:
 	rm -rf $(RELEASE_DIR) $(DEBUG_DIR) $(RELEASE_DLL_DIR) $(DEBUG_DLL_DIR)

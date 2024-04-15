@@ -2,7 +2,6 @@
 #define DYNAMICLINKER_H
 
 #include "../../shared/winapi_typedefs.hpp"
-#include "librarydumper.hpp"
 #include <vector>
 #include <map>
 #include <string>
@@ -24,6 +23,13 @@ public:
     bool HasFunction(const char* functionName);
     void LoadFunction(const char* functionName);
     Function* GetFunction(const char* functionName);
+};
+
+class ILibraryDumper
+{
+public:
+    virtual ~ILibraryDumper() = default;
+    virtual void dump(CLibrary* library) = 0;
 };
 
 class CDynamicLinker
