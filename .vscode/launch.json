@@ -25,7 +25,7 @@
             "name": "Debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/debug/advanced-memory",
+            "program": "${workspaceFolder}/build/debug/advanced-memory_debug",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
