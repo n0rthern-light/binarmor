@@ -9,7 +9,6 @@ wchar_t* charToWChar(const char* input) {
     size_t len = std::mbstowcs(nullptr, input, 0) + 1; // Calculate the necessary length
     wchar_t* wstr = new wchar_t[len];
     std::mbstowcs(wstr, input, len);
-
     return wstr;
 }
 
