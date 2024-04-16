@@ -5,7 +5,6 @@
             "label": "build release",
             "type": "shell",
             "command": "make release",
-            "dependsOn": ["clean_release"],
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -20,7 +19,6 @@
             "label": "build debug",
             "type": "shell",
             "command": "make debug",
-            "dependsOn": ["clean_debug"],
             "group": "build",
             "problemMatcher": "$gcc",
             "presentation": {

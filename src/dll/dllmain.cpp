@@ -1,14 +1,20 @@
 #include <windows.h>
 #include <iostream>
+#include "../shared/DynamicLinker.hpp"
 
 #ifdef DEBUG
 #include <cstdio>
 #endif
 
 DWORD WINAPI ThreadFunc(void* data) {
-    while (true) {
-        Sleep(1);
-    }
+    DWORD hEntryBaseAddress;
+
+    hEntryBaseAddress = (DWORD)GetModuleHandleA("metin2client.exe");
+    std::cout << "hEntryBaseAddress: " << std::hex << hEntryBaseAddress << std::endl;
+
+    auto linker = new CDynamicLinker();
+    (void*)linker;
+
     return 0;
 }
 

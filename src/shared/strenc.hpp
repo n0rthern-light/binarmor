@@ -1,5 +1,5 @@
-#ifndef NO_STRINGS_H
-#define NO_STRINGS_H
+#ifndef STRENC_H
+#define STRENC_H
 
 #include <array>
 #include <cstddef>

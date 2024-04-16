@@ -1,3 +1,6 @@
+CFLAGS=-Wall -Wextra -Wno-unused-parameter -O2 -m32
+LDFLAGS=-static-libgcc -static-libstdc++ -m32
+
 CC=g++
 PE_NAME=advanced-memory
 DLL_NAME=advanced-library
@@ -7,18 +10,14 @@ DEBUG_DIR=build/debug
 RELEASE_DLL_DIR=build/release_dll
 DEBUG_DLL_DIR=build/debug_dll
 
-SOURCES=$(wildcard ./src/loader/*.cpp ./src/loader/**/*.cpp ./src/shared/*.cpp ./src/shared/**/*.cpp)
-DLL_SOURCES=$(wildcard ./src/dll/*.cpp ./src/dll/**/*.cpp ./src/shared/*.cpp ./src/shared/**/*.cpp)
+SHARED=$(wildcard ./src/shared/*.cpp)
+SOURCES=$(SHARED) $(wildcard src/loader/*.cpp)
+DLL_SOURCES=$(SHARED) $(wildcard src/dll/*.cpp)
 
 RELEASE_OBJ=$(SOURCES:%.cpp=$(RELEASE_DIR)/obj/%.o)
 DEBUG_OBJ=$(SOURCES:%.cpp=$(DEBUG_DIR)/obj/%.o)
 DLL_RELEASE_OBJ=$(DLL_SOURCES:%.cpp=$(RELEASE_DLL_DIR)/obj/%.o)
 DLL_DEBUG_OBJ=$(DLL_SOURCES:%.cpp=$(DEBUG_DLL_DIR)/obj/%.o)
-
-HEADER_DIRS = $(shell find ./src -type d \( -name '*.h' -o -name '*.hpp' \) -exec dirname {} \; | sort -u)
-
-CFLAGS=-Wall -Wextra -Wno-unused-parameter -O2 -m32 $(foreach dir,$(HEADER_DIRS),-I$(dir))
-LDFLAGS=-static-libgcc -static-libstdc++ -m32
 
 .PHONY: all release debug release_dll debug_dll clean
 
@@ -40,7 +39,6 @@ debug_dll: $(DLL_DEBUG_OBJ)
 	@mkdir -p $(DEBUG_DLL_DIR)
 	$(CC) $(LDFLAGS) -shared -g -o $(DEBUG_DLL_DIR)/$(DLL_NAME)_debug.dll $(DLL_DEBUG_OBJ)
 
-# Rule to compile .cpp to .o
 $(RELEASE_DIR)/obj/%.o: %.cpp
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -O3 -c $< -o $@

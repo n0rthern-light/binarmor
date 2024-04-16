@@ -1,7 +1,8 @@
-#include "dynamiclinker/dynamiclinker.hpp"
-#include "includes/no_strings.hpp"
+#include "../shared/DynamicLinker.hpp"
+#include "../shared/strenc.hpp"
 #include <iostream>
 
+#ifdef DEBUG
 static unsigned int it = 0;
 class CStdOutDumper: public ILibraryDumper
 {
@@ -18,9 +19,12 @@ class CStdOutDumper: public ILibraryDumper
         it++;
     }
 };
+#endif
 
 int main() {
+#ifdef DEBUG
     CStdOutDumper* stdImportDumper = new CStdOutDumper();
+#endif
     CDynamicLinker* pDynamicLinker = new CDynamicLinker();
 
     pDynamicLinker->LoadFunction(strenc("ntdll.dll"), strenc("NtQueryInformationProcess"));
@@ -28,7 +32,9 @@ int main() {
     pDynamicLinker->LoadFunction(strenc("ntdll.dll"), strenc("NtFreeVirtualMemory"));
     pDynamicLinker->LoadFunction(strenc("ntdll.dll"), strenc("NtProtectVirtualMemory"));
 
+#ifdef DEBUG
     pDynamicLinker->DumpLoaded(stdImportDumper);
+#endif
 
     return 0;
 }
