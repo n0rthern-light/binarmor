@@ -46,6 +46,17 @@ struct Function {
     std::string name;
     DWORD rva;
     PVOID resolvedAddress;
+
+    template<typename FunctionDefPtr>
+    FunctionDefPtr get() const {
+        return reinterpret_cast<FunctionDefPtr>(resolvedAddress);
+    }
+
+    template<typename FunctionDefPtr, typename... Args>
+    auto call(Args&&... args) const -> decltype(auto) {
+        auto functionPointer = this->get<FunctionDefPtr>();
+        return functionPointer(std::forward<Args>(args)...);
+    }
 };
 
 class CLibrary

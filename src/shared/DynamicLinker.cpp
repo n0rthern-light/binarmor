@@ -30,6 +30,10 @@ bool CLibrary::HasFunction(const char* functionName)
 
 void CLibrary::LoadFunction(const char* functionName)
 {
+    if (this->HasFunction(functionName)) {
+        return;
+    }
+
     auto dosHeader = (PIMAGE_DOS_HEADER)this->baseAddress;
     auto ntHeaders = (PIMAGE_NT_HEADERS)((DWORD_PTR)this->baseAddress + dosHeader->e_lfanew);
 
@@ -55,7 +59,7 @@ void CLibrary::LoadFunction(const char* functionName)
         }
     }
 
-    throw RuntimeException(strenc("Failed to LoadFunction"));
+    throw RuntimeException(strenc("Failed to LoadFunction: ") + std::string(functionName));
 }
 
 Function* CLibrary::GetFunction(const char* functionName)
@@ -148,8 +152,7 @@ void CDynamicLinker::LoadLibraryMod(const char* moduleName)
     }
 
     auto loadLibraryFn = this->kernel32->GetFunction(KERNEL32_LoadLibraryA);
-    auto pLoadLibrary = (pLoadLibraryA)loadLibraryFn->resolvedAddress;
-    auto handle = pLoadLibrary(moduleName);
+    auto handle = loadLibraryFn->call<pLoadLibraryA>(moduleName);
 
     if (!handle) {
         throw RuntimeException(strenc("LoadLibrary API function failed!"));
