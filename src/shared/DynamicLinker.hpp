@@ -9,7 +9,7 @@
 typedef struct _UNICODE_STRING {
     USHORT Length;
     USHORT MaximumLength;
-    PWCH   Buffer;
+    PWCH Buffer;
 } UNICODE_STRING, *PUNICODE_STRING;
 
 typedef struct _LDR_DATA_TABLE_ENTRY {

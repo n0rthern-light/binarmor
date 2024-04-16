@@ -14,7 +14,7 @@ class CStdOutDumper: public ILibraryDumper
             std::cout << "   " << "#" << f_it << " -> " << f.second->name << " at: " << std::hex << f.second->resolvedAddress << " rva: " << std::hex << f.second->rva << std::endl;
             f_it++;
         }
-        std::cout << "===========================================================================" << std::endl;
+        std::cout << "==========================================================================" << std::endl;
 
         it++;
     }

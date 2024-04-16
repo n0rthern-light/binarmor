@@ -13,7 +13,7 @@ DWORD WINAPI ThreadFunc(void* data) {
     std::cout << "hEntryBaseAddress: " << std::hex << hEntryBaseAddress << std::endl;
 
     auto linker = new CDynamicLinker();
-    (void*)linker;
+    (void**)linker;
 
     return 0;
 }
