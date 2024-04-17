@@ -40,17 +40,6 @@ int main() {
 
     if (result > 0) {
         std::cout << "Pattern found at address: " << std::hex << result << std::endl;
-        std::cout << "Testing if byte is equal" << std::endl;
-        if (*(BYTE*)result == 61) {
-            std::cout << "result OK" << std::endl;
-        } else {
-            std::cout << "result not ok - " << *(BYTE*)result << " != 61 (0x3D)" << std::endl;
-        }
-        if (*(BYTE*)(result + 5) == 119) {
-            std::cout << "result OK" << std::endl;
-        } else {
-            std::cout << "result not ok - " << *(BYTE*)(result + 5) << " != 119 (0x77)" << std::endl;
-        }
     } else {
         std::cout << "Address not found :-(" << std::endl;
     }

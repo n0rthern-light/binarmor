@@ -1,51 +1,100 @@
 #include "PatternScanner.hpp"
+#include "RuntimeException.hpp"
 #include "strenc.hpp"
 #include "win_api.hpp"
+#include <string>
+#include <sstream>
+#include <vector>
+#include <algorithm>
+
 #ifdef DEBUG
 #include <iostream>
 #endif
 
-#define INRANGE(x, a, b) (x >= a && x <= b)
-#define getBits(x) (INRANGE((x & (~0x20)), strenc('A'), strenc('F')) ? ((x & (~0x20)) - strenc('A') + 0xa) : (INRANGE(x, strenc('0'), strenc('9')) ? x - strenc('0') : 0))
-#define getByte(x) (getBits(x[0]) << 4 | getBits(x[1]))
+inline bool isValidHex(const std::string& str) {
+    if (str.length() != 2) {
+        return false;
+    }
+
+    for (char c : str) {
+        if (!std::isxdigit(c)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+inline bool isValidPattern(const std::string& str) {
+    if (str == strenc("??") || str == strenc("?")) {
+        return true;
+    }
+
+    return isValidHex(str);
+}
 
 DWORD CPatternScanner::FindPatternAddress(const char* module, const char* pattern)
 {
     MODULEINFO modInfo;
+    auto moduleHandle = this->linker->GetFunction(KERNEL32, KERNEL32_GetModuleHandleA)->call<pGetModuleHandleA>(module);
     this->linker->GetFunction(KERNEL32, KERNEL32_GetModuleInformation)->call<pGetModuleInformation>(
         this->linker->GetFunction(KERNEL32, KERNEL32_GetCurrentProcess)->call<pGetCurrentProcess>(),
-        this->linker->GetFunction(KERNEL32, KERNEL32_GetModuleHandleA)->call<pGetModuleHandleA>(module),
+        moduleHandle,
         &modInfo,
         sizeof(MODULEINFO)
     );
 
-    DWORD startAddress = (DWORD)modInfo.lpBaseOfDll;
+    DWORD startAddress = (DWORD)moduleHandle;
 	DWORD endAddress = startAddress + modInfo.SizeOfImage;
 
 #ifdef DEBUG
 std::cout << "startAddress: " << std::hex << startAddress << " endAddress: " << std::hex << endAddress << std::endl;
 #endif
 
-	const char* pat = pattern;
-	DWORD firstMatch = 0;
-	for (DWORD pCur = startAddress; pCur < endAddress; pCur++) {
-		if (!*pat)
-			return firstMatch;
-		if (*(PBYTE)pat == strenc('\?') || *(BYTE*)pCur == getByte(pat)) {
-			if (!firstMatch)
-				firstMatch = pCur;
-			if (!pat[2])
-				return firstMatch;
-			if (*(PWORD)pat == strenc('\?\?') || *(PBYTE)pat != strenc('\?'))
-				pat += 3;
-			else
-				pat += 2;
-		}
-		else {
-			pat = pattern;
-			firstMatch = 0;
-		}
-	}
+    std::string strPattern = std::string(pattern);
+    unsigned short patternByteCount = std::count(strPattern.begin(), strPattern.end(), ' ') + 1;
+    std::string token;
+
+    if (strPattern.back() != ' ') {
+        strPattern += ' ';
+    }
+
+    for(DWORD currentAddress = startAddress; currentAddress < endAddress - patternByteCount; currentAddress++)
+    {
+        unsigned short correctBytes = 0;
+
+        size_t start = 0, end;
+        while ((end = strPattern.find(' ', start)) != std::string::npos) {
+            token = strPattern.substr(start, end - start);
+
+            if (token.empty()) {
+                throw RuntimeException("Found empty token in pattern!");
+            }
+
+            if (!isValidPattern(token)) {
+                throw RuntimeException("Found invalid token in pattern: " + strPattern);
+            }
+
+            if (token == strenc("??") || token == strenc("?")) {
+                correctBytes++;
+            } else {
+                unsigned char tokenByte = static_cast<unsigned char>(std::stoi(token, 0, 16));
+                unsigned char memoryByte = *(unsigned char*)(currentAddress + correctBytes);
+
+                if (tokenByte != memoryByte) {
+                    break;
+                }
+
+                correctBytes++;
+            }
+
+            start = end + 1;
+        }
+
+        if (correctBytes == patternByteCount) {
+            return currentAddress;
+        }
+    }
 
 	return 0;
 }
