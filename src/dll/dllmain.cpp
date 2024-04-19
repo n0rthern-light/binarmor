@@ -15,12 +15,16 @@ DWORD WINAPI ThreadFunc(void* data) {
     hEntryBaseAddress = (DWORD)gDynamicLinker->GetFunction(KERNEL32, KERNEL32_GetModuleHandleA)->call<pGetModuleHandleA>(modName);
     std::cout << "hEntryBaseAddress: " << std::hex << hEntryBaseAddress << std::endl;
 
-    const char* pattern = "89 15 ?? ?? ?? ?? C7 45 FC 00 00 00 00 8B 45 F0 83 C0 04 89 45 C8";
+    const char* pattern = "8B 45 E0 A3 ?? ?? ?? ?? 8B 4D E0";
     std::cout << "Searching for pattern: " << pattern << std::endl;
 
     try {
         auto address = gPatternScanner->FindPatternAddress(modName, pattern);
         std::cout << "Result = " << std::hex << address << " casted DWORD: " << std::hex << (DWORD)address << std::endl;
+        DWORD addressOfPythonPlayerPtrVar = *reinterpret_cast<DWORD*>(address + 0x4);
+        DWORD localPlayerAddress = *reinterpret_cast<DWORD*>(addressOfPythonPlayerPtrVar);
+        std::cout << "Address of PythonPlayerPtrVar: " << std::hex << addressOfPythonPlayerPtrVar << " rva: " << std::hex << addressOfPythonPlayerPtrVar - hEntryBaseAddress << std::endl;
+        std::cout << "localPlayerAddress: " << std::hex << localPlayerAddress << " rva: " << std::hex << localPlayerAddress - hEntryBaseAddress << std::endl;
     } catch (RuntimeException e) {
         std::cout << "Exception occurredd!!!!" << e.what() << std::endl;
     } catch (const std::exception& e) {

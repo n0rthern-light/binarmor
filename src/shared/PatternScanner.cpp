@@ -79,7 +79,7 @@ std::cout << "startAddress: " << std::hex << startAddress << " endAddress: " << 
                 correctBytes++;
             } else {
                 unsigned char tokenByte = static_cast<unsigned char>(std::stoi(token, 0, 16));
-                unsigned char memoryByte = *(unsigned char*)(currentAddress + correctBytes);
+                unsigned char memoryByte = *reinterpret_cast<unsigned char*>(currentAddress + correctBytes);
 
                 if (tokenByte != memoryByte) {
                     break;
