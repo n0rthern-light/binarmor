@@ -3,6 +3,7 @@
 #include "strenc.hpp"
 #include "win_api.hpp"
 #include <wchar.h>
+#include <cwchar>
 
 wchar_t* charToWChar(const char* input) {
     std::setlocale(LC_ALL, ""); // Ensure the locale is set

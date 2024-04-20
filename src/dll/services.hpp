@@ -1,5 +1,4 @@
-#ifndef SERVICES_H
-#define SERVICES_H
+#pragma once
 
 #include <memory>
 
@@ -10,5 +9,3 @@ extern std::unique_ptr<CDynamicLinker> gDynamicLinker;
 extern std::unique_ptr<CPatternScanner> gPatternScanner;
 
 void initServices();
-
-#endif

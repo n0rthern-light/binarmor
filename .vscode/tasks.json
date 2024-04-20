@@ -25,6 +25,12 @@
                 "reveal": "always",
                 "panel": "new"
             }
+        },
+        {
+            "label": "build debug dll",
+            "type": "shell",
+            "command": "make debug_dll",
+            "group": "build"
         }
     ]
 }

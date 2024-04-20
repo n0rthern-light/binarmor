@@ -1,12 +1,10 @@
-#ifndef RUNTIME_EXCEPTION_H
-#define RUNTIME_EXCEPTION_H
+#pragma once
 
 #include <stdexcept>
 
-class RuntimeException : public std::runtime_error {
-public:
-    RuntimeException(const std::string& msg)
-        : std::runtime_error(msg) {}
-};
+using namespace std;
 
-#endif
+class RuntimeException : public runtime_error {
+public:
+    inline RuntimeException(const string& msg): runtime_error(msg) {};
+};

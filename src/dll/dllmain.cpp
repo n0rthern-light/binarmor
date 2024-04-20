@@ -6,25 +6,32 @@
 
 #ifdef DEBUG
 #include <cstdio>
-#endif
+#include "MemoryNavigator.hpp"
 
-DWORD WINAPI ThreadFunc(void* data) {
-    DWORD hEntryBaseAddress;
+DWORD WINAPI DebugThreadFunction(void* data) {
+    AllocConsole();
+    freopen("CONOUT$", "w", stdout);
+    std::cout << "Debug console allocated." << std::endl;
 
-    const char* modName = "metin2client.exe";
-    hEntryBaseAddress = (DWORD)gDynamicLinker->GetFunction(KERNEL32, KERNEL32_GetModuleHandleA)->call<pGetModuleHandleA>(modName);
+    uintptr_t hEntryBaseAddress;
+
+    const char* modName = "target_x86.exe";
+    hEntryBaseAddress = reinterpret_cast<uintptr_t>(gDynamicLinker->GetFunction(KERNEL32, KERNEL32_GetModuleHandleA)->call<pGetModuleHandleA>(modName));
+
     std::cout << "hEntryBaseAddress: " << std::hex << hEntryBaseAddress << std::endl;
 
-    const char* pattern = "8B 45 E0 A3 ?? ?? ?? ?? 8B 4D E0";
+    const char* pattern = "FF 8B 4B 18 6A 03 6A 00 6A 00";
     std::cout << "Searching for pattern: " << pattern << std::endl;
 
     try {
         auto address = gPatternScanner->FindPatternAddress(modName, pattern);
-        std::cout << "Result = " << std::hex << address << " casted DWORD: " << std::hex << (DWORD)address << std::endl;
-        DWORD addressOfPythonPlayerPtrVar = *reinterpret_cast<DWORD*>(address + 0x4);
-        DWORD localPlayerAddress = *reinterpret_cast<DWORD*>(addressOfPythonPlayerPtrVar);
+        std::cout << "Result = " << std::hex << address << " casted DWORD: " << std::hex << address << std::endl;
+        /*
+        auto addressOfPythonPlayerPtrVar = *reinterpret_cast<uintptr_t*>(address + 0x4);
+        auto localPlayerAddress = *reinterpret_cast<uintptr_t*>(addressOfPythonPlayerPtrVar);
         std::cout << "Address of PythonPlayerPtrVar: " << std::hex << addressOfPythonPlayerPtrVar << " rva: " << std::hex << addressOfPythonPlayerPtrVar - hEntryBaseAddress << std::endl;
         std::cout << "localPlayerAddress: " << std::hex << localPlayerAddress << " rva: " << std::hex << localPlayerAddress - hEntryBaseAddress << std::endl;
+        */
     } catch (RuntimeException e) {
         std::cout << "Exception occurredd!!!!" << e.what() << std::endl;
     } catch (const std::exception& e) {
@@ -33,24 +40,28 @@ DWORD WINAPI ThreadFunc(void* data) {
         std::cout << "Unspecified exception occurereed!" << std::endl;
     }
 
+    //MemoryNavigator::run();
+
     return 0;
 }
+#endif
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved) {
-    HANDLE hThread = nullptr;
+#ifdef DEBUG
+    HANDLE hDebugThread = nullptr;
+#endif
     switch (fdwReason) {
         case DLL_PROCESS_ATTACH:
         initServices();
 #ifdef DEBUG
             MessageBox(NULL, "DLL Loaded", "Status", MB_OK | MB_ICONINFORMATION);
-            AllocConsole();
-            freopen("CONOUT$", "w", stdout);
-            std::cout << "Debug console allocated." << std::endl;
 #endif
             DisableThreadLibraryCalls(hinstDLL);
 
-            hThread = CreateThread(NULL, 0, ThreadFunc, NULL, 0, NULL);
-            CloseHandle(hThread);
+#ifdef DEBUG
+            hDebugThread = CreateThread(NULL, 0, DebugThreadFunction, NULL, 0, NULL);
+            CloseHandle(hDebugThread);
+#endif
 
             break;
         case DLL_PROCESS_DETACH:

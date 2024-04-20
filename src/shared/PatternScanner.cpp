@@ -33,7 +33,7 @@ inline bool isValidPattern(const std::string& str) {
     return isValidHex(str);
 }
 
-DWORD CPatternScanner::FindPatternAddress(const char* module, const char* pattern)
+uintptr_t CPatternScanner::FindPatternAddress(const char* module, const char* pattern)
 {
     MODULEINFO modInfo;
     auto moduleHandle = this->linker->GetFunction(KERNEL32, KERNEL32_GetModuleHandleA)->call<pGetModuleHandleA>(module);
@@ -44,8 +44,8 @@ DWORD CPatternScanner::FindPatternAddress(const char* module, const char* patter
         sizeof(MODULEINFO)
     );
 
-    DWORD startAddress = (DWORD)moduleHandle;
-	DWORD endAddress = startAddress + modInfo.SizeOfImage;
+    auto startAddress = reinterpret_cast<uintptr_t>(moduleHandle);
+	auto endAddress = startAddress + modInfo.SizeOfImage;
 
 #ifdef DEBUG
 std::cout << "startAddress: " << std::hex << startAddress << " endAddress: " << std::hex << endAddress << std::endl;
@@ -59,7 +59,7 @@ std::cout << "startAddress: " << std::hex << startAddress << " endAddress: " << 
         strPattern += ' ';
     }
 
-    for(DWORD currentAddress = startAddress; currentAddress < endAddress - patternByteCount; currentAddress++)
+    for(auto currentAddress = startAddress; currentAddress < endAddress - patternByteCount; currentAddress++)
     {
         unsigned short correctBytes = 0;
 

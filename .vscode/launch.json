@@ -1,6 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "Release",
             "type": "cppdbg",
@@ -40,6 +41,25 @@
                 }
             ],
             "preLaunchTask": "build debug",
+        },
+        {
+            "name": "Debug DLL",
+            "type": "cppdbg",
+            "request": "attach",
+            "program": "${workspaceFolder}/debug/target_x86.exe",
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
         }
     ]
 }

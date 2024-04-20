@@ -1,5 +1,4 @@
-#ifndef LINKING_H
-#define LINKING_H
+#pragma once
 
 #include <Windows.h>
 #include <psapi.h>
@@ -21,5 +20,3 @@ typedef FARPROC(WINAPI* pGetProcAddress)(HMODULE, LPCSTR);
 typedef HMODULE(WINAPI* pLoadLibraryA)(LPCSTR);
 typedef MODULEINFO(WINAPI* pGetModuleInformation)(HANDLE, HMODULE, LPMODULEINFO, DWORD);
 typedef HANDLE(WINAPI* pGetCurrentProcess)();
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef DYNAMICLINKER_H
-#define DYNAMICLINKER_H
+#pragma once
 
 #include <Windows.h>
 #include <vector>
@@ -97,5 +96,3 @@ public:
     Function* GetFunction(const char* moduleName, const char* functionName);
     void DumpLoaded(ILibraryDumper* dumper);
 };
-
-#endif

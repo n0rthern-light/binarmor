@@ -1,9 +1,6 @@
-#ifndef STRENC_H
-#define STRENC_H
+#pragma once
 
 #include <array>
 #include <cstddef>
 
 #define strenc(string) string
-
-#endif

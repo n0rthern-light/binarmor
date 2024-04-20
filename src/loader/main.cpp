@@ -36,7 +36,7 @@ int main() {
     pDynamicLinker->LoadFunction(strenc("ntdll.dll"), strenc("NtProtectVirtualMemory"));
     pDynamicLinker->LoadFunction(KERNEL32, KERNEL32_GetModuleInformation);
 
-    auto result = pPatternScanner->FindPatternAddress("advanced-memory_debug.exe", "3D ?? ?? ?? ?? 77 4E");
+    auto result = pPatternScanner->FindPatternAddress("advanced-memory_debug.exe", "FF 83 F0 01 84 C0 74 28 48 8B 45 20 48 89 C1 E8 88 F7 FF FF EB 1A 48 89 C3 48 8B 45 20 48 89 C1 E8 3B 39 0A 00 48 89 D8 48 89 C1 E8 70 BE 00 00 90 48 83 C4 58 5B 5D C3 55 53 48 83 EC 58 48 8D");
 
     if (result > 0) {
         std::cout << "Pattern found at address: " << std::hex << result << std::endl;
