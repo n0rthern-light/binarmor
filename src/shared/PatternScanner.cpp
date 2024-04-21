@@ -7,7 +7,7 @@
 #include <vector>
 #include <algorithm>
 
-#ifdef DEBUG
+#ifdef _DEBUG
 #include <iostream>
 #endif
 
@@ -47,7 +47,7 @@ uintptr_t CPatternScanner::FindPatternAddress(const char* module, const char* pa
     auto startAddress = reinterpret_cast<uintptr_t>(moduleHandle);
 	auto endAddress = startAddress + modInfo.SizeOfImage;
 
-#ifdef DEBUG
+#ifdef _DEBUG
 std::cout << "startAddress: " << std::hex << startAddress << " endAddress: " << std::hex << endAddress << std::endl;
 #endif
 

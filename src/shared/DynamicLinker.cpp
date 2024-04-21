@@ -4,10 +4,26 @@
 #include "win_api.hpp"
 #include <wchar.h>
 #include <cwchar>
+#include <locale>
+#include <cstdlib>
+
+#if defined(_WIN64)
+typedef struct _TEB {
+    PVOID Reserved1[12];
+    PPEB  ProcessEnvironmentBlock;
+} TEB, * PTEB;
+
+#elif defined(_WIN32)
+typedef struct _TEB {
+    PVOID Reserved1[12];
+    PPEB  ProcessEnvironmentBlock;
+} TEB, * PTEB;
+
+#endif
 
 wchar_t* charToWChar(const char* input) {
-    std::setlocale(LC_ALL, ""); // Ensure the locale is set
-    size_t len = std::mbstowcs(nullptr, input, 0) + 1; // Calculate the necessary length
+    std::setlocale(LC_ALL, "");
+    size_t len = std::mbstowcs(nullptr, input, 0) + 1;
     wchar_t* wstr = new wchar_t[len];
     std::mbstowcs(wstr, input, len);
     return wstr;
@@ -74,13 +90,16 @@ Function* CLibrary::GetFunction(const char* functionName)
 
 PPEB CDynamicLinker::GetPEB()
 {
-    PPEB peb;
+    PPEB peb = nullptr;
 
-    #ifdef _WIN64
-        __asm__(strenc("mov %%gs:0x60, %0") : strenc("=r") (peb));
-    #else
-        __asm__(strenc("mov %%fs:0x30, %0") : strenc("=r") (peb));
-    #endif
+#ifdef _WIN64
+    PTEB teb = NtCurrentTeb();
+    if (teb != nullptr) {
+        peb = teb->ProcessEnvironmentBlock;
+}
+#else
+    peb = reinterpret_cast<PPEB>(__readfsdword(0x30));
+#endif
 
     return peb;
 }

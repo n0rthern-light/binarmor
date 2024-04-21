@@ -4,9 +4,9 @@
 #include "../shared/win_api.hpp"
 #include "../shared/RuntimeException.hpp"
 
-#ifdef DEBUG
+#ifdef _DEBUG
 #include <cstdio>
-#include "MemoryNavigator.hpp"
+//#include "MemoryNavigator.hpp"
 
 DWORD WINAPI DebugThreadFunction(void* data) {
     AllocConsole();
@@ -20,12 +20,12 @@ DWORD WINAPI DebugThreadFunction(void* data) {
 
     std::cout << "hEntryBaseAddress: " << std::hex << hEntryBaseAddress << std::endl;
 
-    const char* pattern = "FF 8B 4B 18 6A 03 6A 00 6A 00";
-    std::cout << "Searching for pattern: " << pattern << std::endl;
+    //const char* pattern = "FF 8B 4B 18 6A 03 6A 00 6A 00";
+    //std::cout << "Searching for pattern: " << pattern << std::endl;
 
     try {
-        auto address = gPatternScanner->FindPatternAddress(modName, pattern);
-        std::cout << "Result = " << std::hex << address << " casted DWORD: " << std::hex << address << std::endl;
+        //auto address = gPatternScanner->FindPatternAddress(modName, pattern);
+        //std::cout << "Result = " << std::hex << address << " casted DWORD: " << std::hex << address << std::endl;
         /*
         auto addressOfPythonPlayerPtrVar = *reinterpret_cast<uintptr_t*>(address + 0x4);
         auto localPlayerAddress = *reinterpret_cast<uintptr_t*>(addressOfPythonPlayerPtrVar);
@@ -47,25 +47,25 @@ DWORD WINAPI DebugThreadFunction(void* data) {
 #endif
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved) {
-#ifdef DEBUG
+#ifdef _DEBUG
     HANDLE hDebugThread = nullptr;
 #endif
     switch (fdwReason) {
         case DLL_PROCESS_ATTACH:
         initServices();
-#ifdef DEBUG
+#ifdef _DEBUG
             MessageBox(NULL, "DLL Loaded", "Status", MB_OK | MB_ICONINFORMATION);
 #endif
             DisableThreadLibraryCalls(hinstDLL);
 
-#ifdef DEBUG
+#ifdef _DEBUG
             hDebugThread = CreateThread(NULL, 0, DebugThreadFunction, NULL, 0, NULL);
             CloseHandle(hDebugThread);
 #endif
 
             break;
         case DLL_PROCESS_DETACH:
-#ifdef DEBUG
+#ifdef _DEBUG
             FreeConsole();
             MessageBox(NULL, "DLL Unloaded", "Status", MB_OK | MB_ICONINFORMATION);
 #endif
