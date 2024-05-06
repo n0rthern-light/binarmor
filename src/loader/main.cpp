@@ -1,8 +1,4 @@
 #include <iostream>
-#include "../shared/DynamicLinker.hpp"
-#include "../shared/PatternScanner.hpp"
-#include "../shared/strenc.hpp"
-#include "../shared/win_api.hpp"
 #include <iostream>
 #include "settings.hpp"
 #include "icons.hpp"
@@ -46,11 +42,8 @@ bool MyApp::OnInit()
     return true;
 }
 
-MyFrame::MyFrame(): wxFrame(NULL, wxID_ANY, "Advanced Memory", wxDefaultPosition, wxSize(WINDOW_SIZE_X, WINDOW_SIZE_Y), wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
+MyFrame::MyFrame(): wxFrame(NULL, wxID_ANY, "BinArmor", wxDefaultPosition, wxSize(WINDOW_SIZE_X, WINDOW_SIZE_Y), wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
 {
-    auto linker = new CDynamicLinker();
-    auto address = linker->GetFunction("kernel32.dll", "GetModuleHandleA")->resolvedAddress;
-
     // Main panel
     wxPanel* mainPanel = new wxPanel(this, wxID_ANY);
     mainPanel->SetBackgroundColour(*wxWHITE);
@@ -120,9 +113,7 @@ MyFrame::MyFrame(): wxFrame(NULL, wxID_ANY, "Advanced Memory", wxDefaultPosition
     mainPanel->SetSizer(mainSizer);
 
     CreateStatusBar();
-	char str[100];
-    sprintf(str, "GetModuleHandleA address: 0x%p", address);
-    SetStatusText(str);
+    SetStatusText("Welcome to BinArmor v0.1");
 
     Bind(wxEVT_MENU, &MyFrame::OnHello, this, ID_Hello);
     Bind(wxEVT_MENU, &MyFrame::OnAbout, this, wxID_ABOUT);
