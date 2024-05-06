@@ -1,5 +1,5 @@
 ﻿file(GLOB loader_SRC "*.cpp")
-add_executable (loader WIN32 ${loader_SRC})
+add_executable (loader WIN32 ${loader_SRC} "test_folder/class.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET loader PROPERTY CXX_STANDARD 20)
