@@ -1,5 +1,5 @@
 ﻿file(GLOB loader_SRC "*.cpp")
-add_executable (loader WIN32 ${loader_SRC} "ui/wx/CWxWidgetsGuiApp.cpp" "ui/contract.cpp")
+add_executable (loader WIN32 ${loader_SRC} "ui/wx/wxWidgetsGuiApp.cpp" "ui/contract.cpp" "ui/wx/wxApp.cpp" "ui/wx/wxFrame.cpp" "event/contract.cpp" "event/simple/SimpleEventBus.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET loader PROPERTY CXX_STANDARD 20)

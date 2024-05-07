@@ -1,5 +1,6 @@
 #include "headers.hpp"
 #include "ui/contract.hpp"
+#include "event/contract.hpp"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -20,6 +21,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine,
 
     // ----------------
 
+    event::init();
+    event::bus->subscribe(typeid(TestEvent), [](IEvent* event) {
+        auto dupaEvent = dynamic_cast<TestEvent*>(event);
+        MessageBoxA(0, dupaEvent->str.c_str(), "Information", 0);
+    });
 	ui::init(argc, argv);
 
     // ----------------

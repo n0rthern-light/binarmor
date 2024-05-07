@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../headers.hpp"
-
 class IGuiApp
 {
+public:
+	virtual ~IGuiApp() {};
 };
