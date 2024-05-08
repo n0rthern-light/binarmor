@@ -2,7 +2,7 @@
 #include "bitmap.hpp"
 #include "../icons.hpp"
 #include "../settings.hpp"
-#include "../../event/contract.hpp"
+#include "../../container.hpp"
 
 CwxFrame::CwxFrame(): wxFrame(NULL, wxID_ANY, "BinArmor", wxDefaultPosition, wxSize(WINDOW_SIZE_X, WINDOW_SIZE_Y), wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
 {
@@ -39,12 +39,6 @@ CwxFrame::CwxFrame(): wxFrame(NULL, wxID_ANY, "BinArmor", wxDefaultPosition, wxS
 
     auto btnOpenFile = new wxButton(sidebarPanel, wxID_ANY, "Open File");
     btnOpenFile->SetBitmap(Bitmap::CreateFromBuffer(iconOpenFile));
-    btnOpenFile->Bind(
-        wxEVT_BUTTON,
-        [&](wxCommandEvent& e) {
-            event::bus->publish(new TestEvent("Stalo sie"));
-        }
-    );
     auto btnExportFile = new wxButton(sidebarPanel, wxID_ANY, "Export File");
     btnExportFile->SetBitmap(Bitmap::CreateFromBuffer(iconExport));
     btnExportFile->Disable();

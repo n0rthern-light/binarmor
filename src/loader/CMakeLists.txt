@@ -1,5 +1,5 @@
-﻿file(GLOB loader_SRC "*.cpp")
-add_executable (loader WIN32 ${loader_SRC} "ui/wx/wxWidgetsGuiApp.cpp" "ui/contract.cpp" "ui/wx/wxApp.cpp" "ui/wx/wxFrame.cpp" "event/contract.cpp" "event/simple/SimpleEventBus.cpp")
+﻿file(GLOB_RECURSE loader_SRC "*.cpp")
+add_executable (loader WIN32 ${loader_SRC})
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET loader PROPERTY CXX_STANDARD 20)
@@ -17,5 +17,10 @@ find_package(wxWidgets REQUIRED core base OPTIONAL_COMPONENTS net)
 include(${wxWidgets_USE_FILE})
 
 target_link_libraries(loader ${wxWidgets_LIBRARIES} shared)
-target_include_directories(loader PUBLIC ${wxWidgets_INCLUDE_DIRS} "src/shared")
+target_include_directories(loader PUBLIC ${wxWidgets_INCLUDE_DIRS})
 add_definitions(-DWIN32_LEAN_AND_MEAN)
+
+# static lib for testing
+add_library(loader_lib ${loader_SRC})
+target_link_libraries(loader_lib ${wxWidgets_LIBRARIES} shared)
+target_include_directories(loader_lib PUBLIC ${wxWidgets_INCLUDE_DIRS})

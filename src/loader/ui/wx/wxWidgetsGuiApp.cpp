@@ -16,3 +16,8 @@ CwxWidgetsGuiApp::CwxWidgetsGuiApp(int argc, char** argv)
 
     wxEntryCleanup();
 }
+
+void CwxWidgetsGuiApp::exit()
+{
+    app->Exit();
+}
