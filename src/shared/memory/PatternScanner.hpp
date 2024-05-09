@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DynamicLinker.hpp"
+#include "../self_obfuscation/DynamicLinker.hpp"
 
 class CPatternScanner
 {

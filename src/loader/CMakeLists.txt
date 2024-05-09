@@ -16,11 +16,11 @@ set(wxWidgets_CONFIGURATION mswu)
 find_package(wxWidgets REQUIRED core base OPTIONAL_COMPONENTS net)
 include(${wxWidgets_USE_FILE})
 
-target_link_libraries(loader ${wxWidgets_LIBRARIES} shared)
-target_include_directories(loader PUBLIC ${wxWidgets_INCLUDE_DIRS})
+target_link_libraries(loader shared ${wxWidgets_LIBRARIES})
+target_include_directories(loader PUBLIC ${SRC_INCLUDES} ${wxWidgets_INCLUDE_DIRS})
 add_definitions(-DWIN32_LEAN_AND_MEAN)
 
 # static lib for testing
 add_library(loader_lib ${loader_SRC})
-target_link_libraries(loader_lib ${wxWidgets_LIBRARIES} shared)
-target_include_directories(loader_lib PUBLIC ${wxWidgets_INCLUDE_DIRS})
+target_link_libraries(loader_lib shared ${wxWidgets_LIBRARIES})
+target_include_directories(loader_lib PUBLIC ${SRC_INCLUDES} ${wxWidgets_INCLUDE_DIRS})

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../../../../src/shared/event/simple/SimpleEventBus.hpp"
+#include <shared/event/simple/SimpleEventBus.hpp>
 
 class DummyEvent : public IEvent
 {

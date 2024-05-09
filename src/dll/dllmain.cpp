@@ -1,8 +1,8 @@
 #include <windows.h>
 #include <iostream>
 #include "services.hpp"
-#include "../shared/win_api.hpp"
-#include "../shared/RuntimeException.hpp"
+#include <shared/self_obfuscation/win_api.hpp>
+#include <shared/RuntimeException.hpp>
 
 #ifdef _DEBUG
 #include <cstdio>

@@ -5,7 +5,7 @@
 #include <wx/bitmap.h>
 #include <wx/log.h>
 #include <vector>
-#include "../../../shared/RuntimeException.hpp"
+#include <shared/RuntimeException.hpp>
 
 class Bitmap {
 public:

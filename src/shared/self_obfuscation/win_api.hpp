@@ -20,3 +20,5 @@ typedef FARPROC(WINAPI* pGetProcAddress)(HMODULE, LPCSTR);
 typedef HMODULE(WINAPI* pLoadLibraryA)(LPCSTR);
 typedef MODULEINFO(WINAPI* pGetModuleInformation)(HANDLE, HMODULE, LPMODULEINFO, DWORD);
 typedef HANDLE(WINAPI* pGetCurrentProcess)();
+typedef BOOLEAN(WINAPI* pIsDebuggerPresent)();
+typedef DWORD(WINAPI* pGetModuleFileNameA)(HMODULE, LPSTR, DWORD);

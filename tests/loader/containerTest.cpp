@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../../src/loader/container.hpp"
+#include <loader/container.hpp>
 
 
 TEST(containerTest, ContainerWillBeInitializedProperly)

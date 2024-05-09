@@ -1,6 +1,6 @@
 #include "container.hpp"
 #include "ui/wx/wxWidgetsGuiApp.hpp"
-#include "../shared/event/simple/SimpleEventBus.hpp"
+#include <shared/event/simple/SimpleEventBus.hpp>
 
 std::shared_ptr<IEventBus> container::eventBus = nullptr;
 std::shared_ptr<IGuiApp> container::guiApp = nullptr;

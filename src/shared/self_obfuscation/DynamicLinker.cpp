@@ -1,5 +1,5 @@
 #include "DynamicLinker.hpp"
-#include "RuntimeException.hpp"
+#include "../RuntimeException.hpp"
 #include "strenc.hpp"
 #include "win_api.hpp"
 #include <wchar.h>

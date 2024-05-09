@@ -1,7 +1,7 @@
 #include "PatternScanner.hpp"
-#include "RuntimeException.hpp"
-#include "strenc.hpp"
-#include "win_api.hpp"
+#include "../RuntimeException.hpp"
+#include "../self_obfuscation/strenc.hpp"
+#include "../self_obfuscation/win_api.hpp"
 #include <string>
 #include <sstream>
 #include <vector>
