@@ -14,6 +14,15 @@ enable_testing()
 
 include(GoogleTest)
 
+file(GLOB_RECURSE TEST_FILES "core/*Test.cpp")
+foreach(TEST_FILE ${TEST_FILES})
+	get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
+	add_executable(${TEST_NAME} ${TEST_FILE})
+	target_link_libraries(${TEST_NAME} core GTest::gtest_main)
+	target_include_directories(${TEST_NAME} PUBLIC ${SRC_INCLUDES})
+	gtest_discover_tests(${TEST_NAME})
+endforeach()
+
 file(GLOB_RECURSE TEST_FILES "shared/*Test.cpp")
 foreach(TEST_FILE ${TEST_FILES})
 	get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
@@ -22,7 +31,6 @@ foreach(TEST_FILE ${TEST_FILES})
 	target_include_directories(${TEST_NAME} PUBLIC ${SRC_INCLUDES})
 	gtest_discover_tests(${TEST_NAME})
 endforeach()
-
 
 file(GLOB_RECURSE TEST_FILES "loader/*Test.cpp")
 foreach(TEST_FILE ${TEST_FILES})

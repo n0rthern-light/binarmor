@@ -1,8 +1,8 @@
 #include "container.hpp"
 #include <shared/event/simple/SimpleEventBus.hpp>
 #include "ui/wx/wxWidgetsGuiApp.hpp"
-#include "file/UIRequestedOpenFile.hpp"
-#include "file/NewFileSelected.hpp"
+#include <core/file/UIRequestedOpenFile.hpp>
+#include <core/file/NewFileSelected.hpp>
 
 std::shared_ptr<IEventBus> container::eventBus = nullptr;
 std::shared_ptr<IGuiApp> container::guiApp = nullptr;

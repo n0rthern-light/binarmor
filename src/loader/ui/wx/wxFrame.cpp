@@ -3,8 +3,9 @@
 #include "../icons.hpp"
 #include "../settings.hpp"
 #include "../../container.hpp"
-#include "../../file/UIRequestedOpenFile.hpp"
-#include "../../file/NewFileSelected.hpp"
+#include <shared/self_obfuscation/strenc.hpp>
+#include <core/file/UIRequestedOpenFile.hpp>
+#include <core/file/NewFileSelected.hpp>
 
 void CwxFrame::initUi()
 {
@@ -23,7 +24,7 @@ void CwxFrame::initUi()
     wxTextCtrl* textCtrl = new wxTextCtrl(
         contentPanel,
         wxID_ANY,
-        "This is read-only text displayed using wxTextCtrl.",
+        strenc("This is read-only text displayed using wxTextCtrl."),
         wxPoint(0, 0),
         wxSize(0, 0),
         wxTE_READONLY | wxTE_MULTILINE
@@ -39,27 +40,27 @@ void CwxFrame::initUi()
     wxBoxSizer* sidebarSizer = new wxBoxSizer(wxVERTICAL);
     sidebarPanel->SetSizer(sidebarSizer);
 
-    auto btnOpenFile = new wxButton(sidebarPanel, wxID_ANY, "Open File");
+    auto btnOpenFile = new wxButton(sidebarPanel, wxID_ANY, strenc("Open File"));
     btnOpenFile->SetBitmap(Bitmap::CreateFromBuffer(iconOpenFile));
     btnOpenFile->Bind(wxEVT_BUTTON, [&](wxCommandEvent& event) {
         this->eventBus->publish(new CUIRequestedOpenFile());
     });
-    auto btnExportFile = new wxButton(sidebarPanel, wxID_ANY, "Export File");
+    auto btnExportFile = new wxButton(sidebarPanel, wxID_ANY, strenc("Export File"));
     btnExportFile->SetBitmap(Bitmap::CreateFromBuffer(iconExport));
     btnExportFile->Disable();
-    auto btnAntiDebugging = new wxButton(sidebarPanel, wxID_ANY, "Anti-Debug");
+    auto btnAntiDebugging = new wxButton(sidebarPanel, wxID_ANY, strenc("Anti-Debug"));
     btnAntiDebugging->SetBitmap(Bitmap::CreateFromBuffer(iconNoPreview));
     btnAntiDebugging->Disable();
-    auto btnObfuscation = new wxButton(sidebarPanel, wxID_ANY, "Obfuscation");
+    auto btnObfuscation = new wxButton(sidebarPanel, wxID_ANY, strenc("Obfuscation"));
     btnObfuscation->SetBitmap(Bitmap::CreateFromBuffer(iconObfuscation));
     btnObfuscation->Disable();
-    auto btnVirtualization = new wxButton(sidebarPanel, wxID_ANY, "Virtualization");
+    auto btnVirtualization = new wxButton(sidebarPanel, wxID_ANY, strenc("Virtualization"));
     btnVirtualization->SetBitmap(Bitmap::CreateFromBuffer(iconVirtualization));
     btnVirtualization->Disable();
-    auto btnLicenseManager = new wxButton(sidebarPanel, wxID_ANY, "Licensing");
+    auto btnLicenseManager = new wxButton(sidebarPanel, wxID_ANY, strenc("Licensing"));
     btnLicenseManager->SetBitmap(Bitmap::CreateFromBuffer(iconLicensing));
     btnLicenseManager->Disable();
-    auto btnHelp = new wxButton(sidebarPanel, wxID_ANY, "Help");
+    auto btnHelp = new wxButton(sidebarPanel, wxID_ANY, strenc("Help"));
 
     // Add buttons to the sidebar sizer
 
@@ -80,10 +81,10 @@ void CwxFrame::initUi()
     mainPanel->SetSizer(mainSizer);
 
     CreateStatusBar();
-    SetStatusText("Welcome to BinArmor v0.1");
+    SetStatusText(strenc("Welcome to BinArmor v0.1"));
 }
 
-CwxFrame::CwxFrame(IEventBus* _eventBus): wxFrame(NULL, wxID_ANY, "BinArmor", wxDefaultPosition, wxSize(WINDOW_SIZE_X, WINDOW_SIZE_Y), wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
+CwxFrame::CwxFrame(IEventBus* _eventBus): wxFrame(NULL, wxID_ANY, strenc("BinArmor"), wxDefaultPosition, wxSize(WINDOW_SIZE_X, WINDOW_SIZE_Y), wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
 {
     eventBus = _eventBus;
 
@@ -92,8 +93,8 @@ CwxFrame::CwxFrame(IEventBus* _eventBus): wxFrame(NULL, wxID_ANY, "BinArmor", wx
 
 void CwxFrame::promptOpenFile()
 {
-    wxFileDialog openFileDialog(this, "Open Text File", "", "",
-        "Portable Executables (*.exe;*.dll)|*.exe;*.dll|All files (*.*)|*.*",
+    wxFileDialog openFileDialog(this, strenc("Open Text File"), strenc(""), strenc(""),
+        strenc("Portable Executables (*.exe;*.dll)|*.exe;*.dll|All files (*.*)|*.*"),
         wxFD_OPEN | wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL) {
         return; 

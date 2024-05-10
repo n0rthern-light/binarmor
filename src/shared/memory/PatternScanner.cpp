@@ -68,11 +68,11 @@ std::cout << "startAddress: " << std::hex << startAddress << " endAddress: " << 
             token = strPattern.substr(start, end - start);
 
             if (token.empty()) {
-                throw RuntimeException("Found empty token in pattern!");
+                throw RuntimeException(strenc("Found empty token in pattern!"));
             }
 
             if (!isValidPattern(token)) {
-                throw RuntimeException("Found invalid token in pattern: " + strPattern);
+                throw RuntimeException(strenc("Found invalid token in pattern: ") + strPattern);
             }
 
             if (token == strenc("??") || token == strenc("?")) {
