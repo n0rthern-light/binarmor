@@ -7,7 +7,8 @@ TEST(containerTest, ContainerWillBeInitializedProperly)
 	ASSERT_EQ(container::eventBus, nullptr);
 	ASSERT_EQ(container::guiApp, nullptr);
 
-	container::init(0, nullptr, true);
+	container::init(0, nullptr);
 
 	ASSERT_NE(container::eventBus, nullptr);
+	ASSERT_NE(container::guiApp, nullptr);
 }

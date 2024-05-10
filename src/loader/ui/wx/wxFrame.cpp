@@ -3,8 +3,10 @@
 #include "../icons.hpp"
 #include "../settings.hpp"
 #include "../../container.hpp"
+#include "../../file/UIRequestedOpenFile.hpp"
+#include "../../file/NewFileSelected.hpp"
 
-CwxFrame::CwxFrame(): wxFrame(NULL, wxID_ANY, "BinArmor", wxDefaultPosition, wxSize(WINDOW_SIZE_X, WINDOW_SIZE_Y), wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
+void CwxFrame::initUi()
 {
     // Main panel
     wxPanel* mainPanel = new wxPanel(this, wxID_ANY);
@@ -39,6 +41,9 @@ CwxFrame::CwxFrame(): wxFrame(NULL, wxID_ANY, "BinArmor", wxDefaultPosition, wxS
 
     auto btnOpenFile = new wxButton(sidebarPanel, wxID_ANY, "Open File");
     btnOpenFile->SetBitmap(Bitmap::CreateFromBuffer(iconOpenFile));
+    btnOpenFile->Bind(wxEVT_BUTTON, [&](wxCommandEvent& event) {
+        this->eventBus->publish(new CUIRequestedOpenFile());
+    });
     auto btnExportFile = new wxButton(sidebarPanel, wxID_ANY, "Export File");
     btnExportFile->SetBitmap(Bitmap::CreateFromBuffer(iconExport));
     btnExportFile->Disable();
@@ -76,4 +81,24 @@ CwxFrame::CwxFrame(): wxFrame(NULL, wxID_ANY, "BinArmor", wxDefaultPosition, wxS
 
     CreateStatusBar();
     SetStatusText("Welcome to BinArmor v0.1");
+}
+
+CwxFrame::CwxFrame(IEventBus* _eventBus): wxFrame(NULL, wxID_ANY, "BinArmor", wxDefaultPosition, wxSize(WINDOW_SIZE_X, WINDOW_SIZE_Y), wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
+{
+    eventBus = _eventBus;
+
+    this->initUi();
+}
+
+void CwxFrame::promptOpenFile()
+{
+    wxFileDialog openFileDialog(this, "Open Text File", "", "",
+        "Portable Executables (*.exe;*.dll)|*.exe;*.dll|All files (*.*)|*.*",
+        wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+    if (openFileDialog.ShowModal() == wxID_CANCEL) {
+        return; 
+    }
+
+    wxString filePath = openFileDialog.GetPath();
+    eventBus->publish(new CNewFileSelected(filePath.c_str()));
 }

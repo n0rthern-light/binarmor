@@ -7,12 +7,16 @@
 
 class CwxWidgetsGuiApp : public IGuiApp
 {
+	int argc;
+	char** argv;
 	IEventBus* eventBus;
 	CwxApp* app;
 	CwxFrame* frame;
 
 public:
-	CwxWidgetsGuiApp(int argc, char** argv);
+	CwxWidgetsGuiApp(int _argc, char** _argv, IEventBus* _eventBus);
+	void start();
+	void promptOpenFile();
 	void exit();
 };
 

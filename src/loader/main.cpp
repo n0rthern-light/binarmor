@@ -20,7 +20,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine,
 
     // ----------------
 
-    container::init(argc, argv, false);
+    container::init(argc, argv);
+    container::guiApp->start();
 
     // ----------------
 

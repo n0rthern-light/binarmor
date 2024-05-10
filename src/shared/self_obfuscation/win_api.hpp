@@ -14,7 +14,7 @@
 #define KERNEL32_GetModuleInformation strenc("K32GetModuleInformation")
 #define KERNEL32_GetCurrentProcess strenc("GetCurrentProcess")
 
-// typedefs
+// kernel32
 typedef HMODULE(WINAPI* pGetModuleHandleA)(LPCSTR);
 typedef FARPROC(WINAPI* pGetProcAddress)(HMODULE, LPCSTR);
 typedef HMODULE(WINAPI* pLoadLibraryA)(LPCSTR);
@@ -22,3 +22,6 @@ typedef MODULEINFO(WINAPI* pGetModuleInformation)(HANDLE, HMODULE, LPMODULEINFO,
 typedef HANDLE(WINAPI* pGetCurrentProcess)();
 typedef BOOLEAN(WINAPI* pIsDebuggerPresent)();
 typedef DWORD(WINAPI* pGetModuleFileNameA)(HMODULE, LPSTR, DWORD);
+
+// ntdll
+typedef NTSTATUS(WINAPI* pNtQuerySystemTime)(PLARGE_INTEGER SystemTime);

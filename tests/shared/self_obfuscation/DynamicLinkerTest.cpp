@@ -49,3 +49,24 @@ TEST(DynamicLinkerTest, WillThrowExceptionWhenInvalidFunctionRequested) {
         FAIL() << "Expected RuntimeException";
     }
 }
+
+TEST(DynamicLinkerTest, WillProperlyResolveNtdllRtlGetCurrentNtGlobalFlags)
+{
+	auto linker = new CDynamicLinker();
+
+	auto fn = linker->GetFunction("ntdll.dll", "NtQuerySystemTime");
+
+#if defined(_WIN64)
+	DWORD expectedRva = 0xB5E0;
+#elif defined(_WIN32)
+	DWORD expectedRva = 0x1885C0;
+#endif
+
+	ASSERT_EQ(fn->rva, expectedRva);
+
+    LARGE_INTEGER integer;
+    NTSTATUS status = fn->call<pNtQuerySystemTime>(&integer);
+
+    ASSERT_EQ(status, 0);
+    ASSERT_GT(integer.LowPart, 1000);
+}

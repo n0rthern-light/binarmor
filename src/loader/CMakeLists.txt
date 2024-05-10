@@ -1,5 +1,5 @@
 ﻿file(GLOB_RECURSE loader_SRC "*.cpp")
-add_executable (loader WIN32 ${loader_SRC})
+add_executable (loader WIN32 ${loader_SRC} "file/NewFileSelected.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET loader PROPERTY CXX_STANDARD 20)
@@ -21,6 +21,6 @@ target_include_directories(loader PUBLIC ${SRC_INCLUDES} ${wxWidgets_INCLUDE_DIR
 add_definitions(-DWIN32_LEAN_AND_MEAN)
 
 # static lib for testing
-add_library(loader_lib ${loader_SRC})
+add_library(loader_lib ${loader_SRC} "file/NewFileSelected.cpp")
 target_link_libraries(loader_lib shared ${wxWidgets_LIBRARIES})
 target_include_directories(loader_lib PUBLIC ${SRC_INCLUDES} ${wxWidgets_INCLUDE_DIRS})
