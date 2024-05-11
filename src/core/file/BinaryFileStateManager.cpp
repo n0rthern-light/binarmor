@@ -1,5 +1,5 @@
 #include "BinaryFileStateManager.hpp"
-#include "BinaryFileLoaded.hpp"
+#include "BinaryFileLoadedEvent.hpp"
 #include <shared/RuntimeException.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
 
@@ -22,7 +22,7 @@ void CBinaryFileStateManager::load(const std::string& filePath)
 {
 	binaryFile = std::make_shared<CBinaryFile>(filePath, fileReader->read(filePath));
 
-	eventBus->publish(new CBinaryFileLoaded());
+	eventBus->publish(new CBinaryFileLoadedEvent());
 }
 
 void CBinaryFileStateManager::save(const std::string& filePath)

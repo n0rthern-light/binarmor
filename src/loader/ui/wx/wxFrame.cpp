@@ -4,8 +4,8 @@
 #include "../settings.hpp"
 #include "../../container.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
-#include <core/file/UIRequestedOpenFile.hpp>
-#include <core/file/NewFileSelected.hpp>
+#include <core/file/UIRequestedOpenFileEvent.hpp>
+#include <core/file/NewFileSelectedEvent.hpp>
 #include <sstream>
 #include <iomanip>
 
@@ -45,7 +45,7 @@ void CwxFrame::initUi()
     auto btnOpenFile = new wxButton(sidebarPanel, wxID_ANY, strenc("Open File"));
     btnOpenFile->SetBitmap(Bitmap::CreateFromBuffer(iconOpenFile));
     btnOpenFile->Bind(wxEVT_BUTTON, [&](wxCommandEvent& event) {
-        this->eventBus->publish(new CUIRequestedOpenFile());
+        this->eventBus->publish(new CUIRequestedOpenFileEvent());
     });
     auto btnExportFile = new wxButton(sidebarPanel, wxID_ANY, strenc("Export File"));
     btnExportFile->SetBitmap(Bitmap::CreateFromBuffer(iconExport));
@@ -104,7 +104,7 @@ void CwxFrame::promptOpenFile()
     }
 
     wxString filePath = openFileDialog.GetPath();
-    eventBus->publish(new CNewFileSelected(filePath.c_str()));
+    eventBus->publish(new CNewFileSelectedEvent(filePath.c_str()));
 }
 
 void CwxFrame::displayBinary(const CBinary& binary)
