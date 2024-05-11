@@ -7,6 +7,7 @@
 #include <core/file/fstream/fstreamFileReader.hpp>
 #include <core/file/BinaryFileLoadedEvent.hpp>
 #include <core/file/analysis/BinaryFileAnalyzedEvent.hpp>
+#include <core/file/analysis/UnsupportedFileException.hpp>
 
 std::shared_ptr<IEventBus> container::eventBus = nullptr;
 std::shared_ptr<IGuiApp> container::guiApp = nullptr;
@@ -34,7 +35,12 @@ void container::init(int argc, char** argv)
 
 	container::eventBus->subscribe(typeid(CBinaryFileLoadedEvent), [&](IEvent* event) {
 		auto binaryFile = container::core::file::binaryFileStateManager->getBinaryFile();
-		container::core::file::analysis::runner->run(binaryFile.get());
+		try {
+			container::core::file::analysis::runner->run(binaryFile.get());
+		}
+		catch (const UnsupportedFileException& e) {
+			MessageBoxA(0, strenc("Choosen file format is not supported."), strenc("Unsupported File Format"), 0);
+		}
 		container::guiApp->displayBinary(binaryFile->getBinary());
 		container::guiApp->displayStatus(binaryFile->getFilePath());
 	});
