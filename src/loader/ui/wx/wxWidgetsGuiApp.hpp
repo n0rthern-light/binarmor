@@ -17,6 +17,8 @@ public:
 	CwxWidgetsGuiApp(int _argc, char** _argv, IEventBus* _eventBus);
 	void start();
 	void promptOpenFile();
+	void displayStatus(const std::string& statusText);
+	void displayBinary(const CBinary& binary);
 	void exit();
 };
 

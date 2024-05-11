@@ -26,6 +26,17 @@ void CwxWidgetsGuiApp::promptOpenFile()
     frame->promptOpenFile();
 }
 
+
+void CwxWidgetsGuiApp::displayStatus(const std::string& statusText)
+{
+    frame->displayStatus(statusText);
+}
+
+void CwxWidgetsGuiApp::displayBinary(const CBinary& binary)
+{
+    frame->displayBinary(binary);
+}
+
 void CwxWidgetsGuiApp::exit()
 {
     app->Exit();

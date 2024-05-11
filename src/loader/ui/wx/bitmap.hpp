@@ -6,6 +6,7 @@
 #include <wx/log.h>
 #include <vector>
 #include <shared/RuntimeException.hpp>
+#include <shared/self_obfuscation/strenc.hpp>
 
 class Bitmap {
 public:
@@ -18,11 +19,10 @@ public:
         wxImage image(input, wxBITMAP_TYPE_PNG);
         if (image.IsOk()) {
             image.Rescale(imageSize, imageSize);
-            //image.Resize(wxSize(imageSize, imageSize), wxPoint(0, 0));
             return wxBitmap(image);
         }
         else {
-            throw RuntimeException("Could not load PNG bitmap");
+            throw RuntimeException(strenc("Could not load PNG bitmap"));
         }
     }
 };

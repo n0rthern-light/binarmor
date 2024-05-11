@@ -6,6 +6,8 @@
 #include <shared/self_obfuscation/strenc.hpp>
 #include <core/file/UIRequestedOpenFile.hpp>
 #include <core/file/NewFileSelected.hpp>
+#include <sstream>
+#include <iomanip>
 
 void CwxFrame::initUi()
 {
@@ -21,15 +23,15 @@ void CwxFrame::initUi()
     wxBoxSizer* contentSizer = new wxBoxSizer(wxVERTICAL);
     contentPanel->SetSizer(contentSizer);
 
-    wxTextCtrl* textCtrl = new wxTextCtrl(
+    binaryDisplay = new wxTextCtrl(
         contentPanel,
         wxID_ANY,
-        strenc("This is read-only text displayed using wxTextCtrl."),
+        strenc(""),
         wxPoint(0, 0),
         wxSize(0, 0),
         wxTE_READONLY | wxTE_MULTILINE
     );
-    contentSizer->Add(textCtrl, 1, wxEXPAND | wxALL, 5);
+    contentSizer->Add(binaryDisplay, 1, wxEXPAND | wxALL, 5);
 
     // Sidebar area (fixed width)
     wxPanel* sidebarPanel = new wxPanel(mainPanel, wxID_ANY);
@@ -87,6 +89,7 @@ void CwxFrame::initUi()
 CwxFrame::CwxFrame(IEventBus* _eventBus): wxFrame(NULL, wxID_ANY, strenc("BinArmor"), wxDefaultPosition, wxSize(WINDOW_SIZE_X, WINDOW_SIZE_Y), wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
 {
     eventBus = _eventBus;
+    binaryDisplay = nullptr;
 
     this->initUi();
 }
@@ -102,4 +105,22 @@ void CwxFrame::promptOpenFile()
 
     wxString filePath = openFileDialog.GetPath();
     eventBus->publish(new CNewFileSelected(filePath.c_str()));
+}
+
+void CwxFrame::displayBinary(const CBinary& binary)
+{
+    std::stringstream ss;
+    for (auto byte : binary.getBytes()) {
+        ss << std::hex << std::uppercase << std::setw(2) << std::setfill('0') << static_cast<int>(byte) << strenc(" ");
+    }
+    auto wxStr = wxString(ss.str());
+
+    binaryDisplay->SetValue(wxStr);
+    binaryDisplay->Refresh();
+    binaryDisplay->Update();
+}
+
+void CwxFrame::displayStatus(const std::string& statusText)
+{
+    SetStatusText(statusText);
 }
