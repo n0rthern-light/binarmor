@@ -2,7 +2,7 @@
 
 #include "BaseAnalyzer.hpp"
 
-class CFormatAnalyzer : public BaseAnalyzer
+class CTypeAnalyzer: public BaseAnalyzer
 {
 public:
 	using BaseAnalyzer::BaseAnalyzer;

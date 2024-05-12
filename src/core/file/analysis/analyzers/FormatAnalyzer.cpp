@@ -2,23 +2,45 @@
 #include "../UnsupportedFileException.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
 
-CFormatAnalyzer::CFormatAnalyzer(IEventBus* _eventBus): eventBus(_eventBus) { }
+bool isWindowsPE(const CBinary* binary) {
+    auto firstBytes = binary->getBytesAsString(0, 2);
 
-bool isWindowsPE(CBinary* binary)
-{
-	auto firstBytes = binary->getBytesAsString(0, 2);
-
-	return firstBytes == "MZ";
+    return firstBytes == strenc("MZ");
 }
 
-void CFormatAnalyzer::analyze(CBinaryFile* binaryFile, AnalysisResult_t& result)
+bool isELF(const CBinary* binary) {
+    auto firstBytes = binary->getBytesAsString(0, 4);
+
+    return firstBytes.size() >= 4 && firstBytes[0] == strenc('0x7F') && firstBytes.substr(1, 3) == strenc("ELF");
+}
+
+bool isMachO(const CBinary* binary) {
+    auto firstBytes = binary->getBytesAsString(0, 4);
+
+    if (firstBytes.size() < 4) {
+        return false;
+    }
+
+    uint32_t magic = *reinterpret_cast<const uint32_t*>(firstBytes.data());
+
+    return magic == 0xFEEDFACE || magic == 0xFEEDFACF || magic == 0xCAFEBABE;
+}
+
+void CFormatAnalyzer::analyze(CBinaryFile* binaryFile, BinaryAttributes_t& attributes)
 {
 	auto binary = binaryFile->getBinary();
 
-	if (isWindowsPE(&binary)) {
-		result.format = Format::Windows_PE;
-		return;
-	}
+    if (isWindowsPE(&binary)) {
+        attributes.format = Format::Windows_PE;
+    }
+    else if (isELF(&binary)) {
+        attributes.format = Format::Linux_ELF;
+    }
+    else if (isMachO(&binary)) {
+        attributes.format = Format::MacOS_MachO;
+    }
 
-	throw UnsupportedFileException(strenc("Not detected any supported file format!"));
+    if (attributes.format != Format::Windows_PE) {
+	    throw UnsupportedFileException(strenc("Not detected any supported file format"));
+    }
 }

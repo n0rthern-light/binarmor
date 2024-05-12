@@ -1,22 +1,26 @@
 #include "AnalysisRunner.hpp"
 #include "analyzers/FormatAnalyzer.hpp"
+#include "analyzers/ArchitectureAnalyzer.hpp"
+#include "analyzers/TypeAnalyzer.hpp"
 #include "BinaryFileAnalyzedEvent.hpp"
 
 CAnalysisRunner::CAnalysisRunner(IEventBus* _eventBus): eventBus(_eventBus)
 {
 	analyzers = std::vector<IAnalyzer*>{
-		new CFormatAnalyzer(eventBus)
+		new CFormatAnalyzer(eventBus),
+		new CArchitectureAnalyzer(eventBus),
+		new CTypeAnalyzer(eventBus),
 	};
 }
 
 void CAnalysisRunner::run(CBinaryFile* binaryFile)
 {
-	auto result = AnalysisResult_t();
+	BinaryAttributes_t attributes;
 
-	for (auto analysis : analyzers) {
-		analysis->analyze(binaryFile, result);
+	for (auto analyzer : analyzers) {
+		analyzer->analyze(binaryFile, attributes);
 	}
 
-	binaryFile->applyAnalysis(result);
+	binaryFile->completeAnalysis(attributes);
 	eventBus->publish(new CBinaryFileAnalyzedEvent());
 }

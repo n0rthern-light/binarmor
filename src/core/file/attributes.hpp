@@ -8,26 +8,18 @@ enum class Format
 	MacOS_MachO = 3,
 };
 
-enum class Machine
+enum class Architecture
 {
 	UNKNOWN = 0,
 	X86 = 1,
 	X86_64 = 2,
-	ARM64 = 3,
+	ARM = 3,
+	ARM64 = 4,
 };
 
-enum class Characteristics
+enum class Type
 {
 	UNKNOWN = 0,
 	Executable = 1,
 	Dynamic_Library = 2,
-};
-
-struct AnalysisResult_t
-{
-	Format format;
-	Machine machine;
-	Characteristics characterisitcs;
-
-	AnalysisResult_t();
 };

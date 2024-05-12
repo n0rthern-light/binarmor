@@ -2,7 +2,7 @@
 
 CBinaryFile::CBinaryFile(const std::string& _filePath, const CBinary& _binary): filePath(_filePath), binary(_binary)
 {
-	analysis = AnalysisResult_t();
+	attributes = BinaryAttributes_t();
 	flags = 0;
 }
 
@@ -31,8 +31,8 @@ bool CBinaryFile::hasFlags(BinaryFileFlags _flags) const
 	return (flags & static_cast<uint32_t>(_flags)) == static_cast<uint32_t>(_flags);
 }
 
-void CBinaryFile::applyAnalysis(const AnalysisResult_t& result)
+void CBinaryFile::completeAnalysis(const BinaryAttributes_t& _attributes)
 {
-	analysis = result;
+	attributes = _attributes;
 	enableFlags(BinaryFileFlags::Analyzed);
 }

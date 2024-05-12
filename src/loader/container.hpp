@@ -16,7 +16,7 @@ namespace container {
 			extern std::shared_ptr<IFileReader> fileReader;
 			extern std::shared_ptr<CBinaryFileStateManager> binaryFileStateManager;
 
-			namespace analysis {
+			namespace attributes {
 				extern std::shared_ptr<CAnalysisRunner> runner;
 			}
 		}
