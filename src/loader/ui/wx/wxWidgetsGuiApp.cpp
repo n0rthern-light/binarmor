@@ -26,6 +26,15 @@ void CwxWidgetsGuiApp::promptOpenFile()
     frame->promptOpenFile();
 }
 
+void CwxWidgetsGuiApp::displayErrorMessageBox(const std::string& title, const std::string& message)
+{
+    wxMessageBox(message, title, wxICON_ERROR | wxOK);
+}
+
+void CwxWidgetsGuiApp::displayInfoMessageBox(const std::string& title, const std::string& message)
+{
+    wxMessageBox(message, title);
+}
 
 void CwxWidgetsGuiApp::displayStatus(const std::string& statusText)
 {

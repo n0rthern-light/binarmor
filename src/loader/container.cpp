@@ -39,13 +39,13 @@ void container::init(int argc, char** argv)
 			container::core::file::attributes::runner->run(binaryFile.get());
 		}
 		catch (const UnsupportedFileException& e) {
-			MessageBoxA(0, strenc("Choosen file format is not supported."), strenc("Unsupported File Format"), 0);
+			container::guiApp->displayErrorMessageBox(strenc("Unsupported File Format"), strenc("Choosen file format is not supported."));
 		}
 		container::guiApp->displayBinary(binaryFile->getBinary());
 		container::guiApp->displayStatus(binaryFile->getFilePath());
 	});
 
 	container::eventBus->subscribe(typeid(CBinaryFileAnalyzedEvent), [&](IEvent* event) {
-		MessageBoxA(0, "Binary has been analyzed", "Success", 0);
+		container::guiApp->displayInfoMessageBox(strenc("Binary has been analyzed"), strenc("Success"));
 	});
 }
