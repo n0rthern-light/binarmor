@@ -18,11 +18,11 @@ endif()
 
 set(wxWidgets_CONFIG_EXECUTABLE "" CACHE STRING "wx-config path")
 set(wxWidgets_ROOT_DIR "C:/wxWidgets-3.2.4" CACHE STRING "Host's wxWidgets root path")
-set(wxWidgets_LIB_X86 "/lib/vc_x64_lib" CACHE STRING "Relative from wxWidgets root path 32bit lib path")
-set(wxWidgets_LIB_X64 "/lib/vc_lib" CACHE STRING "Relative from wxWidgets root path 64bit lib path")
+set(wxWidgets_LIB_X64 "/lib/vc_x64_lib" CACHE STRING "Relative from wxWidgets root path 32bit lib path")
+set(wxWidgets_LIB_X86 "/lib/vc_lib" CACHE STRING "Relative from wxWidgets root path 64bit lib path")
 set(wxWidgets_CONFIGURATION "msw" CACHE STRING "wxWidgets configuration")
 
-if(CMAKE_SIZEOF_VOID_P EQUAL 8) # 32-bit
+if(CMAKE_SIZEOF_VOID_P EQUAL 8) # 64-bit
   set(wxWidgets_LIB_DIR "${wxWidgets_ROOT_DIR}${wxWidgets_LIB_X64}")
 else() # 32-bit
   set(wxWidgets_LIB_DIR "${wxWidgets_ROOT_DIR}${wxWidgets_LIB_X86}")
@@ -48,7 +48,7 @@ target_include_directories(loader PUBLIC ${SRC_INCLUDES} ${wxWidgets_INCLUDE_DIR
 add_definitions(-DWIN32_LEAN_AND_MEAN)
 
 # static lib for testing
-# Exclude main.cpp from the list since its being executed on unix
+# Exclude main.cpp from the list since its for tests
 list(FILTER loader_SRC EXCLUDE REGEX ".*/main.cpp$")
 add_library(loader_lib ${loader_SRC})
 target_link_libraries(loader_lib shared core ${wxWidgets_LIBRARIES})
