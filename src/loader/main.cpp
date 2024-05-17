@@ -4,7 +4,6 @@
 #ifdef _WIN32
 #include <windows.h>
 #include <shellapi.h>
-
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, INT nCmdShow) {
     int argc;
     wchar_t** wargv = CommandLineToArgvW(GetCommandLineW(), &argc);
@@ -31,6 +30,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine,
     delete[] argv;
 
 	return 0;
+}
+#else
+int main(int argc, char** argv)
+{
+  container::init(argc, argv);
+  container::guiApp->start();
+
+  return 0;
 }
 #endif
 

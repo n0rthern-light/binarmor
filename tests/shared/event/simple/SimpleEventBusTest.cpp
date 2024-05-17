@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include <shared/event/simple/SimpleEventBus.hpp>
+#include <chrono>
+#include <thread>
 
 class DummyEvent : public IEvent
 {
@@ -26,7 +28,7 @@ TEST(SimpleEventBusTest, HandlerWillBeCalledWithProperEvent) {
 	// if timeout raise exception
 	int timer = 0;
 	while (!gotCalled) {
-		_sleep(1);
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		timer++;
 		if (timer > 500) {
 			throw "Holly molly!";

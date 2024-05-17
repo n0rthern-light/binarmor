@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include <loader/container.hpp>
 
-
 TEST(containerTest, ContainerWillBeInitializedProperly)
 {
 	ASSERT_EQ(container::eventBus, nullptr);

@@ -9,6 +9,18 @@
 #include <sstream>
 #include <iomanip>
 
+wxDECLARE_EVENT(EVENT_DISPLAY_WINDOW_OPEN_FILE, wxCommandEvent);
+wxDEFINE_EVENT(EVENT_DISPLAY_WINDOW_OPEN_FILE, wxCommandEvent);
+
+CwxFrame::CwxFrame(IEventBus* _eventBus): wxFrame(NULL, wxID_ANY, strenc("BinArmor"), wxDefaultPosition, wxSize(WINDOW_SIZE_X, WINDOW_SIZE_Y), wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
+{
+    eventBus = _eventBus;
+    binaryDisplay = nullptr;
+
+	this->initUi();
+	this->initEventListener();
+}
+
 void CwxFrame::initUi()
 {
     // Main panel
@@ -86,25 +98,29 @@ void CwxFrame::initUi()
     SetStatusText(strenc("Welcome to BinArmor v0.1"));
 }
 
-CwxFrame::CwxFrame(IEventBus* _eventBus): wxFrame(NULL, wxID_ANY, strenc("BinArmor"), wxDefaultPosition, wxSize(WINDOW_SIZE_X, WINDOW_SIZE_Y), wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
+void CwxFrame::initEventListener()
 {
-    eventBus = _eventBus;
-    binaryDisplay = nullptr;
+	Bind(EVENT_DISPLAY_WINDOW_OPEN_FILE, &CwxFrame::onEventDisplayWindowOpenFile, this);
+}
 
-    this->initUi();
+void CwxFrame::onEventDisplayWindowOpenFile(wxCommandEvent& wxCommandEvent)
+{
+	wxFileDialog fileDialog(this, strenc("Open Text File"), strenc(""), strenc(""),
+		strenc("Portable Executables (*.exe;*.dll)|*.exe;*.dll|All files (*.*)|*.*"),
+		wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+
+	if (fileDialog.ShowModal() == wxID_CANCEL) {
+		return; 
+	}
+
+	wxString filePath = fileDialog.GetPath();
+	eventBus->publish(new CNewFileSelectedEvent(filePath.c_str()));
 }
 
 void CwxFrame::promptOpenFile()
 {
-    wxFileDialog openFileDialog(this, strenc("Open Text File"), strenc(""), strenc(""),
-        strenc("Portable Executables (*.exe;*.dll)|*.exe;*.dll|All files (*.*)|*.*"),
-        wxFD_OPEN | wxFD_FILE_MUST_EXIST);
-    if (openFileDialog.ShowModal() == wxID_CANCEL) {
-        return; 
-    }
-
-    wxString filePath = openFileDialog.GetPath();
-    eventBus->publish(new CNewFileSelectedEvent(filePath.c_str()));
+	auto event = new wxCommandEvent(EVENT_DISPLAY_WINDOW_OPEN_FILE);
+	wxQueueEvent(this, event);
 }
 
 void CwxFrame::displayBinary(const CBinary& binary)
