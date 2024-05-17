@@ -11,8 +11,10 @@ private:
 	wxTextCtrl* binaryDisplay;
 
 	void initUi();
+	void initEventListener();
+	void onEventDisplayWindowOpenFile(wxCommandEvent& event);
 public:
-    CwxFrame(IEventBus* _eventBus);
+  CwxFrame(IEventBus* _eventBus);
 	void promptOpenFile();
 	void displayStatus(const std::string& statusText);
 	void displayBinary(const CBinary& binary);
