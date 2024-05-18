@@ -1,0 +1,117 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 19,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "Debug Windows x64",
+      "description": "Default configuration preset",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/debug-windows-x86_64",
+      "cacheVariables": {
+        "BUILD_GMOCK": "ON",
+        "CMAKE_SYSTEM_NAME": "Windows",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_COLOR_MAKEFILE": "ON",
+        "CMAKE_CXX_FLAGS": "-static -static-libgcc -static-libstdc++",
+        "CMAKE_CXX_FLAGS_DEBUG": "-g",
+        "CMAKE_CXX_FLAGS_MINSIZEREL": "-Os -DNDEBUG",
+        "CMAKE_CXX_FLAGS_RELEASE": "-O3 -DNDEBUG",
+        "CMAKE_CXX_FLAGS_RELWITHDEBINFO": "-O2 -g -DNDEBUG",
+        "CMAKE_CXX_STANDARD_LIBRARIES": "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
+        "CMAKE_C_FLAGS": "-static -static-libgcc -static-libstdc++",
+        "CMAKE_C_FLAGS_DEBUG": "-g",
+        "CMAKE_C_FLAGS_MINSIZEREL": "-Os -DNDEBUG",
+        "CMAKE_C_FLAGS_RELEASE": "-O3 -DNDEBUG",
+        "CMAKE_C_FLAGS_RELWITHDEBINFO": "-O2 -g -DNDEBUG",
+        "CMAKE_C_STANDARD_LIBRARIES": "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "OFF",
+        "CMAKE_INSTALL_PREFIX": "/usr/local",
+        "CMAKE_TOOLCHAIN_FILE": "/Users/michal/toolchain/windows.tc.cmake",
+        "_wxWidgets_ROOT_DIR": "/Users/michal/Documents/Lib/wxWidgets-3.2.4",
+        "_wxWidgets_WX_CONFIG": "/buildWindows/wx-config",
+        "_wxWidgets_WX_RC": "/include/wx/msw/wx.rc",
+        "_wxWidgets_LIB_X64": "/buildWindows/lib/wx",
+        "_wxWidgets_LIB_X86": "/buildWindows/lib/wx",
+        "wxWidgets_CONFIGURATION": "msw",
+        "wxWidgets_USE_DEBUG": "ON"
+      }
+    },
+	{
+      "name": "Debug OSX Fat",
+      "description": "Configuration preset for macOS build",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/debug-osx-fat",
+      "cacheVariables": {
+        "BUILD_GMOCK": "ON",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_COLOR_MAKEFILE": "ON",
+        "CMAKE_CXX_FLAGS": "",
+        "CMAKE_CXX_FLAGS_DEBUG": "-g",
+        "CMAKE_CXX_FLAGS_MINSIZEREL": "-Os -DNDEBUG",
+        "CMAKE_CXX_FLAGS_RELEASE": "-O3 -DNDEBUG",
+        "CMAKE_CXX_FLAGS_RELWITHDEBINFO": "-O2 -g -DNDEBUG",
+        "CMAKE_C_FLAGS": "",
+        "CMAKE_C_FLAGS_DEBUG": "-g",
+        "CMAKE_C_FLAGS_MINSIZEREL": "-Os -DNDEBUG",
+        "CMAKE_C_FLAGS_RELEASE": "-O3 -DNDEBUG",
+        "CMAKE_C_FLAGS_RELWITHDEBINFO": "-O2 -g -DNDEBUG",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "OFF",
+        "CMAKE_INSTALL_PREFIX": "/usr/local",
+        "CMAKE_OSX_ARCHITECTURES": "arm64;x86_64",
+        "CMAKE_OSX_SYSROOT": "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk",
+        "_wxWidgets_ROOT_DIR": "/Users/michal/Documents/Lib/wxWidgets-3.2.4",
+        "_wxWidgets_WX_CONFIG": "/buildOSX/wx-config",
+        "_wxWidgets_LIB_X64": "/buildOSX/lib",
+        "_wxWidgets_LIB_X86": "/buildOSX/lib",
+        "wxWidgets_CONFIGURATION": "osx_cocoa",
+        "wxWidgets_USE_DEBUG": "ON",
+        "wxWidgets_USE_STATIC": "ON"
+      }
+    },
+	{
+      "name": "windows-base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/install/${presetName}",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "cl.exe",
+        "CMAKE_CXX_COMPILER": "cl.exe"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+	{
+      "name": "MSVC x64-debug",
+      "inherits": "windows-base",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "_wxWidgets_ROOT_DIR": "C:/wxWidgets-3.2.4",
+        "_wxWidgets_LIB_X64": "/lib/vc_x64_lib",
+        "_wxWidgets_LIB_X86": "/lib/vc_lib",
+        "wxWidgets_CONFIGURATION": "msw",
+        "wxWidgets_USE_DEBUG": "ON",
+        "wxWidgets_USE_STATIC": "ON"
+      }
+    },
+    {
+      "name": "MSVC x64-release",
+      "inherits": "MSVC x64-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "wxWidgets_USE_DEBUG": "OFF"
+      }
+    }
+  ]
+}

@@ -25,12 +25,10 @@ void CwxFrame::initUi()
 {
     // Main panel
     wxPanel* mainPanel = new wxPanel(this, wxID_ANY);
-    mainPanel->SetBackgroundColour(*wxWHITE);
     wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
 
     // Main content area
     wxPanel* contentPanel = new wxPanel(mainPanel, wxID_ANY);
-    contentPanel->SetBackgroundColour(*wxWHITE);
     contentPanel->SetMinSize(wxSize(300, 400));
     wxBoxSizer* contentSizer = new wxBoxSizer(wxVERTICAL);
     contentPanel->SetSizer(contentSizer);
@@ -47,7 +45,6 @@ void CwxFrame::initUi()
 
     // Sidebar area (fixed width)
     wxPanel* sidebarPanel = new wxPanel(mainPanel, wxID_ANY);
-    sidebarPanel->SetBackgroundColour(*wxWHITE);
     sidebarPanel->SetMinSize(wxSize(180, 400)); // Fixed sidebar size
 
     // Sidebar layout
