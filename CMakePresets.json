@@ -8,7 +8,6 @@
   "configurePresets": [
     {
       "name": "Debug Windows x64",
-      "description": "Default configuration preset",
       "generator": "Unix Makefiles",
       "binaryDir": "${sourceDir}/build/debug-windows-x86_64",
       "cacheVariables": {
@@ -41,8 +40,16 @@
       }
     },
 	{
+		"name": "Release Windows x64",
+		"inherits": "Debug Windows x64",
+		"binaryDir": "${sourceDir}/build/release-windows-x86_64",
+		"cacheVariables": {
+			"CMAKE_BUILD_TYPE": "Release",
+			"wxWidgets_USE_DEBUG": "OFF"
+		}
+	},
+	{
       "name": "Debug OSX Fat",
-      "description": "Configuration preset for macOS build",
       "generator": "Unix Makefiles",
       "binaryDir": "${sourceDir}/build/debug-osx-fat",
       "cacheVariables": {
@@ -72,6 +79,15 @@
         "wxWidgets_USE_STATIC": "ON"
       }
     },
+	{
+		"name": "Release OSX Fat",
+		"inherits": "Debug OSX Fat",
+		"binaryDir": "${sourceDir}/build/release-osx-fat",
+		"cacheVariables": {
+			"CMAKE_BUILD_TYPE": "Release",
+			"wxWidgets_USE_DEBUG": "OFF"
+		}
+	},
 	{
       "name": "windows-base",
       "hidden": true,
