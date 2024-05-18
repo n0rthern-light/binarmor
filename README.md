@@ -1,29 +1,19 @@
 # BinArmor 
-Binary Armor protection Software.
+Binary Armor: Binary protection Software.
 
 ### A proposed build architecture
 ```
 build
-├── debug
-│   ├── linux
-│   │   ├── x86
-│   │   └── x86_64
-│   ├── osx
-│   │   ├── arm64
-│   │   ├── fat
-│   │   └── x86_64
-│   └── windows
-│       └── x86_64
-└── release
-    ├── linux
-    │   ├── x86
-    │   └── x86_64
-    ├── osx
-    │   ├── arm64
-    │   ├── fat
-    │   └── x86_64
-    └── windows
-        └── x86_64
+├── debug-linux-x86_64
+├── debug-osx-arm64
+├── debug-osx-fat
+├── debug-osx-x86_64
+├── debug-windows-x86_64
+├── release-linux-x86_64
+├── release-osx-arm64
+├── release-osx-fat
+├── release-osx-x86_64
+└── release-windows-x86_64
 ```
 
 ### Compiling wxWidgets-3.2.4 under Unix for Windows Target
