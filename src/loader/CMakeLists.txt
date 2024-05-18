@@ -1,7 +1,15 @@
 ﻿file(GLOB_RECURSE loader_SRC "*.cpp")
 
+set(_wxWidgets_ROOT_DIR "" CACHE STRING "Host's wxWidgets root path")
+set(_wxWidgets_WX_CONFIG "" CACHE STRING "Relative from wxWidgets root path, the wx-config path")
+set(_wxWidgets_LIB_X64 "" CACHE STRING "Relative from wxWidgets root path, the 32bit lib path")
+set(_wxWidgets_LIB_X86 "" CACHE STRING "Relative from wxWidgets root path, the 64bit lib path")
+
+set(wxWidgets_CONFIGURATION "" CACHE STRING "wxWidgets configuration (osx_cocoa|mswu fe.)")
+
 if(WIN32)
-add_executable (loader WIN32 ${loader_SRC})
+	set(_wxWidgets_WX_RC "" CACHE STRING "Relative, from wxWidgets root path, the wx.rc path")
+	add_executable (loader WIN32 ${loader_SRC} "${_wxWidgets_ROOT_DIR}${_wxWidgets_WX_RC}")
 elseif(APPLE)
 add_executable (loader MACOSX_BUNDLE ${loader_SRC})
 set_target_properties(loader PROPERTIES
@@ -16,19 +24,18 @@ else()
 add_executable (loader ${loader_SRC})
 endif()
 
-set(wxWidgets_CONFIG_EXECUTABLE "" CACHE STRING "wx-config path")
-set(wxWidgets_ROOT_DIR "C:/wxWidgets-3.2.4" CACHE STRING "Host's wxWidgets root path")
-set(wxWidgets_LIB_X64 "/lib/vc_x64_lib" CACHE STRING "Relative from wxWidgets root path 32bit lib path")
-set(wxWidgets_LIB_X86 "/lib/vc_lib" CACHE STRING "Relative from wxWidgets root path 64bit lib path")
-set(wxWidgets_CONFIGURATION "msw" CACHE STRING "wxWidgets configuration")
+
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 8) # 64-bit
-  set(wxWidgets_LIB_DIR "${wxWidgets_ROOT_DIR}${wxWidgets_LIB_X64}")
+  set(wxWidgets_LIB_DIR "${_wxWidgets_ROOT_DIR}${_wxWidgets_LIB_X64}")
 else() # 32-bit
-  set(wxWidgets_LIB_DIR "${wxWidgets_ROOT_DIR}${wxWidgets_LIB_X86}")
+  set(wxWidgets_LIB_DIR "${_wxWidgets_ROOT_DIR}${_wxWidgets_LIB_X86}")
 endif()
 
-message(STATUS "wxWidgets_ROOT_DIR: ${wxWidgets_ROOT_DIR}")
+set(wxWidgets_CONFIG_EXECUTABLE "${_wxWidgets_ROOT_DIR}${_wxWidgets_WX_CONFIG}")
+
+message(STATUS "_wxWidgets_ROOT_DIR: ${_wxWidgets_ROOT_DIR}")
+message(STATUS "_wxWidgets_WX_CONFIG: ${_wxWidgets_WX_CONFIG}")
 message(STATUS "wxWidgets_LIB_DIR: ${wxWidgets_LIB_DIR}")
 message(STATUS "wxWidgets_CONFIGURATION: ${wxWidgets_CONFIGURATION}")
 message(STATUS "wxWidgets_EXCLUDE_COMMON_LIBRARIES: ${wxWidgets_EXCLUDE_COMMON_LIBRARIES}")
