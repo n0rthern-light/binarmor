@@ -2,7 +2,7 @@
 Binary Armor: Binary protection Software.
 
 ### A proposed build architecture
-```
+```zsh
 build
 ├── debug-linux-x86_64
 ├── debug-osx-arm64
@@ -17,43 +17,43 @@ build
 ```
 
 ### Compiling wxWidgets-3.2.4 under Unix for Windows Target
-```
+```zsh
 cd ~/Lib/wxWidgets-3.2.4
 ```
 
-```
+```zsh
 mkdir buildWindows
 ```
 
-```
+```zsh
 cd buildWindows
 ```
 
-```
+```zsh
 ../configure --host=x86_64-w64-mingw32 --build=x86_64-unknown-linux-gnu --with-msw --disable-shared --enable-debug
 ```
 
-```
+```zsh
 make -j 20
 ```
 
 ### Compiling wxWidgets-3.2.4 under Unix for MacOS
-```
+```zsh
 cd ~/Lib/wxWidgets-3.2.4
 ```
 
-```
+```zsh
 mkdir buildOSX
 ```
 
-```
+```zsh
 cd buildOSX
 ```
 
-```
+```zsh
 ../configure --enable-debug --with-libtiff=no --disable-shared --with-macosx-version-min=10.10 --enable-universal_binary=x86_64,arm64
 ```
 
-```
+```zsh
 make -j 20
 ```
