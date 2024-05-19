@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../attributes.hpp"
+#include "ISection.hpp"
 #include <shared/value/AddressValue.hpp>
 #include <cstdint>
 

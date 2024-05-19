@@ -2,7 +2,7 @@
 
 enum class AddressType
 {
-	BIT_32 = 1,
-	BIT_64 = 2,
+	_32_BIT = 1,
+	_64_BIT = 2,
 };
 

@@ -2,6 +2,7 @@
 
 #include "../IFormat.hpp"
 #include "../../Binary.hpp"
+#include "PeSection.hpp"
 #include "defines.hpp"
 
 class CPeFormat : public IFormat
@@ -14,5 +15,6 @@ public:
 	Endianness getEndianness() const;
 	AddressType getAddressType() const;
 	CAddressValue getEntryPoint() const;
+	std::vector<std::shared_ptr<CPeSection>> getSections() const;
 };
 

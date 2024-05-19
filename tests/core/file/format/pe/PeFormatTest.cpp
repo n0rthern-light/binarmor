@@ -36,10 +36,10 @@ TEST(PeFormatTest, CanRecognizeEndianness)
 
 TEST(PeFormatTest, CanRecognizeAddressType)
 {
-	ASSERT_EQ(x86exe->getAddressType(), AddressType::BIT_32);
-	ASSERT_EQ(x86dll->getAddressType(), AddressType::BIT_32);
-	ASSERT_EQ(x86_64exe->getAddressType(), AddressType::BIT_64);
-	ASSERT_EQ(x86_64dll->getAddressType(), AddressType::BIT_64);
+	ASSERT_EQ(x86exe->getAddressType(), AddressType::_32_BIT);
+	ASSERT_EQ(x86dll->getAddressType(), AddressType::_32_BIT);
+	ASSERT_EQ(x86_64exe->getAddressType(), AddressType::_64_BIT);
+	ASSERT_EQ(x86_64dll->getAddressType(), AddressType::_64_BIT);
 }
 
 TEST(PeFormatTest, CanResolveEntryPoint)
@@ -48,5 +48,28 @@ TEST(PeFormatTest, CanResolveEntryPoint)
 	ASSERT_EQ(x86dll->getEntryPoint().getAddress(), 0x13A0);
 	ASSERT_EQ(x86_64exe->getEntryPoint().getAddress(), 0x13F0);
 	ASSERT_EQ(x86_64dll->getEntryPoint().getAddress(), 0x1330);
+}
+
+TEST(PeFormatTest, CanResolveSections)
+{
+	const size_t x86exeCount = 17;
+	const size_t x86dllCount = 18;
+	const size_t x86_64exeCount = 19;
+	const size_t x86_64dllCount = 20;
+
+	ASSERT_EQ(x86exe->getSections().size(), 17);
+	ASSERT_EQ(x86dll->getSections().size(), 18);
+	ASSERT_EQ(x86_64exe->getSections().size(), 19);
+	ASSERT_EQ(x86_64dll->getSections().size(), 20);
+
+	ASSERT_STREQ(x86exe->getSections()[0]->getName().c_str(), ".text");
+	ASSERT_STREQ(x86dll->getSections()[0]->getName().c_str(), ".text");
+	ASSERT_STREQ(x86_64exe->getSections()[0]->getName().c_str(), ".text");
+	ASSERT_STREQ(x86_64dll->getSections()[0]->getName().c_str(), ".text");
+
+	ASSERT_STREQ(x86exe->getSections()[1]->getName().c_str(), ".data");
+	ASSERT_STREQ(x86dll->getSections()[1]->getName().c_str(), ".data");
+	ASSERT_STREQ(x86_64exe->getSections()[1]->getName().c_str(), ".data");
+	ASSERT_STREQ(x86_64dll->getSections()[1]->getName().c_str(), ".data");
 }
 

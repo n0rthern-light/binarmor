@@ -1,11 +1,11 @@
 #include "AddressValue.hpp"
 #include <cstdint>
 
-CAddressValue::CAddressValue(uint32_t _address) : type(AddressType::BIT_32) {
+CAddressValue::CAddressValue(uint32_t _address) : type(AddressType::_32_BIT) {
 	address._32 = _address;
 }
 
-CAddressValue::CAddressValue(uint64_t _address) : type(AddressType::BIT_64) {
+CAddressValue::CAddressValue(uint64_t _address) : type(AddressType::_32_BIT) {
 	address._64 = _address;
 }
 
@@ -26,7 +26,7 @@ uint64_t CAddressValue::getAddress64() const
 
 std::uintptr_t CAddressValue::getAddress() const
 {
-	if (type == AddressType::BIT_64) {
+	if (type == AddressType::_64_BIT) {
 		return static_cast<std::uintptr_t>(getAddress64());
 	} else {
 		return static_cast<std::uintptr_t>(getAddress32());
