@@ -18,10 +18,6 @@ void CAnalysisRunner::run(CBinaryFile* binaryFile)
 		analyzer->analyze(binaryFile, attributes);
 	}
 
-	auto pe = new CPeFormat((CBinary*)&binaryFile->getBinary());
-	pe->getArchitecture();
-	pe->getSections();
-
 	binaryFile->completeAnalysis(attributes);
 	eventBus->publish(new CBinaryFileAnalyzedEvent());
 }
