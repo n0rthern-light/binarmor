@@ -1,15 +1,12 @@
 #include "AnalysisRunner.hpp"
 #include "analyzers/FormatAnalyzer.hpp"
-#include "analyzers/ArchitectureAnalyzer.hpp"
-#include "analyzers/TypeAnalyzer.hpp"
 #include "BinaryFileAnalyzedEvent.hpp"
+#include "../format/pe/PeFormat.hpp"
 
 CAnalysisRunner::CAnalysisRunner(IEventBus* _eventBus): eventBus(_eventBus)
 {
 	analyzers = std::vector<IAnalyzer*>{
 		new CFormatAnalyzer(eventBus),
-		new CArchitectureAnalyzer(eventBus),
-		new CTypeAnalyzer(eventBus),
 	};
 }
 
@@ -20,6 +17,9 @@ void CAnalysisRunner::run(CBinaryFile* binaryFile)
 	for (auto analyzer : analyzers) {
 		analyzer->analyze(binaryFile, attributes);
 	}
+
+	auto pe = new CPeFormat((CBinary*)&binaryFile->getBinary());
+	pe->getArchitecture();
 
 	binaryFile->completeAnalysis(attributes);
 	eventBus->publish(new CBinaryFileAnalyzedEvent());

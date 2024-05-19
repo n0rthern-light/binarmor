@@ -38,3 +38,13 @@ const size_t CBinary::getSize() const
 {
 	return bytes.size();
 }
+
+const std::uintptr_t CBinary::getOffset(size_t offset) const
+{
+	if (offset >= bytes.size()) {
+		throw std::out_of_range(strenc("Offset is out of the range of the data vector."));
+	}
+
+	return reinterpret_cast<std::uintptr_t>(&bytes[offset]);
+}
+

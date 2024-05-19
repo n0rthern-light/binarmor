@@ -129,8 +129,16 @@ struct IMAGE_OPTIONAL_HEADER64 {
 };
 
 // PE Header located at e_lfanew in the DOS header
-struct IMAGE_NT_HEADERS {
+struct IMAGE_NT_HEADERS32 {
     uint32_t Signature;      // PE\0\0 or 50 45 00 00
     IMAGE_FILE_HEADER FileHeader;
     IMAGE_OPTIONAL_HEADER32 OptionalHeader;
 };
+
+// PE Header located at e_lfanew in the DOS header
+struct IMAGE_NT_HEADERS64 {
+    uint32_t Signature;      // PE\0\0 or 50 45 00 00
+    IMAGE_FILE_HEADER FileHeader;
+    IMAGE_OPTIONAL_HEADER64 OptionalHeader;
+};
+

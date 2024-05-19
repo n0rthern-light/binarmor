@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <cstdint>
 
 class CBinary
 {
@@ -11,4 +12,6 @@ public:
 	const std::vector<unsigned char> getBytes(size_t offset = 0, size_t count = 0) const;
 	const std::string getBytesAsString(size_t offset = 0, size_t count = 0) const;
 	const size_t getSize() const;
+	const std::uintptr_t getOffset(size_t offset) const;
 };
+
