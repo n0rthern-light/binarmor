@@ -1,14 +1,11 @@
 #include <gtest/gtest.h>
-#include <core/file/fstream/fstreamFileReader.hpp>
-#include <core/file/Binary.hpp>
+#include "../../BinaryMother.hpp"
 #include <shared/value/AddressType.hpp>
-#include <core/file/format/pe/PeFormat.hpp>
 
-auto fileReader = new CfstreamFileReader();
-auto x86exe = new CPeFormat(new CBinary(fileReader->read("./binaries/windows/x86.exe")));
-auto x86dll = new CPeFormat(new CBinary(fileReader->read("./binaries/windows/x86.dll")));
-auto x86_64exe = new CPeFormat(new CBinary(fileReader->read("./binaries/windows/x86_64.exe")));
-auto x86_64dll = new CPeFormat(new CBinary(fileReader->read("./binaries/windows/x86_64.dll")));
+auto x86exe = BinaryMother::x86exe();
+auto x86dll = BinaryMother::x86dll();
+auto x86_64exe = BinaryMother::x86_64exe();
+auto x86_64dll = BinaryMother::x86_64dll();
 
 TEST(PeFormatTest, CanRecognizeArchitecture)
 {
@@ -52,24 +49,9 @@ TEST(PeFormatTest, CanResolveEntryPoint)
 
 TEST(PeFormatTest, CanResolveSections)
 {
-	const size_t x86exeCount = 17;
-	const size_t x86dllCount = 18;
-	const size_t x86_64exeCount = 19;
-	const size_t x86_64dllCount = 20;
-
-	ASSERT_EQ(x86exe->getSections().size(), 17);
-	ASSERT_EQ(x86dll->getSections().size(), 18);
-	ASSERT_EQ(x86_64exe->getSections().size(), 19);
-	ASSERT_EQ(x86_64dll->getSections().size(), 20);
-
-	ASSERT_STREQ(x86exe->getSections()[0]->getName().c_str(), ".text");
-	ASSERT_STREQ(x86dll->getSections()[0]->getName().c_str(), ".text");
-	ASSERT_STREQ(x86_64exe->getSections()[0]->getName().c_str(), ".text");
-	ASSERT_STREQ(x86_64dll->getSections()[0]->getName().c_str(), ".text");
-
-	ASSERT_STREQ(x86exe->getSections()[1]->getName().c_str(), ".data");
-	ASSERT_STREQ(x86dll->getSections()[1]->getName().c_str(), ".data");
-	ASSERT_STREQ(x86_64exe->getSections()[1]->getName().c_str(), ".data");
-	ASSERT_STREQ(x86_64dll->getSections()[1]->getName().c_str(), ".data");
+	ASSERT_EQ(x86exe->getSections().size(), BINARY_MOTHER_X86_EXE_SECTION_COUNT);
+	ASSERT_EQ(x86dll->getSections().size(), BINARY_MOTHER_X86_DLL_SECTION_COUNT);
+	ASSERT_EQ(x86_64exe->getSections().size(), BINARY_MOTHER_X86_64_EXE_SECTION_COUNT);
+	ASSERT_EQ(x86_64dll->getSections().size(), BINARY_MOTHER_X86_64_DLL_SECTION_COUNT);
 }
 
