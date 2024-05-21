@@ -1,9 +1,16 @@
 #include "BinaryFile.hpp"
+#include "format/pe/PeFormat.hpp"
 
 CBinaryFile::CBinaryFile(const std::string& _filePath, const CBinary& _binary): filePath(_filePath), binary(_binary)
 {
 	attributes = BinaryAttributes_t();
 	flags = 0;
+	format = Format::UNKNOWN;
+}
+
+const std::string& CBinaryFile::getFilePath() const
+{
+	return filePath;
 }
 
 const CBinary& CBinaryFile::getBinary() const
@@ -11,9 +18,14 @@ const CBinary& CBinaryFile::getBinary() const
 	return binary;
 }
 
-const std::string& CBinaryFile::getFilePath() const
+bool CBinaryFile::hasFormatRecognized() const
 {
-	return filePath;
+	return format != Format::UNKNOWN;
+}
+
+void CBinaryFile::recognizeFormat(const Format& _format)
+{
+	format = _format;
 }
 
 void CBinaryFile::enableFlags(BinaryFileFlags _flags)

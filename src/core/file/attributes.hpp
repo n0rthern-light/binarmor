@@ -15,6 +15,7 @@ enum class Architecture
 	X86_64 = 2,
 	ARM = 3,
 	ARM64 = 4,
+	UNIVERSAL = 5,
 };
 
 enum class Type
@@ -23,3 +24,11 @@ enum class Type
 	Executable = 1,
 	Dynamic_Library = 2,
 };
+
+enum class Endianness
+{
+	UNKNOWN = 0,
+	LITTLE = 1,
+	BIG = 2,
+};
+

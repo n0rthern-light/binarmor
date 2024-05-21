@@ -25,7 +25,6 @@ void container::init(int argc, char** argv)
 
 	container::eventBus->subscribe(typeid(CUIRequestedOpenFileEvent), [&](IEvent* event) {
 		container::guiApp->promptOpenFile();
-		//container::guiApp->displayInfoMessageBox("TEST", "TEST");
 	});
 
 	container::eventBus->subscribe(typeid(CNewFileSelectedEvent), [&](IEvent* event) {

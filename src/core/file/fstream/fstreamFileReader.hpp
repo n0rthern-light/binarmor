@@ -3,5 +3,6 @@
 
 class CfstreamFileReader : public IFileReader
 {
+public:
 	const CBinary read(const std::string& filePath);
 };

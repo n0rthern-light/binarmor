@@ -31,16 +31,16 @@ void CFormatAnalyzer::analyze(CBinaryFile* binaryFile, BinaryAttributes_t& attri
 	auto binary = binaryFile->getBinary();
 
     if (isWindowsPE(&binary)) {
-        attributes.format = Format::Windows_PE;
+		binaryFile->recognizeFormat(Format::Windows_PE);
     }
     else if (isELF(&binary)) {
-        attributes.format = Format::Linux_ELF;
+		binaryFile->recognizeFormat(Format::Linux_ELF);
     }
     else if (isMachO(&binary)) {
-        attributes.format = Format::MacOS_MachO;
+		binaryFile->recognizeFormat(Format::MacOS_MachO);
     }
 
-    if (attributes.format != Format::Windows_PE) {
+    if (!binaryFile->hasFormatRecognized()) {
 	    throw UnsupportedFileException(strenc("Not detected any supported file format"));
     }
 }
