@@ -57,3 +57,12 @@ cd buildOSX
 ```zsh
 make -j 20
 ```
+
+### Creating symlink for Clangd LSP on MacOS
+In order to fix some issues related to not present compile_commands.json like for example missing library symbols, warnings about invalid header imports etc.
+Make sure that in Cmake the global setting is set: `set(CMAKE_EXPORT_COMPILE_COMMANDS ON)` - this will generate compile_commands.json in the build directory;
+Afterwards create this symlink in the root directory of the project to make LSP capable of resolving the compile commands:
+
+```zsh
+ln -sf build/debug-osx-fat/compile_commands.json compile_commands.json
+```

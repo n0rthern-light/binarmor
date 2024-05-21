@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../ISection.hpp"
-#include "../../Binary.hpp"
 #include "defines.hpp"
 #include <string>
 

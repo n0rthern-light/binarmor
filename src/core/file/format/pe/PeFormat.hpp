@@ -3,7 +3,6 @@
 #include "../IFormat.hpp"
 #include "../../Binary.hpp"
 #include "PeSection.hpp"
-#include "defines.hpp"
 
 class CPeFormat : public IFormat
 {

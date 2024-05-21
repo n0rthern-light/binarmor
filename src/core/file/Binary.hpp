@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <cstdint>
 #include "BinaryPointer.hpp"
 
 class CBinary
