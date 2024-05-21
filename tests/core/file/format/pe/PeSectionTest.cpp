@@ -12,8 +12,8 @@ auto x86_64dll_Sections = BinaryMother::x86_64dll()->getSections();
 			std::string currentNameStr = sections[i]->getName(); \
             const char* currentName = currentNameStr.c_str();    \
             ASSERT_STREQ(currentName, name);				     \
-            i++;                                                 \
-        }                                                        \
+            i++;												\
+        }														\
 
 TEST(PeSectionTest, NamesAreCorrectlyResolved)
 {
