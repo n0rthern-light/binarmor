@@ -23,42 +23,42 @@ TEST(AddressValueTest, WorksWith32BitUnisgnedInts)
         SCOPED_TRACE("Testing address type");
 
         for(auto v : vec) {
-            ASSERT_EQ(v.getType(), AddressType::_32_BIT);
+            ASSERT_EQ(v.bitType(), AddressType::_32_BIT);
         }
     }
 
     {
         SCOPED_TRACE("Testing reading address");
 
-        ASSERT_EQ(vec[0].getAddress(), as32(0));
-        ASSERT_EQ(vec[1].getAddress(), as32(10));
-        ASSERT_EQ(vec[2].getAddress(), as32(15));
-        ASSERT_EQ(vec[3].getAddress(), as32(4294967294));
-        ASSERT_EQ(vec[4].getAddress(), as32(4294967295));
+        ASSERT_EQ(vec[0].get(), as32(0));
+        ASSERT_EQ(vec[1].get(), as32(10));
+        ASSERT_EQ(vec[2].get(), as32(15));
+        ASSERT_EQ(vec[3].get(), as32(4294967294));
+        ASSERT_EQ(vec[4].get(), as32(4294967295));
     }
 
     {
         SCOPED_TRACE("Testing reading as string");
 
-        ASSERT_STREQ(vec[0].getAddressAsDecimalString().c_str(), "0");
-        ASSERT_STREQ(vec[0].getAddressAsFullHexString().c_str(), "0x00000000");
-        ASSERT_STREQ(vec[0].getAddressAsShortHexString().c_str(), "0x0");
+        ASSERT_STREQ(vec[0].asDecimalString().c_str(), "0");
+        ASSERT_STREQ(vec[0].asFullHexString().c_str(), "0x00000000");
+        ASSERT_STREQ(vec[0].asShortHexString().c_str(), "0x0");
 
-        ASSERT_STREQ(vec[1].getAddressAsDecimalString().c_str(), "10");
-        ASSERT_STREQ(vec[1].getAddressAsFullHexString().c_str(), "0x0000000A");
-        ASSERT_STREQ(vec[1].getAddressAsShortHexString().c_str(), "0xA");
+        ASSERT_STREQ(vec[1].asDecimalString().c_str(), "10");
+        ASSERT_STREQ(vec[1].asFullHexString().c_str(), "0x0000000A");
+        ASSERT_STREQ(vec[1].asShortHexString().c_str(), "0xA");
 
-        ASSERT_STREQ(vec[2].getAddressAsDecimalString().c_str(), "15");
-        ASSERT_STREQ(vec[2].getAddressAsFullHexString().c_str(), "0x0000000F");
-        ASSERT_STREQ(vec[2].getAddressAsShortHexString().c_str(), "0xF");
+        ASSERT_STREQ(vec[2].asDecimalString().c_str(), "15");
+        ASSERT_STREQ(vec[2].asFullHexString().c_str(), "0x0000000F");
+        ASSERT_STREQ(vec[2].asShortHexString().c_str(), "0xF");
 
-        ASSERT_STREQ(vec[3].getAddressAsDecimalString().c_str(), "4294967294");
-        ASSERT_STREQ(vec[3].getAddressAsFullHexString().c_str(), "0xFFFFFFFE");
-        ASSERT_STREQ(vec[3].getAddressAsShortHexString().c_str(), "0xFFFFFFFE");
+        ASSERT_STREQ(vec[3].asDecimalString().c_str(), "4294967294");
+        ASSERT_STREQ(vec[3].asFullHexString().c_str(), "0xFFFFFFFE");
+        ASSERT_STREQ(vec[3].asShortHexString().c_str(), "0xFFFFFFFE");
 
-        ASSERT_STREQ(vec[4].getAddressAsDecimalString().c_str(), "4294967295");
-        ASSERT_STREQ(vec[4].getAddressAsFullHexString().c_str(), "0xFFFFFFFF");
-        ASSERT_STREQ(vec[4].getAddressAsShortHexString().c_str(), "0xFFFFFFFF");
+        ASSERT_STREQ(vec[4].asDecimalString().c_str(), "4294967295");
+        ASSERT_STREQ(vec[4].asFullHexString().c_str(), "0xFFFFFFFF");
+        ASSERT_STREQ(vec[4].asShortHexString().c_str(), "0xFFFFFFFF");
     }
 }
 
@@ -78,52 +78,52 @@ TEST(AddressValueTest, WorksWith64BitUnisgnedInts)
         SCOPED_TRACE("Testing correct address type");
 
         for(auto v : vec) {
-            ASSERT_EQ(v.getType(), AddressType::_64_BIT);
+            ASSERT_EQ(v.bitType(), AddressType::_64_BIT);
         }
     }
 
     {
         SCOPED_TRACE("Testing reading address");
 
-        ASSERT_EQ(vec[0].getAddress(), as64(0));
-        ASSERT_EQ(vec[1].getAddress(), as64(10));
-        ASSERT_EQ(vec[2].getAddress(), as64(15));
-        ASSERT_EQ(vec[3].getAddress(), as64(4294967294));
-        ASSERT_EQ(vec[4].getAddress(), as64(4294967296));
-        ASSERT_EQ(vec[5].getAddress(), as64(18446744073709541615));
-        ASSERT_EQ(vec[6].getAddress(), as64(18446744073709551615));
+        ASSERT_EQ(vec[0].get(), as64(0));
+        ASSERT_EQ(vec[1].get(), as64(10));
+        ASSERT_EQ(vec[2].get(), as64(15));
+        ASSERT_EQ(vec[3].get(), as64(4294967294));
+        ASSERT_EQ(vec[4].get(), as64(4294967296));
+        ASSERT_EQ(vec[5].get(), as64(18446744073709541615));
+        ASSERT_EQ(vec[6].get(), as64(18446744073709551615));
     }
 
     {
         SCOPED_TRACE("Testing reading as string");
 
-        ASSERT_STREQ(vec[0].getAddressAsDecimalString().c_str(), "0");
-        ASSERT_STREQ(vec[0].getAddressAsFullHexString().c_str(), "0x0000000000000000");
-        ASSERT_STREQ(vec[0].getAddressAsShortHexString().c_str(), "0x0");
+        ASSERT_STREQ(vec[0].asDecimalString().c_str(), "0");
+        ASSERT_STREQ(vec[0].asFullHexString().c_str(), "0x0000000000000000");
+        ASSERT_STREQ(vec[0].asShortHexString().c_str(), "0x0");
 
-        ASSERT_STREQ(vec[1].getAddressAsDecimalString().c_str(), "10");
-        ASSERT_STREQ(vec[1].getAddressAsFullHexString().c_str(), "0x000000000000000A");
-        ASSERT_STREQ(vec[1].getAddressAsShortHexString().c_str(), "0xA");
+        ASSERT_STREQ(vec[1].asDecimalString().c_str(), "10");
+        ASSERT_STREQ(vec[1].asFullHexString().c_str(), "0x000000000000000A");
+        ASSERT_STREQ(vec[1].asShortHexString().c_str(), "0xA");
 
-        ASSERT_STREQ(vec[2].getAddressAsDecimalString().c_str(), "15");
-        ASSERT_STREQ(vec[2].getAddressAsFullHexString().c_str(), "0x000000000000000F");
-        ASSERT_STREQ(vec[2].getAddressAsShortHexString().c_str(), "0xF");
+        ASSERT_STREQ(vec[2].asDecimalString().c_str(), "15");
+        ASSERT_STREQ(vec[2].asFullHexString().c_str(), "0x000000000000000F");
+        ASSERT_STREQ(vec[2].asShortHexString().c_str(), "0xF");
 
-        ASSERT_STREQ(vec[3].getAddressAsDecimalString().c_str(), "4294967294");
-        ASSERT_STREQ(vec[3].getAddressAsFullHexString().c_str(), "0x00000000FFFFFFFE");
-        ASSERT_STREQ(vec[3].getAddressAsShortHexString().c_str(), "0xFFFFFFFE");
+        ASSERT_STREQ(vec[3].asDecimalString().c_str(), "4294967294");
+        ASSERT_STREQ(vec[3].asFullHexString().c_str(), "0x00000000FFFFFFFE");
+        ASSERT_STREQ(vec[3].asShortHexString().c_str(), "0xFFFFFFFE");
 
-        ASSERT_STREQ(vec[4].getAddressAsDecimalString().c_str(), "4294967296");
-        ASSERT_STREQ(vec[4].getAddressAsFullHexString().c_str(), "0x0000000100000000");
-        ASSERT_STREQ(vec[4].getAddressAsShortHexString().c_str(), "0x100000000");
+        ASSERT_STREQ(vec[4].asDecimalString().c_str(), "4294967296");
+        ASSERT_STREQ(vec[4].asFullHexString().c_str(), "0x0000000100000000");
+        ASSERT_STREQ(vec[4].asShortHexString().c_str(), "0x100000000");
 
-        ASSERT_STREQ(vec[5].getAddressAsDecimalString().c_str(), "18446744073709541615");
-        ASSERT_STREQ(vec[5].getAddressAsFullHexString().c_str(), "0xFFFFFFFFFFFFD8EF");
-        ASSERT_STREQ(vec[5].getAddressAsShortHexString().c_str(), "0xFFFFFFFFFFFFD8EF");
+        ASSERT_STREQ(vec[5].asDecimalString().c_str(), "18446744073709541615");
+        ASSERT_STREQ(vec[5].asFullHexString().c_str(), "0xFFFFFFFFFFFFD8EF");
+        ASSERT_STREQ(vec[5].asShortHexString().c_str(), "0xFFFFFFFFFFFFD8EF");
 
-        ASSERT_STREQ(vec[6].getAddressAsDecimalString().c_str(), "18446744073709551615");
-        ASSERT_STREQ(vec[6].getAddressAsFullHexString().c_str(), "0xFFFFFFFFFFFFFFFF");
-        ASSERT_STREQ(vec[6].getAddressAsShortHexString().c_str(), "0xFFFFFFFFFFFFFFFF");
+        ASSERT_STREQ(vec[6].asDecimalString().c_str(), "18446744073709551615");
+        ASSERT_STREQ(vec[6].asFullHexString().c_str(), "0xFFFFFFFFFFFFFFFF");
+        ASSERT_STREQ(vec[6].asShortHexString().c_str(), "0xFFFFFFFFFFFFFFFF");
     }
 }
 
