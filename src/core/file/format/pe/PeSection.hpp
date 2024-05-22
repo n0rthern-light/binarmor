@@ -42,5 +42,7 @@ public:
 	uint16_t getNumberOfLinenumbers() const;
 	uint16_t getNumberOfRelocations() const;
 	uint32_t getCharacteristics() const;
+
+	bool operator==(const CPeSection& other) const;
 };
 

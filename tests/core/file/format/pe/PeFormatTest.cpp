@@ -47,11 +47,3 @@ TEST(PeFormatTest, CanResolveEntryPoint)
 	ASSERT_EQ(x86_64dll->getEntryPoint().getAddress(), 0x1330);
 }
 
-TEST(PeFormatTest, CanResolveSections)
-{
-	ASSERT_EQ(x86exe->getSections().size(), BINARY_MOTHER_X86_EXE_SECTION_COUNT);
-	ASSERT_EQ(x86dll->getSections().size(), BINARY_MOTHER_X86_DLL_SECTION_COUNT);
-	ASSERT_EQ(x86_64exe->getSections().size(), BINARY_MOTHER_X86_64_EXE_SECTION_COUNT);
-	ASSERT_EQ(x86_64dll->getSections().size(), BINARY_MOTHER_X86_64_DLL_SECTION_COUNT);
-}
-

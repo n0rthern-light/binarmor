@@ -23,7 +23,7 @@ CPeSection::CPeSection(
 
 CPeSection::CPeSection(const IMAGE_SECTION_HEADER& header)
 : CPeSection(
-	std::string(reinterpret_cast<const char*>(header.Name), 8),
+	std::string(reinterpret_cast<const char*>(header.Name)),
 	CAddressValue(header.PointerToRawData),
 	header.SizeOfRawData,
 	CAddressValue(header.VirtualAddress),
@@ -87,5 +87,46 @@ uint16_t CPeSection::getNumberOfRelocations() const
 uint32_t CPeSection::getCharacteristics() const
 {
 	return characteristics;
+}
+
+bool CPeSection::operator==(const CPeSection& other) const
+{
+	if (name != other.name) {
+		return false;
+	}
+
+	if (rawAddress != other.rawAddress) {
+		return false;
+	}
+
+	if (rawSize != other.rawSize) {
+		return false;
+	}
+
+	if (virtualAddress != other.virtualAddress) {
+		return false;
+	}
+
+	if (virtualSize != other.virtualSize) {
+		return false;
+	}
+
+	if (pointerToRelocations != other.pointerToRelocations) {
+		return false;
+	}
+
+	if (numberOfLinenumbers != other.numberOfLinenumbers) {
+		return false;
+	}
+
+	if (numberOfRelocations != other.numberOfRelocations) {
+		return false;
+	}
+
+	if (characteristics != other.characteristics) {
+		return false;
+	}
+
+	return true;
 }
 

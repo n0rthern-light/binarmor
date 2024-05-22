@@ -1,6 +1,10 @@
 #include "AddressValue.hpp"
 #include <cstdint>
 
+CAddressValue::CAddressValue(int _address) : type(AddressType::_32_BIT) {
+	address._32 = static_cast<uint32_t>(_address);
+}
+
 CAddressValue::CAddressValue(uint32_t _address) : type(AddressType::_32_BIT) {
 	address._32 = _address;
 }
@@ -31,5 +35,10 @@ std::uintptr_t CAddressValue::getAddress() const
 	} else {
 		return static_cast<std::uintptr_t>(getAddress32());
 	}
+}
+
+bool CAddressValue::operator==(const CAddressValue& other) const
+{
+	return getAddress() == other.getAddress();
 }
 

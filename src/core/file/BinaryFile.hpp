@@ -3,7 +3,6 @@
 #include "Binary.hpp"
 #include "BinaryAttributes.hpp"
 #include "flags.hpp"
-#include "format/IFormat.hpp"
 #include <shared/event/IEventBus.hpp>
 #include <string>
 

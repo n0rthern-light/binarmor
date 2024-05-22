@@ -1,5 +1,4 @@
 #include "BinaryFile.hpp"
-#include "format/pe/PeFormat.hpp"
 
 CBinaryFile::CBinaryFile(const std::string& _filePath, const CBinary& _binary): filePath(_filePath), binary(_binary)
 {
