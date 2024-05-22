@@ -4,11 +4,6 @@
 #include <core/file/Binary.hpp>
 #include <core/file/format/pe/PeFormat.hpp>
 
-#define BINARY_MOTHER_X86_EXE_SECTION_COUNT 17
-#define BINARY_MOTHER_X86_DLL_SECTION_COUNT 18
-#define BINARY_MOTHER_X86_64_EXE_SECTION_COUNT 19
-#define BINARY_MOTHER_X86_64_DLL_SECTION_COUNT 20
-
 class BinaryMother
 {
 public:
