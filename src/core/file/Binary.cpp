@@ -49,7 +49,6 @@ CBinaryPointer CBinary::pointer(size_t offset) const
 	return CBinaryPointer(offset, reinterpret_cast<std::uintptr_t>(&_bytes[offset]));
 }
 
-
 bool CBinary::operator==(const CBinary& other) const
 {
     if (size() != other.size()) {
