@@ -3,6 +3,7 @@
 #include "../IFormat.hpp"
 #include "../../Binary.hpp"
 #include "PeSection.hpp"
+#include "PeImport.hpp"
 
 class CPeFormat : public IFormat
 {
@@ -14,6 +15,7 @@ public:
 	Endianness endianness() const;
 	AddressType addressType() const;
 	CAddressValue entryPoint() const;
-	std::vector<std::shared_ptr<CPeSection>> sections() const;
+	pe_section_vec sections() const;
+    pe_import_vec imports() const;
 };
 

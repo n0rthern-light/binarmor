@@ -3,7 +3,7 @@
 #include <core/file/BinaryFile.hpp>
 
 const byteVector_t bytes = {0xAA, 0x90, 0xCC, 0x00, 0x00, 0x00, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A};
-const byteVector_t strBytes = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06};
+const byteVector_t strBytes = {0x54, 0x65, 0x73, 0x74, 0x20, 0x73, 0x74, 0x72, 0x69, 0x6E, 0x67};
 
 CBinary* fresh()
 {
@@ -32,8 +32,8 @@ TEST(BinaryFileTest, CanBePartitioned)
 
 TEST(BinaryFileTest, BytesCanBeCastedToString)
 {
-    auto bytes = new CBinary(strBytes);
+    auto binary = new CBinary(strBytes);
 
-    ASSERT_STREQ(bytes->bytesAsString().c_str(), "\xAA\x90\xCC");
+    ASSERT_STREQ(binary->bytesAsString().c_str(), "Test string");
 }
 

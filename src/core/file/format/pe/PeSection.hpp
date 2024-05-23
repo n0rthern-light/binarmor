@@ -1,8 +1,14 @@
 #pragma once
 
 #include "../ISection.hpp"
+#include "../../Binary.hpp"
 #include "defines.hpp"
 #include <string>
+
+class CPeSection;
+
+typedef std::shared_ptr<CPeSection> pe_section_ptr;
+typedef std::vector<pe_section_ptr> pe_section_vec;
 
 class CPeSection : public ISection
 {
@@ -29,6 +35,8 @@ public:
 	);
 
 	CPeSection(const IMAGE_SECTION_HEADER& header);
+
+    static pe_section_vec readList(CBinary* binary, AddressType addressType);
 
 	std::string name() const;
 	CAddressValue baseAddress() const;
