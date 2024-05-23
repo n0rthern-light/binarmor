@@ -4,10 +4,10 @@
 #include <vector>
 #include <stdio.h>
 
-auto x86exe_Sections = BinaryMother::x86exe()->getSections();
-auto x86dll_Sections = BinaryMother::x86dll()->getSections();
-auto x86_64exe_Sections = BinaryMother::x86_64exe()->getSections();
-auto x86_64dll_Sections = BinaryMother::x86_64dll()->getSections();
+auto x86exe_Sections = BinaryMother::x86exe()->sections();
+auto x86dll_Sections = BinaryMother::x86dll()->sections();
+auto x86_64exe_Sections = BinaryMother::x86_64exe()->sections();
+auto x86_64dll_Sections = BinaryMother::x86_64dll()->sections();
 
 TEST(PeSectionTest, EqOperandTest)
 {
@@ -60,17 +60,17 @@ TEST(PeSectionTest, X86ExeSectionsAreCorrect)
 		auto binarySection = *tested[i];
 		auto expectedSection = expected[i];
 
-		printf("[%d] Testing section: %s\n", (int)i, expectedSection.getName().c_str());
+		printf("[%d] Testing section: %s\n", (int)i, expectedSection.name().c_str());
 
-		ASSERT_EQ(binarySection.getName(), expectedSection.getName());
-		ASSERT_EQ(binarySection.getRawAddress(), expectedSection.getRawAddress());
-		ASSERT_EQ(binarySection.getRawSize(), expectedSection.getRawSize());
-		ASSERT_EQ(binarySection.getVirtualAddress(), expectedSection.getVirtualAddress());
-		ASSERT_EQ(binarySection.getVirtualSize(), expectedSection.getVirtualSize());
-		ASSERT_EQ(binarySection.getPointerToRelocations(), expectedSection.getPointerToRelocations());
-		ASSERT_EQ(binarySection.getNumberOfLinenumbers(), expectedSection.getNumberOfLinenumbers());
-		ASSERT_EQ(binarySection.getNumberOfRelocations(), expectedSection.getNumberOfRelocations());
-		ASSERT_EQ(binarySection.getCharacteristics(), expectedSection.getCharacteristics());
+		ASSERT_EQ(binarySection.name(), expectedSection.name());
+		ASSERT_EQ(binarySection.rawAddress(), expectedSection.rawAddress());
+		ASSERT_EQ(binarySection.rawSize(), expectedSection.rawSize());
+		ASSERT_EQ(binarySection.virtualAddress(), expectedSection.virtualAddress());
+		ASSERT_EQ(binarySection.virtualSize(), expectedSection.virtualSize());
+		ASSERT_EQ(binarySection.pointerToRelocations(), expectedSection.pointerToRelocations());
+		ASSERT_EQ(binarySection.numberOfLinenumbers(), expectedSection.numberOfLinenumbers());
+		ASSERT_EQ(binarySection.numberOfRelocations(), expectedSection.numberOfRelocations());
+		ASSERT_EQ(binarySection.characteristics(), expectedSection.characteristics());
 	}
 }
 
@@ -106,17 +106,17 @@ TEST(PeSectionTest, X86DllSectionsAreCorrect)
 		auto binarySection = *tested[i];
 		auto expectedSection = expected[i];
 
-		printf("[%d] Testing section: %s\n", (int)i, expectedSection.getName().c_str());
+		printf("[%d] Testing section: %s\n", (int)i, expectedSection.name().c_str());
 
-		ASSERT_EQ(binarySection.getName(), expectedSection.getName());
-		ASSERT_EQ(binarySection.getRawAddress(), expectedSection.getRawAddress());
-		ASSERT_EQ(binarySection.getRawSize(), expectedSection.getRawSize());
-		ASSERT_EQ(binarySection.getVirtualAddress(), expectedSection.getVirtualAddress());
-		ASSERT_EQ(binarySection.getVirtualSize(), expectedSection.getVirtualSize());
-		ASSERT_EQ(binarySection.getPointerToRelocations(), expectedSection.getPointerToRelocations());
-		ASSERT_EQ(binarySection.getNumberOfLinenumbers(), expectedSection.getNumberOfLinenumbers());
-		ASSERT_EQ(binarySection.getNumberOfRelocations(), expectedSection.getNumberOfRelocations());
-		ASSERT_EQ(binarySection.getCharacteristics(), expectedSection.getCharacteristics());
+		ASSERT_EQ(binarySection.name(), expectedSection.name());
+		ASSERT_EQ(binarySection.rawAddress(), expectedSection.rawAddress());
+		ASSERT_EQ(binarySection.rawSize(), expectedSection.rawSize());
+		ASSERT_EQ(binarySection.virtualAddress(), expectedSection.virtualAddress());
+		ASSERT_EQ(binarySection.virtualSize(), expectedSection.virtualSize());
+		ASSERT_EQ(binarySection.pointerToRelocations(), expectedSection.pointerToRelocations());
+		ASSERT_EQ(binarySection.numberOfLinenumbers(), expectedSection.numberOfLinenumbers());
+		ASSERT_EQ(binarySection.numberOfRelocations(), expectedSection.numberOfRelocations());
+		ASSERT_EQ(binarySection.characteristics(), expectedSection.characteristics());
 	}
 }
 
@@ -153,17 +153,17 @@ TEST(PeSectionTest, X86_64ExeSectionsAreCorrect)
 		auto binarySection = *tested[i];
 		auto expectedSection = expected[i];
 
-		printf("[%d] Testing section: %s\n", (int)i, expectedSection.getName().c_str());
+		printf("[%d] Testing section: %s\n", (int)i, expectedSection.name().c_str());
 
-		ASSERT_EQ(binarySection.getName(), expectedSection.getName());
-		ASSERT_EQ(binarySection.getRawAddress(), expectedSection.getRawAddress());
-		ASSERT_EQ(binarySection.getRawSize(), expectedSection.getRawSize());
-		ASSERT_EQ(binarySection.getVirtualAddress(), expectedSection.getVirtualAddress());
-		ASSERT_EQ(binarySection.getVirtualSize(), expectedSection.getVirtualSize());
-		ASSERT_EQ(binarySection.getPointerToRelocations(), expectedSection.getPointerToRelocations());
-		ASSERT_EQ(binarySection.getNumberOfLinenumbers(), expectedSection.getNumberOfLinenumbers());
-		ASSERT_EQ(binarySection.getNumberOfRelocations(), expectedSection.getNumberOfRelocations());
-		ASSERT_EQ(binarySection.getCharacteristics(), expectedSection.getCharacteristics());
+		ASSERT_EQ(binarySection.name(), expectedSection.name());
+		ASSERT_EQ(binarySection.rawAddress(), expectedSection.rawAddress());
+		ASSERT_EQ(binarySection.rawSize(), expectedSection.rawSize());
+		ASSERT_EQ(binarySection.virtualAddress(), expectedSection.virtualAddress());
+		ASSERT_EQ(binarySection.virtualSize(), expectedSection.virtualSize());
+		ASSERT_EQ(binarySection.pointerToRelocations(), expectedSection.pointerToRelocations());
+		ASSERT_EQ(binarySection.numberOfLinenumbers(), expectedSection.numberOfLinenumbers());
+		ASSERT_EQ(binarySection.numberOfRelocations(), expectedSection.numberOfRelocations());
+		ASSERT_EQ(binarySection.characteristics(), expectedSection.characteristics());
 	}
 }
 
@@ -201,17 +201,17 @@ TEST(PeSectionTest, X86_64DllSectionsAreCorrect)
 		auto binarySection = *tested[i];
 		auto expectedSection = expected[i];
 
-		printf("[%d] Testing section: %s\n", (int)i, expectedSection.getName().c_str());
+		printf("[%d] Testing section: %s\n", (int)i, expectedSection.name().c_str());
 
-		ASSERT_EQ(binarySection.getName(), expectedSection.getName());
-		ASSERT_EQ(binarySection.getRawAddress(), expectedSection.getRawAddress());
-		ASSERT_EQ(binarySection.getRawSize(), expectedSection.getRawSize());
-		ASSERT_EQ(binarySection.getVirtualAddress(), expectedSection.getVirtualAddress());
-		ASSERT_EQ(binarySection.getVirtualSize(), expectedSection.getVirtualSize());
-		ASSERT_EQ(binarySection.getPointerToRelocations(), expectedSection.getPointerToRelocations());
-		ASSERT_EQ(binarySection.getNumberOfLinenumbers(), expectedSection.getNumberOfLinenumbers());
-		ASSERT_EQ(binarySection.getNumberOfRelocations(), expectedSection.getNumberOfRelocations());
-		ASSERT_EQ(binarySection.getCharacteristics(), expectedSection.getCharacteristics());
+		ASSERT_EQ(binarySection.name(), expectedSection.name());
+		ASSERT_EQ(binarySection.rawAddress(), expectedSection.rawAddress());
+		ASSERT_EQ(binarySection.rawSize(), expectedSection.rawSize());
+		ASSERT_EQ(binarySection.virtualAddress(), expectedSection.virtualAddress());
+		ASSERT_EQ(binarySection.virtualSize(), expectedSection.virtualSize());
+		ASSERT_EQ(binarySection.pointerToRelocations(), expectedSection.pointerToRelocations());
+		ASSERT_EQ(binarySection.numberOfLinenumbers(), expectedSection.numberOfLinenumbers());
+		ASSERT_EQ(binarySection.numberOfRelocations(), expectedSection.numberOfRelocations());
+		ASSERT_EQ(binarySection.characteristics(), expectedSection.characteristics());
 	}
 }
 

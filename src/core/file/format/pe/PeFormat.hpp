@@ -9,11 +9,11 @@ class CPeFormat : public IFormat
 	CBinary* binary;
 public:
 	CPeFormat(CBinary* _binary);
-	Architecture getArchitecture() const;
-	Type getType() const;
-	Endianness getEndianness() const;
-	AddressType getAddressType() const;
-	CAddressValue getEntryPoint() const;
-	std::vector<std::shared_ptr<CPeSection>> getSections() const;
+	Architecture architecture() const;
+	Type type() const;
+	Endianness endianness() const;
+	AddressType addressType() const;
+	CAddressValue entryPoint() const;
+	std::vector<std::shared_ptr<CPeSection>> sections() const;
 };
 

@@ -21,7 +21,7 @@ IMAGE_DOS_HEADER* getDosHeader(CBinary* binary)
 {
 	assertBinaryNotNull(binary);
 
-    IMAGE_DOS_HEADER* dosHeader = reinterpret_cast<IMAGE_DOS_HEADER*>(binary->getPointer(0).ptr());
+    IMAGE_DOS_HEADER* dosHeader = reinterpret_cast<IMAGE_DOS_HEADER*>(binary->pointer(0).ptr());
 
     if (dosHeader->e_magic != IMAGE_DOS_SIGNATURE) {
 		throw RuntimeException(strenc("Invalid IMAGE_DOS_SIGNATURE"));
@@ -36,7 +36,7 @@ IMAGE_NT_HEADERS32* getNtHeaders32(CBinary* binary)
 
 	auto dosHeader = getDosHeader(binary);
 
-    IMAGE_NT_HEADERS32* ntHeaders = reinterpret_cast<IMAGE_NT_HEADERS32*>(binary->getPointer(dosHeader->e_lfanew).ptr());
+    IMAGE_NT_HEADERS32* ntHeaders = reinterpret_cast<IMAGE_NT_HEADERS32*>(binary->pointer(dosHeader->e_lfanew).ptr());
 
     if (ntHeaders->Signature != IMAGE_NT_SIGNATURE) {
 		throw RuntimeException(strenc("Invalid IMAGE_NT_SIGNATURE"));
@@ -51,7 +51,7 @@ IMAGE_NT_HEADERS64* getNtHeaders64(CBinary* binary)
 
 	auto dosHeader = getDosHeader(binary);
 
-    IMAGE_NT_HEADERS64* ntHeaders = reinterpret_cast<IMAGE_NT_HEADERS64*>(binary->getPointer(dosHeader->e_lfanew).ptr());
+    IMAGE_NT_HEADERS64* ntHeaders = reinterpret_cast<IMAGE_NT_HEADERS64*>(binary->pointer(dosHeader->e_lfanew).ptr());
 
     if (ntHeaders->Signature != IMAGE_NT_SIGNATURE) {
 		throw RuntimeException(strenc("Invalid IMAGE_NT_SIGNATURE"));
@@ -60,7 +60,7 @@ IMAGE_NT_HEADERS64* getNtHeaders64(CBinary* binary)
 	return ntHeaders;
 }
 
-Architecture CPeFormat::getArchitecture() const
+Architecture CPeFormat::architecture() const
 {
 	auto ntHeaders = getNtHeaders32(binary);
 
@@ -78,7 +78,7 @@ Architecture CPeFormat::getArchitecture() const
     }
 }
 
-Type CPeFormat::getType() const
+Type CPeFormat::type() const
 {
 	auto ntHeaders = getNtHeaders32(binary);
 
@@ -92,13 +92,13 @@ Type CPeFormat::getType() const
 	throw RuntimeException(strenc("Unknown Type"));
 }
 
-Endianness CPeFormat::getEndianness() const
+Endianness CPeFormat::endianness() const
 {
 	// PE is always Little Endian
 	return Endianness::LITTLE;
 }
 
-AddressType CPeFormat::getAddressType() const
+AddressType CPeFormat::addressType() const
 {
 	auto ntHeaders = getNtHeaders32(binary);
 
@@ -106,31 +106,31 @@ AddressType CPeFormat::getAddressType() const
 		AddressType::_64_BIT : AddressType::_32_BIT;
 }
 
-CAddressValue CPeFormat::getEntryPoint() const
+CAddressValue CPeFormat::entryPoint() const
 {
-	auto addressType = getAddressType();
+	auto addressType_ = addressType();
 
-	if (addressType == AddressType::_64_BIT)
+	if (addressType_ == AddressType::_64_BIT)
 	{
 		return CAddressValue(getNtHeaders64(binary)->OptionalHeader.AddressOfEntryPoint);
 	}
-	else if (addressType == AddressType::_32_BIT)
+	else if (addressType_ == AddressType::_32_BIT)
 	{
 		return CAddressValue(getNtHeaders32(binary)->OptionalHeader.AddressOfEntryPoint);
 	}
 }
 
-std::vector<std::shared_ptr<CPeSection>> CPeFormat::getSections() const
+std::vector<std::shared_ptr<CPeSection>> CPeFormat::sections() const
 {
 	auto vec = std::vector<std::shared_ptr<CPeSection>>();
-	auto addressType = getAddressType();
+	auto addressType_ = addressType();
 	auto dosHeader = getDosHeader(binary);
 
-	if (addressType == AddressType::_64_BIT)
+	if (addressType_ == AddressType::_64_BIT)
 	{
 		auto ntHeaders = getNtHeaders64(binary);
 		auto offset = dosHeader->e_lfanew + sizeof(IMAGE_NT_HEADERS64);
-		auto binaryPointer = binary->getPointer(offset);
+		auto binaryPointer = binary->pointer(offset);
 		auto sectionHeader = reinterpret_cast<IMAGE_SECTION_HEADER*>(binaryPointer.ptr());
 
 		for(int i = 0; i < ntHeaders->FileHeader.NumberOfSections; ++i)
@@ -139,11 +139,11 @@ std::vector<std::shared_ptr<CPeSection>> CPeFormat::getSections() const
 			vec.push_back(section);
 		}
 	}
-	else if (addressType == AddressType::_32_BIT)
+	else if (addressType_ == AddressType::_32_BIT)
 	{
 		auto ntHeaders = getNtHeaders32(binary);
 		auto offset = dosHeader->e_lfanew + sizeof(IMAGE_NT_HEADERS32);
-		auto binaryPointer = binary->getPointer(offset);
+		auto binaryPointer = binary->pointer(offset);
 		auto sectionHeader = reinterpret_cast<IMAGE_SECTION_HEADER*>(binaryPointer.ptr());
 
 		for(int i = 0; i < ntHeaders->FileHeader.NumberOfSections; ++i)

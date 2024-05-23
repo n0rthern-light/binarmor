@@ -1,24 +1,24 @@
 #include "PeSection.hpp"
 
 CPeSection::CPeSection(
-    const std::string& _name,
-    const CAddressValue& _rawAddress,
-    const uint32_t& _rawSize,
-    const CAddressValue& _virtualAddress,
-    const uint32_t& _virtualSize,
-    const CAddressValue& _pointerToRelocations,
-    const uint16_t& _numberOfLinenumbers,
-    const uint16_t& _numberOfRelocations,
-    const uint32_t& _characteristics
-) : name(_name),
-    rawAddress(_rawAddress),
-    rawSize(_rawSize),
-    virtualAddress(_virtualAddress),
-    virtualSize(_virtualSize),
-    pointerToRelocations(_pointerToRelocations),
-    numberOfLinenumbers(_numberOfLinenumbers),
-    numberOfRelocations(_numberOfRelocations),
-    characteristics(_characteristics) {
+    const std::string& name,
+    const CAddressValue& rawAddress,
+    const uint32_t& rawSize,
+    const CAddressValue& virtualAddress,
+    const uint32_t& virtualSize,
+    const CAddressValue& pointerToRelocations,
+    const uint16_t& numberOfLinenumbers,
+    const uint16_t& numberOfRelocations,
+    const uint32_t& characteristics
+) : _name(name),
+    _rawAddress(rawAddress),
+    _rawSize(rawSize),
+    _virtualAddress(virtualAddress),
+    _virtualSize(virtualSize),
+    _pointerToRelocations(pointerToRelocations),
+    _numberOfLinenumbers(numberOfLinenumbers),
+    _numberOfRelocations(numberOfRelocations),
+    _characteristics(characteristics) {
 }
 
 CPeSection::CPeSection(const IMAGE_SECTION_HEADER& header)
@@ -34,96 +34,96 @@ CPeSection::CPeSection(const IMAGE_SECTION_HEADER& header)
 	header.Characteristics
 ) { }
 
-std::string CPeSection::getName() const
+std::string CPeSection::name() const
 {
-	return name;
+	return _name;
 }
 
-CAddressValue CPeSection::getBaseAddress() const
+CAddressValue CPeSection::baseAddress() const
 {
-	return getRawAddress();
+	return rawAddress();
 }
 
-size_t CPeSection::getSize() const
+size_t CPeSection::size() const
 {
-	return static_cast<size_t>(getRawSize());
+	return static_cast<size_t>(rawSize());
 }
 
-CAddressValue CPeSection::getRawAddress() const
+CAddressValue CPeSection::rawAddress() const
 {
-	return rawAddress;
+	return _rawAddress;
 }
 
-uint32_t CPeSection::getRawSize() const
+uint32_t CPeSection::rawSize() const
 {
-	return rawSize;
+	return _rawSize;
 }
 
-CAddressValue CPeSection::getVirtualAddress() const
+CAddressValue CPeSection::virtualAddress() const
 {
-	return virtualAddress;
+	return _virtualAddress;
 }
 
-uint32_t CPeSection::getVirtualSize() const
+uint32_t CPeSection::virtualSize() const
 {
-	return virtualSize;
+	return _virtualSize;
 }
 
-CAddressValue CPeSection::getPointerToRelocations() const
+CAddressValue CPeSection::pointerToRelocations() const
 {
-	return pointerToRelocations;
+	return _pointerToRelocations;
 }
 
-uint16_t CPeSection::getNumberOfLinenumbers() const
+uint16_t CPeSection::numberOfLinenumbers() const
 {
-	return numberOfLinenumbers;
+	return _numberOfLinenumbers;
 }
 
-uint16_t CPeSection::getNumberOfRelocations() const
+uint16_t CPeSection::numberOfRelocations() const
 {
-	return numberOfRelocations;
+	return _numberOfRelocations;
 }
 
-uint32_t CPeSection::getCharacteristics() const
+uint32_t CPeSection::characteristics() const
 {
-	return characteristics;
+	return _characteristics;
 }
 
 bool CPeSection::operator==(const CPeSection& other) const
 {
-	if (name != other.name) {
+	if (_name != other._name) {
 		return false;
 	}
 
-	if (rawAddress != other.rawAddress) {
+	if (_rawAddress != other._rawAddress) {
 		return false;
 	}
 
-	if (rawSize != other.rawSize) {
+	if (_rawSize != other._rawSize) {
 		return false;
 	}
 
-	if (virtualAddress != other.virtualAddress) {
+	if (_virtualAddress != other._virtualAddress) {
 		return false;
 	}
 
-	if (virtualSize != other.virtualSize) {
+	if (_virtualSize != other._virtualSize) {
 		return false;
 	}
 
-	if (pointerToRelocations != other.pointerToRelocations) {
+	if (_pointerToRelocations != other._pointerToRelocations) {
 		return false;
 	}
 
-	if (numberOfLinenumbers != other.numberOfLinenumbers) {
+	if (_numberOfLinenumbers != other._numberOfLinenumbers) {
 		return false;
 	}
 
-	if (numberOfRelocations != other.numberOfRelocations) {
+	if (_numberOfRelocations != other._numberOfRelocations) {
 		return false;
 	}
 
-	if (characteristics != other.characteristics) {
+	if (_characteristics != other._characteristics) {
 		return false;
 	}
 

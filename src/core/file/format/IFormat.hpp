@@ -1,18 +1,16 @@
 #pragma once
 
 #include "../attributes.hpp"
-#include "ISection.hpp"
 #include <shared/value/AddressValue.hpp>
-#include <cstdint>
 
 class IFormat
 {
 public:
 	virtual ~IFormat() { };
-	virtual Architecture getArchitecture() const = 0;
-	virtual Type getType() const = 0;
-	virtual Endianness getEndianness() const = 0;
-	virtual AddressType getAddressType() const = 0;
-	virtual CAddressValue getEntryPoint() const = 0;
+	virtual Architecture architecture() const = 0;
+	virtual Type type() const = 0;
+	virtual Endianness endianness() const = 0;
+	virtual AddressType addressType() const = 0;
+	virtual CAddressValue entryPoint() const = 0;
 };
 

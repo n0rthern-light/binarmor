@@ -1,7 +1,6 @@
 #include "AnalysisRunner.hpp"
 #include "analyzers/FormatAnalyzer.hpp"
 #include "BinaryFileAnalyzedEvent.hpp"
-#include "../format/pe/PeFormat.hpp"
 
 CAnalysisRunner::CAnalysisRunner(IEventBus* _eventBus): eventBus(_eventBus)
 {

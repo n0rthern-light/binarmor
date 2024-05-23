@@ -1,49 +1,59 @@
 #include "BinaryFile.hpp"
 
-CBinaryFile::CBinaryFile(const std::string& _filePath, const CBinary& _binary): filePath(_filePath), binary(_binary)
+CBinaryFile::CBinaryFile(const std::string& filePath, const CBinary& binary): _filePath(filePath), _binary(binary)
 {
-	attributes = BinaryAttributes_t();
-	flags = 0;
-	format = Format::UNKNOWN;
+	_attributes = BinaryAttributes_t();
+	_flags = 0;
+	_format = Format::UNKNOWN;
 }
 
-const std::string& CBinaryFile::getFilePath() const
+std::string CBinaryFile::filePath() const
 {
-	return filePath;
+	return _filePath;
 }
 
-const CBinary& CBinaryFile::getBinary() const
+CBinary CBinaryFile::binary() const
 {
-	return binary;
+	return _binary;
 }
 
 bool CBinaryFile::hasFormatRecognized() const
 {
-	return format != Format::UNKNOWN;
+	return _format != Format::UNKNOWN;
 }
 
-void CBinaryFile::recognizeFormat(const Format& _format)
+void CBinaryFile::recognizeFormat(const Format& format)
 {
-	format = _format;
+	_format = format;
 }
 
-void CBinaryFile::enableFlags(BinaryFileFlags _flags)
+void CBinaryFile::enableFlags(BinaryFileFlags flags)
 {
-	flags |= static_cast<unsigned int>(_flags);
+	_flags |= static_cast<unsigned int>(flags);
 }
 
-void CBinaryFile::disableFlags(BinaryFileFlags _flags)
+void CBinaryFile::disableFlags(BinaryFileFlags flags)
 {
-	flags &= ~static_cast<unsigned int>(_flags);
+	_flags &= ~static_cast<unsigned int>(flags);
 }
 
-bool CBinaryFile::hasFlags(BinaryFileFlags _flags) const
+bool CBinaryFile::hasFlags(BinaryFileFlags flags) const
 {
-	return (flags & static_cast<uint32_t>(_flags)) == static_cast<uint32_t>(_flags);
+    if (flags == BinaryFileFlags::None && _flags > 0) {
+        return false;
+    }
+
+	return (_flags & static_cast<uint32_t>(flags)) == static_cast<uint32_t>(flags);
 }
 
-void CBinaryFile::completeAnalysis(const BinaryAttributes_t& _attributes)
+bool CBinaryFile::hasAnyFlags() const
 {
-	attributes = _attributes;
+    return _flags > 0;
+}
+
+void CBinaryFile::completeAnalysis(const BinaryAttributes_t& attributes)
+{
+	_attributes = attributes;
 	enableFlags(BinaryFileFlags::Analyzed);
 }
+

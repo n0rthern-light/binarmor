@@ -3,19 +3,19 @@
 #include <shared/self_obfuscation/strenc.hpp>
 
 bool isWindowsPE(const CBinary* binary) {
-    auto firstBytes = binary->getBytesAsString(0, 2);
+    auto firstBytes = binary->bytesAsString(0, 2);
 
     return firstBytes == strenc("MZ");
 }
 
 bool isELF(const CBinary* binary) {
-    auto firstBytes = binary->getBytesAsString(0, 4);
+    auto firstBytes = binary->bytesAsString(0, 4);
 
     return firstBytes.size() >= 4 && firstBytes[0] == strenc('0x7F') && firstBytes.substr(1, 3) == strenc("ELF");
 }
 
 bool isMachO(const CBinary* binary) {
-    auto firstBytes = binary->getBytesAsString(0, 4);
+    auto firstBytes = binary->bytesAsString(0, 4);
 
     if (firstBytes.size() < 4) {
         return false;
@@ -28,7 +28,7 @@ bool isMachO(const CBinary* binary) {
 
 void CFormatAnalyzer::analyze(CBinaryFile* binaryFile, BinaryAttributes_t& attributes)
 {
-	auto binary = binaryFile->getBinary();
+	auto binary = binaryFile->binary();
 
     if (isWindowsPE(&binary)) {
 		binaryFile->recognizeFormat(Format::Windows_PE);

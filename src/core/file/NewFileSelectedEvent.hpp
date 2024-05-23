@@ -5,9 +5,9 @@
 
 class CNewFileSelectedEvent : public IEvent
 {
-	std::string path;
+	std::string _path;
 
 public:
-	CNewFileSelectedEvent(const char* _path);
-	const std::string& getPath();
+	CNewFileSelectedEvent(const char* path);
+	const std::string& path();
 };
