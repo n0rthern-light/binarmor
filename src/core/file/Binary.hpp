@@ -4,19 +4,22 @@
 #include "BinaryPointer.hpp"
 
 #ifndef byteVector_t
-typedef std::vector<unsigned char> byteVector_t;
+typedef size_t binary_offset;
+typedef const unsigned char* byte_ptr;
+typedef std::vector<unsigned char> byte_vec;
 #endif
 
 class CBinary
 {
-	const byteVector_t _bytes;
+	const byte_vec _bytes;
+    byte_ptr at(const binary_offset& offset) const;
 public:
-	CBinary(const byteVector_t bytes);
-	CBinary part(size_t offset = 0, size_t count = 0) const;
-	byteVector_t bytes(size_t offset = 0, size_t count = 0) const;
-	std::string bytesAsString(size_t offset = 0, size_t count = 0) const;
+	CBinary(const byte_vec& bytes);
+	CBinary part(const binary_offset& offset = 0, const binary_offset& count = 0) const;
+	byte_vec bytes() const;
+    std::string string(const binary_offset& offset = 0) const;
 	size_t size() const;
-	CBinaryPointer pointer(size_t offset) const;
+	CBinaryPointer pointer(const binary_offset& offset) const;
 
     bool operator==(const CBinary& other) const;
 };

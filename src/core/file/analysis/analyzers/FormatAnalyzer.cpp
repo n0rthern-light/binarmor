@@ -3,19 +3,19 @@
 #include <shared/self_obfuscation/strenc.hpp>
 
 bool isWindowsPE(const CBinary* binary) {
-    auto firstBytes = binary->bytesAsString(0, 2);
+    auto firstBytes = binary->part(0, 2).string();
 
     return firstBytes == strenc("MZ");
 }
 
 bool isELF(const CBinary* binary) {
-    auto firstBytes = binary->bytesAsString(0, 4);
+    auto firstBytes = binary->part(0, 4).string();
 
     return firstBytes.size() >= 4 && firstBytes[0] == strenc('0x7F') && firstBytes.substr(1, 3) == strenc("ELF");
 }
 
 bool isMachO(const CBinary* binary) {
-    auto firstBytes = binary->bytesAsString(0, 4);
+    auto firstBytes = binary->part(0, 4).string();
 
     if (firstBytes.size() < 4) {
         return false;

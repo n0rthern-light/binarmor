@@ -16,6 +16,8 @@ constexpr uint16_t IMAGE_FILE_MACHINE_AMD64 = 0x8664;  // x64 (AMD64 or Intel EM
 constexpr uint16_t IMAGE_FILE_MACHINE_ARM = 0x01C0;    // ARM little endian
 constexpr uint16_t IMAGE_FILE_MACHINE_ARM64 = 0xAA64;  // ARM64 little endian
 
+#define IMAGE_DIRECTORY_ENTRY_IMPORT 1
+
 // DOS Header (at the file's beginning)
 struct IMAGE_DOS_HEADER {
     uint16_t e_magic;    // Magic number (MZ)
@@ -157,4 +159,15 @@ struct IMAGE_SECTION_HEADER {
     uint16_t NumberOfLinenumbers;
     uint32_t Characteristics;
 };
+
+typedef struct _IMAGE_IMPORT_DESCRIPTOR {
+    union {
+        uint32_t   Characteristics;            // 0 for terminating null import descriptor
+        uint32_t   OriginalFirstThunk;         // RVA to original unbound IAT (PIMAGE_THUNK_DATA)
+    } DUMMYUNIONNAME;
+    uint32_t   TimeDateStamp;                  // 0 if not bound,
+    uint32_t   ForwarderChain;                 // -1 if no forwarders
+    uint32_t   Name;                           // RVA to DLL name
+    uint32_t   FirstThunk;                     // RVA to IAT (if bound this IAT has actual addresses)
+} IMAGE_IMPORT_DESCRIPTOR;
 

@@ -56,7 +56,7 @@ uint16_t format::pe::numberOfSections(CBinary* binary, AddressType addressType)
     } else if (addressType == AddressType::_64_BIT) {
 	    return format::pe::ntHeaders64(binary)->FileHeader.NumberOfSections;
     } else {
-        throw RuntimeException("Unknown address type!");
+        throw RuntimeException(strenc("Unknown address type!"));
     }
 }
 
@@ -70,9 +70,20 @@ uint32_t format::pe::sectionsStartOffset(CBinary* binary, AddressType addressTyp
     } else if (addressType == AddressType::_64_BIT) {
         sizeOfImageNtHeaders = sizeof(IMAGE_NT_HEADERS64);
     } else {
-        throw RuntimeException("Unknown address type!");
+        throw RuntimeException(strenc("Unknown address type!"));
     }
 
     return dosHeader->e_lfanew + sizeOfImageNtHeaders;
+}
+
+IMAGE_DATA_DIRECTORY* format::pe::imageDataDirectoryEntry(CBinary* binary, AddressType addressType, size_t entryType)
+{
+    if (addressType == AddressType::_32_BIT) {
+        return &format::pe::ntHeaders32(binary)->OptionalHeader.DataDirectory[entryType];
+    } else if (addressType == AddressType::_64_BIT) {
+	    return &format::pe::ntHeaders64(binary)->OptionalHeader.DataDirectory[entryType];
+    } else {
+        throw RuntimeException(strenc("Unknown address type!"));
+    }
 }
 

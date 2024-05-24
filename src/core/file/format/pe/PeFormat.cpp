@@ -69,10 +69,17 @@ CAddressValue CPeFormat::entryPoint() const
 	{
 		return CAddressValue(format::pe::ntHeaders32(binary)->OptionalHeader.AddressOfEntryPoint);
 	}
+
+    throw RuntimeException(strenc("Not found entry point"));
 }
 
 pe_section_vec CPeFormat::sections() const
 {
     return CPeSection::readList(binary, addressType());
+}
+
+pe_import_vec CPeFormat::imports() const
+{
+    return CPeImport::readList(binary, addressType());
 }
 

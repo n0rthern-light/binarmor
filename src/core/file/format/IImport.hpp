@@ -3,6 +3,6 @@
 class IImport
 {
 public:
-    virtual ~IImport() = 0;
+    virtual ~IImport() { };
 };
 

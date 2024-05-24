@@ -3,6 +3,8 @@
 #include <stddef.h>
 #include <string>
 #include "../IImport.hpp"
+#include "../../Binary.hpp"
+#include "shared/value/AddressType.hpp"
 #include <memory>
 #include <vector>
 
@@ -24,5 +26,6 @@ public:
         const uint16_t& hint,
         const uint32_t& ordinal
     );
+    static pe_import_vec readList(CBinary* binary, AddressType addressType);
 };
 

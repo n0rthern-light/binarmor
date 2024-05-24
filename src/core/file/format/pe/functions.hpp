@@ -11,6 +11,7 @@ namespace format {
         IMAGE_NT_HEADERS64* ntHeaders64(CBinary* binary);
         uint16_t numberOfSections(CBinary* binary, AddressType addressType);
         uint32_t sectionsStartOffset(CBinary* binary, AddressType addressType);
+        IMAGE_DATA_DIRECTORY* imageDataDirectoryEntry(CBinary* binary, AddressType addressType, size_t entryType);
     };
 }
 
