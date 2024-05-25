@@ -12,7 +12,7 @@ class CBinaryFile
 	const std::string _filePath;
 	const CBinary _binary;
 	Format _format;
-	unsigned int _flags;
+	uint_32 _flags;
 	BinaryAttributes_t _attributes;
 public:
 	CBinaryFile(const std::string& filePath, const CBinary& binary);

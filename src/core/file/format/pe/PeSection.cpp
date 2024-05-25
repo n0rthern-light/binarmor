@@ -4,13 +4,13 @@
 CPeSection::CPeSection(
     const std::string& name,
     const CAddressValue& rawAddress,
-    const uint32_t& rawSize,
+    const uint_32& rawSize,
     const CAddressValue& virtualAddress,
-    const uint32_t& virtualSize,
+    const uint_32& virtualSize,
     const CAddressValue& pointerToRelocations,
-    const uint16_t& numberOfLinenumbers,
-    const uint16_t& numberOfRelocations,
-    const uint32_t& characteristics
+    const uint_16& numberOfLinenumbers,
+    const uint_16& numberOfRelocations,
+    const uint_32& characteristics
 ) : _name(name),
     _rawAddress(rawAddress),
     _rawSize(rawSize),
@@ -74,7 +74,7 @@ CAddressValue CPeSection::rawAddress() const
 	return _rawAddress;
 }
 
-uint32_t CPeSection::rawSize() const
+uint_32 CPeSection::rawSize() const
 {
 	return _rawSize;
 }
@@ -84,7 +84,7 @@ CAddressValue CPeSection::virtualAddress() const
 	return _virtualAddress;
 }
 
-uint32_t CPeSection::virtualSize() const
+uint_32 CPeSection::virtualSize() const
 {
 	return _virtualSize;
 }
@@ -94,17 +94,17 @@ CAddressValue CPeSection::pointerToRelocations() const
 	return _pointerToRelocations;
 }
 
-uint16_t CPeSection::numberOfLinenumbers() const
+uint_16 CPeSection::numberOfLinenumbers() const
 {
 	return _numberOfLinenumbers;
 }
 
-uint16_t CPeSection::numberOfRelocations() const
+uint_16 CPeSection::numberOfRelocations() const
 {
 	return _numberOfRelocations;
 }
 
-uint32_t CPeSection::characteristics() const
+uint_32 CPeSection::characteristics() const
 {
 	return _characteristics;
 }

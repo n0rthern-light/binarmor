@@ -29,12 +29,12 @@ void CBinaryFile::recognizeFormat(const Format& format)
 
 void CBinaryFile::enableFlags(BinaryFileFlags flags)
 {
-	_flags |= static_cast<unsigned int>(flags);
+	_flags |= static_cast<uint_32>(flags);
 }
 
 void CBinaryFile::disableFlags(BinaryFileFlags flags)
 {
-	_flags &= ~static_cast<unsigned int>(flags);
+	_flags &= ~static_cast<uint_32>(flags);
 }
 
 bool CBinaryFile::hasFlags(BinaryFileFlags flags) const
@@ -43,7 +43,7 @@ bool CBinaryFile::hasFlags(BinaryFileFlags flags) const
         return false;
     }
 
-	return (_flags & static_cast<uint32_t>(flags)) == static_cast<uint32_t>(flags);
+	return (_flags & static_cast<uint_32>(flags)) == static_cast<uint_32>(flags);
 }
 
 bool CBinaryFile::hasAnyFlags() const

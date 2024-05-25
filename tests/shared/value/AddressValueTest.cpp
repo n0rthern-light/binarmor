@@ -1,19 +1,17 @@
 #include <gtest/gtest.h>
 #include "shared/value/AddressValue.hpp"
 #include <climits>
-#include <cstdint>
 #include <limits>
 #include <vector>
-#include <stdio.h>
 
-uint32_t maxUint32 = std::numeric_limits<uint32_t>::max();
-uint64_t maxUint64 = std::numeric_limits<uint64_t>::max();
+uint32_t maxUint32 = std::numeric_limits<uint_32>::max();
+uint64_t maxUint64 = std::numeric_limits<uint_64>::max();
 
 TEST(AddressValueTest, WorksWith32BitUnisgnedInts)
 {
     std::vector<CAddressValue> vec {
         CAddressValue(0),
-        CAddressValue(as32(10)),
+        CAddressValue(as_32(10)),
         CAddressValue(15),
         CAddressValue(maxUint32 - 1),
         CAddressValue(maxUint32),
@@ -30,11 +28,11 @@ TEST(AddressValueTest, WorksWith32BitUnisgnedInts)
     {
         SCOPED_TRACE("Testing reading address");
 
-        ASSERT_EQ(vec[0].get(), as32(0));
-        ASSERT_EQ(vec[1].get(), as32(10));
-        ASSERT_EQ(vec[2].get(), as32(15));
-        ASSERT_EQ(vec[3].get(), as32(4294967294));
-        ASSERT_EQ(vec[4].get(), as32(4294967295));
+        ASSERT_EQ(vec[0].get(), as_32(0));
+        ASSERT_EQ(vec[1].get(), as_32(10));
+        ASSERT_EQ(vec[2].get(), as_32(15));
+        ASSERT_EQ(vec[3].get(), as_32(4294967294));
+        ASSERT_EQ(vec[4].get(), as_32(4294967295));
     }
 
     {
@@ -65,13 +63,13 @@ TEST(AddressValueTest, WorksWith32BitUnisgnedInts)
 TEST(AddressValueTest, WorksWith64BitUnisgnedInts)
 {
     std::vector<CAddressValue> vec {
-        CAddressValue(as64(0)),
-        CAddressValue(as64(10)),
-        CAddressValue(as64(15)),
-        CAddressValue(as64(maxUint32 - 1)),
-        CAddressValue(as64(as64(maxUint32) + 1)),
-        CAddressValue(as64(maxUint64 - 10000)),
-        CAddressValue(as64(maxUint64)),
+        CAddressValue(as_64(0)),
+        CAddressValue(as_64(10)),
+        CAddressValue(as_64(15)),
+        CAddressValue(as_64(maxUint32 - 1)),
+        CAddressValue(as_64(as_64(maxUint32) + 1)),
+        CAddressValue(as_64(maxUint64 - 10000)),
+        CAddressValue(as_64(maxUint64)),
     };
 
     {
@@ -85,13 +83,13 @@ TEST(AddressValueTest, WorksWith64BitUnisgnedInts)
     {
         SCOPED_TRACE("Testing reading address");
 
-        ASSERT_EQ(vec[0].get(), as64(0));
-        ASSERT_EQ(vec[1].get(), as64(10));
-        ASSERT_EQ(vec[2].get(), as64(15));
-        ASSERT_EQ(vec[3].get(), as64(4294967294));
-        ASSERT_EQ(vec[4].get(), as64(4294967296));
-        ASSERT_EQ(vec[5].get(), as64(18446744073709541615));
-        ASSERT_EQ(vec[6].get(), as64(18446744073709551615));
+        ASSERT_EQ(vec[0].get(), as_64(0));
+        ASSERT_EQ(vec[1].get(), as_64(10));
+        ASSERT_EQ(vec[2].get(), as_64(15));
+        ASSERT_EQ(vec[3].get(), as_64(4294967294));
+        ASSERT_EQ(vec[4].get(), as_64(4294967296));
+        ASSERT_EQ(vec[5].get(), as_64(18446744073709541615));
+        ASSERT_EQ(vec[6].get(), as_64(18446744073709551615));
     }
 
     {

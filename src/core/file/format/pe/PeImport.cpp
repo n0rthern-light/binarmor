@@ -6,8 +6,8 @@
 CPeImport::CPeImport(
     const std::string& module,
     const std::string& name,
-    const uint16_t& hint,
-    const uint32_t& ordinal
+    const uint_16& hint,
+    const uint_32& ordinal
 ) {
     _module = module;
     _name = name;

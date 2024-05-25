@@ -14,24 +14,24 @@ class CPeSection : public ISection
 {
 	std::string _name;
 	CAddressValue _rawAddress;
-	uint32_t _rawSize;
+	uint_32 _rawSize;
 	CAddressValue _virtualAddress;
-	uint32_t _virtualSize;
+	uint_32 _virtualSize;
 	CAddressValue _pointerToRelocations;
-	uint16_t _numberOfLinenumbers;
-	uint16_t _numberOfRelocations;
-	uint32_t _characteristics;
+	uint_16 _numberOfLinenumbers;
+	uint_16 _numberOfRelocations;
+	uint_32 _characteristics;
 public:
 	CPeSection(
 		const std::string& name,
 		const CAddressValue& rawAddress,
-		const uint32_t& rawSize,
+		const uint_32& rawSize,
 		const CAddressValue& virtualAddress,
-		const uint32_t& virtualSize,
+		const uint_32& virtualSize,
 		const CAddressValue& pointerToRelocations,
-		const uint16_t& numberOfLinenumbers,
-		const uint16_t& numberOfRelocations,
-		const uint32_t& characteristics
+		const uint_16& numberOfLinenumbers,
+		const uint_16& numberOfRelocations,
+		const uint_32& characteristics
 	);
 
 	CPeSection(const IMAGE_SECTION_HEADER& header);
@@ -43,13 +43,13 @@ public:
 	size_t size() const;
 
 	CAddressValue rawAddress() const;
-	uint32_t rawSize() const;
+	uint_32 rawSize() const;
 	CAddressValue virtualAddress() const;
-	uint32_t virtualSize() const;
+	uint_32 virtualSize() const;
 	CAddressValue pointerToRelocations() const;
-	uint16_t numberOfLinenumbers() const;
-	uint16_t numberOfRelocations() const;
-	uint32_t characteristics() const;
+	uint_16 numberOfLinenumbers() const;
+	uint_16 numberOfRelocations() const;
+	uint_32 characteristics() const;
 
 	bool operator==(const CPeSection& other) const;
 };

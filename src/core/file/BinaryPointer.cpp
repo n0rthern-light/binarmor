@@ -1,18 +1,17 @@
 #include "BinaryPointer.hpp"
-#include <cstdint>
 
-CBinaryPointer::CBinaryPointer(size_t offsetInBinary, std::uintptr_t loadedAtAddress)
+CBinaryPointer::CBinaryPointer(binary_offset offsetInBinary, uint_auto loadedAtAddress)
 {
 	_offsetInBinary = offsetInBinary;
 	_loadedAtAddress = loadedAtAddress;
 }
 
-size_t CBinaryPointer::offset()
+binary_offset CBinaryPointer::offset()
 {
 	return _offsetInBinary;
 }
 
-std::uintptr_t CBinaryPointer::ptr()
+uint_auto CBinaryPointer::ptr()
 {
 	return _loadedAtAddress;
 }

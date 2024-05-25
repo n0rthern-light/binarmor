@@ -1,16 +1,15 @@
 #pragma once
 
-#include <cstdint>
-#include <cstddef>
+#include <shared/types/defines.hpp>
 
 class CBinaryPointer
 {
-	size_t _offsetInBinary;
-	std::uintptr_t _loadedAtAddress;
+	binary_offset _offsetInBinary;
+	uint_auto _loadedAtAddress;
 public:
-	CBinaryPointer(size_t offsetInBinary, std::uintptr_t loadedAtAddress);
-	size_t offset();
-	std::uintptr_t ptr();
+	CBinaryPointer(binary_offset offsetInBinary, uint_auto loadedAtAddress);
+	binary_offset offset();
+	uint_auto ptr();
     CBinaryPointer shift(int _offset);
 };
 

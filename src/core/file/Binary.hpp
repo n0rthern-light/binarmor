@@ -1,13 +1,8 @@
 #pragma once
-#include <vector>
+
+#include <shared/types/defines.hpp>
 #include <string>
 #include "BinaryPointer.hpp"
-
-#ifndef byteVector_t
-typedef size_t binary_offset;
-typedef const unsigned char* byte_ptr;
-typedef std::vector<unsigned char> byte_vec;
-#endif
 
 class CBinary
 {
@@ -18,7 +13,7 @@ public:
 	CBinary part(const binary_offset& offset = 0, const binary_offset& count = 0) const;
 	byte_vec bytes() const;
     std::string string(const binary_offset& offset = 0) const;
-	size_t size() const;
+	binary_offset size() const;
 	CBinaryPointer pointer(const binary_offset& offset) const;
 
     bool operator==(const CBinary& other) const;

@@ -49,7 +49,7 @@ IMAGE_NT_HEADERS64* format::pe::ntHeaders64(CBinary* binary)
 }
 
 
-uint16_t format::pe::numberOfSections(CBinary* binary, AddressType addressType)
+uint_16 format::pe::numberOfSections(CBinary* binary, AddressType addressType)
 {
     if (addressType == AddressType::_32_BIT) {
         return format::pe::ntHeaders32(binary)->FileHeader.NumberOfSections;
@@ -60,10 +60,10 @@ uint16_t format::pe::numberOfSections(CBinary* binary, AddressType addressType)
     }
 }
 
-uint32_t format::pe::sectionsStartOffset(CBinary* binary, AddressType addressType)
+uint_32 format::pe::sectionsStartOffset(CBinary* binary, AddressType addressType)
 {
     auto dosHeader = format::pe::dosHeader(binary);
-    uint32_t sizeOfImageNtHeaders;
+    uint_32 sizeOfImageNtHeaders;
 
     if (addressType == AddressType::_32_BIT) {
         sizeOfImageNtHeaders = sizeof(IMAGE_NT_HEADERS32);
@@ -76,7 +76,7 @@ uint32_t format::pe::sectionsStartOffset(CBinary* binary, AddressType addressTyp
     return dosHeader->e_lfanew + sizeOfImageNtHeaders;
 }
 
-IMAGE_DATA_DIRECTORY* format::pe::imageDataDirectoryEntry(CBinary* binary, AddressType addressType, size_t entryType)
+IMAGE_DATA_DIRECTORY* format::pe::imageDataDirectoryEntry(CBinary* binary, AddressType addressType, uint_16 entryType)
 {
     if (addressType == AddressType::_32_BIT) {
         return &format::pe::ntHeaders32(binary)->OptionalHeader.DataDirectory[entryType];

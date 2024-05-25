@@ -2,6 +2,7 @@
 #include "BinaryPointer.hpp"
 #include <stdexcept>
 #include <shared/self_obfuscation/strenc.hpp>
+#include <shared/types/defines.hpp>
 
 CBinary::CBinary(const byte_vec& bytes): _bytes(bytes) { }
 
@@ -40,7 +41,7 @@ std::string CBinary::string(const binary_offset& offset) const
     return std::string(reinterpret_cast<const char*>(at(offset)));
 }
 
-size_t CBinary::size() const
+binary_offset CBinary::size() const
 {
 	return _bytes.size();
 }
@@ -51,7 +52,7 @@ CBinaryPointer CBinary::pointer(const binary_offset& offset) const
 		throw std::out_of_range(strenc("Offset is out of the range of the data vector."));
 	}
 
-	return CBinaryPointer(offset, reinterpret_cast<std::uintptr_t>(&_bytes[offset]));
+	return CBinaryPointer(offset, reinterpret_cast<uint_auto>(&_bytes[offset]));
 }
 
 bool CBinary::operator==(const CBinary& other) const
