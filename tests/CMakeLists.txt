@@ -8,9 +8,17 @@ FetchContent_Declare(
 )
 
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+set(TESTS_RUN_ON_BUILD ON CACHE BOOL "")
+
+set(TEST_BINARIES_DIR_RELATIVE_TO_BUILD_TESTS "/binaries" CACHE STRING "")
+add_compile_definitions(_TEST_BINARIES_DIR="${CMAKE_CURRENT_BINARY_DIR}${TEST_BINARIES_DIR}")
+
 FetchContent_MakeAvailable(googletest)
 
-enable_testing()
+
+if(TESTS_RUN_ON_BUILD)
+    enable_testing()
+endif()
 
 include(GoogleTest)
 
@@ -20,7 +28,10 @@ foreach(TEST_FILE ${TEST_FILES})
 	add_executable(${TEST_NAME} ${TEST_FILE})
 	target_link_libraries(${TEST_NAME} core GTest::gtest_main)
 	target_include_directories(${TEST_NAME} PUBLIC ${SRC_INCLUDES})
-	gtest_discover_tests(${TEST_NAME})
+
+    if(TESTS_RUN_ON_BUILD)
+        gtest_discover_tests(${TEST_NAME})
+    endif()
 endforeach()
 
 file(GLOB_RECURSE TEST_FILES "shared/*Test.cpp")
@@ -29,7 +40,10 @@ foreach(TEST_FILE ${TEST_FILES})
 	add_executable(${TEST_NAME} ${TEST_FILE})
 	target_link_libraries(${TEST_NAME} shared GTest::gtest_main)
 	target_include_directories(${TEST_NAME} PUBLIC ${SRC_INCLUDES})
-    gtest_discover_tests(${TEST_NAME})
+
+    if(TESTS_RUN_ON_BUILD)
+        gtest_discover_tests(${TEST_NAME})
+    endif()
 endforeach()
 
 file(GLOB_RECURSE TEST_FILES "loader/*Test.cpp")
@@ -38,7 +52,10 @@ foreach(TEST_FILE ${TEST_FILES})
 	add_executable(${TEST_NAME} ${TEST_FILE})
 	target_link_libraries(${TEST_NAME} loader_lib GTest::gtest_main)
 	target_include_directories(${TEST_NAME} PUBLIC ${SRC_INCLUDES})
-	gtest_discover_tests(${TEST_NAME})
+
+    if(TESTS_RUN_ON_BUILD)
+        gtest_discover_tests(${TEST_NAME})
+    endif()
 endforeach()
 
 file(GLOB_RECURSE TEST_BINARIES "binaries/*")

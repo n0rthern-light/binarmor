@@ -7,44 +7,53 @@
 class BinaryMother
 {
 public:
-	static CfstreamFileReader* fileReader()
-	{
-		static CfstreamFileReader* fr = new CfstreamFileReader();
+    static CfstreamFileReader* fileReader()
+    {
+        static CfstreamFileReader* fr = new CfstreamFileReader();
 
-		return fr;
-	}
+        return fr;
+    }
 
-	static CPeFormat* readPeFromDisk(const char* path)
-	{
-		return new CPeFormat(new CBinary(fileReader()->read(path)));
-	}
+    static std::string testBinaryPath(const std::string relativeBinaryPath = "")
+    {
+        return std::string(_TEST_BINARIES_DIR) + relativeBinaryPath;
+    }
 
-	static CPeFormat* x86exe()
-	{
-		static auto binary = readPeFromDisk("./binaries/windows/x86.exe");
+    static CPeFormat* readPeFromDisk(const char* path)
+    {
+        return new CPeFormat(new CBinary(fileReader()->read(path)));
+    }
 
-		return binary;
-	}
+    static CPeFormat* x86exe()
+    {
+        auto path = testBinaryPath("/windows/x86.exe");
+        static auto binary = readPeFromDisk(path.c_str());
 
-	static CPeFormat* x86dll()
-	{
-		static auto binary = readPeFromDisk("./binaries/windows/x86.dll");
+        return binary;
+    }
 
-		return binary;
-	}
+    static CPeFormat* x86dll()
+    {
+        auto path = testBinaryPath("/windows/x86.dll");
+        static auto binary = readPeFromDisk(path.c_str());
 
-	static CPeFormat* x86_64exe()
-	{
-		static auto binary = readPeFromDisk("./binaries/windows/x86_64.exe");
+        return binary;
+    }
 
-		return binary;
-	}
+    static CPeFormat* x86_64exe()
+    {
+        auto path = testBinaryPath("/windows/x86_64.exe");
+        static auto binary = readPeFromDisk(path.c_str());
 
-	static CPeFormat* x86_64dll()
-	{
-		static auto binary = readPeFromDisk("./binaries/windows/x86_64.dll");
+        return binary;
+    }
 
-		return binary;
-	}
+    static CPeFormat* x86_64dll()
+    {
+        auto path = testBinaryPath("/windows/x86_64.dll");
+        static auto binary = readPeFromDisk(path.c_str());
+
+        return binary;
+    }
 };
 

@@ -16,6 +16,9 @@ constexpr uint_16 IMAGE_FILE_MACHINE_AMD64 = 0x8664;  // x64 (AMD64 or Intel EM6
 constexpr uint_16 IMAGE_FILE_MACHINE_ARM = 0x01C0;    // ARM little endian
 constexpr uint_16 IMAGE_FILE_MACHINE_ARM64 = 0xAA64;  // ARM64 little endian
 
+constexpr uint_32 IMAGE_ORDINAL_FLAG32 = 0x80000000;
+constexpr uint_64 IMAGE_ORDINAL_FLAG64 = 0x8000000000000000;
+
 #define IMAGE_DIRECTORY_ENTRY_IMPORT 1
 
 // DOS Header (at the file's beginning)
@@ -164,10 +167,33 @@ typedef struct _IMAGE_IMPORT_DESCRIPTOR {
     union {
         uint_32   Characteristics;            // 0 for terminating null import descriptor
         uint_32   OriginalFirstThunk;         // RVA to original unbound IAT (PIMAGE_THUNK_DATA)
-    } DUMMYUNIONNAME;
+    } First;
     uint_32   TimeDateStamp;                  // 0 if not bound,
     uint_32   ForwarderChain;                 // -1 if no forwarders
     uint_32   Name;                           // RVA to DLL name
     uint_32   FirstThunk;                     // RVA to IAT (if bound this IAT has actual addresses)
 } IMAGE_IMPORT_DESCRIPTOR;
+
+typedef struct _IMAGE_IMPORT_BY_NAME {
+    uint_16 Hint;
+    char Name[1]; // Flexible array member, actual size varies
+} IMAGE_IMPORT_BY_NAME, *PIMAGE_IMPORT_BY_NAME;
+
+typedef struct _IMAGE_THUNK_DATA64 {
+    union {
+        uint_64 ForwarderString;
+        uint_64 Function;
+        uint_64 Ordinal;
+        uint_64 AddressOfData;
+    } u1;
+} IMAGE_THUNK_DATA64, *PIMAGE_THUNK_DATA64;
+
+typedef struct _IMAGE_THUNK_DATA32 {
+    union {
+        uint_32 ForwarderString;
+        uint_32 Function;
+        uint_32 Ordinal;
+        uint_32 AddressOfData;
+    } u1;
+} IMAGE_THUNK_DATA32, *PIMAGE_THUNK_DATA32;
 
