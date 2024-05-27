@@ -5,14 +5,19 @@
 #include <shared/self_obfuscation/strenc.hpp>
 #include "functions.hpp"
 
-CPeFormat::CPeFormat(CBinary* _binary)
+CPeFormat::CPeFormat(CBinary* binary)
 {
-	binary = _binary;
+	_binary = binary;
+}
+
+CBinary* CPeFormat::binary() const
+{
+    return _binary;
 }
 
 Architecture CPeFormat::architecture() const
 {
-	auto ntHeaders = format::pe::ntHeaders32(binary);
+	auto ntHeaders = format::pe::ntHeaders32(_binary);
 
     switch (ntHeaders->FileHeader.Machine) {
     case IMAGE_FILE_MACHINE_I386:
@@ -30,7 +35,7 @@ Architecture CPeFormat::architecture() const
 
 Type CPeFormat::type() const
 {
-	auto ntHeaders = format::pe::ntHeaders32(binary);
+	auto ntHeaders = format::pe::ntHeaders32(_binary);
 
     if (ntHeaders->FileHeader.Characteristics & IMAGE_FILE_DLL) {
         return Type::Dynamic_Library;
@@ -50,7 +55,7 @@ Endianness CPeFormat::endianness() const
 
 AddressType CPeFormat::addressType() const
 {
-	auto ntHeaders = format::pe::ntHeaders32(binary);
+	auto ntHeaders = format::pe::ntHeaders32(_binary);
 
 	return ntHeaders->OptionalHeader.Magic == 0x20B ?
 		AddressType::_64_BIT : AddressType::_32_BIT;
@@ -62,11 +67,11 @@ CAddressValue CPeFormat::entryPoint() const
 
 	if (addressType_ == AddressType::_64_BIT)
 	{
-		return CAddressValue(format::pe::ntHeaders64(binary)->OptionalHeader.AddressOfEntryPoint);
+		return CAddressValue(format::pe::ntHeaders64(_binary)->OptionalHeader.AddressOfEntryPoint);
 	}
 	else if (addressType_ == AddressType::_32_BIT)
 	{
-		return CAddressValue(format::pe::ntHeaders32(binary)->OptionalHeader.AddressOfEntryPoint);
+		return CAddressValue(format::pe::ntHeaders32(_binary)->OptionalHeader.AddressOfEntryPoint);
 	}
 
     throw RuntimeException(strenc("Not found entry point"));
@@ -74,11 +79,21 @@ CAddressValue CPeFormat::entryPoint() const
 
 pe_section_vec CPeFormat::sections() const
 {
-    return format::pe::readSectionList(binary, addressType());
+    return format::pe::readSectionList(this);
+}
+
+binary_offset CPeFormat::rvaToOffset(const binary_offset& rva) const
+{
+    return format::pe::rvaToOffset(this, rva);
+}
+
+CBinaryPointer CPeFormat::rvaToPointer(const binary_offset& rva) const
+{
+    return binary()->pointer(rvaToOffset(rva));
 }
 
 pe_import_vec CPeFormat::imports() const
 {
-    return format::pe::readImportList(binary, addressType());
+    return format::pe::readImportList(this);
 }
 

@@ -3,6 +3,6 @@
 #include "../Binary.hpp"
 
 namespace format {
-    void assertBinaryNotNull(CBinary* binary);
+    void assertBinaryNotNull(const CBinary* binary);
 };
 

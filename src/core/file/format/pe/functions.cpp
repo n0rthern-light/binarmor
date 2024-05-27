@@ -6,7 +6,7 @@
 #include <shared/RuntimeException.hpp>
 #include <stdio.h>
 
-IMAGE_DOS_HEADER* format::pe::dosHeader(CBinary* binary)
+IMAGE_DOS_HEADER* format::pe::dosHeader(const CBinary* binary)
 {
     format::assertBinaryNotNull(binary);
 
@@ -19,7 +19,7 @@ IMAGE_DOS_HEADER* format::pe::dosHeader(CBinary* binary)
 	return dosHeader;
 }
 
-IMAGE_NT_HEADERS32* format::pe::ntHeaders32(CBinary* binary)
+IMAGE_NT_HEADERS32* format::pe::ntHeaders32(const CBinary* binary)
 {
     format::assertBinaryNotNull(binary);
 
@@ -34,7 +34,7 @@ IMAGE_NT_HEADERS32* format::pe::ntHeaders32(CBinary* binary)
 	return ntHeaders;
 }
 
-IMAGE_NT_HEADERS64* format::pe::ntHeaders64(CBinary* binary)
+IMAGE_NT_HEADERS64* format::pe::ntHeaders64(const CBinary* binary)
 {
     format::assertBinaryNotNull(binary);
 
@@ -50,8 +50,11 @@ IMAGE_NT_HEADERS64* format::pe::ntHeaders64(CBinary* binary)
 }
 
 
-uint_16 format::pe::numberOfSections(CBinary* binary, AddressType addressType)
+uint_16 format::pe::numberOfSections(const CPeFormat* peFormat)
 {
+    auto binary = peFormat->binary();
+    auto addressType = peFormat->addressType();
+
     if (addressType == AddressType::_32_BIT) {
         return format::pe::ntHeaders32(binary)->FileHeader.NumberOfSections;
     } else if (addressType == AddressType::_64_BIT) {
@@ -61,8 +64,11 @@ uint_16 format::pe::numberOfSections(CBinary* binary, AddressType addressType)
     }
 }
 
-binary_offset format::pe::sectionsStartOffset(CBinary* binary, AddressType addressType)
+binary_offset format::pe::sectionsStartOffset(const CPeFormat* peFormat)
 {
+    auto binary = peFormat->binary();
+    auto addressType = peFormat->addressType();
+
     auto dosHeader = format::pe::dosHeader(binary);
     uint_32 sizeOfImageNtHeaders;
 
@@ -77,12 +83,13 @@ binary_offset format::pe::sectionsStartOffset(CBinary* binary, AddressType addre
     return dosHeader->e_lfanew + sizeOfImageNtHeaders;
 }
 
-pe_section_vec format::pe::readSectionList(CBinary* binary, AddressType addressType)
+pe_section_vec format::pe::readSectionList(const CPeFormat* peFormat)
 {
 	auto vec = pe_section_vec();
 
-	auto numberOfSections = format::pe::numberOfSections(binary, addressType);
-    auto offset = format::pe::sectionsStartOffset(binary, addressType);
+	auto numberOfSections = format::pe::numberOfSections(peFormat);
+    auto offset = format::pe::sectionsStartOffset(peFormat);
+    auto binary = peFormat->binary();
 
 	auto binaryPointer = binary->pointer(offset);
     for(int i = 0; i < numberOfSections; ++i)
@@ -96,9 +103,9 @@ pe_section_vec format::pe::readSectionList(CBinary* binary, AddressType addressT
 	return vec;
 }
 
-binary_offset format::pe::rvaToOffset(CBinary* binary, AddressType addressType, binary_offset rva)
+binary_offset format::pe::rvaToOffset(const CPeFormat* peFormat, const binary_offset& rva)
 {
-    auto sections = format::pe::readSectionList(binary, addressType);
+    auto sections = format::pe::readSectionList(peFormat);
 
     for(auto section : sections) {
         auto virtualAddress = section->virtualAddress().get();
@@ -125,8 +132,11 @@ binary_offset format::pe::rvaToOffset(CBinary* binary, AddressType addressType, 
     throw RuntimeException(strenc("Could not convert RVA to Raw Offset"));
 }
 
-IMAGE_DATA_DIRECTORY* format::pe::imageDataDirectory(CBinary* binary, AddressType addressType)
+IMAGE_DATA_DIRECTORY* format::pe::imageDataDirectory(const CPeFormat* peFormat)
 {
+    auto binary = peFormat->binary();
+    auto addressType = peFormat->addressType();
+
     if (addressType == AddressType::_32_BIT) {
         return format::pe::ntHeaders32(binary)->OptionalHeader.DataDirectory;
     } else if (addressType == AddressType::_64_BIT) {
@@ -136,49 +146,24 @@ IMAGE_DATA_DIRECTORY* format::pe::imageDataDirectory(CBinary* binary, AddressTyp
     }
 }
 
-pe_import_vec format::pe::readImportList(CBinary* binary, AddressType addressType)
+pe_import_vec format::pe::readImportList(const CPeFormat* peFormat)
 {
 
     pe_import_vec vec{ };
 
-    auto importDataDirectory = format::pe::imageDataDirectory(binary, addressType)[IMAGE_DIRECTORY_ENTRY_IMPORT];
-    auto importDescriptorPtr = binary->pointer(format::pe::rvaToOffset(binary, addressType, importDataDirectory.VirtualAddress));
+    auto binary = peFormat->binary();
+    auto addressType = peFormat->addressType();
+
+    auto importDataDirectory = format::pe::imageDataDirectory(peFormat)[IMAGE_DIRECTORY_ENTRY_IMPORT];
+    auto importDescriptorPtr = peFormat->rvaToPointer(importDataDirectory.VirtualAddress);
     auto importDescriptor = reinterpret_cast<IMAGE_IMPORT_DESCRIPTOR*>(importDescriptorPtr.ptr());
 
     while (importDescriptor->Name != 0) {
-        auto dllName = binary->string(format::pe::rvaToOffset(binary, addressType, importDescriptor->Name));
-
-
-
-        importDescriptor++;
-    }
-
-    return vec;
-
-    /*
-    auto importDescriptorPtr = binary->pointer(dataDirectory.VirtualAddress);
-    auto importDescriptor = reinterpret_cast<IMAGE_IMPORT_DESCRIPTOR*>(importDescriptorPtr.ptr());
-
-    //auto dllName = binary->string(importDescriptor->Name);
-
-    auto importDescriptorPtr = binary->pointer(dataDirectory.VirtualAddress);
-    auto importDescriptor = reinterpret_cast<IMAGE_IMPORT_DESCRIPTOR*>(importDescriptorPtr.ptr());
-
-    while(importDescriptor->OriginalFirstThunk && importDescriptor->FirstThunk && binary->offsetExists(importDescriptor->OriginalFirstThunk) && binary->offsetExists(importDescriptor->FirstThunk)) {
-        auto dllName = binary->string(importDescriptor->Name);
-
-        ++importDescriptor;
-    }
-    */
-
-
-        /*
-    while (importDescriptor->Name != 0 && currentOffset < dataDirectory->Size) {
-        auto dllName = binary->string(importDescriptor->Name);
+        auto dllName = binary->string(peFormat->rvaToOffset(importDescriptor->Name));
 
         if (addressType == AddressType::_64_BIT) {
-            auto originalFirstThunk = reinterpret_cast<IMAGE_THUNK_DATA64*>(binary->pointer(importDescriptor->OriginalFirstThunk).ptr());
-            auto firstThunk = reinterpret_cast<IMAGE_THUNK_DATA64*>(binary->pointer(importDescriptor->FirstThunk).ptr());
+            auto originalFirstThunk = reinterpret_cast<IMAGE_THUNK_DATA64*>(peFormat->rvaToPointer(importDescriptor->OriginalFirstThunk).ptr());
+            auto firstThunk = reinterpret_cast<IMAGE_THUNK_DATA64*>(peFormat->rvaToPointer(importDescriptor->FirstThunk).ptr());
 
             while(originalFirstThunk->u1.AddressOfData != 0) {
                 pe_import_ptr import = nullptr;
@@ -190,7 +175,7 @@ pe_import_vec format::pe::readImportList(CBinary* binary, AddressType addressTyp
                         originalFirstThunk->u1.Ordinal & 0xFFFF
                     );
                 } else {
-                    auto importByName = reinterpret_cast<IMAGE_IMPORT_BY_NAME*>(binary->pointer(originalFirstThunk->u1.AddressOfData).ptr());
+                    auto importByName = reinterpret_cast<IMAGE_IMPORT_BY_NAME*>(peFormat->rvaToPointer(originalFirstThunk->u1.AddressOfData).ptr());
 
                     import = std::make_shared<CPeImport>(
                         dllName,
@@ -205,8 +190,8 @@ pe_import_vec format::pe::readImportList(CBinary* binary, AddressType addressTyp
                 firstThunk++;
             }
         } else {
-            auto originalFirstThunk = reinterpret_cast<IMAGE_THUNK_DATA32*>(binary->pointer(importDescriptor->OriginalFirstThunk).ptr());
-            auto firstThunk = reinterpret_cast<IMAGE_THUNK_DATA32*>(binary->pointer(importDescriptor->FirstThunk).ptr());
+            auto originalFirstThunk = reinterpret_cast<IMAGE_THUNK_DATA32*>(peFormat->rvaToPointer(importDescriptor->OriginalFirstThunk).ptr());
+            auto firstThunk = reinterpret_cast<IMAGE_THUNK_DATA32*>(peFormat->rvaToPointer(importDescriptor->FirstThunk).ptr());
 
             while(originalFirstThunk->u1.AddressOfData != 0) {
                 pe_import_ptr import = nullptr;
@@ -218,7 +203,7 @@ pe_import_vec format::pe::readImportList(CBinary* binary, AddressType addressTyp
                         originalFirstThunk->u1.Ordinal & 0xFFFF
                     );
                 } else {
-                    auto importByName = reinterpret_cast<IMAGE_IMPORT_BY_NAME*>(binary->pointer(originalFirstThunk->u1.AddressOfData).ptr());
+                    auto importByName = reinterpret_cast<IMAGE_IMPORT_BY_NAME*>(peFormat->rvaToPointer(originalFirstThunk->u1.AddressOfData).ptr());
 
                     import = std::make_shared<CPeImport>(
                         dllName,
@@ -236,7 +221,6 @@ pe_import_vec format::pe::readImportList(CBinary* binary, AddressType addressTyp
 
         importDescriptor++;
     }
-        */
 
     return vec;
 }
