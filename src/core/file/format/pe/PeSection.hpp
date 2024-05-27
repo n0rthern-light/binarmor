@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../ISection.hpp"
-#include "../../Binary.hpp"
 #include "defines.hpp"
 #include <string>
 
@@ -35,8 +34,6 @@ public:
 	);
 
 	CPeSection(const IMAGE_SECTION_HEADER& header);
-
-    static pe_section_vec readList(CBinary* binary, AddressType addressType);
 
 	std::string name() const;
 	CAddressValue baseAddress() const;

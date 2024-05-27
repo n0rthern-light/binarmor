@@ -19,7 +19,7 @@ constexpr uint_16 IMAGE_FILE_MACHINE_ARM64 = 0xAA64;  // ARM64 little endian
 constexpr uint_32 IMAGE_ORDINAL_FLAG32 = 0x80000000;
 constexpr uint_64 IMAGE_ORDINAL_FLAG64 = 0x8000000000000000;
 
-#define IMAGE_DIRECTORY_ENTRY_IMPORT 1
+constexpr uint_8 IMAGE_DIRECTORY_ENTRY_IMPORT = 1;
 
 // DOS Header (at the file's beginning)
 struct IMAGE_DOS_HEADER {
@@ -164,10 +164,7 @@ struct IMAGE_SECTION_HEADER {
 };
 
 typedef struct _IMAGE_IMPORT_DESCRIPTOR {
-    union {
-        uint_32   Characteristics;            // 0 for terminating null import descriptor
-        uint_32   OriginalFirstThunk;         // RVA to original unbound IAT (PIMAGE_THUNK_DATA)
-    } First;
+    uint_32   OriginalFirstThunk;            // RVA to original unbound IAT (PIMAGE_THUNK_DATA)
     uint_32   TimeDateStamp;                  // 0 if not bound,
     uint_32   ForwarderChain;                 // -1 if no forwarders
     uint_32   Name;                           // RVA to DLL name

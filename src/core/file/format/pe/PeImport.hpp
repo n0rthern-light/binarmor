@@ -2,9 +2,8 @@
 
 #include <string>
 #include "../IImport.hpp"
-#include "../../Binary.hpp"
-#include "shared/value/AddressType.hpp"
 #include <memory>
+#include <shared/types/defines.hpp>
 
 class CPeImport;
 
@@ -24,6 +23,5 @@ public:
         const uint_16& hint,
         const uint_32& ordinal
     );
-    static pe_import_vec readList(CBinary* binary, AddressType addressType);
 };
 

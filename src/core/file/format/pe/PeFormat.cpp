@@ -1,5 +1,4 @@
 #include "PeFormat.hpp"
-#include "PeSection.hpp"
 #include "defines.hpp"
 #include <cassert>
 #include <shared/RuntimeException.hpp>
@@ -75,11 +74,11 @@ CAddressValue CPeFormat::entryPoint() const
 
 pe_section_vec CPeFormat::sections() const
 {
-    return CPeSection::readList(binary, addressType());
+    return format::pe::readSectionList(binary, addressType());
 }
 
 pe_import_vec CPeFormat::imports() const
 {
-    return CPeImport::readList(binary, addressType());
+    return format::pe::readImportList(binary, addressType());
 }
 

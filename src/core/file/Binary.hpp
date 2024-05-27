@@ -15,6 +15,7 @@ public:
     std::string string(const binary_offset& offset = 0) const;
 	binary_offset size() const;
 	CBinaryPointer pointer(const binary_offset& offset) const;
+    bool offsetExists(const binary_offset& offset) const;
 
     bool operator==(const CBinary& other) const;
 };

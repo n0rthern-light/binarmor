@@ -1,5 +1,4 @@
 #include "PeSection.hpp"
-#include "functions.hpp"
 
 CPeSection::CPeSection(
     const std::string& name,
@@ -34,25 +33,6 @@ CPeSection::CPeSection(const IMAGE_SECTION_HEADER& header)
 	header.NumberOfRelocations,
 	header.Characteristics
 ) { }
-
-pe_section_vec CPeSection::readList(CBinary* binary, AddressType addressType)
-{
-	auto vec = pe_section_vec();
-
-	auto numberOfSections = format::pe::numberOfSections(binary, addressType);
-    auto offset = format::pe::sectionsStartOffset(binary, addressType);
-
-	auto binaryPointer = binary->pointer(offset);
-    for(int i = 0; i < numberOfSections; ++i)
-    {
-        auto sectionOrigin = binaryPointer.shift(i * sizeof(IMAGE_SECTION_HEADER));
-        auto sectionHeader = *reinterpret_cast<IMAGE_SECTION_HEADER*>(sectionOrigin.ptr());
-        auto section = std::make_shared<CPeSection>(sectionHeader);
-        vec.push_back(section);
-    }
-
-	return vec;
-}
 
 std::string CPeSection::name() const
 {

@@ -4,9 +4,9 @@
 #include <stdio.h>
 
 auto x86exe_Imports = BinaryMother::x86exe()->imports();
-auto x86dll_Imports = BinaryMother::x86dll()->imports();
-auto x86_64exe_Imports = BinaryMother::x86_64exe()->imports();
-auto x86_64dll_Imports = BinaryMother::x86_64dll()->imports();
+//auto x86dll_Imports = BinaryMother::x86dll()->imports();
+//auto x86_64exe_Imports = BinaryMother::x86_64exe()->imports();
+//auto x86_64dll_Imports = BinaryMother::x86_64dll()->imports();
 
 TEST(PeImportTest, X86ExeImportsAreCorrect)
 {

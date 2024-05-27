@@ -49,13 +49,18 @@ binary_offset CBinary::size() const
 
 CBinaryPointer CBinary::pointer(const binary_offset& offset) const
 {
-	if (offset >= _bytes.size()) {
+	if (!offsetExists(offset)) {
         char message[128];
         sprintf(message, strenc("Out of range! Binary size is %u bytes, requested %u"), _bytes.size(), offset);
 		throw std::out_of_range(message);
 	}
 
 	return CBinaryPointer(offset, reinterpret_cast<uint_auto>(&_bytes[offset]));
+}
+
+bool CBinary::offsetExists(const binary_offset& offset) const
+{
+    return offset >= 0 && offset < size();
 }
 
 bool CBinary::operator==(const CBinary& other) const
