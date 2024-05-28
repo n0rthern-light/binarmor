@@ -92,8 +92,8 @@ CBinaryPointer CPeFormat::rvaToPointer(const binary_offset& rva) const
     return binary()->pointer(rvaToOffset(rva));
 }
 
-pe_import_vec CPeFormat::imports() const
+pe_module_map CPeFormat::imports() const
 {
-    return format::pe::readImportList(this);
+    return format::pe::readImportModules(this);
 }
 

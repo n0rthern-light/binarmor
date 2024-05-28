@@ -146,82 +146,106 @@ IMAGE_DATA_DIRECTORY* format::pe::imageDataDirectory(const CPeFormat* peFormat)
     }
 }
 
-pe_import_vec format::pe::readImportList(const CPeFormat* peFormat)
+pe_module_map format::pe::readImportModules(const CPeFormat* peFormat)
 {
-
-    pe_import_vec vec{ };
+    pe_module_map map { };
 
     auto binary = peFormat->binary();
     auto addressType = peFormat->addressType();
 
     auto importDataDirectory = format::pe::imageDataDirectory(peFormat)[IMAGE_DIRECTORY_ENTRY_IMPORT];
-    auto importDescriptorPtr = peFormat->rvaToPointer(importDataDirectory.VirtualAddress);
-    auto importDescriptor = reinterpret_cast<IMAGE_IMPORT_DESCRIPTOR*>(importDescriptorPtr.ptr());
+    auto currentImportDescriptorRva = importDataDirectory.VirtualAddress;
+    auto currentImportDescriptorPointer = peFormat->rvaToPointer(currentImportDescriptorRva);
+    auto currentImportDescriptor = reinterpret_cast<IMAGE_IMPORT_DESCRIPTOR*>(currentImportDescriptorPointer.ptr());
 
-    while (importDescriptor->Name != 0) {
-        auto dllName = binary->string(peFormat->rvaToOffset(importDescriptor->Name));
+    while (currentImportDescriptor->Name != 0) {
+        auto moduleName = binary->string(peFormat->rvaToOffset(currentImportDescriptor->Name));
+        auto currentThunkRva = currentImportDescriptor->OriginalFirstThunk;
+        auto currentThunkPointer = peFormat->rvaToPointer(currentThunkRva);
+
+        pe_import_vec moduleImports { };
 
         if (addressType == AddressType::_64_BIT) {
-            auto originalFirstThunk = reinterpret_cast<IMAGE_THUNK_DATA64*>(peFormat->rvaToPointer(importDescriptor->OriginalFirstThunk).ptr());
-            auto firstThunk = reinterpret_cast<IMAGE_THUNK_DATA64*>(peFormat->rvaToPointer(importDescriptor->FirstThunk).ptr());
+            auto currentThunk = reinterpret_cast<IMAGE_THUNK_DATA64*>(currentThunkPointer.ptr());
 
-            while(originalFirstThunk->u1.AddressOfData != 0) {
+            while(currentThunk->u1.AddressOfData != 0) {
                 pe_import_ptr import = nullptr;
-                if (originalFirstThunk->u1.Ordinal & IMAGE_ORDINAL_FLAG64) {
+                if (currentThunk->u1.Ordinal & IMAGE_ORDINAL_FLAG64) {
                     import = std::make_shared<CPeImport>(
-                        dllName,
                         strenc("Ordinal"),
                         0,
-                        originalFirstThunk->u1.Ordinal & 0xFFFF
+                        currentThunk->u1.Ordinal & 0xFFFF,
+                        currentThunkRva,
+                        sizeof(IMAGE_THUNK_DATA64),
+                        currentThunkPointer
                     );
                 } else {
-                    auto importByName = reinterpret_cast<IMAGE_IMPORT_BY_NAME*>(peFormat->rvaToPointer(originalFirstThunk->u1.AddressOfData).ptr());
+                    auto importByName = reinterpret_cast<IMAGE_IMPORT_BY_NAME*>(peFormat->rvaToPointer(currentThunk->u1.AddressOfData).ptr());
 
                     import = std::make_shared<CPeImport>(
-                        dllName,
                         std::string(importByName->Name),
                         importByName->Hint,
-                        0
+                        0,
+                        currentThunkRva,
+                        sizeof(IMAGE_THUNK_DATA64),
+                        currentThunkPointer
                     );
                 }
 
-                vec.push_back(import);
-                originalFirstThunk++;
-                firstThunk++;
+                moduleImports.push_back(import);
+
+                currentThunkRva += sizeof(IMAGE_THUNK_DATA64);
+                currentThunkPointer = peFormat->rvaToPointer(currentThunkRva);
+                currentThunk++;
             }
         } else {
-            auto originalFirstThunk = reinterpret_cast<IMAGE_THUNK_DATA32*>(peFormat->rvaToPointer(importDescriptor->OriginalFirstThunk).ptr());
-            auto firstThunk = reinterpret_cast<IMAGE_THUNK_DATA32*>(peFormat->rvaToPointer(importDescriptor->FirstThunk).ptr());
+            auto currentThunk = reinterpret_cast<IMAGE_THUNK_DATA32*>(currentThunkPointer.ptr());
 
-            while(originalFirstThunk->u1.AddressOfData != 0) {
+            while(currentThunk->u1.AddressOfData != 0) {
                 pe_import_ptr import = nullptr;
-                if (originalFirstThunk->u1.Ordinal & IMAGE_ORDINAL_FLAG32) {
+                if (currentThunk->u1.Ordinal & IMAGE_ORDINAL_FLAG32) {
                     import = std::make_shared<CPeImport>(
-                        dllName,
                         strenc("Ordinal"),
                         0,
-                        originalFirstThunk->u1.Ordinal & 0xFFFF
+                        currentThunk->u1.Ordinal & 0xFFFF,
+                        currentThunkRva,
+                        sizeof(IMAGE_THUNK_DATA32),
+                        currentThunkPointer
                     );
                 } else {
-                    auto importByName = reinterpret_cast<IMAGE_IMPORT_BY_NAME*>(peFormat->rvaToPointer(originalFirstThunk->u1.AddressOfData).ptr());
+                    auto importByName = reinterpret_cast<IMAGE_IMPORT_BY_NAME*>(peFormat->rvaToPointer(currentThunk->u1.AddressOfData).ptr());
 
                     import = std::make_shared<CPeImport>(
-                        dllName,
                         std::string(importByName->Name),
                         importByName->Hint,
-                        0
+                        0,
+                        currentThunkRva,
+                        sizeof(IMAGE_THUNK_DATA32),
+                        currentThunkPointer
                     );
                 }
 
-                vec.push_back(import);
-                originalFirstThunk++;
-                firstThunk++;
+                moduleImports.push_back(import);
+
+                currentThunkRva += sizeof(IMAGE_THUNK_DATA32);
+                currentThunkPointer = peFormat->rvaToPointer(currentThunkRva);
+                currentThunk++;
             }
         }
 
-        importDescriptor++;
+        map[moduleName] = std::make_shared<CPeModule>(
+            moduleName,
+            currentImportDescriptorRva,
+            sizeof(IMAGE_IMPORT_DESCRIPTOR),
+            currentImportDescriptorPointer,
+            moduleImports
+        );
+
+        currentImportDescriptor++;
+        currentImportDescriptorRva += sizeof(IMAGE_IMPORT_DESCRIPTOR);
+        currentImportDescriptorPointer = peFormat->rvaToPointer(currentImportDescriptorRva);
     }
 
-    return vec;
+    return map;
 }
 

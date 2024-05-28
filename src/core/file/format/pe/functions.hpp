@@ -4,6 +4,7 @@
 #include "defines.hpp"
 #include "../../Binary.hpp"
 #include "PeSection.hpp"
+#include "PeModule.hpp"
 #include "PeImport.hpp"
 
 namespace format {
@@ -16,7 +17,7 @@ namespace format {
         pe_section_vec readSectionList(const CPeFormat* peFormat);
         binary_offset rvaToOffset(const CPeFormat* peFormat, const binary_offset& rva);
         IMAGE_DATA_DIRECTORY* imageDataDirectory(const CPeFormat* peFormat);
-        pe_import_vec readImportList(const CPeFormat* peFormat);
+        pe_module_map readImportModules(const CPeFormat* peFormat);
     };
 }
 
