@@ -3,26 +3,26 @@
 #include <shared/RuntimeException.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
 
-CBinaryFileStateManager::CBinaryFileStateManager(IEventBus* _eventBus, IFileReader* _fileReader) : eventBus(_eventBus), fileReader(_fileReader)
+CBinaryFileStateManager::CBinaryFileStateManager(IEventBus* eventBus, IFileReader* fileReader) : _eventBus(eventBus), _fileReader(fileReader)
 {
-	binaryFile = nullptr;
+	_binaryFile = nullptr;
 }
 
-std::shared_ptr<CBinaryFile> CBinaryFileStateManager::getBinaryFile() const
+std::shared_ptr<CBinaryFile> CBinaryFileStateManager::binaryFile() const
 {
-	return binaryFile;
+	return _binaryFile;
 }
 
-const CBinary& CBinaryFileStateManager::getBinaryFileBinary() const
+CBinary CBinaryFileStateManager::binaryFileBinary() const
 {
-	return getBinaryFile()->getBinary();
+	return binaryFile()->binary();
 }
 
 void CBinaryFileStateManager::load(const std::string& filePath)
 {
-	binaryFile = std::make_shared<CBinaryFile>(filePath, fileReader->read(filePath));
+	_binaryFile = std::make_shared<CBinaryFile>(filePath, _fileReader->read(filePath));
 
-	eventBus->publish(new CBinaryFileLoadedEvent());
+	_eventBus->publish(new CBinaryFileLoadedEvent());
 }
 
 void CBinaryFileStateManager::save(const std::string& filePath)

@@ -2,50 +2,79 @@
 #include "BinaryPointer.hpp"
 #include <stdexcept>
 #include <shared/self_obfuscation/strenc.hpp>
+#include <shared/types/defines.hpp>
+#include <stdio.h>
 
-CBinary::CBinary(const std::vector<unsigned char> _bytes): bytes(_bytes) { }
+CBinary::CBinary(const byte_vec& bytes): _bytes(bytes) { }
 
-CBinary CBinary::getPart(size_t offset, size_t count) const
+byte_ptr CBinary::at(const binary_offset& offset) const
+{
+    return reinterpret_cast<byte_ptr>(&_bytes[offset]);
+}
+
+CBinary CBinary::part(const binary_offset& offset, const size_t& count) const
 {
 	if (offset == 0 && count == 0) {
 		return *this;
 	}
 
-	if (offset >= bytes.size()) {
+	if (offset >= _bytes.size()) {
 		throw std::out_of_range(strenc("Offset is out of the range of the data vector."));
 	}
 
-	if (count == 0 || offset + count > bytes.size()) {
-		count = bytes.size() - offset;
+    auto localCount = count;
+
+	if (count == 0 || offset + count > _bytes.size()) {
+		localCount = _bytes.size() - offset;
 	}
 
-	auto subVector = std::vector<unsigned char>(&bytes[offset], &bytes[offset + count]);
+	auto subVector = byte_vec(&_bytes[offset], &_bytes[offset + localCount]);
 
 	return CBinary(subVector);
 }
 
-std::vector<unsigned char> CBinary::getBytes(size_t offset, size_t count) const {
-	return getPart(offset, count).bytes;
+byte_vec CBinary::bytes() const {
+	return _bytes;
 }
 
-std::string CBinary::getBytesAsString(size_t offset, size_t count) const
+std::string CBinary::string(const binary_offset& offset) const
 {
-	auto vec = getBytes(offset, count);
-	
-	return std::string(vec.begin(), vec.end());
+    return std::string(reinterpret_cast<const char*>(at(offset)));
 }
 
-size_t CBinary::getSize() const
+binary_offset CBinary::size() const
 {
-	return bytes.size();
+	return _bytes.size();
 }
 
-CBinaryPointer CBinary::getPointer(size_t offset) const
+CBinaryPointer CBinary::pointer(const binary_offset& offset) const
 {
-	if (offset >= bytes.size()) {
-		throw std::out_of_range(strenc("Offset is out of the range of the data vector."));
+	if (!offsetExists(offset)) {
+        char message[128];
+        sprintf(message, strenc("Out of range! Binary size is %u bytes, requested %u"), _bytes.size(), offset);
+		throw std::out_of_range(message);
 	}
 
-	return CBinaryPointer(offset, reinterpret_cast<std::uintptr_t>(&bytes[offset]));
+	return CBinaryPointer(offset, reinterpret_cast<uint_auto>(&_bytes[offset]));
+}
+
+bool CBinary::offsetExists(const binary_offset& offset) const
+{
+    return offset >= 0 && offset < size();
+}
+
+bool CBinary::operator==(const CBinary& other) const
+{
+    if (size() != other.size()) {
+        return false;
+    }
+
+    for(size_t i = 0; i < _bytes.size(); i++) {
+        if (_bytes[i] != other._bytes[i]) {
+            return false;
+        }
+    }
+
+    return true;
 }
 

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "headers.hpp"
 #include "ui/IGuiApp.hpp"
 #include <shared/event/IEventBus.hpp>
 #include <core/file/IFileReader.hpp>
@@ -16,7 +15,7 @@ namespace container {
 			extern std::shared_ptr<IFileReader> fileReader;
 			extern std::shared_ptr<CBinaryFileStateManager> binaryFileStateManager;
 
-			namespace attributes {
+			namespace analysis {
 				extern std::shared_ptr<CAnalysisRunner> runner;
 			}
 		}

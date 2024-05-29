@@ -1,17 +1,22 @@
 #pragma once
-#include <vector>
+
+#include <shared/types/defines.hpp>
 #include <string>
 #include "BinaryPointer.hpp"
 
 class CBinary
 {
-	const std::vector<unsigned char> bytes;
+	const byte_vec _bytes;
+    byte_ptr at(const binary_offset& offset) const;
 public:
-	CBinary(const std::vector<unsigned char> _bytes);
-	CBinary getPart(size_t offset = 0, size_t count = 0) const;
-	std::vector<unsigned char> getBytes(size_t offset = 0, size_t count = 0) const;
-	std::string getBytesAsString(size_t offset = 0, size_t count = 0) const;
-	size_t getSize() const;
-	CBinaryPointer getPointer(size_t offset) const;
+	CBinary(const byte_vec& bytes);
+	CBinary part(const binary_offset& offset = 0, const binary_offset& count = 0) const;
+	byte_vec bytes() const;
+    std::string string(const binary_offset& offset = 0) const;
+	binary_offset size() const;
+	CBinaryPointer pointer(const binary_offset& offset) const;
+    bool offsetExists(const binary_offset& offset) const;
+
+    bool operator==(const CBinary& other) const;
 };
  

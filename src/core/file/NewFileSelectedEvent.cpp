@@ -1,11 +1,11 @@
 #include "NewFileSelectedEvent.hpp"
 
-CNewFileSelectedEvent::CNewFileSelectedEvent(const char* _path)
+CNewFileSelectedEvent::CNewFileSelectedEvent(const char* path)
 {
-	path = std::string(_path);
+	_path = std::string(path);
 }
 
-const std::string& CNewFileSelectedEvent::getPath()
+const std::string& CNewFileSelectedEvent::path()
 {
-	return path;
+	return _path;
 }

@@ -1,29 +1,29 @@
 #include "PeSection.hpp"
 
 CPeSection::CPeSection(
-    const std::string& _name,
-    const CAddressValue& _rawAddress,
-    const uint32_t& _rawSize,
-    const CAddressValue& _virtualAddress,
-    const uint32_t& _virtualSize,
-    const CAddressValue& _pointerToRelocations,
-    const uint16_t& _numberOfLinenumbers,
-    const uint16_t& _numberOfRelocations,
-    const uint32_t& _characteristics
-) : name(_name),
-    rawAddress(_rawAddress),
-    rawSize(_rawSize),
-    virtualAddress(_virtualAddress),
-    virtualSize(_virtualSize),
-    pointerToRelocations(_pointerToRelocations),
-    numberOfLinenumbers(_numberOfLinenumbers),
-    numberOfRelocations(_numberOfRelocations),
-    characteristics(_characteristics) {
+    const std::string& name,
+    const CAddressValue& rawAddress,
+    const uint_32& rawSize,
+    const CAddressValue& virtualAddress,
+    const uint_32& virtualSize,
+    const CAddressValue& pointerToRelocations,
+    const uint_16& numberOfLinenumbers,
+    const uint_16& numberOfRelocations,
+    const uint_32& characteristics
+) : _name(name),
+    _rawAddress(rawAddress),
+    _rawSize(rawSize),
+    _virtualAddress(virtualAddress),
+    _virtualSize(virtualSize),
+    _pointerToRelocations(pointerToRelocations),
+    _numberOfLinenumbers(numberOfLinenumbers),
+    _numberOfRelocations(numberOfRelocations),
+    _characteristics(characteristics) {
 }
 
 CPeSection::CPeSection(const IMAGE_SECTION_HEADER& header)
 : CPeSection(
-	std::string(reinterpret_cast<const char*>(header.Name), 8),
+	std::string(reinterpret_cast<const char*>(header.Name)),
 	CAddressValue(header.PointerToRawData),
 	header.SizeOfRawData,
 	CAddressValue(header.VirtualAddress),
@@ -34,58 +34,99 @@ CPeSection::CPeSection(const IMAGE_SECTION_HEADER& header)
 	header.Characteristics
 ) { }
 
-std::string CPeSection::getName() const
+std::string CPeSection::name() const
 {
-	return name;
+	return _name;
 }
 
-CAddressValue CPeSection::getBaseAddress() const
+CAddressValue CPeSection::baseAddress() const
 {
-	return getRawAddress();
+	return rawAddress();
 }
 
-size_t CPeSection::getSize() const
+size_t CPeSection::size() const
 {
-	return static_cast<size_t>(getRawSize());
+	return static_cast<size_t>(rawSize());
 }
 
-CAddressValue CPeSection::getRawAddress() const
+CAddressValue CPeSection::rawAddress() const
 {
-	return rawAddress;
+	return _rawAddress;
 }
 
-uint32_t CPeSection::getRawSize() const
+uint_32 CPeSection::rawSize() const
 {
-	return rawSize;
+	return _rawSize;
 }
 
-CAddressValue CPeSection::getVirtualAddress() const
+CAddressValue CPeSection::virtualAddress() const
 {
-	return virtualAddress;
+	return _virtualAddress;
 }
 
-uint32_t CPeSection::getVirtualSize() const
+uint_32 CPeSection::virtualSize() const
 {
-	return virtualSize;
+	return _virtualSize;
 }
 
-CAddressValue CPeSection::getPointerToRelocations() const
+CAddressValue CPeSection::pointerToRelocations() const
 {
-	return pointerToRelocations;
+	return _pointerToRelocations;
 }
 
-uint16_t CPeSection::getNumberOfLinenumbers() const
+uint_16 CPeSection::numberOfLinenumbers() const
 {
-	return numberOfLinenumbers;
+	return _numberOfLinenumbers;
 }
 
-uint16_t CPeSection::getNumberOfRelocations() const
+uint_16 CPeSection::numberOfRelocations() const
 {
-	return numberOfRelocations;
+	return _numberOfRelocations;
 }
 
-uint32_t CPeSection::getCharacteristics() const
+uint_32 CPeSection::characteristics() const
 {
-	return characteristics;
+	return _characteristics;
+}
+
+bool CPeSection::operator==(const CPeSection& other) const
+{
+	if (_name != other._name) {
+		return false;
+	}
+
+	if (_rawAddress != other._rawAddress) {
+		return false;
+	}
+
+	if (_rawSize != other._rawSize) {
+		return false;
+	}
+
+	if (_virtualAddress != other._virtualAddress) {
+		return false;
+	}
+
+	if (_virtualSize != other._virtualSize) {
+		return false;
+	}
+
+	if (_pointerToRelocations != other._pointerToRelocations) {
+		return false;
+	}
+
+	if (_numberOfLinenumbers != other._numberOfLinenumbers) {
+		return false;
+	}
+
+	if (_numberOfRelocations != other._numberOfRelocations) {
+		return false;
+	}
+
+	if (_characteristics != other._characteristics) {
+		return false;
+	}
+
+	return true;
 }
 

@@ -123,7 +123,7 @@ void CwxFrame::promptOpenFile()
 void CwxFrame::displayBinary(const CBinary& binary)
 {
     std::stringstream ss;
-    for (auto byte : binary.getBytes()) {
+    for (auto byte : binary.bytes()) {
         ss << std::hex << std::uppercase << std::setw(2) << std::setfill('0') << static_cast<int>(byte) << strenc(" ");
     }
     auto wxStr = wxString(ss.str());

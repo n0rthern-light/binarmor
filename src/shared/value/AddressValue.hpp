@@ -1,23 +1,28 @@
 #pragma once
+
 #include "AddressType.hpp"
-#include <cstdint>
-#include <stdexcept>
-#include <iostream>
+#include "../types/defines.hpp"
+#include <string>
 
 class CAddressValue
 {
 	union {
-		uint32_t _32;
-		uint64_t _64;
+		uint_32 _32;
+		uint_64 _64;
 	} address;
     AddressType type;
 
 public:
-	CAddressValue(uint32_t _address);
-    CAddressValue(uint64_t _address);
-	AddressType getType() const;
-	uint32_t getAddress32() const;
-	uint64_t getAddress64() const;
-	std::uintptr_t getAddress() const;
+	CAddressValue(int _address);
+	CAddressValue(uint_32 _address);
+    CAddressValue(uint_64 _address);
+	AddressType bitType() const;
+	uint_32 get32() const;
+	uint_64 get64() const;
+	uint_auto get() const;
+    std::string asDecimalString() const;
+    std::string asShortHexString() const;
+    std::string asFullHexString() const;
+	bool operator==(const CAddressValue& other) const;
 };
 

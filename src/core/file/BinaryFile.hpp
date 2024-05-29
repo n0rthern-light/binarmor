@@ -2,27 +2,28 @@
 
 #include "Binary.hpp"
 #include "BinaryAttributes.hpp"
+#include "attributes.hpp"
 #include "flags.hpp"
-#include "format/IFormat.hpp"
 #include <shared/event/IEventBus.hpp>
 #include <string>
 
 class CBinaryFile
 {
-	const std::string filePath;
-	const CBinary binary;
-	Format format;
-	unsigned int flags;
-	BinaryAttributes_t attributes;
+	const std::string _filePath;
+	const CBinary _binary;
+	Format _format;
+	uint_32 _flags;
+	BinaryAttributes_t _attributes;
 public:
-	CBinaryFile(const std::string& _filePath, const CBinary& _binary);
-	const std::string& getFilePath() const;
-	const CBinary& getBinary() const;
+	CBinaryFile(const std::string& filePath, const CBinary& binary);
+	std::string filePath() const;
+	CBinary binary() const;
 	bool hasFormatRecognized() const;
-	void recognizeFormat(const Format& _format);
-	void enableFlags(BinaryFileFlags _flags);
-	void disableFlags(BinaryFileFlags _flags);
-	bool hasFlags(BinaryFileFlags _flags) const;
-	void completeAnalysis(const BinaryAttributes_t& _attributes);
+	void recognizeFormat(const Format& format);
+	void enableFlags(BinaryFileFlags flags);
+	void disableFlags(BinaryFileFlags flags);
+	bool hasFlags(BinaryFileFlags flags) const;
+	bool hasAnyFlags() const;
+	void completeAnalysis(const BinaryAttributes_t& attributes);
 };
 
