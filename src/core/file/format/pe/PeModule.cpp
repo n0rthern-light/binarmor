@@ -2,11 +2,10 @@
 
 CPeModule::CPeModule(
     const std::string& name,
-    const uint_32& rva,
-    const uint_32& size,
-    const CBinaryPointer& origin,
+    const uint_32& rvaImportDescriptor,
+    const uint_32& sizeOfImportDescriptor,
     const pe_import_vec& imports
-): _name(name), _rva(rva), _size(size), _origin(origin), _imports(imports)
+): _name(name), _rvaImportDescriptor(rvaImportDescriptor), _sizeOfImportDescriptor(sizeOfImportDescriptor), _imports(imports)
 { }
 
 std::string CPeModule::name() const
@@ -14,19 +13,14 @@ std::string CPeModule::name() const
     return _name;
 }
 
-uint_32 CPeModule::rva() const
+uint_32 CPeModule::rvaImportDescriptor() const
 {
-    return _rva;
+    return _rvaImportDescriptor;
 }
 
-uint_32 CPeModule::size() const
+uint_32 CPeModule::sizeOfImportDescriptor() const
 {
-    return _size;
-}
-
-CBinaryPointer CPeModule::origin() const
-{
-    return _origin;
+    return _sizeOfImportDescriptor;
 }
 
 pe_import_vec CPeModule::imports() const
