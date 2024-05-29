@@ -1,4 +1,6 @@
-# BinArmor 
+# BinArmor
+<img width="809" alt="binarmor-alpha" src="https://github.com/n0rthern-light/binarmor/assets/45363185/2626f691-f911-4850-97ff-1f16da38d7fe">
+
 Binary Armor: Binary protection Software.
 
 ### A proposed build architecture
