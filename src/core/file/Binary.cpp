@@ -22,7 +22,7 @@ CBinary CBinary::part(const binary_offset& offset, const size_t& count) const
 		throw std::out_of_range(strenc("Offset is out of the range of the data vector."));
 	}
 
-    size_t localCount = count;
+    auto localCount = count;
 
 	if (count == 0 || offset + count > _bytes.size()) {
 		localCount = _bytes.size() - offset;
