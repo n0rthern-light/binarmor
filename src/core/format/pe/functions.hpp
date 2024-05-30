@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core/file/format/pe/PeFormat.hpp"
+#include "core/format/pe/PeFormat.hpp"
 #include "defines.hpp"
 #include "../../Binary.hpp"
 #include "PeSection.hpp"

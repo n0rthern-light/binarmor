@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Binary.hpp"
+#include "../Binary.hpp"
+#include "../attributes.hpp"
 #include "BinaryAttributes.hpp"
-#include "attributes.hpp"
 #include "flags.hpp"
 #include <shared/event/IEventBus.hpp>
 #include <string>

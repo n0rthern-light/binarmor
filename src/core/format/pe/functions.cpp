@@ -1,6 +1,6 @@
 #include "functions.hpp"
 #include "../functions.hpp"
-#include "core/file/format/pe/defines.hpp"
+#include "defines.hpp"
 #include "shared/value/AddressType.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
 #include <shared/RuntimeException.hpp>

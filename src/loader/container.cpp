@@ -2,12 +2,12 @@
 #include <shared/self_obfuscation/strenc.hpp>
 #include <shared/event/simple/SimpleEventBus.hpp>
 #include "ui/wx/wxWidgetsGuiApp.hpp"
-#include <core/file/UIRequestedOpenFileEvent.hpp>
-#include <core/file/NewFileSelectedEvent.hpp>
+#include <core/file/events/UIRequestedOpenFileEvent.hpp>
+#include <core/file/events/NewFileSelectedEvent.hpp>
 #include <core/file/fstream/fstreamFileReader.hpp>
-#include <core/file/BinaryFileLoadedEvent.hpp>
-#include <core/file/analysis/BinaryFileAnalyzedEvent.hpp>
-#include <core/file/analysis/UnsupportedFileException.hpp>
+#include <core/file/events/BinaryFileLoadedEvent.hpp>
+#include <core/file/analysis/events/BinaryFileAnalyzedEvent.hpp>
+#include <core/file/analysis/exceptions/UnsupportedFileException.hpp>
 
 std::shared_ptr<IEventBus> container::eventBus = nullptr;
 std::shared_ptr<IGuiApp> container::guiApp = nullptr;

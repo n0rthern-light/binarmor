@@ -2,7 +2,7 @@
 
 #include "wx_headers.hpp"
 #include <shared/event/IEventBus.hpp>
-#include <core/file/Binary.hpp>
+#include <core/Binary.hpp>
 
 class CwxFrame : public wxFrame
 {

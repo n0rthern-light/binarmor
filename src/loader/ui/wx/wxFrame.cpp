@@ -2,10 +2,9 @@
 #include "bitmap.hpp"
 #include "../icons.hpp"
 #include "../settings.hpp"
-#include "../../container.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
-#include <core/file/UIRequestedOpenFileEvent.hpp>
-#include <core/file/NewFileSelectedEvent.hpp>
+#include <core/file/events/UIRequestedOpenFileEvent.hpp>
+#include <core/file/events/NewFileSelectedEvent.hpp>
 #include <sstream>
 #include <iomanip>
 

@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <core/file/Binary.hpp>
+#include <core/Binary.hpp>
 
 class IGuiApp
 {

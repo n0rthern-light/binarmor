@@ -1,8 +1,8 @@
 #pragma once
 
 #include <core/file/fstream/fstreamFileReader.hpp>
-#include <core/file/Binary.hpp>
-#include <core/file/format/pe/PeFormat.hpp>
+#include <core/Binary.hpp>
+#include <core/format/pe/PeFormat.hpp>
 
 class BinaryMother
 {

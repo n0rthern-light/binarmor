@@ -1,6 +1,6 @@
 #include "AnalysisRunner.hpp"
 #include "analyzers/FormatAnalyzer.hpp"
-#include "BinaryFileAnalyzedEvent.hpp"
+#include "events/BinaryFileAnalyzedEvent.hpp"
 
 CAnalysisRunner::CAnalysisRunner(IEventBus* _eventBus): eventBus(_eventBus)
 {

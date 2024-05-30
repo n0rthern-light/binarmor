@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Binary.hpp"
+#include "../Binary.hpp"
 
 class IFileReader
 {

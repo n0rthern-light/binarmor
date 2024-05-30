@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <core/file/NewFileSelectedEvent.hpp>
+#include <core/file/events/NewFileSelectedEvent.hpp>
 
 TEST(NewFileSelectedTest, GetterReturnsCorrectPath) {
 	auto event = new CNewFileSelectedEvent("C:\\System32\\kernel32.dll");

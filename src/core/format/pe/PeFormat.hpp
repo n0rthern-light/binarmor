@@ -4,7 +4,7 @@
 #include "../../Binary.hpp"
 #include "PeSection.hpp"
 #include "PeModule.hpp"
-#include "core/file/BinaryPointer.hpp"
+#include "../../BinaryPointer.hpp"
 
 class CPeFormat : public IFormat
 {

@@ -1,5 +1,5 @@
 #include "BinaryFileStateManager.hpp"
-#include "BinaryFileLoadedEvent.hpp"
+#include "events/BinaryFileLoadedEvent.hpp"
 #include <shared/RuntimeException.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
 

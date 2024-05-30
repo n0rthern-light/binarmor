@@ -1,6 +1,5 @@
-#include "core/file/Binary.hpp"
+#include "core/Binary.hpp"
 #include <gtest/gtest.h>
-#include <core/file/BinaryFile.hpp>
 
 const byte_vec bytes = {0xAA, 0x90, 0xCC, 0x00, 0x00, 0x00, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A};
 const byte_vec strBytes = {0x54, 0x65, 0x73, 0x74, 0x20, 0x73, 0x74, 0x72, 0x69, 0x6E, 0x67, 0x00};
@@ -10,7 +9,7 @@ CBinary* fresh()
     return new CBinary(bytes);
 }
 
-TEST(BinaryFileTest, EqOperandWorks)
+TEST(BinaryTest, EqOperandWorks)
 {
     auto first = *fresh();
     auto second = *fresh();
@@ -18,7 +17,7 @@ TEST(BinaryFileTest, EqOperandWorks)
     ASSERT_TRUE(first == second);
 }
 
-TEST(BinaryFileTest, CanBePartitioned)
+TEST(BinaryTest, CanBePartitioned)
 {
     auto binary = *fresh();
 
@@ -30,7 +29,7 @@ TEST(BinaryFileTest, CanBePartitioned)
     ASSERT_EQ(binary.part(4, 4), CBinary(byte_vec {0x00, 0x00, 0x0F, 0xBC}));
 }
 
-TEST(BinaryFileTest, BytesCanBeCastedToString)
+TEST(BinaryTest, BytesCanBeCastedToString)
 {
     auto binary = new CBinary(strBytes);
 
