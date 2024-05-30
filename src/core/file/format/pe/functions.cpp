@@ -19,13 +19,14 @@ IMAGE_DOS_HEADER* format::pe::dosHeader(const CBinary* binary)
 	return dosHeader;
 }
 
-IMAGE_NT_HEADERS32* format::pe::ntHeaders32(const CBinary* binary)
+template <typename NT_HEADERS>
+NT_HEADERS* format::pe::ntHeaders(const CBinary* binary)
 {
     format::assertBinaryNotNull(binary);
 
 	auto dosHeader = format::pe::dosHeader(binary);
 
-    IMAGE_NT_HEADERS32* ntHeaders = reinterpret_cast<IMAGE_NT_HEADERS32*>(binary->pointer(dosHeader->e_lfanew).ptr());
+    auto ntHeaders = reinterpret_cast<NT_HEADERS*>(binary->pointer(dosHeader->e_lfanew).ptr());
 
     if (ntHeaders->Signature != IMAGE_NT_SIGNATURE) {
 		throw RuntimeException(strenc("Invalid IMAGE_NT_SIGNATURE"));
@@ -34,19 +35,14 @@ IMAGE_NT_HEADERS32* format::pe::ntHeaders32(const CBinary* binary)
 	return ntHeaders;
 }
 
+IMAGE_NT_HEADERS32* format::pe::ntHeaders32(const CBinary* binary)
+{
+    return format::pe::ntHeaders<IMAGE_NT_HEADERS32>(binary);
+}
+
 IMAGE_NT_HEADERS64* format::pe::ntHeaders64(const CBinary* binary)
 {
-    format::assertBinaryNotNull(binary);
-
-	auto dosHeader = format::pe::dosHeader(binary);
-
-    IMAGE_NT_HEADERS64* ntHeaders = reinterpret_cast<IMAGE_NT_HEADERS64*>(binary->pointer(dosHeader->e_lfanew).ptr());
-
-    if (ntHeaders->Signature != IMAGE_NT_SIGNATURE) {
-		throw RuntimeException(strenc("Invalid IMAGE_NT_SIGNATURE"));
-    }
-
-	return ntHeaders;
+    return format::pe::ntHeaders<IMAGE_NT_HEADERS64>(binary);
 }
 
 
@@ -146,6 +142,61 @@ IMAGE_DATA_DIRECTORY* format::pe::imageDataDirectory(const CPeFormat* peFormat)
     }
 }
 
+template <typename IMAGE_THUNK_DATA, typename IMAGE_ORDINAL_FLAG>
+pe_import_vec format::pe::readModuleImports(const CPeFormat* peFormat, const IMAGE_IMPORT_DESCRIPTOR* imageImportDescriptor, const IMAGE_ORDINAL_FLAG& imageOrdinalFlag)
+{
+    pe_import_vec moduleImports { };
+
+    auto currentOriginalThunkRva = imageImportDescriptor->OriginalFirstThunk;
+    auto currentThunkRva = imageImportDescriptor->FirstThunk;
+    auto currentOriginalThunkPointer = peFormat->rvaToPointer(currentOriginalThunkRva);
+    auto currentThunkPointer = peFormat->rvaToPointer(currentThunkRva);
+
+    auto currentOriginalThunk = reinterpret_cast<IMAGE_THUNK_DATA*>(currentOriginalThunkPointer.ptr());
+    auto currentThunk = reinterpret_cast<IMAGE_THUNK_DATA*>(currentThunkPointer.ptr());
+
+    while(currentOriginalThunk->u1.AddressOfData != 0) {
+        pe_import_ptr import = nullptr;
+        if (currentOriginalThunk->u1.Ordinal & imageOrdinalFlag) {
+            import = std::make_shared<CPeImport>(
+                strenc("Ordinal"),
+                0,
+                currentOriginalThunk->u1.Ordinal & 0xFFFF,
+                currentOriginalThunkRva,
+                currentThunkRva,
+                currentOriginalThunk->u1.AddressOfData,
+                currentThunk->u1.AddressOfData,
+                sizeof(IMAGE_THUNK_DATA)
+            );
+        } else {
+            auto importByName = reinterpret_cast<IMAGE_IMPORT_BY_NAME*>(peFormat->rvaToPointer(currentOriginalThunk->u1.AddressOfData).ptr());
+
+            import = std::make_shared<CPeImport>(
+                std::string(importByName->Name),
+                importByName->Hint,
+                0,
+                currentOriginalThunkRva,
+                currentThunkRva,
+                currentOriginalThunk->u1.AddressOfData,
+                currentThunk->u1.AddressOfData,
+                sizeof(IMAGE_THUNK_DATA)
+            );
+        }
+
+        moduleImports.push_back(import);
+
+        currentOriginalThunkRva += sizeof(IMAGE_THUNK_DATA);
+        currentThunkRva += sizeof(IMAGE_THUNK_DATA);
+
+        currentOriginalThunkPointer = peFormat->rvaToPointer(currentOriginalThunkRva);
+
+        currentOriginalThunk++;
+        currentThunk++;
+    }
+
+    return moduleImports;
+}
+
 pe_module_map format::pe::readImportModules(const CPeFormat* peFormat)
 {
     pe_module_map map { };
@@ -160,97 +211,12 @@ pe_module_map format::pe::readImportModules(const CPeFormat* peFormat)
 
     while (currentImportDescriptor->Name != 0) {
         auto moduleName = binary->string(peFormat->rvaToOffset(currentImportDescriptor->Name));
-        auto currentOriginalThunkRva = currentImportDescriptor->OriginalFirstThunk;
-        auto currentThunkRva = currentImportDescriptor->FirstThunk;
-        auto currentOriginalThunkPointer = peFormat->rvaToPointer(currentOriginalThunkRva);
-        auto currentThunkPointer = peFormat->rvaToPointer(currentThunkRva);
-
-        pe_import_vec moduleImports { };
+        pe_import_vec moduleImports = { };
 
         if (addressType == AddressType::_64_BIT) {
-            auto currentOriginalThunk = reinterpret_cast<IMAGE_THUNK_DATA64*>(currentOriginalThunkPointer.ptr());
-            auto currentThunk = reinterpret_cast<IMAGE_THUNK_DATA64*>(currentThunkPointer.ptr());
-
-            while(currentOriginalThunk->u1.AddressOfData != 0) {
-                pe_import_ptr import = nullptr;
-                if (currentOriginalThunk->u1.Ordinal & IMAGE_ORDINAL_FLAG64) {
-                    import = std::make_shared<CPeImport>(
-                        strenc("Ordinal"),
-                        0,
-                        currentOriginalThunk->u1.Ordinal & 0xFFFF,
-                        currentOriginalThunkRva,
-                        currentThunkRva,
-                        currentOriginalThunk->u1.AddressOfData,
-                        currentThunk->u1.AddressOfData,
-                        sizeof(IMAGE_THUNK_DATA64)
-                    );
-                } else {
-                    auto importByName = reinterpret_cast<IMAGE_IMPORT_BY_NAME*>(peFormat->rvaToPointer(currentOriginalThunk->u1.AddressOfData).ptr());
-
-                    import = std::make_shared<CPeImport>(
-                        std::string(importByName->Name),
-                        importByName->Hint,
-                        0,
-                        currentOriginalThunkRva,
-                        currentThunkRva,
-                        currentOriginalThunk->u1.AddressOfData,
-                        currentThunk->u1.AddressOfData,
-                        sizeof(IMAGE_THUNK_DATA64)
-                    );
-                }
-
-                moduleImports.push_back(import);
-
-                currentOriginalThunkRva += sizeof(IMAGE_THUNK_DATA64);
-                currentThunkRva += sizeof(IMAGE_THUNK_DATA64);
-
-                currentOriginalThunkPointer = peFormat->rvaToPointer(currentOriginalThunkRva);
-
-                currentOriginalThunk++;
-                currentThunk++;
-            }
+            moduleImports = format::pe::readModuleImports<IMAGE_THUNK_DATA64, uint_64>(peFormat, currentImportDescriptor, IMAGE_ORDINAL_FLAG64);
         } else {
-            auto currentOriginalThunk = reinterpret_cast<IMAGE_THUNK_DATA32*>(currentOriginalThunkPointer.ptr());
-            auto currentThunk = reinterpret_cast<IMAGE_THUNK_DATA32*>(currentThunkPointer.ptr());
-
-            while(currentOriginalThunk->u1.AddressOfData != 0) {
-                pe_import_ptr import = nullptr;
-                if (currentOriginalThunk->u1.Ordinal & IMAGE_ORDINAL_FLAG32) {
-                    import = std::make_shared<CPeImport>(
-                        strenc("Ordinal"),
-                        0,
-                        currentOriginalThunk->u1.Ordinal & 0xFFFF,
-                        currentOriginalThunkRva,
-                        currentThunkRva,
-                        currentOriginalThunk->u1.AddressOfData,
-                        currentThunk->u1.AddressOfData,
-                        sizeof(IMAGE_THUNK_DATA32)
-                    );
-                } else {
-                    auto importByName = reinterpret_cast<IMAGE_IMPORT_BY_NAME*>(peFormat->rvaToPointer(currentOriginalThunk->u1.AddressOfData).ptr());
-
-                    import = std::make_shared<CPeImport>(
-                        std::string(importByName->Name),
-                        importByName->Hint,
-                        0,
-                        currentOriginalThunkRva,
-                        currentThunkRva,
-                        currentOriginalThunk->u1.AddressOfData,
-                        currentThunk->u1.AddressOfData,
-                        sizeof(IMAGE_THUNK_DATA32)
-                    );
-                }
-
-                moduleImports.push_back(import);
-
-                currentOriginalThunkRva += sizeof(IMAGE_THUNK_DATA32);
-                currentThunkRva += sizeof(IMAGE_THUNK_DATA32);
-
-                currentOriginalThunkPointer = peFormat->rvaToPointer(currentOriginalThunkRva);
-
-                currentOriginalThunk++;
-                currentThunk++;
-            }
+            moduleImports = format::pe::readModuleImports<IMAGE_THUNK_DATA32, uint_32>(peFormat, currentImportDescriptor, IMAGE_ORDINAL_FLAG32);
         }
 
         map[moduleName] = std::make_shared<CPeModule>(
@@ -261,9 +227,7 @@ pe_module_map format::pe::readImportModules(const CPeFormat* peFormat)
         );
 
         currentImportDescriptorRva += sizeof(IMAGE_IMPORT_DESCRIPTOR);
-
         currentImportDescriptorPointer = peFormat->rvaToPointer(currentImportDescriptorRva);
-
         currentImportDescriptor++;
     }
 
