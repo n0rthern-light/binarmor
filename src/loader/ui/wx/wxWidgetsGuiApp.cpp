@@ -41,12 +41,13 @@ void CwxWidgetsGuiApp::displayStatus(const std::string& statusText)
     frame->displayStatus(statusText);
 }
 
-void CwxWidgetsGuiApp::displayBinary(const CBinary& binary)
+void CwxWidgetsGuiApp::displayBinaryFile(const CBinaryFile& binaryFile)
 {
-    frame->displayBinary(binary);
+    frame->displayBinaryFile(binaryFile);
 }
 
 void CwxWidgetsGuiApp::exit()
 {
     app->Exit();
 }
+

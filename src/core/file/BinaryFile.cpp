@@ -27,6 +27,11 @@ void CBinaryFile::recognizeFormat(const Format& format)
 	_format = format;
 }
 
+Format CBinaryFile::format() const
+{
+    return _format;
+}
+
 void CBinaryFile::enableFlags(BinaryFileFlags flags)
 {
 	_flags |= static_cast<uint_32>(flags);

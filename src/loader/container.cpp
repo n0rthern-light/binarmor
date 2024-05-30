@@ -41,7 +41,7 @@ void container::init(int argc, char** argv)
 		catch (const UnsupportedFileException& e) {
 			container::guiApp->displayErrorMessageBox(strenc("Unsupported File Format"), strenc("Choosen file format is not supported."));
 		}
-		container::guiApp->displayBinary(binaryFile->binary());
+		container::guiApp->displayBinaryFile(*binaryFile.get());
 		container::guiApp->displayStatus(binaryFile->filePath());
 	});
 

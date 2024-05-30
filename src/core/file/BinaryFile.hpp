@@ -20,6 +20,7 @@ public:
 	CBinary binary() const;
 	bool hasFormatRecognized() const;
 	void recognizeFormat(const Format& format);
+    Format format() const;
 	void enableFlags(BinaryFileFlags flags);
 	void disableFlags(BinaryFileFlags flags);
 	bool hasFlags(BinaryFileFlags flags) const;

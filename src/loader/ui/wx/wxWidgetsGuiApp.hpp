@@ -4,6 +4,7 @@
 #include "wxApp.hpp"
 #include "wxFrame.hpp"
 #include <shared/event/IEventBus.hpp>
+#include <core/file/BinaryFile.hpp>
 
 class CwxWidgetsGuiApp : public IGuiApp
 {
@@ -20,7 +21,7 @@ public:
 	void displayErrorMessageBox(const std::string& title, const std::string& message);
 	void displayInfoMessageBox(const std::string& title, const std::string& message);
 	void displayStatus(const std::string& statusText);
-	void displayBinary(const CBinary& binary);
+	void displayBinaryFile(const CBinaryFile& binaryFile);
 	void exit();
 };
 
