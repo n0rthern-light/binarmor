@@ -1,6 +1,5 @@
 #include "PeFormat.hpp"
 #include "defines.hpp"
-#include <cassert>
 #include <shared/RuntimeException.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
 #include "functions.hpp"
