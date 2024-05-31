@@ -1,7 +1,6 @@
 #pragma once
-
 #include <shared/message/IMessage.hpp>
 
-class CUIRequestedOpenFileEvent : public IMessage
+class CBinaryFileAnalyzedEvent : public IMessage
 {
 };

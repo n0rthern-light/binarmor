@@ -1,9 +1,9 @@
 #pragma once
 
-#include <shared/event/IEvent.hpp>
+#include <shared/message/IMessage.hpp>
 #include <string>
 
-class CNewFileSelectedEvent : public IEvent
+class CNewFileSelectedEvent : public IMessage
 {
 	std::string _path;
 

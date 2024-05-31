@@ -4,7 +4,7 @@
 #include "shared/self_obfuscation/strenc.hpp"
 #include "shared/value/AddressValue.hpp"
 
-CwxBinaryFileInfoPanel::CwxBinaryFileInfoPanel(wxWindow* parent, IEventBus* t_eventBus) : wxPanel(parent, wxID_ANY)
+CwxBinaryFileInfoPanel::CwxBinaryFileInfoPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {
     m_eventBus = t_eventBus;
 

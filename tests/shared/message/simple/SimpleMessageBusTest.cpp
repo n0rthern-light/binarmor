@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
-#include <shared/event/simple/SimpleEventBus.hpp>
+#include <shared/message/simple/SimpleMessageBus.hpp>
 #include <chrono>
 #include <thread>
 
-class DummyEvent : public IEvent
+class DummyEvent : public IMessage
 {
 public:
 	std::string message;
@@ -11,11 +11,11 @@ public:
 };
 
 TEST(SimpleEventBusTest, HandlerWillBeCalledWithProperEvent) {
-	auto eventBus = new CSimpleEventBus();
+	auto eventBus = new CSimpleMessageBus();
 	auto publishedEvent = new DummyEvent("Test");
 
 	bool gotCalled = false;
-	eventBus->subscribe(typeid(DummyEvent), [&](IEvent* event) {
+	eventBus->subscribe(typeid(DummyEvent), [&](IMessage* event) {
 		auto dummyEvent = dynamic_cast<DummyEvent*>(event);
 		gotCalled = true;
 		ASSERT_STREQ(dummyEvent->message.c_str(), "Test");
@@ -35,3 +35,4 @@ TEST(SimpleEventBusTest, HandlerWillBeCalledWithProperEvent) {
 		}
 	}
 }
+

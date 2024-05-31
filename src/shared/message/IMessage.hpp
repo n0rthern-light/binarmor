@@ -2,8 +2,8 @@
 
 #include <string>
 
-class IEvent
+class IMessage
 {
 public:
-	virtual ~IEvent() {};
+	virtual ~IMessage() {};
 };

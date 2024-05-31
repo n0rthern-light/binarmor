@@ -9,7 +9,7 @@
 wxDECLARE_EVENT(EVENT_DISPLAY_WINDOW_OPEN_FILE, wxCommandEvent);
 wxDEFINE_EVENT(EVENT_DISPLAY_WINDOW_OPEN_FILE, wxCommandEvent);
 
-CwxFrame::CwxFrame(IEventBus* t_eventBus): wxFrame(NULL, wxID_ANY, strenc("BinArmor"), wxDefaultPosition, wxSize(WINDOW_SIZE_X, WINDOW_SIZE_Y), wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
+CwxFrame::CwxFrame(IMessageBus* t_eventBus): wxFrame(NULL, wxID_ANY, strenc("BinArmor"), wxDefaultPosition, wxSize(WINDOW_SIZE_X, WINDOW_SIZE_Y), wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX))
 {
     m_eventBus = t_eventBus;
     m_mainPanel = nullptr;

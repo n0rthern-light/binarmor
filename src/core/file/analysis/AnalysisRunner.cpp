@@ -1,8 +1,8 @@
 #include "AnalysisRunner.hpp"
 #include "analyzers/FormatAnalyzer.hpp"
-#include "events/BinaryFileAnalyzedEvent.hpp"
+#include "../../application/events/BinaryFileAnalyzedEvent.hpp"
 
-CAnalysisRunner::CAnalysisRunner(IEventBus* _eventBus): eventBus(_eventBus)
+CAnalysisRunner::CAnalysisRunner(IMessageBus* _eventBus): eventBus(_eventBus)
 {
 	analyzers = std::vector<IAnalyzer*>{
 		new CFormatAnalyzer(eventBus),

@@ -1,17 +1,17 @@
 #pragma once
 #include "BinaryFile.hpp"
-#include <shared/event/IEventBus.hpp>
+#include <shared/message/IMessageBus.hpp>
 #include "IFileReader.hpp"
 #include <memory>
 
 class CBinaryFileStateManager
 {
-	IEventBus* _eventBus;
+	IMessageBus* _eventBus;
 	IFileReader* _fileReader;
 
 	std::shared_ptr<CBinaryFile> _binaryFile;
 public:
-	CBinaryFileStateManager(IEventBus* eventBus, IFileReader* fileReader);
+	CBinaryFileStateManager(IMessageBus* eventBus, IFileReader* fileReader);
 	std::shared_ptr<CBinaryFile> binaryFile() const;
 	CBinary binaryFileBinary() const;
 	void load(const std::string& filePath);

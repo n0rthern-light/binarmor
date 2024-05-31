@@ -82,7 +82,7 @@ The dependencies rules are:
 - Any of the modules can depend on external libraries as well, but the dependency must be hidden behind abstract interface.
 
 Regarding Command/Event bus communication:
-Every module has its components (classes, objects, functions) and an application layer used to manage those component relations and actions in a clear and a ready to change approach. The rules of using command / event communication aim to make the flow of control easy to follow and easy to read:
+Every module has its components (classes, objects, functions) and an application layer used to manage those component relations and actions in a clear and a ready to change way. The rules of using command / event communication aim to make the flow of control easy to follow and easy to read:
 - components can only publish events
 - components cannot publish commands
 - components can only subscribe to commands

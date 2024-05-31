@@ -3,13 +3,13 @@
 #include <vector>
 #include "../BinaryFile.hpp"
 #include "IAnalyzer.hpp"
-#include <shared/event/IEventBus.hpp>
+#include <shared/message/IMessageBus.hpp>
 
 class CAnalysisRunner
 {
-	IEventBus* eventBus;
+	IMessageBus* eventBus;
 	std::vector<IAnalyzer*> analyzers;
 public:
-	CAnalysisRunner(IEventBus* _eventBus);
+	CAnalysisRunner(IMessageBus* _eventBus);
 	void run(CBinaryFile* binaryFile);
 };

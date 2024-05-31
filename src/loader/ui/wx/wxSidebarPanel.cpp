@@ -3,7 +3,7 @@
 #include "../icons.hpp"
 #include "../../application/events/UIRequestedOpenFileEvent.hpp"
 
-CwxSidebarPanel::CwxSidebarPanel(wxWindow* parent, IEventBus* t_eventBus) : wxPanel(parent, wxID_ANY)
+CwxSidebarPanel::CwxSidebarPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {
     m_eventBus = t_eventBus;
 

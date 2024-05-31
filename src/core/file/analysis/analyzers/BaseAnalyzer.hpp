@@ -1,13 +1,14 @@
 #pragma once
 
 #include "../IAnalyzer.hpp"
-#include <shared/event/IEventBus.hpp>
+#include <shared/message/IMessageBus.hpp>
 
 class BaseAnalyzer: public IAnalyzer
 {
 protected:
-	IEventBus* eventBus;
+	IMessageBus* eventBus;
 public:
-	BaseAnalyzer(IEventBus* _eventBus);
+	BaseAnalyzer(IMessageBus* _eventBus);
 	virtual void analyze(CBinaryFile* binaryFile, BinaryAttributes_t& attributes) = 0;
 };
+

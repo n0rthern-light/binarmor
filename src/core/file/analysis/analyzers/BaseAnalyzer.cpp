@@ -1,3 +1,3 @@
 #include "BaseAnalyzer.hpp"
 
-BaseAnalyzer::BaseAnalyzer(IEventBus* _eventBus): eventBus(_eventBus) { }
+BaseAnalyzer::BaseAnalyzer(IMessageBus* _eventBus): eventBus(_eventBus) { }

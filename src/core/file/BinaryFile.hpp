@@ -4,7 +4,6 @@
 #include "../attributes.hpp"
 #include "BinaryAttributes.hpp"
 #include "flags.hpp"
-#include <shared/event/IEventBus.hpp>
 #include <string>
 
 class CBinaryFile

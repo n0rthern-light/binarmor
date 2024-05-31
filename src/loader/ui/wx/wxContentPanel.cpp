@@ -1,7 +1,7 @@
 #include "wxContentPanel.hpp"
 #include "loader/ui/wx/content/wxBinaryFileInfoPanel.hpp"
 
-CwxContentPanel::CwxContentPanel(wxWindow* parent, IEventBus* t_eventBus) : wxPanel(parent, wxID_ANY)
+CwxContentPanel::CwxContentPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {
     m_eventBus = t_eventBus;
     m_binaryFileInfoPanel = nullptr;

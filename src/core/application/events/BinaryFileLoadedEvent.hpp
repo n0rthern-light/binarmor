@@ -2,6 +2,6 @@
 
 #include <shared/message/IMessage.hpp>
 
-class CUIRequestedOpenFileEvent : public IMessage
+class CBinaryFileLoadedEvent : public IMessage
 {
 };

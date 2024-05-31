@@ -1,6 +1,6 @@
 #include "wxWidgetsGuiApp.hpp"
 
-CwxWidgetsGuiApp::CwxWidgetsGuiApp(int _argc, char** _argv, IEventBus* _eventBus)
+CwxWidgetsGuiApp::CwxWidgetsGuiApp(int _argc, char** _argv, IMessageBus* _eventBus)
 {
     argc = _argc;
     argv = _argv;
