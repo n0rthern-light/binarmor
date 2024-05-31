@@ -27,31 +27,31 @@ void CwxBinaryFileInfoPanel::showFile(const CBinaryFile& binaryFile)
 {
     m_sizer->Clear(true);
 
-    m_sizer->Add(createInfoRow("Name of the Binary:", binaryFile.filePath()), 0, wxEXPAND | wxALL, 2);
+    m_sizer->Add(createInfoRow(strenc("Name of the Binary:"), binaryFile.filePath()), 0, wxEXPAND | wxALL, 2);
 
     // Hash (checksum)
-    m_sizer->Add(createInfoRow("Hash (Checksum):", "abcd1234"), 0, wxEXPAND | wxALL, 2);
+    m_sizer->Add(createInfoRow(strenc("Hash (Checksum):"), binaryFile.binary().hash()), 0, wxEXPAND | wxALL, 2);
 
     switch (binaryFile.format()) {
         case Format::Windows_PE:
-            m_sizer->Add(createInfoRow("Target Platform:", strenc("Windows")), 0, wxEXPAND | wxALL, 2);
+            m_sizer->Add(createInfoRow(strenc("Target Platform:"), strenc("Windows")), 0, wxEXPAND | wxALL, 2);
         break;
         case Format::MacOS_MachO:
-            m_sizer->Add(createInfoRow("Target Platform:", strenc("MacOS")), 0, wxEXPAND | wxALL, 2);
+            m_sizer->Add(createInfoRow(strenc("Target Platform:"), strenc("MacOS")), 0, wxEXPAND | wxALL, 2);
         break;
         case Format::Linux_ELF:
-            m_sizer->Add(createInfoRow("Target Platform:", strenc("Linux")), 0, wxEXPAND | wxALL, 2);
+            m_sizer->Add(createInfoRow(strenc("Target Platform:"), strenc("Linux")), 0, wxEXPAND | wxALL, 2);
         break;
         default:
             throw RuntimeException(strenc("Unhandled format to display"));
         break;
     };
 
-    m_sizer->Add(createInfoRow("Architecture:", "x86_64"), 0, wxEXPAND | wxALL, 2);
+    m_sizer->Add(createInfoRow(strenc("Architecture:"), "x86_64"), 0, wxEXPAND | wxALL, 2);
 
-    m_sizer->Add(createInfoRow("Size of Code Sections:", CUnsigned((uint_64)binaryFile.binary().size()).asShortHexString()), 0, wxEXPAND | wxALL, 2);
+    m_sizer->Add(createInfoRow(strenc("Size of Code Sections:"), CUnsigned((uint_64)binaryFile.binary().size()).asShortHexString()), 0, wxEXPAND | wxALL, 2);
 
-    m_sizer->Add(createInfoRow("State of protection:", "Not protected by BinArmor"));
+    m_sizer->Add(createInfoRow(strenc("State of protection:"), "Not protected by BinArmor"));
     
     Layout();
 }
