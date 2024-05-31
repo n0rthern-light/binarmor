@@ -1,7 +1,7 @@
 #include "wxSidebarPanel.hpp"
 #include "bitmap.hpp"
 #include "../icons.hpp"
-#include <core/file/events/UIRequestedOpenFileEvent.hpp>
+#include "../../application/events/UIRequestedOpenFileEvent.hpp"
 
 CwxSidebarPanel::CwxSidebarPanel(wxWindow* parent, IEventBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {

@@ -2,8 +2,8 @@
 #include <shared/self_obfuscation/strenc.hpp>
 #include <shared/event/simple/SimpleEventBus.hpp>
 #include "ui/wx/wxWidgetsGuiApp.hpp"
-#include <core/file/events/UIRequestedOpenFileEvent.hpp>
-#include <core/file/events/NewFileSelectedEvent.hpp>
+#include "application/events/UIRequestedOpenFileEvent.hpp"
+#include "application/events/NewFileSelectedEvent.hpp"
 #include <core/file/fstream/fstreamFileReader.hpp>
 #include <core/file/events/BinaryFileLoadedEvent.hpp>
 #include <core/file/analysis/events/BinaryFileAnalyzedEvent.hpp>
@@ -17,6 +17,21 @@ std::shared_ptr<CAnalysisRunner> container::core::file::analysis::runner = nullp
 
 void container::init(int argc, char** argv)
 {
+    // register event -> command flow in /application/main.cpp or smth
+    // then register command handlers as components one command = one handler / component / service
+    // never subscribe to events in components /services
+    // subscribe to events only in application definition and translate to commands
+    //
+    // components can only publish events
+    // components cannot publish commands
+    // components can only subscribe to commands
+    // components cannot subscribe to events
+    //
+    // application can only publish commands
+    // application cannot publish events
+    // application can only subscribe to events
+    // application cannot subscribe to commands
+    //
 	container::eventBus = std::make_shared<CSimpleEventBus>();
 	container::guiApp = std::make_shared<CwxWidgetsGuiApp>(argc, argv, container::eventBus.get());
 	container::core::file::fileReader = std::make_shared<CfstreamFileReader>();

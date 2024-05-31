@@ -4,7 +4,7 @@
 #include "loader/ui/wx/wxSidebarPanel.hpp"
 #include "loader/ui/wx/wx_headers.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
-#include <core/file/events/NewFileSelectedEvent.hpp>
+#include "../../application/events/NewFileSelectedEvent.hpp"
 
 wxDECLARE_EVENT(EVENT_DISPLAY_WINDOW_OPEN_FILE, wxCommandEvent);
 wxDEFINE_EVENT(EVENT_DISPLAY_WINDOW_OPEN_FILE, wxCommandEvent);
