@@ -2,6 +2,7 @@
 
 #include <shared/message/IMessage.hpp>
 
-class CBinaryFileAnalyzedEvent : public IMessage
+class DetectedUnsupportedFileEvent : public IMessage
 {
 };
+

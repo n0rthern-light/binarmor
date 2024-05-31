@@ -1,15 +1,16 @@
 #include "wxWidgetsGuiApp.hpp"
+#include "shared/message/IMessageBus.hpp"
 
-CwxWidgetsGuiApp::CwxWidgetsGuiApp(int _argc, char** _argv, IMessageBus* _eventBus)
+CwxWidgetsGuiApp::CwxWidgetsGuiApp(int _argc, char** _argv, IMessageBus* t_eventBus)
 {
     argc = _argc;
     argv = _argv;
-    eventBus = _eventBus;
+    m_eventBus = t_eventBus;
 
     app = new CwxApp();
     wxApp::SetInstance(app);
     app->CallOnInit();
-    frame = new CwxFrame(eventBus);
+    frame = new CwxFrame(m_eventBus);
 }
 
 void CwxWidgetsGuiApp::start()

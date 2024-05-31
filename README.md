@@ -81,14 +81,3 @@ The dependencies rules are:
 - The `loader` depends on itself, the `shared` module, and the `core` stuff - it is the highest level module. 
 - Any of the modules can depend on external libraries as well, but the dependency must be hidden behind abstract interface.
 
-Regarding Command/Event bus communication:
-Every module has its components (classes, objects, functions) and an application layer used to manage those component relations and actions in a clear and a ready to change way. The rules of using command / event communication aim to make the flow of control easy to follow and easy to read:
-- components can only publish events
-- components cannot publish commands
-- components can only subscribe to commands
-- components cannot subscribe to events
-- application can only publish commands
-- application cannot publish events
-- application can only subscribe to events
-- application cannot subscribe to commands
-

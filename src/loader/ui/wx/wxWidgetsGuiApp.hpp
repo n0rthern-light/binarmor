@@ -10,14 +10,14 @@ class CwxWidgetsGuiApp : public IGuiApp
 {
 	int argc;
 	char** argv;
-	IMessageBus* eventBus;
+	IMessageBus* m_eventBus;
 	CwxApp* app;
 	CwxFrame* frame;
 
 public:
-	CwxWidgetsGuiApp(int _argc, char** _argv, IMessageBus* _eventBus);
+	CwxWidgetsGuiApp(int _argc, char** _argv, IMessageBus* t_eventBus);
 	void start();
-	void promptOpenFile();
+    void promptOpenFile();
 	void displayErrorMessageBox(const std::string& title, const std::string& message);
 	void displayInfoMessageBox(const std::string& title, const std::string& message);
 	void displayStatus(const std::string& statusText);

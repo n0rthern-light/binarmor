@@ -2,7 +2,6 @@
 
 #include "loader/ui/wx/wxContentPanel.hpp"
 #include "loader/ui/wx/wxSidebarPanel.hpp"
-#include "wx_headers.hpp"
 #include <shared/message/IMessageBus.hpp>
 #include <core/file/BinaryFile.hpp>
 #include <wx/generic/panelg.h>
