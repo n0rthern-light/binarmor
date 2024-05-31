@@ -60,17 +60,17 @@ AddressType CPeFormat::addressType() const
 		AddressType::_64_BIT : AddressType::_32_BIT;
 }
 
-CAddressValue CPeFormat::entryPoint() const
+CUnsigned CPeFormat::entryPoint() const
 {
 	auto addressType_ = addressType();
 
 	if (addressType_ == AddressType::_64_BIT)
 	{
-		return CAddressValue(format::pe::ntHeaders64(_binary)->OptionalHeader.AddressOfEntryPoint);
+		return CUnsigned(format::pe::ntHeaders64(_binary)->OptionalHeader.AddressOfEntryPoint);
 	}
 	else if (addressType_ == AddressType::_32_BIT)
 	{
-		return CAddressValue(format::pe::ntHeaders32(_binary)->OptionalHeader.AddressOfEntryPoint);
+		return CUnsigned(format::pe::ntHeaders32(_binary)->OptionalHeader.AddressOfEntryPoint);
 	}
 
     throw RuntimeException(strenc("Not found entry point"));

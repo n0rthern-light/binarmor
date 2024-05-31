@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../attributes.hpp"
-#include <shared/value/AddressValue.hpp>
+#include <shared/value/Unsigned.hpp>
 
 class IFormat
 {
@@ -11,6 +11,6 @@ public:
 	virtual Type type() const = 0;
 	virtual Endianness endianness() const = 0;
 	virtual AddressType addressType() const = 0;
-	virtual CAddressValue entryPoint() const = 0;
+	virtual CUnsigned entryPoint() const = 0;
 };
 

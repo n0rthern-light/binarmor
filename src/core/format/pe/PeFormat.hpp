@@ -16,7 +16,7 @@ public:
 	Type type() const;
 	Endianness endianness() const;
 	AddressType addressType() const;
-	CAddressValue entryPoint() const;
+	CUnsigned entryPoint() const;
     binary_offset rvaToOffset(const binary_offset& rva) const;
     CBinaryPointer rvaToPointer(const binary_offset& rva) const;
 	pe_section_vec sections() const;

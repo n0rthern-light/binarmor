@@ -63,6 +63,11 @@ bool CBinary::offsetExists(const binary_offset& offset) const
     return offset >= 0 && offset < size();
 }
 
+std::string CBinary::hash() const
+{
+
+}
+
 bool CBinary::operator==(const CBinary& other) const
 {
     if (size() != other.size()) {

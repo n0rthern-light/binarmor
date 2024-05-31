@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "shared/value/AddressValue.hpp"
+#include "shared/value/Unsigned.hpp"
 #include <climits>
 #include <limits>
 #include <vector>
@@ -7,14 +7,14 @@
 uint32_t maxUint32 = std::numeric_limits<uint_32>::max();
 uint64_t maxUint64 = std::numeric_limits<uint_64>::max();
 
-TEST(AddressValueTest, WorksWith32BitUnisgnedInts)
+TEST(UnsignedTest, WorksWith32BitUnisgnedInts)
 {
-    std::vector<CAddressValue> vec {
-        CAddressValue(0),
-        CAddressValue(as_32(10)),
-        CAddressValue(15),
-        CAddressValue(maxUint32 - 1),
-        CAddressValue(maxUint32),
+    std::vector<CUnsigned> vec {
+        CUnsigned(0),
+        CUnsigned(as_32(10)),
+        CUnsigned(15),
+        CUnsigned(maxUint32 - 1),
+        CUnsigned(maxUint32),
     };
 
     {
@@ -60,16 +60,16 @@ TEST(AddressValueTest, WorksWith32BitUnisgnedInts)
     }
 }
 
-TEST(AddressValueTest, WorksWith64BitUnisgnedInts)
+TEST(UnsignedTest, WorksWith64BitUnisgnedInts)
 {
-    std::vector<CAddressValue> vec {
-        CAddressValue(as_64(0)),
-        CAddressValue(as_64(10)),
-        CAddressValue(as_64(15)),
-        CAddressValue(as_64(maxUint32 - 1)),
-        CAddressValue(as_64(as_64(maxUint32) + 1)),
-        CAddressValue(as_64(maxUint64 - 10000)),
-        CAddressValue(as_64(maxUint64)),
+    std::vector<CUnsigned> vec {
+        CUnsigned(as_64(0)),
+        CUnsigned(as_64(10)),
+        CUnsigned(as_64(15)),
+        CUnsigned(as_64(maxUint32 - 1)),
+        CUnsigned(as_64(as_64(maxUint32) + 1)),
+        CUnsigned(as_64(maxUint64 - 10000)),
+        CUnsigned(as_64(maxUint64)),
     };
 
     {

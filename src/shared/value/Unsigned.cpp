@@ -1,34 +1,34 @@
-#include "AddressValue.hpp"
+#include "Unsigned.hpp"
 #include "AddressType.hpp"
 
-CAddressValue::CAddressValue(int _address) : type(AddressType::_32_BIT) {
+CUnsigned::CUnsigned(int _address) : type(AddressType::_32_BIT) {
 	address._32 = as_32(_address);
 }
 
-CAddressValue::CAddressValue(uint_32 _address) : type(AddressType::_32_BIT) {
+CUnsigned::CUnsigned(uint_32 _address) : type(AddressType::_32_BIT) {
 	address._32 = _address;
 }
 
-CAddressValue::CAddressValue(uint_64 _address) : type(AddressType::_64_BIT) {
+CUnsigned::CUnsigned(uint_64 _address) : type(AddressType::_64_BIT) {
 	address._64 = _address;
 }
 
-AddressType CAddressValue::bitType() const
+AddressType CUnsigned::bitType() const
 {
 	return type;
 }
 
-uint_32 CAddressValue::get32() const
+uint_32 CUnsigned::get32() const
 {
 	return address._32;
 }
 
-uint_64 CAddressValue::get64() const
+uint_64 CUnsigned::get64() const
 {
 	return address._64;
 }
 
-uint_auto CAddressValue::get() const
+uint_auto CUnsigned::get() const
 {
 	if (type == AddressType::_64_BIT) {
 		return as_auto(get64());
@@ -37,7 +37,7 @@ uint_auto CAddressValue::get() const
 	}
 }
 
-std::string CAddressValue::asDecimalString() const
+std::string CUnsigned::asDecimalString() const
 {
    char buffer[21];
 
@@ -51,7 +51,7 @@ std::string CAddressValue::asDecimalString() const
 
 }
 
-std::string CAddressValue::asShortHexString() const
+std::string CUnsigned::asShortHexString() const
 {
    char buffer[21];
 
@@ -64,7 +64,7 @@ std::string CAddressValue::asShortHexString() const
     return std::string(buffer);
 }
 
-std::string CAddressValue::asFullHexString() const
+std::string CUnsigned::asFullHexString() const
 {
    char buffer[21];
 
@@ -77,7 +77,7 @@ std::string CAddressValue::asFullHexString() const
     return std::string(buffer);
 }
 
-bool CAddressValue::operator==(const CAddressValue& other) const
+bool CUnsigned::operator==(const CUnsigned& other) const
 {
 	return get() == other.get();
 }

@@ -13,6 +13,7 @@ CwxFrame::CwxFrame(IMessageBus* t_eventBus): wxFrame(NULL, wxID_ANY, strenc("Bin
 {
     m_eventBus = t_eventBus;
     m_mainPanel = nullptr;
+    m_mainSizer = nullptr;
     m_sidebarPanel = nullptr;
     m_contentPanel = nullptr;
 
@@ -26,11 +27,11 @@ void CwxFrame::initUi()
     m_sidebarPanel = std::make_unique<CwxSidebarPanel>(m_mainPanel.get(), m_eventBus);
     m_contentPanel = std::make_unique<CwxContentPanel>(m_mainPanel.get(), m_eventBus);
 
-    wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
-    mainSizer->Add(m_sidebarPanel.get(), 0, wxEXPAND | wxALL, 5);
-    mainSizer->Add(m_contentPanel.get(), 1, wxEXPAND | wxALL, 5);
+    m_mainSizer = std::make_unique<wxBoxSizer>(wxHORIZONTAL);
+    m_mainSizer->Add(m_sidebarPanel.get(), 0, wxEXPAND | wxALL, 5);
+    m_mainSizer->Add(m_contentPanel.get(), 1, wxEXPAND | wxALL, 5);
 
-    m_mainPanel->SetSizer(mainSizer);
+    m_mainPanel->SetSizer(m_mainSizer.get());
 
     CreateStatusBar();
     SetStatusText(strenc("Welcome to BinArmor v0.1"));
@@ -64,6 +65,16 @@ void CwxFrame::promptOpenFile()
 void CwxFrame::displayBinaryFile(const CBinaryFile& binaryFile)
 {
     m_contentPanel->showFile(binaryFile);
+}
+
+void CwxFrame::lockFeatures()
+{
+    m_sidebarPanel->lockFeatureButtons();
+}
+
+void CwxFrame::unlockFeatures()
+{
+    m_sidebarPanel->unlockFeatureButtons();
 }
 
 void CwxFrame::displayStatus(const std::string& statusText)

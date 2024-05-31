@@ -1,30 +1,30 @@
 #include "wxWidgetsGuiApp.hpp"
 #include "shared/message/IMessageBus.hpp"
 
-CwxWidgetsGuiApp::CwxWidgetsGuiApp(int _argc, char** _argv, IMessageBus* t_eventBus)
+CwxWidgetsGuiApp::CwxWidgetsGuiApp(int t_argc, char** t_argv, IMessageBus* t_eventBus)
 {
-    argc = _argc;
-    argv = _argv;
+    m_argc = t_argc;
+    m_argv = t_argv;
     m_eventBus = t_eventBus;
 
-    app = new CwxApp();
-    wxApp::SetInstance(app);
-    app->CallOnInit();
-    frame = new CwxFrame(m_eventBus);
+    m_app = new CwxApp();
+    wxApp::SetInstance(m_app);
+    m_app->CallOnInit();
+    m_frame = new CwxFrame(m_eventBus);
 }
 
 void CwxWidgetsGuiApp::start()
 {
-    wxEntryStart(argc, argv);
-    frame->Show(true);
-    app->OnRun();
-    app->OnExit();
+    wxEntryStart(m_argc, m_argv);
+    m_frame->Show(true);
+    m_app->OnRun();
+    m_app->OnExit();
     wxEntryCleanup();
 }
 
 void CwxWidgetsGuiApp::promptOpenFile()
 {
-    frame->promptOpenFile();
+    m_frame->promptOpenFile();
 }
 
 void CwxWidgetsGuiApp::displayErrorMessageBox(const std::string& title, const std::string& message)
@@ -39,16 +39,26 @@ void CwxWidgetsGuiApp::displayInfoMessageBox(const std::string& title, const std
 
 void CwxWidgetsGuiApp::displayStatus(const std::string& statusText)
 {
-    frame->displayStatus(statusText);
+    m_frame->displayStatus(statusText);
 }
 
 void CwxWidgetsGuiApp::displayBinaryFile(const CBinaryFile& binaryFile)
 {
-    frame->displayBinaryFile(binaryFile);
+    m_frame->displayBinaryFile(binaryFile);
+}
+
+void CwxWidgetsGuiApp::lockFeatures()
+{
+    m_frame->lockFeatures();
+}
+
+void CwxWidgetsGuiApp::unlockFeatures()
+{
+    m_frame->unlockFeatures();
 }
 
 void CwxWidgetsGuiApp::exit()
 {
-    app->Exit();
+    m_app->Exit();
 }
 

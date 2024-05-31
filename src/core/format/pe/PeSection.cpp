@@ -2,11 +2,11 @@
 
 CPeSection::CPeSection(
     const std::string& name,
-    const CAddressValue& rawAddress,
+    const CUnsigned& rawAddress,
     const uint_32& rawSize,
-    const CAddressValue& virtualAddress,
+    const CUnsigned& virtualAddress,
     const uint_32& virtualSize,
-    const CAddressValue& pointerToRelocations,
+    const CUnsigned& pointerToRelocations,
     const uint_16& numberOfLinenumbers,
     const uint_16& numberOfRelocations,
     const uint_32& characteristics
@@ -24,11 +24,11 @@ CPeSection::CPeSection(
 CPeSection::CPeSection(const IMAGE_SECTION_HEADER& header)
 : CPeSection(
 	std::string(reinterpret_cast<const char*>(header.Name)),
-	CAddressValue(header.PointerToRawData),
+	CUnsigned(header.PointerToRawData),
 	header.SizeOfRawData,
-	CAddressValue(header.VirtualAddress),
+	CUnsigned(header.VirtualAddress),
 	header.Misc.VirtualSize,
-	CAddressValue(header.PointerToRelocations),
+	CUnsigned(header.PointerToRelocations),
 	header.NumberOfLinenumbers,
 	header.NumberOfRelocations,
 	header.Characteristics
@@ -39,7 +39,7 @@ std::string CPeSection::name() const
 	return _name;
 }
 
-CAddressValue CPeSection::baseAddress() const
+CUnsigned CPeSection::baseAddress() const
 {
 	return rawAddress();
 }
@@ -49,7 +49,7 @@ size_t CPeSection::size() const
 	return static_cast<size_t>(rawSize());
 }
 
-CAddressValue CPeSection::rawAddress() const
+CUnsigned CPeSection::rawAddress() const
 {
 	return _rawAddress;
 }
@@ -59,7 +59,7 @@ uint_32 CPeSection::rawSize() const
 	return _rawSize;
 }
 
-CAddressValue CPeSection::virtualAddress() const
+CUnsigned CPeSection::virtualAddress() const
 {
 	return _virtualAddress;
 }
@@ -69,7 +69,7 @@ uint_32 CPeSection::virtualSize() const
 	return _virtualSize;
 }
 
-CAddressValue CPeSection::pointerToRelocations() const
+CUnsigned CPeSection::pointerToRelocations() const
 {
 	return _pointerToRelocations;
 }

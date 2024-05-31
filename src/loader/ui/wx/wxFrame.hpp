@@ -11,6 +11,7 @@ class CwxFrame : public wxFrame
 private:
 	IMessageBus* m_eventBus;
     std::unique_ptr<wxPanel> m_mainPanel;
+    std::unique_ptr<wxBoxSizer> m_mainSizer;
     std::unique_ptr<CwxSidebarPanel> m_sidebarPanel;
     std::unique_ptr<CwxContentPanel> m_contentPanel;
 
@@ -22,4 +23,6 @@ public:
 	void promptOpenFile();
 	void displayStatus(const std::string& statusText);
 	void displayBinaryFile(const CBinaryFile& binaryFile);
+    void lockFeatures();
+    void unlockFeatures();
 };
