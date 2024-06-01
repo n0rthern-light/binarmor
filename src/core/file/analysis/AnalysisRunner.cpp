@@ -28,12 +28,14 @@ void CAnalysisRunner::run(CBinaryFile* binaryFile)
 		analyzer->analyze(binaryFile, attributes);
 	}
 
+    binaryFile->assignAttributes(attributes);
+
     if (binaryFile->format() != initialFormat) {
         run(binaryFile);
         return;
     }
 
-	binaryFile->completeAnalysis(attributes);
+    binaryFile->completeAnalysis();
 	m_eventBus->publish(new CBinaryFileAnalyzedEvent());
 }
 

@@ -16,7 +16,7 @@ void program::loader::application::behave(int argc, char** argv)
 	});
 
     program::shared::container::eventBus->subscribe(typeid(CNewFileSelectedEvent), [&](IMessage* event) {
-        program::loader::container::guiApp->lockFeatures();
+        //program::loader::container::guiApp->lockFeatures();
 		auto newFileSelectedEvent = dynamic_cast<CNewFileSelectedEvent*>(event);
         program::loader::container::guiApp->displayStatus(strenc("Opening a file: ") + newFileSelectedEvent->path() + strenc("..."));
 	});

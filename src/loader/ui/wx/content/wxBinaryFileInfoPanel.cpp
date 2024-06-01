@@ -28,7 +28,7 @@ void CwxBinaryFileInfoPanel::showFile(const CBinaryFile& binaryFile)
 {
     m_sizer->Clear(true);
 
-    m_sizer->Add(createInfoRow(strenc("Name of the Binary:"), binaryFile.filePath()), 0, wxEXPAND | wxALL, 2);
+    m_sizer->Add(createInfoRow(strenc("Name of the Binary:"), binaryFile.fileName()), 0, wxEXPAND | wxALL, 2);
 
     const auto attributes = binaryFile.attributes();
 

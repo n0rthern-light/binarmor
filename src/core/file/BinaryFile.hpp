@@ -5,17 +5,19 @@
 #include "BinaryAttributes.hpp"
 #include "flags.hpp"
 #include <string>
+#include <filesystem>
 
 class CBinaryFile
 {
-	const std::string _filePath;
-	const CBinary _binary;
-	Format _format;
-	uint_32 _flags;
-	BinaryAttributes_t _attributes;
+	const std::filesystem::path m_filePath;
+	const CBinary m_binary;
+	Format m_format;
+	uint_32 m_flags;
+	BinaryAttributes_t m_attributes;
 public:
 	CBinaryFile(const std::string& filePath, const CBinary& binary);
-	std::string filePath() const;
+    std::filesystem::path filePath() const;
+    std::string fileName() const;
 	CBinary binary() const;
 	bool hasFormatRecognized() const;
 	void recognizeFormat(const Format& format);
@@ -26,6 +28,7 @@ public:
 	bool hasFlags(BinaryFileFlags flags) const;
 	bool hasAnyFlags() const;
     bool isProtectedByBinarmor() const;
-	void completeAnalysis(const BinaryAttributes_t& attributes);
+    void assignAttributes(const BinaryAttributes_t& attributes);
+	void completeAnalysis();
 };
 
