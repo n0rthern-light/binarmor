@@ -7,6 +7,7 @@
 
 struct BinaryAttributes_t
 {
+    Format format = Format::UNKNOWN;
     Architecture arch = Architecture::UNKNOWN;
     std::string hash = "";
     uint_8 sectionCount = 0;
@@ -15,5 +16,6 @@ struct BinaryAttributes_t
     CUnsigned entryPoint = CUnsigned(0);
     CUnsigned sizeOfBinary = CUnsigned(0);
     CUnsigned sizeOfCode = CUnsigned(0);
+    bool isProtected = false;
 };
 

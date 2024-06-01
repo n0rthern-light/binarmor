@@ -5,14 +5,13 @@
 #include <memory>
 #include <shared/self_obfuscation/strenc.hpp>
 
-void CPeAnalyzer::analyze(CBinaryFile* binaryFile, BinaryAttributes_t& attributes)
+void CPeAnalyzer::analyze(const CBinary* binary, BinaryAttributes_t& attributes)
 {
-    if (binaryFile->format() != Format::Windows_PE) {
+    if (attributes.format != Format::Windows_PE) {
 	    throw UnsupportedFileException(strenc("Not detected any supported file format"));
     }
 
-    auto binary = binaryFile->binary();
-    auto pe = std::make_unique<CPeFormat>(&binary);
+    auto pe = std::make_unique<CPeFormat>(const_cast<CBinary*>(binary));
 
     attributes.arch = pe->architecture();
     auto sections = pe->sections();
@@ -26,12 +25,12 @@ void CPeAnalyzer::analyze(CBinaryFile* binaryFile, BinaryAttributes_t& attribute
     }
     attributes.importedFunctionsCount = importFuncCount;
     attributes.entryPoint = pe->entryPoint();
-    attributes.sizeOfBinary = CUnsigned{ pe->addressType() == AddressType::_32_BIT ? as_32(binary.size()) : as_64(binary.size()) };
+    attributes.sizeOfBinary = CUnsigned{ pe->addressType() == AddressType::_32_BIT ? as_32(binary->size()) : as_64(binary->size()) };
 
     uint_auto sizeOfCode = 0;
     for(const auto& section : sections) {
         if (section->name() == strenc(".binarmor")) {
-            binaryFile->enableFlags(BinaryFileFlags::Protected);
+            attributes.isProtected = true;
         }
 
         if (section->name() != strenc(".text")) {

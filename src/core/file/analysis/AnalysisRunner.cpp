@@ -2,8 +2,8 @@
 #include "analyzers/FormatAnalyzer.hpp"
 #include "analyzers/PeAnalyzer.hpp"
 #include "analyzers/HashAnalyzer.hpp"
-#include "../../application/events/BinaryFileAnalyzedEvent.hpp"
 #include "../../attributes.hpp"
+#include "core/file/BinaryAttributes.hpp"
 
 CAnalysisRunner::CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hasher): m_eventBus(t_eventBus), m_hasher(t_hasher)
 {
@@ -19,23 +19,16 @@ CAnalysisRunner::CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hashe
     };
 }
 
-void CAnalysisRunner::run(CBinaryFile* binaryFile)
+void CAnalysisRunner::run(const CBinary* binary, BinaryAttributes_t& binaryAttributes)
 {
-    const auto initialFormat = binaryFile->format();
-	auto attributes = binaryFile->attributes();
+    const auto initialFormat = binaryAttributes.format;
 
 	for (const auto& analyzer : m_analyzers[initialFormat]) {
-		analyzer->analyze(binaryFile, attributes);
+		analyzer->analyze(binary, binaryAttributes);
 	}
 
-    binaryFile->assignAttributes(attributes);
-
-    if (binaryFile->format() != initialFormat) {
-        run(binaryFile);
-        return;
+    if (binaryAttributes.format != initialFormat) {
+        run(binary, binaryAttributes);
     }
-
-    binaryFile->completeAnalysis();
-	m_eventBus->publish(new CBinaryFileAnalyzedEvent());
 }
 

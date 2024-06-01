@@ -2,9 +2,9 @@
 
 #include <map>
 #include <vector>
-#include "../BinaryFile.hpp"
 #include "IAnalyzer.hpp"
 #include "core/attributes.hpp"
+#include "core/file/BinaryAttributes.hpp"
 #include <shared/message/IMessageBus.hpp>
 #include <memory>
 
@@ -18,5 +18,5 @@ class CAnalysisRunner
 	analyzer_vec_map m_analyzers;
 public:
 	CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hasher);
-	void run(CBinaryFile* binaryFile);
+	void run(const CBinary* binary, BinaryAttributes_t& attributes);
 };

@@ -2,16 +2,18 @@
 #include "BinaryFile.hpp"
 #include <shared/message/IMessageBus.hpp>
 #include "IFileReader.hpp"
+#include "analysis/AnalysisRunner.hpp"
 #include <memory>
 
 class CBinaryFileStateManager
 {
-	IMessageBus* _eventBus;
-	IFileReader* _fileReader;
+	IMessageBus* m_eventBus;
+	IFileReader* m_fileReader;
 
-	std::shared_ptr<CBinaryFile> _binaryFile;
+	std::shared_ptr<CBinaryFile> m_binaryFile;
+    std::shared_ptr<CAnalysisRunner> m_analysisRunner;
 public:
-	CBinaryFileStateManager(IMessageBus* eventBus, IFileReader* fileReader);
+	CBinaryFileStateManager(IMessageBus* eventBus, IFileReader* fileReader, CAnalysisRunner* analysisRunner);
 	std::shared_ptr<CBinaryFile> binaryFile() const;
 	CBinary binaryFileBinary() const;
 	void load(const std::string& filePath);

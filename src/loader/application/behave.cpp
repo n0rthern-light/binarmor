@@ -6,7 +6,6 @@
 #include <core/application/container.hpp>
 #include <core/application/events/BinaryFileLoadedEvent.hpp>
 #include <core/application/events/DetectedUnsupportedFileEvent.hpp>
-#include <core/application/events/BinaryFileAnalyzedEvent.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
 
 void program::loader::application::behave(int argc, char** argv)
@@ -25,7 +24,7 @@ void program::loader::application::behave(int argc, char** argv)
         program::loader::container::guiApp->displayErrorMessageBox(strenc("Unsupported File Format"), strenc("Choosen file format is not supported."));
 	});
 
-    program::shared::container::eventBus->subscribe(typeid(CBinaryFileAnalyzedEvent), [&](IMessage* event) {
+    program::shared::container::eventBus->subscribe(typeid(CBinaryFileLoadedEvent), [&](IMessage* event) {
 		auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile();
         program::loader::container::guiApp->displayBinaryFile(*binaryFile.get());
         program::loader::container::guiApp->displayStatus(binaryFile->filePath());

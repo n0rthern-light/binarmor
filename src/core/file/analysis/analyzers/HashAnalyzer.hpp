@@ -7,6 +7,6 @@ class CHashAnalyzer : public IAnalyzer
     const IHasher* m_hasher;
 public:
     CHashAnalyzer(const IHasher* hasher);
-	void analyze(CBinaryFile* binaryFile, BinaryAttributes_t& attributes);
+	void analyze(const CBinary* binary, BinaryAttributes_t& attributes);
 };
 

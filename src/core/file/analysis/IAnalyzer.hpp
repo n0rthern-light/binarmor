@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../BinaryFile.hpp"
 #include "../BinaryAttributes.hpp"
+#include "core/Binary.hpp"
 
 class IAnalyzer
 {
 public:
 	virtual ~IAnalyzer() {}
-	virtual void analyze(CBinaryFile* binaryFile, BinaryAttributes_t& attributes) = 0;
+	virtual void analyze(const CBinary* binary, BinaryAttributes_t& attributes) = 0;
 };

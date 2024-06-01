@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <gtest/gtest.h>
 #include <loader/bootstrap.hpp>
 #include <shared/application/container.hpp>

@@ -5,6 +5,6 @@
 class CFormatAnalyzer : public IAnalyzer
 {
 public:
-	void analyze(CBinaryFile* binaryFile, BinaryAttributes_t& attributes);
+	void analyze(const CBinary* binaryFile, BinaryAttributes_t& attributes);
 };
 
