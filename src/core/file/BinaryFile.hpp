@@ -20,10 +20,12 @@ public:
 	bool hasFormatRecognized() const;
 	void recognizeFormat(const Format& format);
     Format format() const;
+    BinaryAttributes_t attributes() const;
 	void enableFlags(BinaryFileFlags flags);
 	void disableFlags(BinaryFileFlags flags);
 	bool hasFlags(BinaryFileFlags flags) const;
 	bool hasAnyFlags() const;
+    bool isProtectedByBinarmor() const;
 	void completeAnalysis(const BinaryAttributes_t& attributes);
 };
 

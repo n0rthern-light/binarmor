@@ -1,22 +1,39 @@
 #include "AnalysisRunner.hpp"
 #include "analyzers/FormatAnalyzer.hpp"
+#include "analyzers/PeAnalyzer.hpp"
+#include "analyzers/HashAnalyzer.hpp"
 #include "../../application/events/BinaryFileAnalyzedEvent.hpp"
+#include "../../attributes.hpp"
 
-CAnalysisRunner::CAnalysisRunner(IMessageBus* _eventBus): eventBus(_eventBus)
+CAnalysisRunner::CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hasher): m_eventBus(t_eventBus), m_hasher(t_hasher)
 {
-	analyzers = std::vector<IAnalyzer*>{
-		new CFormatAnalyzer(eventBus),
-	};
+	m_analyzers = { };
+
+    m_analyzers[Format::UNKNOWN] = {
+        std::make_shared<CFormatAnalyzer>(),
+        std::make_shared<CHashAnalyzer>(m_hasher)
+    };
+
+    m_analyzers[Format::Windows_PE] = {
+        std::make_shared<CPeAnalyzer>()
+    };
 }
 
 void CAnalysisRunner::run(CBinaryFile* binaryFile)
 {
-	BinaryAttributes_t attributes;
+    const auto initialFormat = binaryFile->format();
+	auto attributes = binaryFile->attributes();
 
-	for (auto analyzer : analyzers) {
+	for (const auto& analyzer : m_analyzers[initialFormat]) {
 		analyzer->analyze(binaryFile, attributes);
 	}
 
+    if (binaryFile->format() != initialFormat) {
+        run(binaryFile);
+        return;
+    }
+
 	binaryFile->completeAnalysis(attributes);
-	eventBus->publish(new CBinaryFileAnalyzedEvent());
+	m_eventBus->publish(new CBinaryFileAnalyzedEvent());
 }
+

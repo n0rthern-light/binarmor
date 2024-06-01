@@ -2,7 +2,7 @@
 
 #include "../IAnalyzer.hpp"
 
-class CFormatAnalyzer : public IAnalyzer
+class CPeAnalyzer : public IAnalyzer
 {
 public:
 	void analyze(CBinaryFile* binaryFile, BinaryAttributes_t& attributes);

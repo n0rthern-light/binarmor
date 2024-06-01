@@ -3,6 +3,7 @@
 #include <shared/types/defines.hpp>
 #include <string>
 #include "BinaryPointer.hpp"
+#include <shared/crypto/IHasher.hpp>
 
 class CBinary
 {
@@ -16,7 +17,7 @@ public:
 	binary_offset size() const;
 	CBinaryPointer pointer(const binary_offset& offset) const;
     bool offsetExists(const binary_offset& offset) const;
-    std::string hash() const;
+    std::string hash(const IHasher* hasher) const;
 
     bool operator==(const CBinary& other) const;
 };

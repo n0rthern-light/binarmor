@@ -1,4 +1,5 @@
 #include "BinaryFile.hpp"
+#include "core/file/BinaryAttributes.hpp"
 
 CBinaryFile::CBinaryFile(const std::string& filePath, const CBinary& binary): _filePath(filePath), _binary(binary)
 {
@@ -32,6 +33,11 @@ Format CBinaryFile::format() const
     return _format;
 }
 
+BinaryAttributes_t CBinaryFile::attributes() const
+{
+    return _attributes;
+}
+
 void CBinaryFile::enableFlags(BinaryFileFlags flags)
 {
 	_flags |= static_cast<uint_32>(flags);
@@ -54,6 +60,11 @@ bool CBinaryFile::hasFlags(BinaryFileFlags flags) const
 bool CBinaryFile::hasAnyFlags() const
 {
     return _flags > 0;
+}
+
+bool CBinaryFile::isProtectedByBinarmor() const
+{
+    return hasFlags(BinaryFileFlags::Analyzed) && hasFlags(BinaryFileFlags::Protected);
 }
 
 void CBinaryFile::completeAnalysis(const BinaryAttributes_t& attributes)

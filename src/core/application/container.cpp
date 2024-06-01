@@ -9,7 +9,13 @@ std::shared_ptr<CAnalysisRunner> program::core::container::file::analysis::runne
 void program::core::container::init(int argc, char** argv)
 {
     program::core::container::file::fileReader = std::make_shared<CfstreamFileReader>();
-    program::core::container::file::binaryFileStateManager = std::make_shared<CBinaryFileStateManager>(program::shared::container::eventBus.get(), program::core::container::file::fileReader.get());
-    program::core::container::file::analysis::runner = std::make_shared<CAnalysisRunner>(program::shared::container::eventBus.get());
+    program::core::container::file::binaryFileStateManager = std::make_shared<CBinaryFileStateManager>(
+        program::shared::container::eventBus.get(),
+        program::core::container::file::fileReader.get()
+    );
+    program::core::container::file::analysis::runner = std::make_shared<CAnalysisRunner>(
+        program::shared::container::eventBus.get(),
+        program::shared::container::hasher.get()
+    );
 }
 

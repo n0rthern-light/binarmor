@@ -63,9 +63,9 @@ bool CBinary::offsetExists(const binary_offset& offset) const
     return offset >= 0 && offset < size();
 }
 
-std::string CBinary::hash() const
+std::string CBinary::hash(const IHasher* hasher) const
 {
-    return "todo-implement-hash-function";
+    return hasher->sha256FromBytes(_bytes);
 }
 
 bool CBinary::operator==(const CBinary& other) const
