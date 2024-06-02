@@ -1,6 +1,7 @@
 #include "SimpleMessageBus.hpp"
 #include "../../RuntimeException.hpp"
 #include "../../self_obfuscation/strenc.hpp"
+#include <thread>
 
 CSimpleMessageBus::CSimpleMessageBus(bool t_bCommandBusMode): m_bCommandBusMode(t_bCommandBusMode) { }
 

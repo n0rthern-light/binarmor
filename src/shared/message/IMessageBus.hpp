@@ -1,7 +1,8 @@
 #pragma once
 
 #include "IMessage.hpp"
-#include "headers.hpp"
+#include <functional>
+#include <typeindex>
 
 class IMessageBus
 {

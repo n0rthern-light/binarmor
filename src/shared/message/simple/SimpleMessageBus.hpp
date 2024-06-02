@@ -1,6 +1,9 @@
 #pragma once
 
 #include "../IMessageBus.hpp"
+#include <map>
+#include <vector>
+#include <mutex>
 
 class CSimpleMessageBus : public IMessageBus {
     const bool m_bCommandBusMode;

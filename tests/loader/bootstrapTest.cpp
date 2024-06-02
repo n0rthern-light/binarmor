@@ -2,8 +2,8 @@
 #include <gtest/gtest.h>
 #include <loader/bootstrap.hpp>
 #include <shared/application/container.hpp>
-#include <loader/application/container.hpp>
 #include <core/application/container.hpp>
+#include <loader/application/container.hpp>
 
 TEST(bootstrapTest, programCanBeBootstrapped)
 {

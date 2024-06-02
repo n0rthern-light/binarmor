@@ -1,8 +1,8 @@
 #include "wxFrame.hpp"
 #include "../settings.hpp"
-#include "loader/ui/wx/wxContentPanel.hpp"
-#include "loader/ui/wx/wxSidebarPanel.hpp"
-#include "loader/ui/wx/wx_headers.hpp"
+#include "wxContentPanel.hpp"
+#include "wxSidebarPanel.hpp"
+#include "wx_headers.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
 #include <core/application/events/NewFileSelectedEvent.hpp>
 

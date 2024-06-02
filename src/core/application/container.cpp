@@ -3,8 +3,8 @@
 #include "../file/fstream/fstreamFileReader.hpp"
 
 std::shared_ptr<IFileReader> program::core::container::file::fileReader = nullptr;
-std::shared_ptr<CAnalysisRunner> program::core::container::file::analysis::runner = nullptr;
 std::shared_ptr<CBinaryFileStateManager> program::core::container::file::binaryFileStateManager = nullptr;
+std::shared_ptr<CAnalysisRunner> program::core::container::file::analysis::runner = nullptr;
 
 void program::core::container::init(int argc, char** argv)
 {

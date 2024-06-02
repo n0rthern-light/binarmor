@@ -1,5 +1,5 @@
 #include "wxWidgetsGuiApp.hpp"
-#include "shared/message/IMessageBus.hpp"
+#include <shared/message/IMessageBus.hpp>
 
 CwxWidgetsGuiApp::CwxWidgetsGuiApp(int t_argc, char** t_argv, IMessageBus* t_eventBus)
 {

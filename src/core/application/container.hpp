@@ -12,10 +12,10 @@ namespace program
         {
             namespace file {
                 extern std::shared_ptr<IFileReader> fileReader;
+                extern std::shared_ptr<CBinaryFileStateManager> binaryFileStateManager;
                 namespace analysis {
                     extern std::shared_ptr<CAnalysisRunner> runner;
                 }
-                extern std::shared_ptr<CBinaryFileStateManager> binaryFileStateManager;
             }
 
             void init(int argc, char** argv);
