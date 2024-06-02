@@ -4,45 +4,95 @@
 #include "shared/RuntimeException.hpp"
 #include "shared/self_obfuscation/strenc.hpp"
 #include "shared/value/Unsigned.hpp"
+#include <cstdio>
 
 CwxBinaryFileInfoPanel::CwxBinaryFileInfoPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {
     m_eventBus = t_eventBus;
+    m_sizer = std::make_shared<wxBoxSizer>(wxVERTICAL);
 
-    m_sizer = std::make_unique<wxBoxSizer>(wxVERTICAL);
+    SetSizer(m_sizer.get());
 
-    this->SetSizer(m_sizer.get());
+    initInfoRows();
+    updateWxInfoRows();
+}
+
+void CwxBinaryFileInfoPanel::initInfoRows()
+{
+    m_infoRows = { };
+
+    m_infoRows[strenc("0_binary_name")] = TextInfoRow_t { strenc("Name of the Binary:"), strenc("") };
+    m_infoRows[strenc("1_binary_hash")] = TextInfoRow_t { strenc("Hash (Checksum):"), strenc("") };
+    m_infoRows[strenc("2_binary_platform")] = TextInfoRow_t { strenc("Target Platform:"), strenc("") };
+    m_infoRows[strenc("3_binary_arch")] = TextInfoRow_t { strenc("Architecture:"), strenc("") };
+    m_infoRows[strenc("4_binary_section_count")] = TextInfoRow_t { strenc("Section count:"), strenc("") };
+    m_infoRows[strenc("5_binary_import_module_count")] = TextInfoRow_t { strenc("Imported module count:"), strenc("") };
+    m_infoRows[strenc("6_binary_import_function_count")] = TextInfoRow_t { strenc("Imported function count:"), strenc("") };
+    m_infoRows[strenc("7_binary_entry_point")] = TextInfoRow_t { strenc("Entry Point:"), strenc("") };
+    m_infoRows[strenc("8_binary_size_total")] = TextInfoRow_t { strenc("Size of the Binary:"), strenc("") };
+    m_infoRows[strenc("9_binary_size_code")] = TextInfoRow_t { strenc("Size of Unprotected Code:"), strenc("") };
+    m_infoRows[strenc("10_binary_protection_state")] = TextInfoRow_t { strenc("State of protection:"), strenc("") };
+}
+
+std::string CwxBinaryFileInfoPanel::resolveKey(const std::string& baseKey)
+{
+    constexpr uint_8 MAX_INDEX = 20;
+
+    for(uint_8 i = 0; i < MAX_INDEX; i++) {
+        char buffer[5];
+        sprintf(buffer, "%d", i);
+        auto currentKey = std::string(buffer) + "_" + baseKey;
+
+        if (m_infoRows.find(currentKey) != m_infoRows.end()) {
+            return currentKey;
+        }
+    }
+
+    return baseKey;
+}
+
+void CwxBinaryFileInfoPanel::setInfo(const std::string& key, const std::string& value)
+{
+    m_infoRows[resolveKey(key)].value = value;
+}
+
+void CwxBinaryFileInfoPanel::updateWxInfoRows()
+{
+    m_sizer->Clear(true);
+
+    for (const auto& row : m_infoRows) {
+        m_sizer->Add(createInfoRow(row.second.label, row.second.value), 0, wxEXPAND | wxALL, 0);
+    }
+
+    Layout();
 }
 
 wxBoxSizer* CwxBinaryFileInfoPanel::createInfoRow(const wxString& label, const wxString& value)
 {
     auto sizer = new wxBoxSizer(wxHORIZONTAL);
 
-    sizer->Add(new wxStaticText(this, wxID_ANY, label), 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    sizer->Add(new wxStaticText(this, wxID_ANY, value), 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+    sizer->Add(new wxStaticText(this, wxID_ANY, label), 0, wxALIGN_CENTER_VERTICAL | wxALL, 2);
+    sizer->Add(new wxStaticText(this, wxID_ANY, value), 1, wxALIGN_CENTER_VERTICAL | wxALL, 2);
 
     return sizer;
 }
 
-void CwxBinaryFileInfoPanel::showFile(const CBinaryFile& binaryFile)
+void CwxBinaryFileInfoPanel::loadFileData(const CBinaryFile& binaryFile)
 {
-    m_sizer->Clear(true);
-
-    m_sizer->Add(createInfoRow(strenc("Name of the Binary:"), binaryFile.fileName()), 0, wxEXPAND | wxALL, 2);
+    setInfo(strenc("binary_name"), binaryFile.fileName());
 
     const auto attributes = binaryFile.attributes();
-
-    m_sizer->Add(createInfoRow(strenc("Hash:"), attributes.hash), 0, wxEXPAND | wxALL, 2);
+    setInfo(strenc("binary_hash"), attributes.hash);
 
     switch (binaryFile.format()) {
         case Format::Windows_PE:
-            m_sizer->Add(createInfoRow(strenc("Target Platform:"), strenc("Windows")), 0, wxEXPAND | wxALL, 2);
+            setInfo(strenc("binary_platform"), strenc("Windows"));
         break;
         case Format::MacOS_MachO:
-            m_sizer->Add(createInfoRow(strenc("Target Platform:"), strenc("MacOS")), 0, wxEXPAND | wxALL, 2);
+            setInfo(strenc("binary_platform"), strenc("MacOS"));
         break;
         case Format::Linux_ELF:
-            m_sizer->Add(createInfoRow(strenc("Target Platform:"), strenc("Linux")), 0, wxEXPAND | wxALL, 2);
+            setInfo(strenc("binary_platform"), strenc("Linux"));
         break;
         default:
             throw RuntimeException(strenc("Unhandled format to display"));
@@ -51,38 +101,33 @@ void CwxBinaryFileInfoPanel::showFile(const CBinaryFile& binaryFile)
 
     switch (attributes.arch) {
         case Architecture::ARM:
-            m_sizer->Add(createInfoRow(strenc("Architecture:"), strenc("arm")), 0, wxEXPAND | wxALL, 2);
+            setInfo(strenc("binary_arch"), strenc("arm"));
         break;
         case Architecture::ARM64:
-            m_sizer->Add(createInfoRow(strenc("Architecture:"), strenc("arm64")), 0, wxEXPAND | wxALL, 2);
+            setInfo(strenc("binary_arch"), strenc("arm64"));
         break;
         case Architecture::X86:
-            m_sizer->Add(createInfoRow(strenc("Architecture:"), strenc("x86")), 0, wxEXPAND | wxALL, 2);
+            setInfo(strenc("binary_arch"), strenc("x86"));
         break;
         case Architecture::X86_64:
-            m_sizer->Add(createInfoRow(strenc("Architecture:"), strenc("x86_64")), 0, wxEXPAND | wxALL, 2);
+            setInfo(strenc("binary_arch"), strenc("x86_64"));
         break;
         case Architecture::UNIVERSAL:
-            m_sizer->Add(createInfoRow(strenc("Architecture:"), strenc("Universal (FAT)")), 0, wxEXPAND | wxALL, 2);
+            setInfo(strenc("binary_arch"), strenc("Universal (FAT)"));
         break;
         default:
             throw RuntimeException(strenc("Unhandled architecture to display"));
         break;
     }
 
-    m_sizer->Add(createInfoRow(strenc("Section count:"), CUnsigned{ as_32(attributes.sectionCount) }.asDecimalString()), 0, wxEXPAND | wxALL, 2);
-    m_sizer->Add(createInfoRow(strenc("Import Modules count:"), CUnsigned{ as_32(attributes.importedModuleCount) }.asDecimalString()), 0, wxEXPAND | wxALL, 2);
-    m_sizer->Add(createInfoRow(strenc("Import Functions count:"), CUnsigned{ as_32(attributes.importedFunctionsCount) }.asDecimalString()), 0, wxEXPAND | wxALL, 2);
-    m_sizer->Add(createInfoRow(strenc("Entry Point:"), attributes.entryPoint.asShortHexString()), 0, wxEXPAND | wxALL, 2);
-    m_sizer->Add(createInfoRow(strenc("Size of Binary:"), attributes.sizeOfBinary.asShortHexString()), 0, wxEXPAND | wxALL, 2);
-    m_sizer->Add(createInfoRow(strenc("Size of Binary Unprotected Code:"), attributes.sizeOfCode.asShortHexString()), 0, wxEXPAND | wxALL, 2);
-
-    if (binaryFile.isProtectedByBinarmor()) {
-        m_sizer->Add(createInfoRow(strenc("State of protection:"), strenc("Protected by BinArmor")));
-    } else {
-        m_sizer->Add(createInfoRow(strenc("State of protection:"), strenc("Not protected by BinArmor")));
-    }
+    setInfo(strenc("binary_section_count"), CUnsigned{ as_32(attributes.sectionCount) }.asDecimalString());
+    setInfo(strenc("binary_import_module_count"), CUnsigned{ as_32(attributes.importedModuleCount) }.asDecimalString());
+    setInfo(strenc("binary_import_function_count"), CUnsigned{ as_32(attributes.importedFunctionsCount) }.asDecimalString());
+    setInfo(strenc("binary_entry_point"), attributes.entryPoint.asShortHexString());
+    setInfo(strenc("binary_size_total"), attributes.sizeOfBinary.asShortHexString());
+    setInfo(strenc("binary_size_code"), attributes.sizeOfCode.asShortHexString());
+    setInfo(strenc("binary_protection_state"), attributes.isProtected ? strenc("Protected by BinArmor") : strenc("Not protected"));
     
-    Layout();
+    updateWxInfoRows();
 }
 

@@ -9,11 +9,13 @@
 class CwxContentPanel : public wxPanel
 {
     IMessageBus* m_eventBus;
-    std::unique_ptr<wxBoxSizer> m_sizer;
-    std::unique_ptr<CwxBinaryFileInfoPanel> m_binaryFileInfoPanel;
+    std::shared_ptr<wxBoxSizer> m_sizer;
+    std::shared_ptr<CwxBinaryFileInfoPanel> m_binaryFileInfoPanel;
 
 public:
     CwxContentPanel(wxWindow* parent, IMessageBus* t_eventBus);
+    void hideAll();
     void showFile(const CBinaryFile& binaryFile);
+    void showDragAndDrop();
 };
 

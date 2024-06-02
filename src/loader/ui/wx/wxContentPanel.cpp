@@ -6,16 +6,30 @@ CwxContentPanel::CwxContentPanel(wxWindow* parent, IMessageBus* t_eventBus) : wx
     m_eventBus = t_eventBus;
     m_binaryFileInfoPanel = nullptr;
 
-    m_sizer = std::make_unique<wxBoxSizer>(wxVERTICAL);
+    m_sizer = std::make_shared<wxBoxSizer>(wxVERTICAL);
 
-    m_binaryFileInfoPanel = std::make_unique<CwxBinaryFileInfoPanel>(this, m_eventBus);
+    m_binaryFileInfoPanel = std::make_shared<CwxBinaryFileInfoPanel>(this, m_eventBus);
     m_sizer->Add(m_binaryFileInfoPanel.get(), 1, wxEXPAND | wxALL, 5);
 
     this->SetSizer(m_sizer.get());
+
+    hideAll();
+}
+
+void CwxContentPanel::hideAll()
+{
+    m_binaryFileInfoPanel->Hide();
 }
 
 void CwxContentPanel::showFile(const CBinaryFile& binaryFile)
 {
-    m_binaryFileInfoPanel->showFile(binaryFile);
+    m_binaryFileInfoPanel->loadFileData(binaryFile);
+    m_binaryFileInfoPanel->Show();
+    m_sizer->Layout();
+}
+
+void CwxContentPanel::showDragAndDrop()
+{
+
 }
 
