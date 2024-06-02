@@ -20,7 +20,7 @@ CwxSidebarPanel::CwxSidebarPanel(wxWindow* parent, IMessageBus* t_eventBus) : wx
     m_btnOpenFile = std::make_shared<wxButton>(this, wxID_ANY, strenc("Open File"));
     m_btnOpenFile->SetBitmap(Bitmap::CreateFromBuffer(iconOpenFile));
     m_btnOpenFile->Bind(wxEVT_BUTTON, [&](wxCommandEvent& event) {
-        m_eventBus->publish(new CUIRequestedOpenFileEvent());
+        m_eventBus->publish(std::make_shared<CUIRequestedOpenFileEvent>());
     });
 
     m_fileList = std::make_shared<wxListCtrl>(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);

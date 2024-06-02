@@ -53,7 +53,7 @@ void CwxFrame::onEventDisplayWindowOpenFile(wxCommandEvent& wxCommandEvent)
 	}
 
 	wxString filePath = fileDialog.GetPath();
-	m_eventBus->publish(new CNewFileSelectedEvent(filePath.c_str()));
+	m_eventBus->publish(std::make_shared<CNewFileSelectedEvent>(filePath.c_str()));
 }
 
 void CwxFrame::promptOpenFile()

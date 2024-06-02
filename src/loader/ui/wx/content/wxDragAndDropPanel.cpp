@@ -38,7 +38,6 @@ CwxDragAndDropPanel::CwxDragAndDropPanel(wxWindow* parent, IMessageBus* t_eventB
 
 void CwxDragAndDropPanel::notifyAboutNewFile(const std::string& path)
 {
-    //wxMessageBox(path, "File Dropped");
-    m_eventBus->publish(new CNewFileSelectedEvent(path.c_str()));
+    m_eventBus->publish(std::make_shared<CNewFileSelectedEvent>(path.c_str()));
 }
 

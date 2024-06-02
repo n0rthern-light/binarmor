@@ -10,21 +10,21 @@
 
 void program::loader::application::behave(int argc, char** argv)
 {
-    program::shared::container::eventBus->subscribe(typeid(CUIRequestedOpenFileEvent), [&](IMessage* event) {
+    program::shared::container::eventBus->subscribe(typeid(CUIRequestedOpenFileEvent), [&](message_ptr event) {
         program::loader::container::guiApp->promptOpenFile();
 	});
 
-    program::shared::container::eventBus->subscribe(typeid(CNewFileSelectedEvent), [&](IMessage* event) {
+    program::shared::container::eventBus->subscribe(typeid(CNewFileSelectedEvent), [&](message_ptr event) {
         //program::loader::container::guiApp->lockFeatures();
-		auto newFileSelectedEvent = dynamic_cast<CNewFileSelectedEvent*>(event);
+		auto newFileSelectedEvent = dynamic_cast<CNewFileSelectedEvent*>(event.get());
         program::loader::container::guiApp->displayStatus(strenc("Opening a file: ") + newFileSelectedEvent->path() + strenc("..."));
 	});
 
-    program::shared::container::eventBus->subscribe(typeid(DetectedUnsupportedFileEvent), [&](IMessage* event) {
+    program::shared::container::eventBus->subscribe(typeid(DetectedUnsupportedFileEvent), [&](message_ptr event) {
         program::loader::container::guiApp->displayErrorMessageBox(strenc("Unsupported File Format"), strenc("Choosen file format is not supported."));
 	});
 
-    program::shared::container::eventBus->subscribe(typeid(CBinaryFileLoadedEvent), [&](IMessage* event) {
+    program::shared::container::eventBus->subscribe(typeid(CBinaryFileLoadedEvent), [&](message_ptr event) {
 		auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile();
         program::loader::container::guiApp->displayBinaryFile(*binaryFile.get());
         program::loader::container::guiApp->displayStatus(binaryFile->filePath());

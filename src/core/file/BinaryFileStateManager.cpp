@@ -3,6 +3,7 @@
 #include "core/file/BinaryAttributes.hpp"
 #include "core/file/BinaryFile.hpp"
 #include "core/file/analysis/AnalysisRunner.hpp"
+#include <memory>
 #include <shared/RuntimeException.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
 
@@ -30,7 +31,7 @@ void CBinaryFileStateManager::load(const std::string& filePath)
 
     m_binaryFile = std::make_shared<CBinaryFile>(filePath, binary, 0, binaryAttributes);
 
-	m_eventBus->publish(new CBinaryFileLoadedEvent());
+	m_eventBus->publish(std::make_shared<CBinaryFileLoadedEvent>());
 }
 
 void CBinaryFileStateManager::save(const std::string& filePath)

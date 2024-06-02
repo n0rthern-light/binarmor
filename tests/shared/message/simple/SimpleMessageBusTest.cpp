@@ -12,14 +12,14 @@ public:
 
 TEST(SimpleEventBusTest, HandlerWillBeCalledWithProperEvent) {
 	auto eventBus = new CSimpleMessageBus();
-	auto publishedEvent = new DummyEvent("Test");
+	auto publishedEvent = std::make_shared<DummyEvent>("Test");
 
 	bool gotCalled = false;
-	eventBus->subscribe(typeid(DummyEvent), [&](IMessage* event) {
-		auto dummyEvent = dynamic_cast<DummyEvent*>(event);
+	eventBus->subscribe(typeid(DummyEvent), [&](message_ptr event) {
+		auto dummyEvent = dynamic_cast<DummyEvent*>(event.get());
 		gotCalled = true;
 		ASSERT_STREQ(dummyEvent->message.c_str(), "Test");
-		ASSERT_EQ(dummyEvent, publishedEvent);
+		ASSERT_EQ(dummyEvent, publishedEvent.get());
 	});
 
 	eventBus->publish(publishedEvent);
