@@ -8,9 +8,9 @@
 CwxNotepadPanel::CwxNotepadPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {
     m_eventBus = t_eventBus;
-    m_sizer = std::make_shared<wxBoxSizer>(wxVERTICAL);
+    m_sizer = std::make_unique<wxBoxSizer>(wxVERTICAL);
 
-    m_fileName = std::make_shared<wxStaticText>(this, wxID_ANY, strenc(""));
+    m_fileName = std::make_unique<wxStaticText>(this, wxID_ANY, strenc(""));
     auto font = m_fileName->GetFont();
     font.SetPointSize(16);
     font.SetWeight(wxFONTWEIGHT_BOLD);
@@ -19,9 +19,9 @@ CwxNotepadPanel::CwxNotepadPanel(wxWindow* parent, IMessageBus* t_eventBus) : wx
 
     m_sizer->AddSpacer(8);
 
-    m_notebook = std::make_shared<wxNotebook>(this, wxID_ANY, wxDefaultPosition, wxSize(-1, -1));
+    m_notebook = std::make_unique<wxNotebook>(this, wxID_ANY, wxDefaultPosition, wxSize(-1, -1));
 
-    m_binaryFileInfoPanel = std::make_shared<CwxBinaryFileInfoPanel>(m_notebook.get(), m_eventBus);
+    m_binaryFileInfoPanel = std::make_unique<CwxBinaryFileInfoPanel>(m_notebook.get(), m_eventBus);
     m_notebook->AddPage(m_binaryFileInfoPanel.get(), strenc("Binary Info"));
 
     m_notebook->AddPage(new wxPanel(m_notebook.get(), wxID_ANY), strenc("Anti-Debug"));

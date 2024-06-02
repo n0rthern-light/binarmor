@@ -12,16 +12,16 @@ class CwxSidebarPanel : public wxPanel
 
     std::unique_ptr<wxBoxSizer> m_sizer;
 
-    std::shared_ptr<wxListCtrl> m_fileList;
+    std::unique_ptr<wxListCtrl> m_fileList;
 
-    std::shared_ptr<wxButton> m_btnOpenFile;
-    std::shared_ptr<wxButton> m_btnUnloadFile;
-    std::shared_ptr<wxButton> m_btnAntiDebugging;
-    std::shared_ptr<wxButton> m_btnObfuscation;
-    std::shared_ptr<wxButton> m_btnVirtualization;
-    std::shared_ptr<wxButton> m_btnLicenseManager;
-    std::shared_ptr<wxButton> m_btnExportFile;
-    std::shared_ptr<wxButton> m_btnHelp;
+    std::unique_ptr<wxButton> m_btnOpenFile;
+    std::unique_ptr<wxButton> m_btnUnloadFile;
+    std::unique_ptr<wxButton> m_btnAntiDebugging;
+    std::unique_ptr<wxButton> m_btnObfuscation;
+    std::unique_ptr<wxButton> m_btnVirtualization;
+    std::unique_ptr<wxButton> m_btnLicenseManager;
+    std::unique_ptr<wxButton> m_btnExportFile;
+    std::unique_ptr<wxButton> m_btnHelp;
 public:
     CwxSidebarPanel(wxWindow* parent, IMessageBus* t_eventBus);
     void appendToLoadedFiles(const CBinaryFile* binary);

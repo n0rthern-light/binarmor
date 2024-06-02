@@ -22,7 +22,7 @@ private:
 CwxDragAndDropPanel::CwxDragAndDropPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {
     m_eventBus = t_eventBus;
-    m_sizer = std::make_shared<wxBoxSizer>(wxVERTICAL);
+    m_sizer = std::make_unique<wxBoxSizer>(wxVERTICAL);
 
     wxStaticText* centeredText = new wxStaticText(this, wxID_ANY, strenc("Drop a Binary here in order to open it."));
     m_sizer->AddSpacer(225);

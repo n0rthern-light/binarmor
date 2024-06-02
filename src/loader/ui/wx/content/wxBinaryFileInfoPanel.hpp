@@ -17,7 +17,7 @@ struct TextInfoRow_t
 class CwxBinaryFileInfoPanel : public wxPanel
 {
     IMessageBus* m_eventBus;
-    std::shared_ptr<wxBoxSizer> m_sizer;
+    std::unique_ptr<wxBoxSizer> m_sizer;
     std::map<int, TextInfoRow_t> m_infoRows;
 
     void initInfoRows();
@@ -25,7 +25,7 @@ class CwxBinaryFileInfoPanel : public wxPanel
     void setLabel(const std::string& key, const std::string& label);
     void setInfo(const std::string& key, const std::string& value);
     void updateWxInfoRows();
-    wxBoxSizer* createInfoRow(const wxString& label, const wxString& value);
+    wxBoxSizer* createInfoRow(const TextInfoRow_t& row);
 public:
     CwxBinaryFileInfoPanel(wxWindow* parent, IMessageBus* t_eventBus);
     void loadFileData(const CBinaryFile& binaryFile);

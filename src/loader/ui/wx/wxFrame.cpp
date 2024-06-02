@@ -3,6 +3,7 @@
 #include "wxContentPanel.hpp"
 #include "wxSidebarPanel.hpp"
 #include "wx_headers.hpp"
+#include <memory>
 #include <shared/self_obfuscation/strenc.hpp>
 #include <core/application/events/NewFileSelectedEvent.hpp>
 
@@ -58,7 +59,7 @@ void CwxFrame::onEventDisplayWindowOpenFile(wxCommandEvent& wxCommandEvent)
 
 void CwxFrame::promptOpenFile()
 {
-	auto event = new wxCommandEvent(EVENT_DISPLAY_WINDOW_OPEN_FILE);
+	auto event = new wxCommandEvent(EVENT_DISPLAY_WINDOW_OPEN_FILE); // RIP Smart Pointers
 	wxQueueEvent(this, event);
 }
 

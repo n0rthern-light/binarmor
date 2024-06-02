@@ -9,7 +9,7 @@
 CwxBinaryFileInfoPanel::CwxBinaryFileInfoPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {
     m_eventBus = t_eventBus;
-    m_sizer = std::make_shared<wxBoxSizer>(wxVERTICAL);
+    m_sizer = std::make_unique<wxBoxSizer>(wxVERTICAL);
 
     initInfoRows();
     updateWxInfoRows();
@@ -56,18 +56,20 @@ void CwxBinaryFileInfoPanel::updateWxInfoRows()
     m_sizer->Clear(true);
 
     for (const auto& row : m_infoRows) {
-        m_sizer->Add(createInfoRow(row.second.label, row.second.value), 0, wxEXPAND | wxALL, 3);
+        m_sizer->Add(createInfoRow(row.second), 0, wxEXPAND | wxALL, 3);
     }
 
     Layout();
 }
 
-wxBoxSizer* CwxBinaryFileInfoPanel::createInfoRow(const wxString& label, const wxString& value)
+wxBoxSizer* CwxBinaryFileInfoPanel::createInfoRow(const TextInfoRow_t& row)
 {
     auto sizer = new wxBoxSizer(wxHORIZONTAL);
+    auto label = new wxStaticText(this, wxID_ANY, row.label);
+    auto value = new wxStaticText(this, wxID_ANY, row.value);
 
-    sizer->Add(new wxStaticText(this, wxID_ANY, label), 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    sizer->Add(new wxStaticText(this, wxID_ANY, value), 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+    sizer->Add(label, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+    sizer->Add(value, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
     return sizer;
 }

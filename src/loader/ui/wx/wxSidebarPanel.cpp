@@ -17,22 +17,22 @@ CwxSidebarPanel::CwxSidebarPanel(wxWindow* parent, IMessageBus* t_eventBus) : wx
     m_sizer = std::make_unique<wxBoxSizer>(wxVERTICAL);
     this->SetSizer(m_sizer.get());
 
-    m_btnOpenFile = std::make_shared<wxButton>(this, wxID_ANY, strenc("Open File"));
+    m_btnOpenFile = std::make_unique<wxButton>(this, wxID_ANY, strenc("Open File"));
     m_btnOpenFile->SetBitmap(Bitmap::CreateFromBuffer(iconOpenFile));
     m_btnOpenFile->Bind(wxEVT_BUTTON, [&](wxCommandEvent& event) {
         m_eventBus->publish(std::make_shared<CUIRequestedOpenFileEvent>());
     });
 
-    m_fileList = std::make_shared<wxListCtrl>(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);
+    m_fileList = std::make_unique<wxListCtrl>(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);
     m_fileList->AppendColumn(strenc("Loaded Files"), wxLIST_FORMAT_LEFT, 170);
 
-    m_btnUnloadFile = std::make_shared<wxButton>(this, wxID_ANY, strenc("Unload File"));
+    m_btnUnloadFile = std::make_unique<wxButton>(this, wxID_ANY, strenc("Unload File"));
 
-    m_btnExportFile = std::make_shared<wxButton>(this, wxID_ANY, strenc("Export File"));
+    m_btnExportFile = std::make_unique<wxButton>(this, wxID_ANY, strenc("Export File"));
     m_btnExportFile->SetBitmap(Bitmap::CreateFromBuffer(iconExport));
     m_btnExportFile->Disable();
 
-    m_btnHelp = std::make_shared<wxButton>(this, wxID_ANY, strenc("Help"));
+    m_btnHelp = std::make_unique<wxButton>(this, wxID_ANY, strenc("Help"));
 
     m_sizer->Add(m_btnOpenFile.get(), 0, wxEXPAND | wxALL, 5);
     m_sizer->Add(m_fileList.get(), 0, wxEXPAND | wxALL, 5);
