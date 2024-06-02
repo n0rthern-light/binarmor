@@ -22,8 +22,7 @@ public:
 	void displayInfoMessageBox(const std::string& title, const std::string& message);
 	void displayStatus(const std::string& statusText);
 	void displayBinaryFile(const CBinaryFile& binaryFile);
-    void unlockFeatures();
-    void lockFeatures();
+    void appendToLoadedFiles(const CBinaryFile* binary);
 	void exit();
 };
 

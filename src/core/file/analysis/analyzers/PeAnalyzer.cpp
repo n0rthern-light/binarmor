@@ -14,6 +14,7 @@ void CPeAnalyzer::analyze(const CBinary* binary, BinaryAttributes_t& attributes)
     auto pe = std::make_unique<CPeFormat>(const_cast<CBinary*>(binary));
 
     attributes.arch = pe->architecture();
+    attributes.type = pe->type();
     auto sections = pe->sections();
     attributes.sectionCount = sections.size();
     auto importModules = pe->imports();

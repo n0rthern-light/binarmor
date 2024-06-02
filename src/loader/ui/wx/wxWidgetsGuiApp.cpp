@@ -47,14 +47,9 @@ void CwxWidgetsGuiApp::displayBinaryFile(const CBinaryFile& binaryFile)
     m_frame->displayBinaryFile(binaryFile);
 }
 
-void CwxWidgetsGuiApp::lockFeatures()
+void CwxWidgetsGuiApp::appendToLoadedFiles(const CBinaryFile* binary)
 {
-    m_frame->lockFeatures();
-}
-
-void CwxWidgetsGuiApp::unlockFeatures()
-{
-    m_frame->unlockFeatures();
+    m_frame->appendToLoadedFiles(binary);
 }
 
 void CwxWidgetsGuiApp::exit()

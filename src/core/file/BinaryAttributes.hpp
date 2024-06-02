@@ -9,6 +9,7 @@ struct BinaryAttributes_t
 {
     Format format = Format::UNKNOWN;
     Architecture arch = Architecture::UNKNOWN;
+    Type type = Type::UNKNOWN;
     std::string hash = "";
     uint_8 sectionCount = 0;
     uint_8 importedModuleCount = 0;

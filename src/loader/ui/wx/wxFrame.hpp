@@ -23,6 +23,5 @@ public:
 	void promptOpenFile();
 	void displayStatus(const std::string& statusText);
 	void displayBinaryFile(const CBinaryFile& binaryFile);
-    void lockFeatures();
-    void unlockFeatures();
+    void appendToLoadedFiles(const CBinaryFile* binary);
 };

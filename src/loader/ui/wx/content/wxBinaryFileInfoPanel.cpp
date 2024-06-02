@@ -4,51 +4,46 @@
 #include "shared/RuntimeException.hpp"
 #include "shared/self_obfuscation/strenc.hpp"
 #include "shared/value/Unsigned.hpp"
-#include <cstdio>
+#include <wx/osx/button.h>
 
 CwxBinaryFileInfoPanel::CwxBinaryFileInfoPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {
     m_eventBus = t_eventBus;
     m_sizer = std::make_shared<wxBoxSizer>(wxVERTICAL);
 
-    SetSizer(m_sizer.get());
-
     initInfoRows();
     updateWxInfoRows();
+
+    SetSizer(m_sizer.get());
 }
 
 void CwxBinaryFileInfoPanel::initInfoRows()
 {
     m_infoRows = { };
 
-    m_infoRows[strenc("0_binary_name")] = TextInfoRow_t { strenc("Name of the Binary:"), strenc("") };
-    m_infoRows[strenc("1_binary_hash")] = TextInfoRow_t { strenc("Hash (Checksum):"), strenc("") };
-    m_infoRows[strenc("2_binary_platform")] = TextInfoRow_t { strenc("Target Platform:"), strenc("") };
-    m_infoRows[strenc("3_binary_arch")] = TextInfoRow_t { strenc("Architecture:"), strenc("") };
-    m_infoRows[strenc("4_binary_section_count")] = TextInfoRow_t { strenc("Section count:"), strenc("") };
-    m_infoRows[strenc("5_binary_import_module_count")] = TextInfoRow_t { strenc("Imported module count:"), strenc("") };
-    m_infoRows[strenc("6_binary_import_function_count")] = TextInfoRow_t { strenc("Imported function count:"), strenc("") };
-    m_infoRows[strenc("7_binary_entry_point")] = TextInfoRow_t { strenc("Entry Point:"), strenc("") };
-    m_infoRows[strenc("8_binary_size_total")] = TextInfoRow_t { strenc("Size of the Binary:"), strenc("") };
-    m_infoRows[strenc("9_binary_size_code")] = TextInfoRow_t { strenc("Size of Unprotected Code:"), strenc("") };
-    m_infoRows[strenc("10_binary_protection_state")] = TextInfoRow_t { strenc("State of protection:"), strenc("") };
+    m_infoRows[0] = TextInfoRow_t { strenc("binary_path"), strenc("Full Path:"), strenc("") };
+    m_infoRows[1] = TextInfoRow_t { strenc("binary_hash"), strenc("Checksum:"), strenc("") };
+    m_infoRows[2] = TextInfoRow_t { strenc("binary_platform"), strenc("Platform:"), strenc("") };
+    m_infoRows[3] = TextInfoRow_t { strenc("binary_arch"), strenc("Architecture:"), strenc("") };
+    m_infoRows[4] = TextInfoRow_t { strenc("binary_type"), strenc("Type:"), strenc("") };
+    m_infoRows[5] = TextInfoRow_t { strenc("binary_section_count"), strenc("Sections:"), strenc("") };
+    m_infoRows[6] = TextInfoRow_t { strenc("binary_import_module_count"), strenc("Imported Modules:"), strenc("") };
+    m_infoRows[7] = TextInfoRow_t { strenc("binary_import_function_count"), strenc("Imported Functions:"), strenc("") };
+    m_infoRows[8] = TextInfoRow_t { strenc("binary_entry_point"), strenc("Entry Point:"), strenc("") };
+    m_infoRows[9] = TextInfoRow_t { strenc("binary_size_total"), strenc("Size of the Binary:"), strenc("") };
+    m_infoRows[10] = TextInfoRow_t { strenc("binary_size_code"), strenc("Size of Code:"), strenc("") };
+    m_infoRows[11] = TextInfoRow_t { strenc("binary_protection_state"), strenc("State of protection:"), strenc("") };
 }
 
-std::string CwxBinaryFileInfoPanel::resolveKey(const std::string& baseKey)
+int CwxBinaryFileInfoPanel::resolveKey(const std::string& id)
 {
-    constexpr uint_8 MAX_INDEX = 20;
-
-    for(uint_8 i = 0; i < MAX_INDEX; i++) {
-        char buffer[5];
-        sprintf(buffer, "%d", i);
-        auto currentKey = std::string(buffer) + "_" + baseKey;
-
-        if (m_infoRows.find(currentKey) != m_infoRows.end()) {
-            return currentKey;
+    for (const auto& row : m_infoRows) {
+        if (row.second.id == id) {
+            return row.first;
         }
     }
 
-    return baseKey;
+    return -1;
 }
 
 void CwxBinaryFileInfoPanel::setInfo(const std::string& key, const std::string& value)
@@ -61,7 +56,7 @@ void CwxBinaryFileInfoPanel::updateWxInfoRows()
     m_sizer->Clear(true);
 
     for (const auto& row : m_infoRows) {
-        m_sizer->Add(createInfoRow(row.second.label, row.second.value), 0, wxEXPAND | wxALL, 0);
+        m_sizer->Add(createInfoRow(row.second.label, row.second.value), 0, wxEXPAND | wxALL, 3);
     }
 
     Layout();
@@ -71,15 +66,15 @@ wxBoxSizer* CwxBinaryFileInfoPanel::createInfoRow(const wxString& label, const w
 {
     auto sizer = new wxBoxSizer(wxHORIZONTAL);
 
-    sizer->Add(new wxStaticText(this, wxID_ANY, label), 0, wxALIGN_CENTER_VERTICAL | wxALL, 2);
-    sizer->Add(new wxStaticText(this, wxID_ANY, value), 1, wxALIGN_CENTER_VERTICAL | wxALL, 2);
+    sizer->Add(new wxStaticText(this, wxID_ANY, label), 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+    sizer->Add(new wxStaticText(this, wxID_ANY, value), 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
     return sizer;
 }
 
 void CwxBinaryFileInfoPanel::loadFileData(const CBinaryFile& binaryFile)
 {
-    setInfo(strenc("binary_name"), binaryFile.fileName());
+    setInfo(strenc("binary_path"), binaryFile.filePath().c_str());
 
     const auto attributes = binaryFile.attributes();
     setInfo(strenc("binary_hash"), attributes.hash);
@@ -117,6 +112,18 @@ void CwxBinaryFileInfoPanel::loadFileData(const CBinaryFile& binaryFile)
         break;
         default:
             throw RuntimeException(strenc("Unhandled architecture to display"));
+        break;
+    }
+
+    switch (attributes.type) {
+        case Type::Executable:
+            setInfo(strenc("binary_type"), strenc("Executable"));
+        break;
+        case Type::Dynamic_Library:
+            setInfo(strenc("binary_type"), strenc("Dynamic Library"));
+        break;
+        default:
+            throw RuntimeException(strenc("Unhandled type to display"));
         break;
     }
 

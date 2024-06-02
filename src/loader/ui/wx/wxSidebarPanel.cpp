@@ -2,8 +2,12 @@
 #include "bitmap.hpp"
 #include "../icons.hpp"
 #include "../../application/events/UIRequestedOpenFileEvent.hpp"
+#include "core/file/BinaryFile.hpp"
+#include "loader/ui/wx/wx_headers.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
 #include <memory>
+#include <wx/gdicmn.h>
+#include <wx/listbase.h>
 
 CwxSidebarPanel::CwxSidebarPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {
@@ -19,62 +23,29 @@ CwxSidebarPanel::CwxSidebarPanel(wxWindow* parent, IMessageBus* t_eventBus) : wx
         m_eventBus->publish(new CUIRequestedOpenFileEvent());
     });
 
+    m_fileList = std::make_shared<wxListCtrl>(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);
+    m_fileList->AppendColumn(strenc("Loaded Files"), wxLIST_FORMAT_LEFT, 170);
+
+    m_btnUnloadFile = std::make_shared<wxButton>(this, wxID_ANY, strenc("Unload File"));
+
     m_btnExportFile = std::make_shared<wxButton>(this, wxID_ANY, strenc("Export File"));
     m_btnExportFile->SetBitmap(Bitmap::CreateFromBuffer(iconExport));
     m_btnExportFile->Disable();
 
-    m_btnAntiDebugging = std::make_shared<wxButton>(this, wxID_ANY, strenc("Anti-Debug"));
-    m_btnAntiDebugging->SetBitmap(Bitmap::CreateFromBuffer(iconNoPreview));
-    m_btnAntiDebugging->Disable();
-
-    m_btnObfuscation = std::make_shared<wxButton>(this, wxID_ANY, strenc("Obfuscation"));
-    m_btnObfuscation->SetBitmap(Bitmap::CreateFromBuffer(iconObfuscation));
-    m_btnObfuscation->Disable();
-
-    m_btnVirtualization = std::make_shared<wxButton>(this, wxID_ANY, strenc("Virtualization"));
-    m_btnVirtualization->SetBitmap(Bitmap::CreateFromBuffer(iconVirtualization));
-    m_btnVirtualization->Disable();
-
-    m_btnLicenseManager = std::make_shared<wxButton>(this, wxID_ANY, strenc("Licensing"));
-    m_btnLicenseManager->SetBitmap(Bitmap::CreateFromBuffer(iconLicensing));
-    m_btnLicenseManager->Disable();
-
     m_btnHelp = std::make_shared<wxButton>(this, wxID_ANY, strenc("Help"));
 
     m_sizer->Add(m_btnOpenFile.get(), 0, wxEXPAND | wxALL, 5);
-    m_sizer->AddSpacer(15);
-    m_sizer->Add(m_btnAntiDebugging.get(), 0, wxEXPAND | wxALL, 5);
-    m_sizer->Add(m_btnObfuscation.get(), 0, wxEXPAND | wxALL, 5);
-    m_sizer->Add(m_btnVirtualization.get(), 0, wxEXPAND | wxALL, 5);
-    m_sizer->Add(m_btnLicenseManager.get(), 0, wxEXPAND | wxALL, 5);
+    m_sizer->Add(m_fileList.get(), 0, wxEXPAND | wxALL, 5);
+    m_sizer->Add(m_btnUnloadFile.get(), 0, wxEXPAND | wxALL, 5);
     m_sizer->AddStretchSpacer(1);
     m_sizer->Add(m_btnExportFile.get(), 0, wxEXPAND | wxALL, 5);
     m_sizer->Add(m_btnHelp.get(), 0, wxEXPAND | wxALL, 5);
-
-    lockFeatureButtons();
 } 
 
-std::vector<std::shared_ptr<wxButton>>CwxSidebarPanel::featureButtons()
+void CwxSidebarPanel::appendToLoadedFiles(const CBinaryFile* binary)
 {
-    return std::vector {
-        m_btnAntiDebugging,
-        m_btnObfuscation,
-        m_btnVirtualization,
-        m_btnLicenseManager,
-    };
-}
-
-void CwxSidebarPanel::lockFeatureButtons()
-{
-    for(const auto& btn : featureButtons()) {
-        btn->Disable();
-    }
-}
-
-void CwxSidebarPanel::unlockFeatureButtons()
-{
-    for(const auto& btn : featureButtons()) {
-        btn->Enable();
-    }
+    auto index = m_fileList->GetItemCount();
+    m_fileList->InsertItem(index, binary->fileName().c_str());
+    m_fileList->CheckItem(index, true);
 }
 

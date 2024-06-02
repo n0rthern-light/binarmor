@@ -67,14 +67,9 @@ void CwxFrame::displayBinaryFile(const CBinaryFile& binaryFile)
     m_contentPanel->showFile(binaryFile);
 }
 
-void CwxFrame::lockFeatures()
+void CwxFrame::appendToLoadedFiles(const CBinaryFile* binary)
 {
-    m_sidebarPanel->lockFeatureButtons();
-}
-
-void CwxFrame::unlockFeatures()
-{
-    m_sidebarPanel->unlockFeatureButtons();
+    m_sidebarPanel->appendToLoadedFiles(binary);
 }
 
 void CwxFrame::displayStatus(const std::string& statusText)

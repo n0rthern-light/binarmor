@@ -3,6 +3,8 @@
 #include "wx_headers.hpp"
 #include <wx/generic/panelg.h>
 #include <shared/message/IMessageBus.hpp>
+#include <core/file/BinaryFile.hpp>
+#include <wx/listctrl.h>
 
 class CwxSidebarPanel : public wxPanel
 {
@@ -10,18 +12,18 @@ class CwxSidebarPanel : public wxPanel
 
     std::unique_ptr<wxBoxSizer> m_sizer;
 
+    std::shared_ptr<wxListCtrl> m_fileList;
+
     std::shared_ptr<wxButton> m_btnOpenFile;
-    std::shared_ptr<wxButton> m_btnExportFile;
+    std::shared_ptr<wxButton> m_btnUnloadFile;
     std::shared_ptr<wxButton> m_btnAntiDebugging;
     std::shared_ptr<wxButton> m_btnObfuscation;
     std::shared_ptr<wxButton> m_btnVirtualization;
     std::shared_ptr<wxButton> m_btnLicenseManager;
+    std::shared_ptr<wxButton> m_btnExportFile;
     std::shared_ptr<wxButton> m_btnHelp;
-
-    std::vector<std::shared_ptr<wxButton>> featureButtons();
 public:
     CwxSidebarPanel(wxWindow* parent, IMessageBus* t_eventBus);
-    void lockFeatureButtons();
-    void unlockFeatureButtons();
+    void appendToLoadedFiles(const CBinaryFile* binary);
 };
 

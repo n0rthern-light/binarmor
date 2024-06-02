@@ -9,6 +9,7 @@
 
 struct TextInfoRow_t
 {
+    std::string id;
     std::string label;
     std::string value;
 };
@@ -17,10 +18,10 @@ class CwxBinaryFileInfoPanel : public wxPanel
 {
     IMessageBus* m_eventBus;
     std::shared_ptr<wxBoxSizer> m_sizer;
-    std::map<std::string, TextInfoRow_t> m_infoRows;
+    std::map<int, TextInfoRow_t> m_infoRows;
 
     void initInfoRows();
-    std::string resolveKey(const std::string& baseKey);
+    int resolveKey(const std::string& id);
     void setLabel(const std::string& key, const std::string& label);
     void setInfo(const std::string& key, const std::string& value);
     void updateWxInfoRows();

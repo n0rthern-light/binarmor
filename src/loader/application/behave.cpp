@@ -28,7 +28,7 @@ void program::loader::application::behave(int argc, char** argv)
 		auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile();
         program::loader::container::guiApp->displayBinaryFile(*binaryFile.get());
         program::loader::container::guiApp->displayStatus(binaryFile->filePath());
-        program::loader::container::guiApp->unlockFeatures();
+        program::loader::container::guiApp->appendToLoadedFiles(binaryFile.get());
 	});
 }
 

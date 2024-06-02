@@ -1,35 +1,42 @@
 #include "wxContentPanel.hpp"
-#include "loader/ui/wx/content/wxBinaryFileInfoPanel.hpp"
+#include "content/wxDrangAndDropPanel.hpp"
+#include "loader/ui/wx/content/wxNotepadPanel.hpp"
 
 CwxContentPanel::CwxContentPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {
     m_eventBus = t_eventBus;
-    m_binaryFileInfoPanel = nullptr;
 
     m_sizer = std::make_shared<wxBoxSizer>(wxVERTICAL);
 
-    m_binaryFileInfoPanel = std::make_shared<CwxBinaryFileInfoPanel>(this, m_eventBus);
-    m_sizer->Add(m_binaryFileInfoPanel.get(), 1, wxEXPAND | wxALL, 5);
+    m_notepadPanel = std::make_shared<CwxNotepadPanel>(this, m_eventBus);
+    m_sizer->Add(m_notepadPanel.get(), 1, wxEXPAND | wxALL, 5);
+
+    m_dragAndDropPanel = std::make_shared<CwxDragAndDropPanel>(this, m_eventBus);
+    m_sizer->Add(m_dragAndDropPanel.get(), 1, wxEXPAND | wxALL, 5);
 
     this->SetSizer(m_sizer.get());
 
-    hideAll();
+    showDragAndDrop();
 }
 
 void CwxContentPanel::hideAll()
 {
-    m_binaryFileInfoPanel->Hide();
+    m_notepadPanel->Hide();
+    m_dragAndDropPanel->Hide();
 }
 
 void CwxContentPanel::showFile(const CBinaryFile& binaryFile)
 {
-    m_binaryFileInfoPanel->loadFileData(binaryFile);
-    m_binaryFileInfoPanel->Show();
+    hideAll();
+    m_notepadPanel->loadFileData(binaryFile);
+    m_notepadPanel->Show();
     m_sizer->Layout();
 }
 
 void CwxContentPanel::showDragAndDrop()
 {
-
+    hideAll();
+    m_dragAndDropPanel->Show();
+    m_sizer->Layout();
 }
 
