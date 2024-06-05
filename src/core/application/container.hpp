@@ -11,10 +11,10 @@ namespace program
         namespace container
         {
             namespace file {
-                extern std::shared_ptr<IFileReader> fileReader;
-                extern std::shared_ptr<CBinaryFileStateManager> binaryFileStateManager;
+                extern std::unique_ptr<IFileReader> fileReader;
+                extern std::unique_ptr<CBinaryFileStateManager> binaryFileStateManager;
                 namespace analysis {
-                    extern std::shared_ptr<CAnalysisRunner> runner;
+                    extern std::unique_ptr<CAnalysisRunner> runner;
                 }
             }
 

@@ -9,8 +9,8 @@ namespace program
     {
         namespace container
         {
-            extern std::shared_ptr<IMessageBus> eventBus;
-            extern std::shared_ptr<IHasher> hasher;
+            extern std::unique_ptr<IMessageBus> eventBus;
+            extern std::unique_ptr<IHasher> hasher;
 
             void init(int argc, char** argv);
         }
