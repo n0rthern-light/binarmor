@@ -5,6 +5,6 @@
 class CwxApp : public wxApp
 {
 public:
-    virtual bool OnInit();
+    virtual bool OnInit() override;
 };
 

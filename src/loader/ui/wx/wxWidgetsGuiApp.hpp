@@ -1,21 +1,21 @@
 #pragma once
 
 #include "../IGuiApp.hpp"
-#include "wxApp.hpp"
 #include "wxFrame.hpp"
+#include "wxApp.hpp"
 #include <shared/message/IMessageBus.hpp>
 #include <core/file/BinaryFile.hpp>
 
-class CwxWidgetsGuiApp : public IGuiApp
+class CwxWidgetsGuiApp : public CwxApp, public IGuiApp
 {
 	int m_argc;
 	char** m_argv;
 	IMessageBus* m_eventBus;
-    CwxApp* m_app;
-    CwxFrame* m_frame;
+    std::unique_ptr<CwxFrame> m_frame;
 
 public:
 	CwxWidgetsGuiApp(int t_argc, char** t_argv, IMessageBus* t_eventBus);
+    void overrideEventBusHandlerType();
 	void start();
     void promptOpenFile();
 	void displayErrorMessageBox(const std::string& title, const std::string& message);

@@ -1,9 +1,11 @@
 #include "SimpleMessageBus.hpp"
 #include "../../RuntimeException.hpp"
 #include "../../self_obfuscation/strenc.hpp"
-#include <thread>
 
-CSimpleMessageBus::CSimpleMessageBus(bool t_bCommandBusMode): m_bCommandBusMode(t_bCommandBusMode) { }
+CSimpleMessageBus::CSimpleMessageBus(bool t_bCommandBusMode):
+    m_handlerType(handler_type_sync),
+    m_bCommandBusMode(t_bCommandBusMode)
+{ }
 
 void CSimpleMessageBus::subscribe(const std::type_index& type, const std::function<void(message_ptr)>& listener) {
 	std::lock_guard<std::mutex> lock(m_mtx);
@@ -25,7 +27,12 @@ void CSimpleMessageBus::publish(message_ptr message) {
 		}
 	}
 	for (auto& handler : handlers) {
-		std::thread([=] { handler(message); }).detach();
+		m_handlerType([&] { handler(message); });
 	}
+}
+
+void CSimpleMessageBus::overrideHandlerType(const handler_type& handlerType)
+{
+    m_handlerType = handlerType;
 }
 

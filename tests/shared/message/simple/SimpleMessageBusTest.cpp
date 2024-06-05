@@ -1,7 +1,5 @@
 #include <gtest/gtest.h>
 #include <shared/message/simple/SimpleMessageBus.hpp>
-#include <chrono>
-#include <thread>
 
 class DummyEvent : public IMessage
 {
@@ -24,15 +22,6 @@ TEST(SimpleEventBusTest, HandlerWillBeCalledWithProperEvent) {
 
 	eventBus->publish(publishedEvent);
 
-	// wait till thread will handle event
-	// if timeout raise exception
-	int timer = 0;
-	while (!gotCalled) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-		timer++;
-		if (timer > 500) {
-			throw "Holly molly!";
-		}
-	}
+    ASSERT_TRUE(gotCalled);
 }
 

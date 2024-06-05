@@ -1,4 +1,5 @@
 #include "wxWidgetsGuiApp.hpp"
+#include "shared/message/simple/SimpleMessageBus.hpp"
 #include <shared/message/IMessageBus.hpp>
 
 CwxWidgetsGuiApp::CwxWidgetsGuiApp(int t_argc, char** t_argv, IMessageBus* t_eventBus)
@@ -7,18 +8,29 @@ CwxWidgetsGuiApp::CwxWidgetsGuiApp(int t_argc, char** t_argv, IMessageBus* t_eve
     m_argv = t_argv;
     m_eventBus = t_eventBus;
 
-    m_app = new CwxApp();
-    wxApp::SetInstance(m_app);
-    m_app->CallOnInit();
-    m_frame = new CwxFrame(m_eventBus);
+    wxApp::SetInstance(this);
+    CallOnInit();
+    m_frame = std::make_unique<CwxFrame>(m_eventBus);
+
+    //overrideEventBusHandlerType();
+}
+
+void CwxWidgetsGuiApp::overrideEventBusHandlerType()
+{
+    // this should be a better way of handling but it crashes the app
+    // so just use regular sync handler type atm
+    dynamic_cast<CSimpleMessageBus*>(m_eventBus)
+        ->overrideHandlerType([&](handler_type_fn f) {
+            CallAfter(f);
+        });
 }
 
 void CwxWidgetsGuiApp::start()
 {
     wxEntryStart(m_argc, m_argv);
     m_frame->Show(true);
-    m_app->OnRun();
-    m_app->OnExit();
+    OnRun();
+    OnExit();
     wxEntryCleanup();
 }
 
@@ -54,6 +66,6 @@ void CwxWidgetsGuiApp::appendToLoadedFiles(const CBinaryFile* binary)
 
 void CwxWidgetsGuiApp::exit()
 {
-    m_app->Exit();
+    Exit();
 }
 
