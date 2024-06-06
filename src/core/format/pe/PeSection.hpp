@@ -3,6 +3,7 @@
 #include "../ISection.hpp"
 #include "defines.hpp"
 #include <string>
+#include <memory>
 
 class CPeSection;
 

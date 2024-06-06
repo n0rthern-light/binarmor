@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IMessage.hpp"
+#include <memory>
 #include <functional>
 #include <typeindex>
 
