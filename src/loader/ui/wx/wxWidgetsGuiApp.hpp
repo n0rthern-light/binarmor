@@ -1,26 +1,30 @@
-#pragma once
+#ifndef LOADER_UI_WX_WX_WIDGETS_GUI_APP_HPP_
+#define LOADER_UI_WX_WX_WIDGETS_GUI_APP_HPP_
 
 #include "../IGuiApp.hpp"
-#include "wxApp.hpp"
 #include "wxFrame.hpp"
-#include <shared/event/IEventBus.hpp>
+#include "wxApp.hpp"
+#include <shared/message/IMessageBus.hpp>
+#include <core/file/BinaryFile.hpp>
 
-class CwxWidgetsGuiApp : public IGuiApp
+class CwxWidgetsGuiApp : public CwxApp, public IGuiApp
 {
-	int argc;
-	char** argv;
-	IEventBus* eventBus;
-	CwxApp* app;
-	CwxFrame* frame;
+	int m_argc;
+	char** m_argv;
+	IMessageBus* m_eventBus;
+    std::unique_ptr<CwxFrame> m_frame;
 
 public:
-	CwxWidgetsGuiApp(int _argc, char** _argv, IEventBus* _eventBus);
+	CwxWidgetsGuiApp(int t_argc, char** t_argv, IMessageBus* t_eventBus);
+    void overrideEventBusHandlerType();
 	void start();
-	void promptOpenFile();
+    void promptOpenFile();
 	void displayErrorMessageBox(const std::string& title, const std::string& message);
 	void displayInfoMessageBox(const std::string& title, const std::string& message);
 	void displayStatus(const std::string& statusText);
-	void displayBinary(const CBinary& binary);
+	void displayBinaryFile(const CBinaryFile& binaryFile);
+    void appendToLoadedFiles(const CBinaryFile* binary);
 	void exit();
 };
 
+#endif // LOADER_UI_WX_WX_WIDGETS_GUI_APP_HPP_

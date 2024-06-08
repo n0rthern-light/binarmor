@@ -6,6 +6,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project ("BinArmor")
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    include(${CMAKE_BINARY_DIR}/../Debug/generators/conan_toolchain.cmake)
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    include(${CMAKE_BINARY_DIR}/../Release/generators/conan_toolchain.cmake)
+else()
+    message(FATAL_ERROR "Unsupported build type: ${CMAKE_BUILD_TYPE}")
+endif()
+
 set(SRC_INCLUDES ${CMAKE_SOURCE_DIR}/src)
 
 add_subdirectory ("src/shared")

@@ -1,21 +1,29 @@
-#pragma once
+#ifndef LOADER_UI_WX_WX_FRAME_HPP_
+#define LOADER_UI_WX_WX_FRAME_HPP_
 
-#include "wx_headers.hpp"
-#include <shared/event/IEventBus.hpp>
-#include <core/file/Binary.hpp>
+#include "loader/ui/wx/wxContentPanel.hpp"
+#include "loader/ui/wx/wxSidebarPanel.hpp"
+#include <shared/message/IMessageBus.hpp>
+#include <core/file/BinaryFile.hpp>
 
 class CwxFrame : public wxFrame
 {
 private:
-	IEventBus* eventBus;
-	wxTextCtrl* binaryDisplay;
+	IMessageBus* m_eventBus;
+    std::unique_ptr<wxPanel> m_mainPanel;
+    std::unique_ptr<wxBoxSizer> m_mainSizer;
+    std::unique_ptr<CwxSidebarPanel> m_sidebarPanel;
+    std::unique_ptr<CwxContentPanel> m_contentPanel;
 
 	void initUi();
 	void initEventListener();
 	void onEventDisplayWindowOpenFile(wxCommandEvent& event);
 public:
-  CwxFrame(IEventBus* _eventBus);
+    CwxFrame(IMessageBus* t_eventBus);
 	void promptOpenFile();
 	void displayStatus(const std::string& statusText);
-	void displayBinary(const CBinary& binary);
+	void displayBinaryFile(const CBinaryFile& binaryFile);
+    void appendToLoadedFiles(const CBinaryFile* binary);
 };
+
+#endif // LOADER_UI_WX_WX_FRAME_HPP_

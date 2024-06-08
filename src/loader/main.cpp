@@ -1,5 +1,6 @@
 #include "headers.hpp"
-#include "container.hpp"
+#include <loader/application/container.hpp>
+#include <loader/bootstrap.hpp>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -19,8 +20,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine,
 
     // ----------------
 
-    container::init(argc, argv);
-    container::guiApp->start();
+    program::bootstrap::init(argc, argv);
+    program::loader::container::guiApp->start();
 
     // ----------------
 
@@ -29,15 +30,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine,
     }
     delete[] argv;
 
-	return 0;
+    return 0;
 }
 #else
 int main(int argc, char** argv)
 {
-  container::init(argc, argv);
-  container::guiApp->start();
+    program::bootstrap::init(argc, argv);
+    program::loader::container::guiApp->start();
 
-  return 0;
+    return 0;
 }
 #endif
 

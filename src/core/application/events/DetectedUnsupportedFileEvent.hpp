@@ -1,0 +1,10 @@
+#ifndef CORE_APPLICATION_EVENTS__DETECTED_UNSUPPORTED_FILE_EVENT_HPP_
+#define CORE_APPLICATION_EVENTS__DETECTED_UNSUPPORTED_FILE_EVENT_HPP_
+
+#include <shared/message/IMessage.hpp>
+
+class DetectedUnsupportedFileEvent : public IMessage
+{
+};
+
+#endif // CORE_APPLICATION_EVENTS__DETECTED_UNSUPPORTED_FILE_EVENT_HPP_

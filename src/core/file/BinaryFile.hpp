@@ -1,29 +1,33 @@
-#pragma once
+#ifndef CORE_FILE__BINARY_FILE_HPP_
+#define CORE_FILE__BINARY_FILE_HPP_
 
-#include "Binary.hpp"
+#include "../Binary.hpp"
+#include "../attributes.hpp"
 #include "BinaryAttributes.hpp"
-#include "attributes.hpp"
 #include "flags.hpp"
-#include <shared/event/IEventBus.hpp>
 #include <string>
+#include <filesystem>
 
 class CBinaryFile
 {
-	const std::string _filePath;
-	const CBinary _binary;
-	Format _format;
-	uint_32 _flags;
-	BinaryAttributes_t _attributes;
+	const std::filesystem::path m_filePath;
+	const CBinary m_binary;
+	uint_32 m_flags;
+	BinaryAttributes_t m_attributes;
 public:
-	CBinaryFile(const std::string& filePath, const CBinary& binary);
-	std::string filePath() const;
+	CBinaryFile(const std::string& filePath, const CBinary& binary, uint_32 flags, const BinaryAttributes_t& attributes);
+    std::filesystem::path filePath() const;
+    std::string fileName() const;
 	CBinary binary() const;
-	bool hasFormatRecognized() const;
-	void recognizeFormat(const Format& format);
+    Format format() const;
+    BinaryAttributes_t attributes() const;
 	void enableFlags(BinaryFileFlags flags);
 	void disableFlags(BinaryFileFlags flags);
 	bool hasFlags(BinaryFileFlags flags) const;
 	bool hasAnyFlags() const;
-	void completeAnalysis(const BinaryAttributes_t& attributes);
+    bool isProtectedByBinarmor() const;
+    void assignAttributes(const BinaryAttributes_t& attributes);
+	void completeAnalysis();
 };
 
+#endif // CORE_FILE__BINARY_FILE_HPP_

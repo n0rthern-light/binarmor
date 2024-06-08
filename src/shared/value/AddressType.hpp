@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SHARED_VALUE__ADDRESS_TYPE_HPP_
+#define SHARED_VALUE__ADDRESS_TYPE_HPP_
 
 enum class AddressType
 {
@@ -6,3 +7,4 @@ enum class AddressType
 	_64_BIT = 2,
 };
 
+#endif // SHARED_VALUE__ADDRESS_TYPE_HPP_

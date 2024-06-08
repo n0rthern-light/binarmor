@@ -1,29 +1,42 @@
 #include "wxWidgetsGuiApp.hpp"
+#include "shared/message/simple/SimpleMessageBus.hpp"
+#include <shared/message/IMessageBus.hpp>
 
-CwxWidgetsGuiApp::CwxWidgetsGuiApp(int _argc, char** _argv, IEventBus* _eventBus)
+CwxWidgetsGuiApp::CwxWidgetsGuiApp(int t_argc, char** t_argv, IMessageBus* t_eventBus)
 {
-    argc = _argc;
-    argv = _argv;
-    eventBus = _eventBus;
+    m_argc = t_argc;
+    m_argv = t_argv;
+    m_eventBus = t_eventBus;
 
-    app = new CwxApp();
-    wxApp::SetInstance(app);
-    app->CallOnInit();
-    frame = new CwxFrame(eventBus);
+    wxApp::SetInstance(this);
+    CallOnInit();
+    m_frame = std::make_unique<CwxFrame>(m_eventBus);
+
+    //overrideEventBusHandlerType();
+}
+
+void CwxWidgetsGuiApp::overrideEventBusHandlerType()
+{
+    // this should be a better way of handling but it crashes the app
+    // so just use regular sync handler type atm
+    dynamic_cast<CSimpleMessageBus*>(m_eventBus)
+        ->overrideHandlerType([&](handler_type_fn f) {
+            CallAfter(f);
+        });
 }
 
 void CwxWidgetsGuiApp::start()
 {
-    wxEntryStart(argc, argv);
-    frame->Show(true);
-    app->OnRun();
-    app->OnExit();
+    wxEntryStart(m_argc, m_argv);
+    m_frame->Show(true);
+    OnRun();
+    OnExit();
     wxEntryCleanup();
 }
 
 void CwxWidgetsGuiApp::promptOpenFile()
 {
-    frame->promptOpenFile();
+    m_frame->promptOpenFile();
 }
 
 void CwxWidgetsGuiApp::displayErrorMessageBox(const std::string& title, const std::string& message)
@@ -38,15 +51,21 @@ void CwxWidgetsGuiApp::displayInfoMessageBox(const std::string& title, const std
 
 void CwxWidgetsGuiApp::displayStatus(const std::string& statusText)
 {
-    frame->displayStatus(statusText);
+    m_frame->displayStatus(statusText);
 }
 
-void CwxWidgetsGuiApp::displayBinary(const CBinary& binary)
+void CwxWidgetsGuiApp::displayBinaryFile(const CBinaryFile& binaryFile)
 {
-    frame->displayBinary(binary);
+    m_frame->displayBinaryFile(binaryFile);
+}
+
+void CwxWidgetsGuiApp::appendToLoadedFiles(const CBinaryFile* binary)
+{
+    m_frame->appendToLoadedFiles(binary);
 }
 
 void CwxWidgetsGuiApp::exit()
 {
-    app->Exit();
+    Exit();
 }
+

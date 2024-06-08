@@ -1,59 +1,65 @@
 #include "BinaryFile.hpp"
+#include "core/file/BinaryAttributes.hpp"
 
-CBinaryFile::CBinaryFile(const std::string& filePath, const CBinary& binary): _filePath(filePath), _binary(binary)
+CBinaryFile::CBinaryFile(const std::string& filePath, const CBinary& binary, uint_32 flags, const BinaryAttributes_t& attributes): m_filePath(filePath), m_binary(binary), m_flags(flags), m_attributes(attributes)
+{ }
+
+std::filesystem::path CBinaryFile::filePath() const
 {
-	_attributes = BinaryAttributes_t();
-	_flags = 0;
-	_format = Format::UNKNOWN;
+	return m_filePath;
 }
 
-std::string CBinaryFile::filePath() const
+std::string CBinaryFile::fileName() const
 {
-	return _filePath;
+    return m_filePath.filename().string();
 }
 
 CBinary CBinaryFile::binary() const
 {
-	return _binary;
+	return m_binary;
 }
 
-bool CBinaryFile::hasFormatRecognized() const
+Format CBinaryFile::format() const
 {
-	return _format != Format::UNKNOWN;
+    return m_attributes.format;
 }
 
-void CBinaryFile::recognizeFormat(const Format& format)
+BinaryAttributes_t CBinaryFile::attributes() const
 {
-	_format = format;
+    return m_attributes;
 }
 
 void CBinaryFile::enableFlags(BinaryFileFlags flags)
 {
-	_flags |= static_cast<uint_32>(flags);
+	m_flags |= static_cast<uint_32>(flags);
 }
 
 void CBinaryFile::disableFlags(BinaryFileFlags flags)
 {
-	_flags &= ~static_cast<uint_32>(flags);
+	m_flags &= ~static_cast<uint_32>(flags);
 }
 
 bool CBinaryFile::hasFlags(BinaryFileFlags flags) const
 {
-    if (flags == BinaryFileFlags::None && _flags > 0) {
+    if (flags == BinaryFileFlags::None && m_flags > 0) {
         return false;
     }
 
-	return (_flags & static_cast<uint_32>(flags)) == static_cast<uint_32>(flags);
+	return (m_flags & static_cast<uint_32>(flags)) == static_cast<uint_32>(flags);
 }
 
 bool CBinaryFile::hasAnyFlags() const
 {
-    return _flags > 0;
+    return m_flags > 0;
 }
 
-void CBinaryFile::completeAnalysis(const BinaryAttributes_t& attributes)
+bool CBinaryFile::isProtectedByBinarmor() const
 {
-	_attributes = attributes;
-	enableFlags(BinaryFileFlags::Analyzed);
+    return m_attributes.isProtected;
+}
+
+void CBinaryFile::assignAttributes(const BinaryAttributes_t& attributes)
+{
+	m_attributes = attributes;
 }
 

@@ -68,3 +68,69 @@ Afterwards create this symlink in the root directory of the project to make LSP 
 ```zsh
 ln -sf build/debug-osx-fat/compile_commands.json compile_commands.json
 ```
+
+### Coding architecture
+Regarding the codebase architecture, the concept is quite simple. We got three modules:
+- `core` aka Engine - where all recipes of doing stuff lives.
+- `loader` - the User Interface module
+- `shared` - very generic stuff that can be used independently anywhere.
+
+The dependencies rules are:
+- The `shared` depends on itself only. 
+- The `core` depends on itself and the `shared` module stuff only. 
+- The `loader` depends on itself, the `shared` module, and the `core` stuff - it is the highest level module. 
+- Any of the modules can depend on external libraries as well, but the dependency must be hidden behind abstract interface.
+
+### MacOS ARM64 target under MacOS/unix Host:
+1. Install packages it will install arm64 libraries:
+Debug:
+```zsh
+conan install . --build=missing --settings=build_type=Debug --profile:host=conan-profiles/osx_arm64.ini
+```
+
+Release:
+```zsh
+conan install . --build=missing --settings=build_type=Release --profile:host=conan-profiles/osx_arm64.ini
+```
+
+### MacOS X64 target under MacOS/unix Host:
+1. Install packages it will install x86_64 libraries:
+Debug:
+```zsh
+conan install . --build=missing --settings=build_type=Debug --profile:host=conan-profiles/osx_x64.ini
+```
+
+Release:
+```zsh
+conan install . --build=missing --settings=build_type=Release --profile:host=conan-profiles/osx_x64.ini
+```
+
+### Windows compiling under MacOS/unix Host:
+1. make sure mingw installed:
+```zsh
+brew install mingw-w64
+```
+
+2. Create toolchain file for example in ~/toolchain/windows.tc.cmake
+Example toolchain, might be adjusted:
+```zsh
+set(CMAKE_SYSTEM_NAME Windows)
+
+set(CMAKE_C_COMPILER /opt/homebrew/bin/x86_64-w64-mingw32-gcc)
+set(CMAKE_CXX_COMPILER /opt/homebrew/bin/x86_64-w64-mingw32-g++)
+set(CMAKE_RC_COMPILER /opt/homebrew/bin/x86_64-w64-mingw32-windres)
+
+set(CMAKE_FIND_ROOT_PATH /opt/homebrew/opt/mingw-w64/toolchain-x86_64/mingw)
+
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)
+```
+
+3. Build conan dependencies with correct Host Profile (Target platform build):
+```zsh
+conan install . --build=missing --settings=build_type=Debug --profile:host=conan-profiles/windows_x64.ini
+```
+
+4. Specify the toolchain in the CMake when building

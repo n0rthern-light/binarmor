@@ -1,6 +1,8 @@
-#pragma once
+#ifndef CORE_FILE__I_FILE_READER_HPP_
+#define CORE_FILE__I_FILE_READER_HPP_
+
 #include <string>
-#include "Binary.hpp"
+#include "../Binary.hpp"
 
 class IFileReader
 {
@@ -8,3 +10,5 @@ public:
 	virtual ~IFileReader() {};
 	virtual const CBinary read(const std::string& filePath) = 0;
 };
+
+#endif // CORE_FILE__I_FILE_READER_HPP_

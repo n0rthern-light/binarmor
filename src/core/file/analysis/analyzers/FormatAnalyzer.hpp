@@ -1,10 +1,12 @@
-#pragma once
+#ifndef CORE_FILE_ANALYSIS_ANALYZERS__FORMAT_ANALYZER_HPP_
+#define CORE_FILE_ANALYSIS_ANALYZERS__FORMAT_ANALYZER_HPP_
 
-#include "BaseAnalyzer.hpp"
+#include "../IAnalyzer.hpp"
 
-class CFormatAnalyzer : public BaseAnalyzer
+class CFormatAnalyzer : public IAnalyzer
 {
 public:
-	using BaseAnalyzer::BaseAnalyzer;
-	void analyze(CBinaryFile* binaryFile, BinaryAttributes_t& attributes);
+	void analyze(const CBinary* binaryFile, BinaryAttributes_t& attributes);
 };
+
+#endif // CORE_FILE_ANALYSIS_ANALYZERS__FORMAT_ANALYZER_HPP_

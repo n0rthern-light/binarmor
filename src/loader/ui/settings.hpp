@@ -1,4 +1,7 @@
-#pragma once
+#ifndef LOADER_UI_SETTINGS_HPP_
+#define LOADER_UI_SETTINGS_HPP_
 
 #define WINDOW_SIZE_X 800
 #define WINDOW_SIZE_Y 540
+
+#endif // LOADER_UI_SETTINGS_HPP_

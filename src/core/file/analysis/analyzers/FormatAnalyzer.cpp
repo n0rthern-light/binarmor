@@ -1,5 +1,7 @@
 #include "FormatAnalyzer.hpp"
-#include "../UnsupportedFileException.hpp"
+#include "../exceptions/UnsupportedFileException.hpp"
+#include "core/Binary.hpp"
+#include "core/attributes.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
 
 bool isWindowsPE(const CBinary* binary) {
@@ -26,21 +28,20 @@ bool isMachO(const CBinary* binary) {
     return magic == 0xFEEDFACE || magic == 0xFEEDFACF || magic == 0xCAFEBABE;
 }
 
-void CFormatAnalyzer::analyze(CBinaryFile* binaryFile, BinaryAttributes_t& attributes)
+void CFormatAnalyzer::analyze(const CBinary* binary, BinaryAttributes_t& attributes)
 {
-	auto binary = binaryFile->binary();
-
-    if (isWindowsPE(&binary)) {
-		binaryFile->recognizeFormat(Format::Windows_PE);
+    if (isWindowsPE(binary)) {
+		attributes.format = Format::Windows_PE;
     }
-    else if (isELF(&binary)) {
-		binaryFile->recognizeFormat(Format::Linux_ELF);
+    else if (isELF(binary)) {
+		attributes.format = Format::Linux_ELF;
     }
-    else if (isMachO(&binary)) {
-		binaryFile->recognizeFormat(Format::MacOS_MachO);
+    else if (isMachO(binary)) {
+		attributes.format = Format::MacOS_MachO;
     }
 
-    if (!binaryFile->hasFormatRecognized()) {
+    if (attributes.format == Format::UNKNOWN) {
 	    throw UnsupportedFileException(strenc("Not detected any supported file format"));
     }
 }
+
