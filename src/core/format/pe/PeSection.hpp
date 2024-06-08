@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_CORE_FORMAT_PE__PE_SECTION_HPP_
+#define SRC_CORE_FORMAT_PE__PE_SECTION_HPP_
+
+
+
+
 
 #include "../ISection.hpp"
 #include "defines.hpp"
@@ -52,3 +57,7 @@ public:
 	bool operator==(const CPeSection& other) const;
 };
 
+
+
+
+#endif // SRC_CORE_FORMAT_PE__PE_SECTION_HPP_

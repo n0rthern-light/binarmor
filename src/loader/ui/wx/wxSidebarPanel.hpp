@@ -1,10 +1,9 @@
-#pragma once
+#ifndef SRC_LOADER_UI_WX_WX_SIDEBAR_PANEL_HPP_
+#define SRC_LOADER_UI_WX_WX_SIDEBAR_PANEL_HPP_
 
 #include "wx_headers.hpp"
-#include <wx/generic/panelg.h>
 #include <shared/message/IMessageBus.hpp>
 #include <core/file/BinaryFile.hpp>
-#include <wx/listctrl.h>
 
 class CwxSidebarPanel : public wxPanel
 {
@@ -27,3 +26,4 @@ public:
     void appendToLoadedFiles(const CBinaryFile* binary);
 };
 
+#endif // SRC_LOADER_UI_WX_WX_SIDEBAR_PANEL_HPP_

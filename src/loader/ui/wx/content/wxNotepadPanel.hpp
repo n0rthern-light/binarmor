@@ -1,12 +1,10 @@
-#pragma once
+#ifndef SRC_LOADER_UI_WX_CONTENT_WX_NOTEPAD_PANEL_HPP_
+#define SRC_LOADER_UI_WX_CONTENT_WX_NOTEPAD_PANEL_HPP_
 
 #include "../wx_headers.hpp"
 #include "core/file/BinaryFile.hpp"
 #include "loader/ui/wx/content/wxBinaryFileInfoPanel.hpp"
-#include <wx/generic/panelg.h>
 #include <shared/message/IMessageBus.hpp>
-#include <wx/sizer.h>
-#include <wx/notebook.h>
 
 class CwxNotepadPanel : public wxPanel
 {
@@ -21,3 +19,4 @@ public:
     void loadFileData(const CBinaryFile& binaryFile);
 };
 
+#endif // SRC_LOADER_UI_WX_CONTENT_WX_NOTEPAD_PANEL_HPP_

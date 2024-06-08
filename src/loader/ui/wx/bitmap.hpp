@@ -1,9 +1,7 @@
-#pragma once
+#ifndef SRC_LOADER_UI_WX_BITMAP_HPP_
+#define SRC_LOADER_UI_WX_BITMAP_HPP_
 
-#include <wx/mstream.h>
-#include <wx/image.h>
-#include <wx/bitmap.h>
-#include <wx/log.h>
+#include "wx_headers.hpp"
 #include <vector>
 #include <shared/RuntimeException.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
@@ -26,3 +24,7 @@ public:
         }
     }
 };
+
+
+
+#endif // SRC_LOADER_UI_WX_BITMAP_HPP_

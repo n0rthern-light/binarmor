@@ -2,8 +2,6 @@
 #include "wxDragAndDropPanel.hpp"
 #include "loader/ui/wx/wx_headers.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
-#include <wx/dnd.h>
-#include <wx/sizer.h>
 
 class FileDropTarget : public wxFileDropTarget {
 public:

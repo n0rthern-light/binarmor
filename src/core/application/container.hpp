@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_CORE_APPLICATION_CONTAINER_HPP_
+#define SRC_CORE_APPLICATION_CONTAINER_HPP_
+
+
+
+
 
 #include "../file/IFileReader.hpp"
 #include "../file/BinaryFileStateManager.hpp"
@@ -23,3 +28,7 @@ namespace program
     }
 }
 
+
+
+
+#endif // SRC_CORE_APPLICATION_CONTAINER_HPP_

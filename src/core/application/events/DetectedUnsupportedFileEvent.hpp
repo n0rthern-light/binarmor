@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_CORE_APPLICATION_EVENTS__DETECTED_UNSUPPORTED_FILE_EVENT_HPP_
+#define SRC_CORE_APPLICATION_EVENTS__DETECTED_UNSUPPORTED_FILE_EVENT_HPP_
+
+
+
+
 
 #include <shared/message/IMessage.hpp>
 
@@ -6,3 +11,7 @@ class DetectedUnsupportedFileEvent : public IMessage
 {
 };
 
+
+
+
+#endif // SRC_CORE_APPLICATION_EVENTS__DETECTED_UNSUPPORTED_FILE_EVENT_HPP_

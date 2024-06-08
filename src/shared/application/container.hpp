@@ -1,4 +1,7 @@
-#pragma once
+#ifndef SRC_SHARED_APPLICATION_CONTAINER_HPP_
+#define SRC_SHARED_APPLICATION_CONTAINER_HPP_
+
+
 
 #include "../message/IMessageBus.hpp"
 #include "../crypto/IHasher.hpp"
@@ -17,3 +20,7 @@ namespace program
     }
 }
 
+
+
+
+#endif // SRC_SHARED_APPLICATION_CONTAINER_HPP_

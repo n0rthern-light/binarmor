@@ -1,8 +1,6 @@
 #include "wxNotepadPanel.hpp"
 #include "loader/ui/wx/content/wxBinaryFileInfoPanel.hpp"
 #include "loader/ui/wx/wx_headers.hpp"
-#include <wx/gdicmn.h>
-#include <wx/osx/button.h>
 #include <shared/self_obfuscation/strenc.hpp>
 
 CwxNotepadPanel::CwxNotepadPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)

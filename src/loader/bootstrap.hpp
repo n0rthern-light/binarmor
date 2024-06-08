@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_LOADER_BOOTSTRAP_HPP_
+#define SRC_LOADER_BOOTSTRAP_HPP_
+
+
+
+
 
 namespace program
 {
@@ -8,3 +13,7 @@ namespace program
     }
 }
 
+
+
+
+#endif // SRC_LOADER_BOOTSTRAP_HPP_

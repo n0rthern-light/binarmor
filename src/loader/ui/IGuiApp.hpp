@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_LOADER_UI__I_GUI_APP_HPP_
+#define SRC_LOADER_UI__I_GUI_APP_HPP_
+
+
+
+
 #include <core/file/BinaryFile.hpp>
 #include <string>
 
@@ -16,3 +21,7 @@ public:
 	virtual void exit() {};
 };
 
+
+
+
+#endif // SRC_LOADER_UI__I_GUI_APP_HPP_

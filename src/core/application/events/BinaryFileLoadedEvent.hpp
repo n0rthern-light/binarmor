@@ -1,7 +1,16 @@
-#pragma once
+#ifndef SRC_CORE_APPLICATION_EVENTS__BINARY_FILE_LOADED_EVENT_HPP_
+#define SRC_CORE_APPLICATION_EVENTS__BINARY_FILE_LOADED_EVENT_HPP_
+
+
+
+
 
 #include <shared/message/IMessage.hpp>
 
 class CBinaryFileLoadedEvent : public IMessage
 {
 };
+
+
+
+#endif // SRC_CORE_APPLICATION_EVENTS__BINARY_FILE_LOADED_EVENT_HPP_

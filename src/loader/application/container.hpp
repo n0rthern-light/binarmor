@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_LOADER_APPLICATION_CONTAINER_HPP_
+#define SRC_LOADER_APPLICATION_CONTAINER_HPP_
+
+
+
+
 
 #include "../ui/IGuiApp.hpp"
 
@@ -13,3 +18,7 @@ namespace program
     }
 }
 
+
+
+
+#endif // SRC_LOADER_APPLICATION_CONTAINER_HPP_

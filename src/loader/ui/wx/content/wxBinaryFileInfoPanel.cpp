@@ -4,7 +4,6 @@
 #include "shared/RuntimeException.hpp"
 #include "shared/self_obfuscation/strenc.hpp"
 #include "shared/value/Unsigned.hpp"
-#include <wx/osx/button.h>
 
 CwxBinaryFileInfoPanel::CwxBinaryFileInfoPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {

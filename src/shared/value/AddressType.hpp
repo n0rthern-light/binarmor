@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_SHARED_VALUE__ADDRESS_TYPE_HPP_
+#define SRC_SHARED_VALUE__ADDRESS_TYPE_HPP_
+
+
+
+
 
 enum class AddressType
 {
@@ -6,3 +11,7 @@ enum class AddressType
 	_64_BIT = 2,
 };
 
+
+
+
+#endif // SRC_SHARED_VALUE__ADDRESS_TYPE_HPP_

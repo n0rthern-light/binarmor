@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_CORE_FILE_ANALYSIS__ANALYSIS_RUNNER_HPP_
+#define SRC_CORE_FILE_ANALYSIS__ANALYSIS_RUNNER_HPP_
+
+
+
+
 
 #include <map>
 #include <vector>
@@ -20,3 +25,7 @@ public:
 	CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hasher);
 	void run(const CBinary* binary, BinaryAttributes_t& attributes);
 };
+
+
+
+#endif // SRC_CORE_FILE_ANALYSIS__ANALYSIS_RUNNER_HPP_

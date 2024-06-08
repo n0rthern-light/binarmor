@@ -1,10 +1,10 @@
-#pragma once
+#ifndef SRC_LOADER_UI_WX_WX_FRAME_HPP_
+#define SRC_LOADER_UI_WX_WX_FRAME_HPP_
 
 #include "loader/ui/wx/wxContentPanel.hpp"
 #include "loader/ui/wx/wxSidebarPanel.hpp"
 #include <shared/message/IMessageBus.hpp>
 #include <core/file/BinaryFile.hpp>
-#include <wx/generic/panelg.h>
 
 class CwxFrame : public wxFrame
 {
@@ -25,3 +25,7 @@ public:
 	void displayBinaryFile(const CBinaryFile& binaryFile);
     void appendToLoadedFiles(const CBinaryFile* binary);
 };
+
+
+
+#endif // SRC_LOADER_UI_WX_WX_FRAME_HPP_

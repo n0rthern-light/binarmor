@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_CORE_FORMAT_PE_FUNCTIONS_HPP_
+#define SRC_CORE_FORMAT_PE_FUNCTIONS_HPP_
+
+
+
+
 
 #include "core/format/pe/PeFormat.hpp"
 #include "defines.hpp"
@@ -24,3 +29,7 @@ namespace format {
     };
 }
 
+
+
+
+#endif // SRC_CORE_FORMAT_PE_FUNCTIONS_HPP_

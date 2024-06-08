@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_CORE__BINARY_HPP_
+#define SRC_CORE__BINARY_HPP_
+
+
+
+
 
 #include <shared/types/defines.hpp>
 #include <string>
@@ -22,3 +27,7 @@ public:
     bool operator==(const CBinary& other) const;
 };
  
+
+
+
+#endif // SRC_CORE__BINARY_HPP_

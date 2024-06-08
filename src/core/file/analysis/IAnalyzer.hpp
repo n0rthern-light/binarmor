@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_CORE_FILE_ANALYSIS__I_ANALYZER_HPP_
+#define SRC_CORE_FILE_ANALYSIS__I_ANALYZER_HPP_
+
+
+
+
 
 #include "../BinaryAttributes.hpp"
 #include "core/Binary.hpp"
@@ -9,3 +14,7 @@ public:
 	virtual ~IAnalyzer() {}
 	virtual void analyze(const CBinary* binary, BinaryAttributes_t& attributes) = 0;
 };
+
+
+
+#endif // SRC_CORE_FILE_ANALYSIS__I_ANALYZER_HPP_

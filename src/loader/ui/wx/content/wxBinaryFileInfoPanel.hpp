@@ -1,10 +1,10 @@
-#pragma once
+#ifndef SRC_LOADER_UI_WX_CONTENT_WX_BINARY_FILE_INFO_PANEL_HPP_
+#define SRC_LOADER_UI_WX_CONTENT_WX_BINARY_FILE_INFO_PANEL_HPP_
+
 
 #include "../wx_headers.hpp"
 #include "core/file/BinaryFile.hpp"
-#include <wx/generic/panelg.h>
 #include <shared/message/IMessageBus.hpp>
-#include <wx/sizer.h>
 #include <map>
 
 struct TextInfoRow_t
@@ -31,3 +31,7 @@ public:
     void loadFileData(const CBinaryFile& binaryFile);
 };
 
+
+
+
+#endif // SRC_LOADER_UI_WX_CONTENT_WX_BINARY_FILE_INFO_PANEL_HPP_

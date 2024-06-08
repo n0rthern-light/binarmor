@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_CORE_FORMAT_PE__PE_MODULE_HPP_
+#define SRC_CORE_FORMAT_PE__PE_MODULE_HPP_
+
+
+
+
 
 #include "../IModule.hpp"
 #include <shared/types/defines.hpp>
@@ -30,3 +35,7 @@ public:
     pe_import_vec imports() const;
 };
 
+
+
+
+#endif // SRC_CORE_FORMAT_PE__PE_MODULE_HPP_

@@ -1,4 +1,13 @@
-#pragma once
+#ifndef SRC_LOADER_UI_SETTINGS_HPP_
+#define SRC_LOADER_UI_SETTINGS_HPP_
+
+
+
+
 
 #define WINDOW_SIZE_X 800
 #define WINDOW_SIZE_Y 540
+
+
+
+#endif // SRC_LOADER_UI_SETTINGS_HPP_

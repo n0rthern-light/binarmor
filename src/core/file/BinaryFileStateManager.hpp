@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_CORE_FILE__BINARY_FILE_STATE_MANAGER_HPP_
+#define SRC_CORE_FILE__BINARY_FILE_STATE_MANAGER_HPP_
+
+
+
+
 #include "BinaryFile.hpp"
 #include <shared/message/IMessageBus.hpp>
 #include "IFileReader.hpp"
@@ -19,3 +24,7 @@ public:
 	void load(const std::string& filePath);
 	void save(const std::string& filePath);
 };
+
+
+
+#endif // SRC_CORE_FILE__BINARY_FILE_STATE_MANAGER_HPP_

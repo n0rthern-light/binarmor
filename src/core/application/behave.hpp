@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_CORE_APPLICATION_BEHAVE_HPP_
+#define SRC_CORE_APPLICATION_BEHAVE_HPP_
+
+
+
+
 
 namespace program
 {
@@ -11,3 +16,7 @@ namespace program
     }
 }
 
+
+
+
+#endif // SRC_CORE_APPLICATION_BEHAVE_HPP_

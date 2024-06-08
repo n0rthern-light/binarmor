@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_SHARED_VALUE__UNSIGNED_HPP_
+#define SRC_SHARED_VALUE__UNSIGNED_HPP_
+
+
+
+
 
 #include "AddressType.hpp"
 #include "../types/defines.hpp"
@@ -27,3 +32,7 @@ public:
 	bool operator!=(const CUnsigned& other) const;
 };
 
+
+
+
+#endif // SRC_SHARED_VALUE__UNSIGNED_HPP_

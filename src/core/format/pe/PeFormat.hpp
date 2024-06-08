@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_CORE_FORMAT_PE__PE_FORMAT_HPP_
+#define SRC_CORE_FORMAT_PE__PE_FORMAT_HPP_
+
+
+
+
 
 #include "../IFormat.hpp"
 #include "../../Binary.hpp"
@@ -23,3 +28,7 @@ public:
     pe_module_map imports() const;
 };
 
+
+
+
+#endif // SRC_CORE_FORMAT_PE__PE_FORMAT_HPP_

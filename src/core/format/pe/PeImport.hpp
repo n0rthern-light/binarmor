@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_CORE_FORMAT_PE__PE_IMPORT_HPP_
+#define SRC_CORE_FORMAT_PE__PE_IMPORT_HPP_
+
+
+
+
 
 #include <string>
 #include "../IImport.hpp"
@@ -43,3 +48,7 @@ public:
     uint_32 sizeOfThunk();
 };
 
+
+
+
+#endif // SRC_CORE_FORMAT_PE__PE_IMPORT_HPP_

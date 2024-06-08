@@ -1,10 +1,9 @@
-#pragma once
+#ifndef SRC_LOADER_UI_WX_CONTENT_WX_DRAG_AND_DROP_PANEL_HPP_
+#define SRC_LOADER_UI_WX_CONTENT_WX_DRAG_AND_DROP_PANEL_HPP_
 
 #include "../wx_headers.hpp"
 #include "core/file/BinaryFile.hpp"
-#include <wx/generic/panelg.h>
 #include <shared/message/IMessageBus.hpp>
-#include <wx/sizer.h>
 #include <map>
 
 class CwxDragAndDropPanel : public wxPanel
@@ -16,3 +15,4 @@ public:
     void notifyAboutNewFile(const std::string& path);
 };
 
+#endif // SRC_LOADER_UI_WX_CONTENT_WX_DRAG_AND_DROP_PANEL_HPP_

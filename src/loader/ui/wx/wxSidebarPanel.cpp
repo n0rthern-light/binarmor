@@ -5,8 +5,6 @@
 #include "core/file/BinaryFile.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
 #include <memory>
-#include <wx/gdicmn.h>
-#include <wx/listbase.h>
 
 CwxSidebarPanel::CwxSidebarPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {

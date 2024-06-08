@@ -1,4 +1,9 @@
-#pragma once
+#ifndef SRC_LOADER_APPLICATION_BEHAVE_HPP_
+#define SRC_LOADER_APPLICATION_BEHAVE_HPP_
+
+
+
+
 
 namespace program
 {
@@ -10,3 +15,7 @@ namespace program
     }
 }
 
+
+
+
+#endif // SRC_LOADER_APPLICATION_BEHAVE_HPP_
