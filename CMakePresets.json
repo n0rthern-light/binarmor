@@ -89,6 +89,38 @@
 		}
 	},
 	{
+		"name": "Debug OSX ARM64",
+		"inherits": "Debug OSX Fat",
+		"binaryDir": "${sourceDir}/build/debug-osx-arm64",
+		"cacheVariables": {
+            "CMAKE_OSX_ARCHITECTURES": "arm64"
+		}
+	},
+	{
+		"name": "Release OSX ARM64",
+		"inherits": "Release OSX Fat",
+		"binaryDir": "${sourceDir}/build/release-osx-arm64",
+		"cacheVariables": {
+            "CMAKE_OSX_ARCHITECTURES": "arm64"
+		}
+	},
+	{
+		"name": "Debug OSX x64",
+		"inherits": "Debug OSX Fat",
+		"binaryDir": "${sourceDir}/build/debug-osx-x64",
+		"cacheVariables": {
+            "CMAKE_OSX_ARCHITECTURES": "x86_64"
+		}
+	},
+	{
+		"name": "Release OSX x64",
+		"inherits": "Release OSX Fat",
+		"binaryDir": "${sourceDir}/build/release-osx-x64",
+		"cacheVariables": {
+            "CMAKE_OSX_ARCHITECTURES": "x86_64"
+		}
+	},
+	{
       "name": "windows-base",
       "hidden": true,
       "generator": "Ninja",

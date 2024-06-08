@@ -81,16 +81,28 @@ The dependencies rules are:
 - The `loader` depends on itself, the `shared` module, and the `core` stuff - it is the highest level module. 
 - Any of the modules can depend on external libraries as well, but the dependency must be hidden behind abstract interface.
 
-### MacOS Fat target under MacOS/unix Host:
-1. Install packages it will install (x86_64 + arm64) libraries:
+### MacOS ARM64 target under MacOS/unix Host:
+1. Install packages it will install arm64 libraries:
 Debug:
 ```zsh
-conan install . --build=missing --settings=build_type=Debug 
+conan install . --build=missing --settings=build_type=Debug --profile:host=conan-profiles/osx_arm64.ini
 ```
 
 Release:
 ```zsh
-conan install . --build=missing --settings=build_type=Release 
+conan install . --build=missing --settings=build_type=Release --profile:host=conan-profiles/osx_arm64.ini
+```
+
+### MacOS X64 target under MacOS/unix Host:
+1. Install packages it will install x86_64 libraries:
+Debug:
+```zsh
+conan install . --build=missing --settings=build_type=Debug --profile:host=conan-profiles/osx_x64.ini
+```
+
+Release:
+```zsh
+conan install . --build=missing --settings=build_type=Release --profile:host=conan-profiles/osx_x64.ini
 ```
 
 ### Windows compiling under MacOS/unix Host:
