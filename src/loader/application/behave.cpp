@@ -26,7 +26,7 @@ void program::loader::application::behave(int argc, char** argv)
     program::shared::container::eventBus->subscribe(typeid(CBinaryFileLoadedEvent), [&](message_ptr event) {
 		auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile();
         program::loader::container::guiApp->displayBinaryFile(*binaryFile.get());
-        program::loader::container::guiApp->displayStatus(binaryFile->filePath());
+        program::loader::container::guiApp->displayStatus(binaryFile->filePath().string());
         program::loader::container::guiApp->appendToLoadedFiles(binaryFile.get());
 	});
 }

@@ -82,3 +82,8 @@ bool CUnsigned::operator==(const CUnsigned& other) const
 	return get() == other.get();
 }
 
+bool CUnsigned::operator!=(const CUnsigned& other) const
+{
+	return !(get() == other.get());
+}
+

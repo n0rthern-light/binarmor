@@ -1,5 +1,4 @@
 #include "wxContentPanel.hpp"
-#include "content/wxDrangAndDropPanel.hpp"
 #include "loader/ui/wx/content/wxNotepadPanel.hpp"
 
 CwxContentPanel::CwxContentPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)

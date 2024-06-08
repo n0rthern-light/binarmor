@@ -76,7 +76,7 @@ wxBoxSizer* CwxBinaryFileInfoPanel::createInfoRow(const TextInfoRow_t& row)
 
 void CwxBinaryFileInfoPanel::loadFileData(const CBinaryFile& binaryFile)
 {
-    setInfo(strenc("binary_path"), binaryFile.filePath().c_str());
+    setInfo(strenc("binary_path"), binaryFile.filePath().string().c_str());
 
     const auto attributes = binaryFile.attributes();
     setInfo(strenc("binary_hash"), attributes.hash);

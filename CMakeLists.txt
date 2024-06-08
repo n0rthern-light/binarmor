@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project ("BinArmor")
 
+include(${CMAKE_BINARY_DIR}/../Debug/generators/conan_toolchain.cmake)
+
 set(SRC_INCLUDES ${CMAKE_SOURCE_DIR}/src)
 
 add_subdirectory ("src/shared")

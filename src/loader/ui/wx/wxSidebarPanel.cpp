@@ -3,7 +3,6 @@
 #include "../icons.hpp"
 #include "../../application/events/UIRequestedOpenFileEvent.hpp"
 #include "core/file/BinaryFile.hpp"
-#include "loader/ui/wx/wx_headers.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
 #include <memory>
 #include <wx/gdicmn.h>

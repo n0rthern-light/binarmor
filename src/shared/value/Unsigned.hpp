@@ -24,5 +24,6 @@ public:
     std::string asShortHexString() const;
     std::string asFullHexString() const;
 	bool operator==(const CUnsigned& other) const;
+	bool operator!=(const CUnsigned& other) const;
 };
 

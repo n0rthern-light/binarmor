@@ -10,8 +10,7 @@ CPeSection::CPeSection(
     const uint_16& numberOfLinenumbers,
     const uint_16& numberOfRelocations,
     const uint_32& characteristics
-) : _name(name),
-    _rawAddress(rawAddress),
+) : _name(name), _rawAddress(rawAddress),
     _rawSize(rawSize),
     _virtualAddress(virtualAddress),
     _virtualSize(virtualSize),

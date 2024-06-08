@@ -1,6 +1,6 @@
 #pragma once
 
-#include "loader/ui/wx/content/wxDrangAndDropPanel.hpp"
+#include "loader/ui/wx/content/wxDragAndDropPanel.hpp"
 #include "loader/ui/wx/content/wxNotepadPanel.hpp"
 #include "wx_headers.hpp"
 #include <wx/generic/panelg.h>
