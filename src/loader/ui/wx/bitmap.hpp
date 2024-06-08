@@ -1,5 +1,5 @@
-#ifndef SRC_LOADER_UI_WX_BITMAP_HPP_
-#define SRC_LOADER_UI_WX_BITMAP_HPP_
+#ifndef LOADER_UI_WX_BITMAP_HPP_
+#define LOADER_UI_WX_BITMAP_HPP_
 
 #include "wx_headers.hpp"
 #include <vector>
@@ -25,6 +25,4 @@ public:
     }
 };
 
-
-
-#endif // SRC_LOADER_UI_WX_BITMAP_HPP_
+#endif // LOADER_UI_WX_BITMAP_HPP_

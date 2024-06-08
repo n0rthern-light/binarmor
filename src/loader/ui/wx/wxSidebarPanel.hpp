@@ -1,5 +1,5 @@
-#ifndef SRC_LOADER_UI_WX_WX_SIDEBAR_PANEL_HPP_
-#define SRC_LOADER_UI_WX_WX_SIDEBAR_PANEL_HPP_
+#ifndef LOADER_UI_WX_WX_SIDEBAR_PANEL_HPP_
+#define LOADER_UI_WX_WX_SIDEBAR_PANEL_HPP_
 
 #include "wx_headers.hpp"
 #include <shared/message/IMessageBus.hpp>
@@ -26,4 +26,4 @@ public:
     void appendToLoadedFiles(const CBinaryFile* binary);
 };
 
-#endif // SRC_LOADER_UI_WX_WX_SIDEBAR_PANEL_HPP_
+#endif // LOADER_UI_WX_WX_SIDEBAR_PANEL_HPP_

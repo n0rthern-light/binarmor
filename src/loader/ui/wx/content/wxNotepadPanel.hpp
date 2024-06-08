@@ -1,5 +1,5 @@
-#ifndef SRC_LOADER_UI_WX_CONTENT_WX_NOTEPAD_PANEL_HPP_
-#define SRC_LOADER_UI_WX_CONTENT_WX_NOTEPAD_PANEL_HPP_
+#ifndef LOADER_UI_WX_CONTENT_WX_NOTEPAD_PANEL_HPP_
+#define LOADER_UI_WX_CONTENT_WX_NOTEPAD_PANEL_HPP_
 
 #include "../wx_headers.hpp"
 #include "core/file/BinaryFile.hpp"
@@ -19,4 +19,4 @@ public:
     void loadFileData(const CBinaryFile& binaryFile);
 };
 
-#endif // SRC_LOADER_UI_WX_CONTENT_WX_NOTEPAD_PANEL_HPP_
+#endif // LOADER_UI_WX_CONTENT_WX_NOTEPAD_PANEL_HPP_

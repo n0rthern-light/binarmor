@@ -1,8 +1,5 @@
-#ifndef SRC_CORE_FILE_FSTREAM_FSTREAM_FILE_READER_HPP_
-#define SRC_CORE_FILE_FSTREAM_FSTREAM_FILE_READER_HPP_
-
-
-
+#ifndef CORE_FILE_FSTREAM_FSTREAM_FILE_READER_HPP_
+#define CORE_FILE_FSTREAM_FSTREAM_FILE_READER_HPP_
 
 #include "../IFileReader.hpp"
 
@@ -12,6 +9,4 @@ public:
 	const CBinary read(const std::string& filePath);
 };
 
-
-
-#endif // SRC_CORE_FILE_FSTREAM_FSTREAM_FILE_READER_HPP_
+#endif // CORE_FILE_FSTREAM_FSTREAM_FILE_READER_HPP_

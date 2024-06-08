@@ -1,9 +1,5 @@
-#ifndef SRC_CORE__BINARY_POINTER_HPP_
-#define SRC_CORE__BINARY_POINTER_HPP_
-
-
-
-
+#ifndef CORE__BINARY_POINTER_HPP_
+#define CORE__BINARY_POINTER_HPP_
 
 #include <shared/types/defines.hpp>
 
@@ -18,7 +14,4 @@ public:
     CBinaryPointer shift(int _offset);
 };
 
-
-
-
-#endif // SRC_CORE__BINARY_POINTER_HPP_
+#endif // CORE__BINARY_POINTER_HPP_

@@ -1,9 +1,5 @@
-#ifndef SRC_CORE_FORMAT_PE_DEFINES_HPP_
-#define SRC_CORE_FORMAT_PE_DEFINES_HPP_
-
-
-
-
+#ifndef CORE_FORMAT_PE_DEFINES_HPP_
+#define CORE_FORMAT_PE_DEFINES_HPP_
 
 #include <shared/types/defines.hpp>
 
@@ -199,7 +195,4 @@ typedef struct _IMAGE_THUNK_DATA32 {
     } u1;
 } IMAGE_THUNK_DATA32, *PIMAGE_THUNK_DATA32;
 
-
-
-
-#endif // SRC_CORE_FORMAT_PE_DEFINES_HPP_
+#endif // CORE_FORMAT_PE_DEFINES_HPP_

@@ -1,10 +1,6 @@
 #ifndef TESTS_CORE__BINARY_MOTHER_HPP_
 #define TESTS_CORE__BINARY_MOTHER_HPP_
 
-
-
-
-
 #include <core/file/fstream/fstreamFileReader.hpp>
 #include <core/Binary.hpp>
 #include <core/format/pe/PeFormat.hpp>
@@ -61,8 +57,5 @@ public:
         return binary;
     }
 };
-
-
-
 
 #endif // TESTS_CORE__BINARY_MOTHER_HPP_

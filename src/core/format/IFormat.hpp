@@ -1,9 +1,5 @@
-#ifndef SRC_CORE_FORMAT__I_FORMAT_HPP_
-#define SRC_CORE_FORMAT__I_FORMAT_HPP_
-
-
-
-
+#ifndef CORE_FORMAT__I_FORMAT_HPP_
+#define CORE_FORMAT__I_FORMAT_HPP_
 
 #include "../attributes.hpp"
 #include <shared/value/Unsigned.hpp>
@@ -19,7 +15,4 @@ public:
 	virtual CUnsigned entryPoint() const = 0;
 };
 
-
-
-
-#endif // SRC_CORE_FORMAT__I_FORMAT_HPP_
+#endif // CORE_FORMAT__I_FORMAT_HPP_

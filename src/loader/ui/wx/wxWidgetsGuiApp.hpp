@@ -1,7 +1,5 @@
-#ifndef SRC_LOADER_UI_WX_WX_WIDGETS_GUI_APP_HPP_
-#define SRC_LOADER_UI_WX_WX_WIDGETS_GUI_APP_HPP_
-
-
+#ifndef LOADER_UI_WX_WX_WIDGETS_GUI_APP_HPP_
+#define LOADER_UI_WX_WX_WIDGETS_GUI_APP_HPP_
 
 #include "../IGuiApp.hpp"
 #include "wxFrame.hpp"
@@ -29,7 +27,4 @@ public:
 	void exit();
 };
 
-
-
-
-#endif // SRC_LOADER_UI_WX_WX_WIDGETS_GUI_APP_HPP_
+#endif // LOADER_UI_WX_WX_WIDGETS_GUI_APP_HPP_

@@ -1,9 +1,5 @@
-#ifndef SRC_LOADER_BOOTSTRAP_HPP_
-#define SRC_LOADER_BOOTSTRAP_HPP_
-
-
-
-
+#ifndef LOADER_BOOTSTRAP_HPP_
+#define LOADER_BOOTSTRAP_HPP_
 
 namespace program
 {
@@ -13,7 +9,4 @@ namespace program
     }
 }
 
-
-
-
-#endif // SRC_LOADER_BOOTSTRAP_HPP_
+#endif // LOADER_BOOTSTRAP_HPP_

@@ -1,9 +1,5 @@
-#ifndef SRC_SHARED_CRYPTO_OPENSSL__OPEN_SSL_HASHER_HPP_
-#define SRC_SHARED_CRYPTO_OPENSSL__OPEN_SSL_HASHER_HPP_
-
-
-
-
+#ifndef SHARED_CRYPTO_OPENSSL__OPEN_SSL_HASHER_HPP_
+#define SHARED_CRYPTO_OPENSSL__OPEN_SSL_HASHER_HPP_
 
 #include "../IHasher.hpp"
 
@@ -15,7 +11,4 @@ public:
     std::string sha256FromByteArray(const byte_ptr data, binary_offset length) const;
 };
 
-
-
-
-#endif // SRC_SHARED_CRYPTO_OPENSSL__OPEN_SSL_HASHER_HPP_
+#endif // SHARED_CRYPTO_OPENSSL__OPEN_SSL_HASHER_HPP_

@@ -1,9 +1,5 @@
-#ifndef SRC_LOADER_UI_WX_WX_APP_HPP_
-#define SRC_LOADER_UI_WX_WX_APP_HPP_
-
-
-
-
+#ifndef LOADER_UI_WX_WX_APP_HPP_
+#define LOADER_UI_WX_WX_APP_HPP_
 
 #include "wx_headers.hpp"
 
@@ -13,7 +9,4 @@ public:
     virtual bool OnInit() override;
 };
 
-
-
-
-#endif // SRC_LOADER_UI_WX_WX_APP_HPP_
+#endif // LOADER_UI_WX_WX_APP_HPP_

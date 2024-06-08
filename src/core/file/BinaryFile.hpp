@@ -1,9 +1,5 @@
-#ifndef SRC_CORE_FILE__BINARY_FILE_HPP_
-#define SRC_CORE_FILE__BINARY_FILE_HPP_
-
-
-
-
+#ifndef CORE_FILE__BINARY_FILE_HPP_
+#define CORE_FILE__BINARY_FILE_HPP_
 
 #include "../Binary.hpp"
 #include "../attributes.hpp"
@@ -34,7 +30,4 @@ public:
 	void completeAnalysis();
 };
 
-
-
-
-#endif // SRC_CORE_FILE__BINARY_FILE_HPP_
+#endif // CORE_FILE__BINARY_FILE_HPP_

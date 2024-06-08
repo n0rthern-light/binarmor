@@ -1,5 +1,5 @@
-#ifndef SRC_LOADER_UI_WX_WX_HEADERS_HPP_
-#define SRC_LOADER_UI_WX_WX_HEADERS_HPP_
+#ifndef LOADER_UI_WX_WX_HEADERS_HPP_
+#define LOADER_UI_WX_WX_HEADERS_HPP_
 
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
@@ -21,4 +21,4 @@
 //#include <wx/osx/button.h>
 #include <wx/dnd.h>
 
-#endif // SRC_LOADER_UI_WX_WX_HEADERS_HPP_
+#endif // LOADER_UI_WX_WX_HEADERS_HPP_

@@ -1,9 +1,5 @@
-#ifndef SRC_SHARED__RUNTIME_EXCEPTION_HPP_
-#define SRC_SHARED__RUNTIME_EXCEPTION_HPP_
-
-
-
-
+#ifndef SHARED__RUNTIME_EXCEPTION_HPP_
+#define SHARED__RUNTIME_EXCEPTION_HPP_
 
 #include <stdexcept>
 
@@ -14,6 +10,4 @@ public:
     inline RuntimeException(const string& msg): runtime_error(msg) {};
 };
 
-
-
-#endif // SRC_SHARED__RUNTIME_EXCEPTION_HPP_
+#endif // SHARED__RUNTIME_EXCEPTION_HPP_

@@ -1,9 +1,5 @@
-#ifndef SRC_SHARED_MESSAGE_SIMPLE__SIMPLE_MESSAGE_BUS_HPP_
-#define SRC_SHARED_MESSAGE_SIMPLE__SIMPLE_MESSAGE_BUS_HPP_
-
-
-
-
+#ifndef SHARED_MESSAGE_SIMPLE__SIMPLE_MESSAGE_BUS_HPP_
+#define SHARED_MESSAGE_SIMPLE__SIMPLE_MESSAGE_BUS_HPP_
 
 #include "../IMessageBus.hpp"
 #include <map>
@@ -29,7 +25,4 @@ public:
     void overrideHandlerType(const handler_type& handlerType);
 };
 
-
-
-
-#endif // SRC_SHARED_MESSAGE_SIMPLE__SIMPLE_MESSAGE_BUS_HPP_
+#endif // SHARED_MESSAGE_SIMPLE__SIMPLE_MESSAGE_BUS_HPP_

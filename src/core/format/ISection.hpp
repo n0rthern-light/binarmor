@@ -1,9 +1,5 @@
-#ifndef SRC_CORE_FORMAT__I_SECTION_HPP_
-#define SRC_CORE_FORMAT__I_SECTION_HPP_
-
-
-
-
+#ifndef CORE_FORMAT__I_SECTION_HPP_
+#define CORE_FORMAT__I_SECTION_HPP_
 
 #include <string>
 #include <shared/value/Unsigned.hpp>
@@ -17,7 +13,4 @@ public:
     virtual size_t size() const = 0;
 };
 
-
-
-
-#endif // SRC_CORE_FORMAT__I_SECTION_HPP_
+#endif // CORE_FORMAT__I_SECTION_HPP_

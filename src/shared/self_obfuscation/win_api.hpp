@@ -1,9 +1,5 @@
-#ifndef SRC_SHARED_SELF_OBFUSCATION_WIN_API_HPP_
-#define SRC_SHARED_SELF_OBFUSCATION_WIN_API_HPP_
-
-
-
-
+#ifndef SHARED_SELF_OBFUSCATION_WIN_API_HPP_
+#define SHARED_SELF_OBFUSCATION_WIN_API_HPP_
 
 #include <Windows.h>
 #include <psapi.h>
@@ -31,6 +27,4 @@ typedef DWORD(WINAPI* pGetModuleFileNameA)(HMODULE, LPSTR, DWORD);
 // ntdll
 typedef NTSTATUS(WINAPI* pNtQuerySystemTime)(PLARGE_INTEGER SystemTime);
 
-
-
-#endif // SRC_SHARED_SELF_OBFUSCATION_WIN_API_HPP_
+#endif // SHARED_SELF_OBFUSCATION_WIN_API_HPP_

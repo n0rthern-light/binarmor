@@ -1,9 +1,5 @@
-#ifndef SRC_CORE_FILE_ANALYSIS_ANALYZERS__HASH_ANALYZER_HPP_
-#define SRC_CORE_FILE_ANALYSIS_ANALYZERS__HASH_ANALYZER_HPP_
-
-
-
-
+#ifndef CORE_FILE_ANALYSIS_ANALYZERS__HASH_ANALYZER_HPP_
+#define CORE_FILE_ANALYSIS_ANALYZERS__HASH_ANALYZER_HPP_
 
 #include "../IAnalyzer.hpp"
 
@@ -15,7 +11,4 @@ public:
 	void analyze(const CBinary* binary, BinaryAttributes_t& attributes);
 };
 
-
-
-
-#endif // SRC_CORE_FILE_ANALYSIS_ANALYZERS__HASH_ANALYZER_HPP_
+#endif // CORE_FILE_ANALYSIS_ANALYZERS__HASH_ANALYZER_HPP_

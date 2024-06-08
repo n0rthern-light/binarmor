@@ -1,5 +1,5 @@
-#ifndef SRC_LOADER_UI_WX_WX_CONTENT_PANEL_HPP_
-#define SRC_LOADER_UI_WX_WX_CONTENT_PANEL_HPP_
+#ifndef LOADER_UI_WX_WX_CONTENT_PANEL_HPP_
+#define LOADER_UI_WX_WX_CONTENT_PANEL_HPP_
 
 #include "wx_headers.hpp"
 #include "loader/ui/wx/content/wxDragAndDropPanel.hpp"
@@ -20,7 +20,4 @@ public:
     void showDragAndDrop();
 };
 
-
-
-
-#endif // SRC_LOADER_UI_WX_WX_CONTENT_PANEL_HPP_
+#endif // LOADER_UI_WX_WX_CONTENT_PANEL_HPP_

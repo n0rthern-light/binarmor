@@ -1,9 +1,5 @@
-#ifndef SRC_LOADER_APPLICATION_BEHAVE_HPP_
-#define SRC_LOADER_APPLICATION_BEHAVE_HPP_
-
-
-
-
+#ifndef LOADER_APPLICATION_BEHAVE_HPP_
+#define LOADER_APPLICATION_BEHAVE_HPP_
 
 namespace program
 {
@@ -15,7 +11,4 @@ namespace program
     }
 }
 
-
-
-
-#endif // SRC_LOADER_APPLICATION_BEHAVE_HPP_
+#endif // LOADER_APPLICATION_BEHAVE_HPP_

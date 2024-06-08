@@ -1,8 +1,5 @@
-#ifndef SRC_CORE_FILE__BINARY_FILE_STATE_MANAGER_HPP_
-#define SRC_CORE_FILE__BINARY_FILE_STATE_MANAGER_HPP_
-
-
-
+#ifndef CORE_FILE__BINARY_FILE_STATE_MANAGER_HPP_
+#define CORE_FILE__BINARY_FILE_STATE_MANAGER_HPP_
 
 #include "BinaryFile.hpp"
 #include <shared/message/IMessageBus.hpp>
@@ -25,6 +22,4 @@ public:
 	void save(const std::string& filePath);
 };
 
-
-
-#endif // SRC_CORE_FILE__BINARY_FILE_STATE_MANAGER_HPP_
+#endif // CORE_FILE__BINARY_FILE_STATE_MANAGER_HPP_

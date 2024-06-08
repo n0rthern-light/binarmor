@@ -1,9 +1,5 @@
-#ifndef SRC_CORE_FILE__BINARY_ATTRIBUTES_HPP_
-#define SRC_CORE_FILE__BINARY_ATTRIBUTES_HPP_
-
-
-
-
+#ifndef CORE_FILE__BINARY_ATTRIBUTES_HPP_
+#define CORE_FILE__BINARY_ATTRIBUTES_HPP_
 
 #include "../attributes.hpp"
 #include "shared/value/Unsigned.hpp"
@@ -25,7 +21,4 @@ struct BinaryAttributes_t
     bool isProtected = false;
 };
 
-
-
-
-#endif // SRC_CORE_FILE__BINARY_ATTRIBUTES_HPP_
+#endif // CORE_FILE__BINARY_ATTRIBUTES_HPP_

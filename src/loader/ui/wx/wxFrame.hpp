@@ -1,5 +1,5 @@
-#ifndef SRC_LOADER_UI_WX_WX_FRAME_HPP_
-#define SRC_LOADER_UI_WX_WX_FRAME_HPP_
+#ifndef LOADER_UI_WX_WX_FRAME_HPP_
+#define LOADER_UI_WX_WX_FRAME_HPP_
 
 #include "loader/ui/wx/wxContentPanel.hpp"
 #include "loader/ui/wx/wxSidebarPanel.hpp"
@@ -26,6 +26,4 @@ public:
     void appendToLoadedFiles(const CBinaryFile* binary);
 };
 
-
-
-#endif // SRC_LOADER_UI_WX_WX_FRAME_HPP_
+#endif // LOADER_UI_WX_WX_FRAME_HPP_

@@ -1,9 +1,5 @@
-#ifndef SRC_CORE_FILE_ANALYSIS__ANALYSIS_RUNNER_HPP_
-#define SRC_CORE_FILE_ANALYSIS__ANALYSIS_RUNNER_HPP_
-
-
-
-
+#ifndef CORE_FILE_ANALYSIS__ANALYSIS_RUNNER_HPP_
+#define CORE_FILE_ANALYSIS__ANALYSIS_RUNNER_HPP_
 
 #include <map>
 #include <vector>
@@ -26,6 +22,4 @@ public:
 	void run(const CBinary* binary, BinaryAttributes_t& attributes);
 };
 
-
-
-#endif // SRC_CORE_FILE_ANALYSIS__ANALYSIS_RUNNER_HPP_
+#endif // CORE_FILE_ANALYSIS__ANALYSIS_RUNNER_HPP_

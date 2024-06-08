@@ -1,9 +1,5 @@
-#ifndef SRC_CORE_ATTRIBUTES_HPP_
-#define SRC_CORE_ATTRIBUTES_HPP_
-
-
-
-
+#ifndef CORE_ATTRIBUTES_HPP_
+#define CORE_ATTRIBUTES_HPP_
 
 enum class Format
 {
@@ -37,7 +33,4 @@ enum class Endianness
 	BIG = 2,
 };
 
-
-
-
-#endif // SRC_CORE_ATTRIBUTES_HPP_
+#endif // CORE_ATTRIBUTES_HPP_

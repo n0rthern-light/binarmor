@@ -1,9 +1,5 @@
-#ifndef SRC_SHARED_CRYPTO__I_HASHER_HPP_
-#define SRC_SHARED_CRYPTO__I_HASHER_HPP_
-
-
-
-
+#ifndef SHARED_CRYPTO__I_HASHER_HPP_
+#define SHARED_CRYPTO__I_HASHER_HPP_
 
 #include <string>
 #include "../types/defines.hpp"
@@ -16,7 +12,4 @@ public:
     virtual std::string sha256FromBytes(const byte_vec& vec) const = 0;
 };
 
-
-
-
-#endif // SRC_SHARED_CRYPTO__I_HASHER_HPP_
+#endif // SHARED_CRYPTO__I_HASHER_HPP_
