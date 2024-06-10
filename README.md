@@ -66,7 +66,7 @@ Make sure that in Cmake the global setting is set: `set(CMAKE_EXPORT_COMPILE_COM
 Afterwards create this symlink in the root directory of the project to make LSP capable of resolving the compile commands:
 
 ```zsh
-ln -sf build/debug-osx-fat/compile_commands.json compile_commands.json
+ln -sf build/debug-osx-arm64/compile_commands.json compile_commands.json
 ```
 
 ### Coding architecture

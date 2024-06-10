@@ -15,6 +15,7 @@ public:
 	virtual void displayStatus(const std::string& statusText) = 0;
 	virtual void displayBinaryFile(const CBinaryFile& binary) = 0;
     virtual void appendToLoadedFiles(const CBinaryFile* binary) = 0;
+    virtual void displayEmpty() = 0;
 	virtual void exit() {};
 };
 

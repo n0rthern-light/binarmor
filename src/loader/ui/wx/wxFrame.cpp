@@ -73,7 +73,13 @@ void CwxFrame::appendToLoadedFiles(const CBinaryFile* binary)
     m_sidebarPanel->appendToLoadedFiles(binary);
 }
 
+void CwxFrame::displayEmpty()
+{
+    m_contentPanel->showDragAndDrop();
+}
+
 void CwxFrame::displayStatus(const std::string& statusText)
 {
     SetStatusText(statusText);
 }
+

@@ -24,6 +24,7 @@ public:
 	void displayStatus(const std::string& statusText);
 	void displayBinaryFile(const CBinaryFile& binaryFile);
     void appendToLoadedFiles(const CBinaryFile* binary);
+    void displayEmpty();
 	void exit();
 };
 

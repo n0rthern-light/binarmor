@@ -64,6 +64,11 @@ void CwxWidgetsGuiApp::appendToLoadedFiles(const CBinaryFile* binary)
     m_frame->appendToLoadedFiles(binary);
 }
 
+void CwxWidgetsGuiApp::displayEmpty()
+{
+    m_frame->displayEmpty();
+}
+
 void CwxWidgetsGuiApp::exit()
 {
     Exit();

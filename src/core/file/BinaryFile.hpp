@@ -8,6 +8,8 @@
 #include <string>
 #include <filesystem>
 
+using file_id = std::string;
+
 class CBinaryFile
 {
 	const std::filesystem::path m_filePath;
@@ -18,6 +20,7 @@ public:
 	CBinaryFile(const std::string& filePath, const CBinary& binary, uint_32 flags, const BinaryAttributes_t& attributes);
     std::filesystem::path filePath() const;
     std::string fileName() const;
+    file_id fileId() const;
 	CBinary binary() const;
     Format format() const;
     BinaryAttributes_t attributes() const;
