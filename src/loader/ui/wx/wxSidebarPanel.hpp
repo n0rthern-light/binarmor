@@ -14,7 +14,7 @@ class CwxSidebarPanel : public wxPanel
     std::unique_ptr<wxBoxSizer> m_sizer;
 
     std::unique_ptr<wxListCtrl> m_fileList;
-    std::map<long, std::string> m_fileListIds;
+    std::map<long, file_id> m_fileListIds;
     long m_fileListSelected;
 
     std::unique_ptr<wxButton> m_btnOpenFile;
@@ -26,10 +26,11 @@ class CwxSidebarPanel : public wxPanel
     std::unique_ptr<wxButton> m_btnExportFile;
     std::unique_ptr<wxButton> m_btnHelp;
 
-    void removeFromLoadedFiles(long itemId);
 public:
     CwxSidebarPanel(wxWindow* parent, IMessageBus* t_eventBus);
     void appendToLoadedFiles(const CBinaryFile* binary);
+    void highlightFile(const file_id& fileId);
+    void removeFromLoadedFiles(const file_id& itemId);
     void onFileSelected(const wxListEvent& wxEvent);
     void onFileDoubleClicked(const wxListEvent& wxEvent);
     void onUnloadBtn(const wxEvent& wxEvent);

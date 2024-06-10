@@ -54,6 +54,16 @@ void CwxWidgetsGuiApp::displayStatus(const std::string& statusText)
     m_frame->displayStatus(statusText);
 }
 
+void CwxWidgetsGuiApp::highlightBinaryInFileList(const file_id& fileId)
+{
+    m_frame->highlightBinaryFileInList(fileId);
+}
+
+void CwxWidgetsGuiApp::removeFromFileList(const file_id& fileId)
+{
+    m_frame->removeFromFileList(fileId);
+}
+
 void CwxWidgetsGuiApp::displayBinaryFile(const CBinaryFile& binaryFile)
 {
     m_frame->displayBinaryFile(binaryFile);

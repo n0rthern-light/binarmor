@@ -22,6 +22,8 @@ public:
 	void displayErrorMessageBox(const std::string& title, const std::string& message);
 	void displayInfoMessageBox(const std::string& title, const std::string& message);
 	void displayStatus(const std::string& statusText);
+	void highlightBinaryInFileList(const file_id& fileId);
+    void removeFromFileList(const file_id& fileId);
 	void displayBinaryFile(const CBinaryFile& binaryFile);
     void appendToLoadedFiles(const CBinaryFile* binary);
     void displayEmpty();

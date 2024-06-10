@@ -3,14 +3,13 @@
 
 #include <shared/message/IMessage.hpp>
 #include <core/file/BinaryFile.hpp>
-#include <string>
 
 class CFileLoadedEvent : public IMessage
 {
     file_id m_fileId;
 
 public:
-    CFileLoadedEvent(const std::string& fileId): m_fileId(fileId) { }
+    CFileLoadedEvent(const file_id& fileId): m_fileId(fileId) { }
     file_id fileId() { return m_fileId; }
 };
 

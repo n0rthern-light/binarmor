@@ -16,7 +16,7 @@ std::string CBinaryFile::fileName() const
 
 file_id CBinaryFile::fileId() const
 {
-    return fileName();
+    return filePath().string();
 }
 
 CBinary CBinaryFile::binary() const

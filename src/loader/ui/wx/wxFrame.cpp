@@ -63,6 +63,16 @@ void CwxFrame::promptOpenFile()
 	wxQueueEvent(this, event);
 }
 
+void CwxFrame::highlightBinaryFileInList(const file_id& fileId)
+{
+    m_sidebarPanel->highlightFile(fileId);
+}
+
+void CwxFrame::removeFromFileList(const file_id& fileId)
+{
+    m_sidebarPanel->removeFromLoadedFiles(fileId);
+}
+
 void CwxFrame::displayBinaryFile(const CBinaryFile& binaryFile)
 {
     m_contentPanel->showFile(binaryFile);

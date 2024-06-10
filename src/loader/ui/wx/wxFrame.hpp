@@ -22,6 +22,8 @@ public:
     CwxFrame(IMessageBus* t_eventBus);
 	void promptOpenFile();
 	void displayStatus(const std::string& statusText);
+	void highlightBinaryFileInList(const file_id& fileId);
+    void removeFromFileList(const file_id& fileId);
 	void displayBinaryFile(const CBinaryFile& binaryFile);
     void appendToLoadedFiles(const CBinaryFile* binary);
     void displayEmpty();

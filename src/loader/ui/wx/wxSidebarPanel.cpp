@@ -2,12 +2,12 @@
 #include "bitmap.hpp"
 #include "../icons.hpp"
 #include "../../application/events/UIRequestedOpenFileEvent.hpp"
+#include <core/application/events/WorkFileChangeRequestedEvent.hpp>
 #include <core/application/events/FileUnloadRequestedEvent.hpp>
 #include <core/file/BinaryFile.hpp>
-#include <core/application/events/FileSelectedOnListEvent.hpp>
-#include <shared/RuntimeException.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
 #include <memory>
+#include <wx/listbase.h>
 
 CwxSidebarPanel::CwxSidebarPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {
@@ -55,6 +55,33 @@ void CwxSidebarPanel::appendToLoadedFiles(const CBinaryFile* binary)
     m_fileListIds[index] = binary->fileId();
 }
 
+void CwxSidebarPanel::highlightFile(const file_id& fileId)
+{
+    for(const auto& pair : m_fileListIds) {
+        if (pair.second == fileId) {
+            m_fileList->SetItemState(pair.first, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+            m_fileList->EnsureVisible(pair.first);
+            m_fileListSelected = pair.first;
+        } else {
+            m_fileList->SetItemState(pair.first, 0, wxLIST_STATE_SELECTED);
+        }
+    }
+}
+
+void CwxSidebarPanel::removeFromLoadedFiles(const file_id& fileId)
+{
+   for (auto it = m_fileListIds.begin(); it != m_fileListIds.end(); ) {
+        if (it->second == fileId) {
+            m_fileList->DeleteItem(it->first);
+            it = m_fileListIds.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
+    m_fileListSelected = -1;
+}
+
 void CwxSidebarPanel::onFileSelected(const wxListEvent& wxEvent)
 {
     auto index = wxEvent.GetIndex();
@@ -66,7 +93,7 @@ void CwxSidebarPanel::onFileDoubleClicked(const wxListEvent& wxEvent)
 {
     int index = wxEvent.GetIndex();
 
-    m_eventBus->publish(std::make_shared<CFileSelectedOnListEvent>(m_fileListIds.at(index)));
+    m_eventBus->publish(std::make_shared<CWorkFileChangeRequestedEvent>(m_fileListIds.at(index)));
 }
 
 void CwxSidebarPanel::onUnloadBtn(const wxEvent& event)
@@ -76,14 +103,5 @@ void CwxSidebarPanel::onUnloadBtn(const wxEvent& event)
     }
 
     m_eventBus->publish(std::make_shared<CFileUnloadRequestedEvent>(m_fileListIds.at(m_fileListSelected)));
-
-    removeFromLoadedFiles(m_fileListSelected);
-}
-
-void CwxSidebarPanel::removeFromLoadedFiles(long itemId)
-{
-    m_fileListIds.erase(m_fileListIds.find(itemId));
-    m_fileListSelected = m_fileListIds.end()->first;
-    m_fileList->DeleteItem(itemId);
 }
 

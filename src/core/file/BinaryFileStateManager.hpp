@@ -21,8 +21,8 @@ public:
 	std::shared_ptr<CBinaryFile> binaryFile(const file_id& fileId) const;
 	CBinary binaryFileBinary(const file_id& fileId) const;
 	void load(const std::filesystem::path& filePath);
-    void setCurrent(const file_id& fileId);
-	void unload(const file_id& fileId);
+    void setCurrentWorkFile(const file_id& fileId);
+	void unload(const file_id fileId);
     std::vector<file_id> loadedFiles() const;
 	void save(const std::filesystem::path& filePath);
 };

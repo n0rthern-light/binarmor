@@ -31,27 +31,29 @@ void CBinaryFileStateManager::load(const std::filesystem::path& filePath)
 
 	m_analysisRunner->run(&binary, binaryAttributes);
 
-    const auto fileId = filePath.string();
-    m_binaryFileMap[fileId] = std::make_shared<CBinaryFile>(filePath, binary, 0, binaryAttributes);
-    setCurrent(fileId);
+    const auto tmpBinary = std::make_shared<CBinaryFile>(filePath, binary, 0, binaryAttributes);
+    const auto fileId = tmpBinary->fileId();
+
+    m_binaryFileMap[fileId] = std::move(tmpBinary);
+    setCurrentWorkFile(fileId);
 
 	m_eventBus->publish(std::make_shared<CFileLoadedEvent>(fileId));
 }
 
-void CBinaryFileStateManager::setCurrent(const file_id& fileId)
+void CBinaryFileStateManager::setCurrentWorkFile(const file_id& fileId)
 {
     m_binaryFileCurrent = binaryFile(fileId);
 }
 
-void CBinaryFileStateManager::unload(const file_id& fileId)
+void CBinaryFileStateManager::unload(const file_id fileId)
 {
-    auto it = m_binaryFileMap.find(fileId);
-    if (it == m_binaryFileMap.end()) {
-        return;
+    auto res = m_binaryFileMap.find(fileId);
+
+    if (res == m_binaryFileMap.end()) {
+        throw RuntimeException(strenc("Cannot find file of id: ") + fileId);
     }
 
-    m_binaryFileMap.erase(it);
-
+    m_binaryFileMap.erase(res);
 	m_eventBus->publish(std::make_shared<CFileUnloadedEvent>(fileId));
 }
 

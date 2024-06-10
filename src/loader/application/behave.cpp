@@ -1,8 +1,9 @@
 #include "behave.hpp"
 #include "container.hpp"
 #include "core/application/events/FileUnloadedEvent.hpp"
+#include "core/application/events/WorkFileChangeRequestedEvent.hpp"
 #include "events/UIRequestedOpenFileEvent.hpp"
-#include <core/application/events/FileSelectedOnListEvent.hpp>
+#include <core/application/events/WorkFileChangeRequestedEvent.hpp>
 #include <core/application/events/NewFileSelectedEvent.hpp>
 #include <shared/application/container.hpp>
 #include <core/application/container.hpp>
@@ -17,8 +18,8 @@ void program::loader::application::behave(int argc, char** argv)
 	});
 
     program::shared::container::eventBus->subscribe(typeid(CNewFileSelectedEvent), [&](message_ptr event) {
-		auto newFileSelectedEvent = dynamic_cast<CNewFileSelectedEvent*>(event.get());
-        program::loader::container::guiApp->displayStatus(strenc("Opening a file: ") + newFileSelectedEvent->path() + strenc("..."));
+		auto castedEvent = dynamic_cast<CNewFileSelectedEvent*>(event.get());
+        program::loader::container::guiApp->displayStatus(strenc("Opening a file: ") + castedEvent->path() + strenc("..."));
 	});
 
     program::shared::container::eventBus->subscribe(typeid(DetectedUnsupportedFileEvent), [&](message_ptr event) {
@@ -26,26 +27,32 @@ void program::loader::application::behave(int argc, char** argv)
 	});
 
     program::shared::container::eventBus->subscribe(typeid(CFileLoadedEvent), [&](message_ptr event) {
-		auto fileLoadedEvent = dynamic_cast<CFileLoadedEvent*>(event.get());
-		auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile(fileLoadedEvent->fileId());
+		auto castedEvent = dynamic_cast<CFileLoadedEvent*>(event.get());
+		auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile(castedEvent->fileId());
+        program::loader::container::guiApp->appendToLoadedFiles(binaryFile.get());
+        program::loader::container::guiApp->highlightBinaryInFileList(castedEvent->fileId());
         program::loader::container::guiApp->displayBinaryFile(*binaryFile.get());
         program::loader::container::guiApp->displayStatus(strenc("File Loaded: ") + binaryFile->filePath().string());
-        program::loader::container::guiApp->appendToLoadedFiles(binaryFile.get());
 	});
 
-    program::shared::container::eventBus->subscribe(typeid(CFileSelectedOnListEvent), [&](message_ptr event) {
-		auto fileSelectedOnListEvent = dynamic_cast<CFileSelectedOnListEvent*>(event.get());
-		auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile(fileSelectedOnListEvent->fileId());
+    program::shared::container::eventBus->subscribe(typeid(CWorkFileChangeRequestedEvent), [&](message_ptr event) {
+		auto castedEvent = dynamic_cast<CWorkFileChangeRequestedEvent*>(event.get());
+		auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile(castedEvent->fileId());
         program::loader::container::guiApp->displayBinaryFile(*binaryFile.get());
 	});
 
     program::shared::container::eventBus->subscribe(typeid(CFileUnloadedEvent), [&](message_ptr event) {
-		auto loadedFiles = program::core::container::file::binaryFileStateManager->loadedFiles();
+		auto castedEvent = dynamic_cast<CFileUnloadedEvent*>(event.get());
 
+        program::loader::container::guiApp->displayStatus(strenc("File ") + castedEvent->fileId() + strenc(" has been unloaded."));
+        program::loader::container::guiApp->removeFromFileList(castedEvent->fileId());
+
+		auto loadedFiles = program::core::container::file::binaryFileStateManager->loadedFiles();
         if (loadedFiles.empty()) {
             program::loader::container::guiApp->displayEmpty();
         } else {
-            auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile(loadedFiles.back());
+            auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile(loadedFiles.front());
+            program::loader::container::guiApp->highlightBinaryInFileList(binaryFile->fileId());
             program::loader::container::guiApp->displayBinaryFile(*binaryFile.get());
         }
     });
