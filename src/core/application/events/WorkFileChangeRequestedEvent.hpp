@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CORE_APPLICATION_EVENTS__WORK_FILE_CHANGE_REQUESTED_EVENT_HPP_
+#define CORE_APPLICATION_EVENTS__WORK_FILE_CHANGE_REQUESTED_EVENT_HPP_
 
 #include <shared/message/IMessage.hpp>
 #include <core/file/BinaryFile.hpp>
@@ -12,3 +13,4 @@ public:
     file_id fileId() { return m_fileId; }
 };
 
+#endif // CORE_APPLICATION_EVENTS__WORK_FILE_CHANGE_REQUESTED_EVENT_HPP_
