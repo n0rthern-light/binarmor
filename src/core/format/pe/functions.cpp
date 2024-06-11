@@ -13,10 +13,10 @@ IMAGE_DOS_HEADER* format::pe::dosHeader(const CBinary* binary)
     IMAGE_DOS_HEADER* dosHeader = reinterpret_cast<IMAGE_DOS_HEADER*>(binary->pointer(0).ptr());
 
     if (dosHeader->e_magic != IMAGE_DOS_SIGNATURE) {
-		throw RuntimeException(strenc("Invalid IMAGE_DOS_SIGNATURE"));
+        throw RuntimeException(strenc("Invalid IMAGE_DOS_SIGNATURE"));
     }
 
-	return dosHeader;
+    return dosHeader;
 }
 
 template <typename NT_HEADERS>
@@ -24,15 +24,15 @@ NT_HEADERS* format::pe::ntHeaders(const CBinary* binary)
 {
     format::assertBinaryNotNull(binary);
 
-	auto dosHeader = format::pe::dosHeader(binary);
+    auto dosHeader = format::pe::dosHeader(binary);
 
     auto ntHeaders = reinterpret_cast<NT_HEADERS*>(binary->pointer(dosHeader->e_lfanew).ptr());
 
     if (ntHeaders->Signature != IMAGE_NT_SIGNATURE) {
-		throw RuntimeException(strenc("Invalid IMAGE_NT_SIGNATURE"));
+        throw RuntimeException(strenc("Invalid IMAGE_NT_SIGNATURE"));
     }
 
-	return ntHeaders;
+    return ntHeaders;
 }
 
 IMAGE_NT_HEADERS32* format::pe::ntHeaders32(const CBinary* binary)
@@ -54,7 +54,7 @@ uint_16 format::pe::numberOfSections(const CPeFormat* peFormat)
     if (addressType == AddressType::_32_BIT) {
         return format::pe::ntHeaders32(binary)->FileHeader.NumberOfSections;
     } else if (addressType == AddressType::_64_BIT) {
-	    return format::pe::ntHeaders64(binary)->FileHeader.NumberOfSections;
+        return format::pe::ntHeaders64(binary)->FileHeader.NumberOfSections;
     } else {
         throw RuntimeException(strenc("Unknown address type!"));
     }
@@ -81,13 +81,13 @@ binary_offset format::pe::sectionsStartOffset(const CPeFormat* peFormat)
 
 pe_section_vec format::pe::readSectionList(const CPeFormat* peFormat)
 {
-	auto vec = pe_section_vec();
+    auto vec = pe_section_vec();
 
-	auto numberOfSections = format::pe::numberOfSections(peFormat);
+    auto numberOfSections = format::pe::numberOfSections(peFormat);
     auto offset = format::pe::sectionsStartOffset(peFormat);
     auto binary = peFormat->binary();
 
-	auto binaryPointer = binary->pointer(offset);
+    auto binaryPointer = binary->pointer(offset);
     for(int i = 0; i < numberOfSections; ++i)
     {
         auto sectionOrigin = binaryPointer.shift(i * sizeof(IMAGE_SECTION_HEADER));
@@ -96,7 +96,7 @@ pe_section_vec format::pe::readSectionList(const CPeFormat* peFormat)
         vec.push_back(section);
     }
 
-	return vec;
+    return vec;
 }
 
 binary_offset format::pe::rvaToOffset(const CPeFormat* peFormat, const binary_offset& rva)
@@ -136,7 +136,7 @@ IMAGE_DATA_DIRECTORY* format::pe::imageDataDirectory(const CPeFormat* peFormat)
     if (addressType == AddressType::_32_BIT) {
         return format::pe::ntHeaders32(binary)->OptionalHeader.DataDirectory;
     } else if (addressType == AddressType::_64_BIT) {
-	    return format::pe::ntHeaders64(binary)->OptionalHeader.DataDirectory;
+        return format::pe::ntHeaders64(binary)->OptionalHeader.DataDirectory;
     } else {
         throw RuntimeException(strenc("Unknown address type!"));
     }

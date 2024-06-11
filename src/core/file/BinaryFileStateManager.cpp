@@ -11,18 +11,18 @@
 CBinaryFileStateManager::CBinaryFileStateManager(IMessageBus* eventBus, IFileReader* fileReader, CAnalysisRunner* analysisRunner) : m_eventBus(eventBus), m_fileReader(fileReader), m_analysisRunner(analysisRunner)
 {
     m_vecBinaryFileId = { };
-	m_binaryFileMap = { };
-	m_binaryFileCurrent = nullptr;
+    m_binaryFileMap = { };
+    m_binaryFileCurrent = nullptr;
 }
 
 binary_file_ptr CBinaryFileStateManager::binaryFile(const file_id& fileId) const
 {
-	return m_binaryFileMap.at(fileId);
+    return m_binaryFileMap.at(fileId);
 }
 
 CBinary CBinaryFileStateManager::binaryFileBinary(const file_id& fileId) const
 {
-	return binaryFile(fileId)->binary();
+    return binaryFile(fileId)->binary();
 }
 
 void CBinaryFileStateManager::load(const std::filesystem::path& filePath)
@@ -30,7 +30,7 @@ void CBinaryFileStateManager::load(const std::filesystem::path& filePath)
     auto binary = m_fileReader->read(filePath.string());
     auto binaryAttributes = BinaryAttributes_t { };
 
-	m_analysisRunner->run(&binary, binaryAttributes);
+    m_analysisRunner->run(&binary, binaryAttributes);
 
     const auto tmpBinary = std::make_shared<CBinaryFile>(filePath, binary, 0, binaryAttributes);
     const auto fileId = tmpBinary->fileId();
@@ -43,7 +43,7 @@ void CBinaryFileStateManager::load(const std::filesystem::path& filePath)
     m_vecBinaryFileId.push_back(fileId);
     setCurrentWorkFile(fileId);
 
-	m_eventBus->publish(std::make_shared<CFileLoadedEvent>(fileId));
+    m_eventBus->publish(std::make_shared<CFileLoadedEvent>(fileId));
 }
 
 void CBinaryFileStateManager::setCurrentWorkFile(const file_id& fileId)
@@ -69,7 +69,7 @@ void CBinaryFileStateManager::unload(const file_id fileId)
         }
     }
 
-	m_eventBus->publish(std::make_shared<CFileUnloadedEvent>(fileId));
+    m_eventBus->publish(std::make_shared<CFileUnloadedEvent>(fileId));
 }
 
 std::vector<file_id> CBinaryFileStateManager::loadedFiles() const
@@ -79,5 +79,5 @@ std::vector<file_id> CBinaryFileStateManager::loadedFiles() const
 
 void CBinaryFileStateManager::save(const std::filesystem::path& filePath)
 {
-	throw RuntimeException(strenc("Unimplemented!"));
+    throw RuntimeException(strenc("Unimplemented!"));
 } 

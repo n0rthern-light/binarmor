@@ -6,7 +6,7 @@ CBinaryFile::CBinaryFile(const std::string& filePath, const CBinary& binary, uin
 
 std::filesystem::path CBinaryFile::filePath() const
 {
-	return m_filePath;
+    return m_filePath;
 }
 
 std::string CBinaryFile::fileName() const
@@ -21,7 +21,7 @@ file_id CBinaryFile::fileId() const
 
 CBinary CBinaryFile::binary() const
 {
-	return m_binary;
+    return m_binary;
 }
 
 Format CBinaryFile::format() const
@@ -36,12 +36,12 @@ BinaryAttributes_t CBinaryFile::attributes() const
 
 void CBinaryFile::enableFlags(BinaryFileFlags flags)
 {
-	m_flags |= static_cast<uint_32>(flags);
+    m_flags |= static_cast<uint_32>(flags);
 }
 
 void CBinaryFile::disableFlags(BinaryFileFlags flags)
 {
-	m_flags &= ~static_cast<uint_32>(flags);
+    m_flags &= ~static_cast<uint_32>(flags);
 }
 
 bool CBinaryFile::hasFlags(BinaryFileFlags flags) const
@@ -50,7 +50,7 @@ bool CBinaryFile::hasFlags(BinaryFileFlags flags) const
         return false;
     }
 
-	return (m_flags & static_cast<uint_32>(flags)) == static_cast<uint_32>(flags);
+    return (m_flags & static_cast<uint_32>(flags)) == static_cast<uint_32>(flags);
 }
 
 bool CBinaryFile::hasAnyFlags() const
@@ -65,6 +65,6 @@ bool CBinaryFile::isProtectedByBinarmor() const
 
 void CBinaryFile::assignAttributes(const BinaryAttributes_t& attributes)
 {
-	m_attributes = attributes;
+    m_attributes = attributes;
 }
 

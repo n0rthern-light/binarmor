@@ -9,25 +9,25 @@
 
 class CwxWidgetsGuiApp : public CwxApp, public IGuiApp
 {
-	int m_argc;
-	char** m_argv;
-	IMessageBus* m_eventBus;
+    int m_argc;
+    char** m_argv;
+    IMessageBus* m_eventBus;
     std::unique_ptr<CwxFrame> m_frame;
 
 public:
-	CwxWidgetsGuiApp(int t_argc, char** t_argv, IMessageBus* t_eventBus);
+    CwxWidgetsGuiApp(int t_argc, char** t_argv, IMessageBus* t_eventBus);
     void overrideEventBusHandlerType();
-	void start();
+    void start();
     void promptOpenFile();
-	void displayErrorMessageBox(const std::string& title, const std::string& message);
-	void displayInfoMessageBox(const std::string& title, const std::string& message);
-	void displayStatus(const std::string& statusText);
-	void highlightBinaryInFileList(const file_id& fileId);
+    void displayErrorMessageBox(const std::string& title, const std::string& message);
+    void displayInfoMessageBox(const std::string& title, const std::string& message);
+    void displayStatus(const std::string& statusText);
+    void highlightBinaryInFileList(const file_id& fileId);
     void removeFromFileList(const file_id& fileId);
-	void displayBinaryFile(const CBinaryFile& binaryFile);
+    void displayBinaryFile(const CBinaryFile& binaryFile);
     void appendToLoadedFiles(const CBinaryFile* binary);
     void displayEmpty();
-	void exit();
+    void exit();
 };
 
 #endif // LOADER_UI_WX_WX_WIDGETS_GUI_APP_HPP_

@@ -6,7 +6,7 @@
 
 CPeFormat::CPeFormat(CBinary* binary)
 {
-	_binary = binary;
+    _binary = binary;
 }
 
 CBinary* CPeFormat::binary() const
@@ -16,7 +16,7 @@ CBinary* CPeFormat::binary() const
 
 Architecture CPeFormat::architecture() const
 {
-	auto ntHeaders = format::pe::ntHeaders32(_binary);
+    auto ntHeaders = format::pe::ntHeaders32(_binary);
 
     switch (ntHeaders->FileHeader.Machine) {
     case IMAGE_FILE_MACHINE_I386:
@@ -28,13 +28,13 @@ Architecture CPeFormat::architecture() const
     case IMAGE_FILE_MACHINE_ARM64:
         return Architecture::ARM64;
     default:
-		throw RuntimeException(strenc("Unknown Architecture"));
+        throw RuntimeException(strenc("Unknown Architecture"));
     }
 }
 
 Type CPeFormat::type() const
 {
-	auto ntHeaders = format::pe::ntHeaders32(_binary);
+    auto ntHeaders = format::pe::ntHeaders32(_binary);
 
     if (ntHeaders->FileHeader.Characteristics & IMAGE_FILE_DLL) {
         return Type::Dynamic_Library;
@@ -43,35 +43,35 @@ Type CPeFormat::type() const
         return Type::Executable;
     }
 
-	throw RuntimeException(strenc("Unknown Type"));
+    throw RuntimeException(strenc("Unknown Type"));
 }
 
 Endianness CPeFormat::endianness() const
 {
-	// PE is always Little Endian
-	return Endianness::LITTLE;
+    // PE is always Little Endian
+    return Endianness::LITTLE;
 }
 
 AddressType CPeFormat::addressType() const
 {
-	auto ntHeaders = format::pe::ntHeaders32(_binary);
+    auto ntHeaders = format::pe::ntHeaders32(_binary);
 
-	return ntHeaders->OptionalHeader.Magic == 0x20B ?
-		AddressType::_64_BIT : AddressType::_32_BIT;
+    return ntHeaders->OptionalHeader.Magic == 0x20B ?
+        AddressType::_64_BIT : AddressType::_32_BIT;
 }
 
 CUnsigned CPeFormat::entryPoint() const
 {
-	auto addressType_ = addressType();
+    auto addressType_ = addressType();
 
-	if (addressType_ == AddressType::_64_BIT)
-	{
-		return CUnsigned(format::pe::ntHeaders64(_binary)->OptionalHeader.AddressOfEntryPoint);
-	}
-	else if (addressType_ == AddressType::_32_BIT)
-	{
-		return CUnsigned(format::pe::ntHeaders32(_binary)->OptionalHeader.AddressOfEntryPoint);
-	}
+    if (addressType_ == AddressType::_64_BIT)
+    {
+        return CUnsigned(format::pe::ntHeaders64(_binary)->OptionalHeader.AddressOfEntryPoint);
+    }
+    else if (addressType_ == AddressType::_32_BIT)
+    {
+        return CUnsigned(format::pe::ntHeaders32(_binary)->OptionalHeader.AddressOfEntryPoint);
+    }
 
     throw RuntimeException(strenc("Not found entry point"));
 }

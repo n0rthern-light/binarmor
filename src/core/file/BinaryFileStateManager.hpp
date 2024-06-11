@@ -9,8 +9,8 @@
 
 class CBinaryFileStateManager
 {
-	IMessageBus* m_eventBus;
-	IFileReader* m_fileReader;
+    IMessageBus* m_eventBus;
+    IFileReader* m_fileReader;
 
     std::vector<file_id> m_vecBinaryFileId;
     std::map<file_id, binary_file_ptr> m_binaryFileMap;
@@ -18,14 +18,14 @@ class CBinaryFileStateManager
 
     std::shared_ptr<CAnalysisRunner> m_analysisRunner;
 public:
-	CBinaryFileStateManager(IMessageBus* eventBus, IFileReader* fileReader, CAnalysisRunner* analysisRunner);
+    CBinaryFileStateManager(IMessageBus* eventBus, IFileReader* fileReader, CAnalysisRunner* analysisRunner);
     binary_file_ptr binaryFile(const file_id& fileId) const;
-	CBinary binaryFileBinary(const file_id& fileId) const;
-	void load(const std::filesystem::path& filePath);
+    CBinary binaryFileBinary(const file_id& fileId) const;
+    void load(const std::filesystem::path& filePath);
     void setCurrentWorkFile(const file_id& fileId);
-	void unload(const file_id fileId);
+    void unload(const file_id fileId);
     std::vector<file_id> loadedFiles() const;
-	void save(const std::filesystem::path& filePath);
+    void save(const std::filesystem::path& filePath);
 };
 
 #endif // CORE_FILE__BINARY_FILE_STATE_MANAGER_HPP_

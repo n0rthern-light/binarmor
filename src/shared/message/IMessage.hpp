@@ -4,7 +4,7 @@
 class IMessage
 {
 public:
-	virtual ~IMessage() {};
+    virtual ~IMessage() {};
 };
 
 #endif // SHARED_MESSAGE__I_MESSAGE_HPP_
