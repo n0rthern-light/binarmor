@@ -8,7 +8,9 @@
 #include <string>
 #include <filesystem>
 
+class CBinaryFile;
 using file_id = std::string;
+using binary_file_ptr = std::shared_ptr<CBinaryFile>;
 
 class CBinaryFile
 {

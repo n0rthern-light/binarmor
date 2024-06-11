@@ -34,14 +34,14 @@ void CFormatAnalyzer::analyze(const CBinary* binary, BinaryAttributes_t& attribu
 		attributes.format = Format::Windows_PE;
     }
     else if (isELF(binary)) {
-		attributes.format = Format::Linux_ELF;
+		// attributes.format = Format::Linux_ELF;
     }
     else if (isMachO(binary)) {
-		attributes.format = Format::MacOS_MachO;
+		// attributes.format = Format::MacOS_MachO;
     }
 
     if (attributes.format == Format::UNKNOWN) {
-	    throw UnsupportedFileException(strenc("Not detected any supported file format"));
+	    throw UnsupportedFileException(strenc("The choosen file has a format that is not supported."));
     }
 }
 

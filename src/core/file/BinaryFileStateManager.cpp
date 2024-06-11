@@ -10,11 +10,12 @@
 
 CBinaryFileStateManager::CBinaryFileStateManager(IMessageBus* eventBus, IFileReader* fileReader, CAnalysisRunner* analysisRunner) : m_eventBus(eventBus), m_fileReader(fileReader), m_analysisRunner(analysisRunner)
 {
+    m_vecBinaryFileId = { };
 	m_binaryFileMap = { };
 	m_binaryFileCurrent = nullptr;
 }
 
-std::shared_ptr<CBinaryFile> CBinaryFileStateManager::binaryFile(const file_id& fileId) const
+binary_file_ptr CBinaryFileStateManager::binaryFile(const file_id& fileId) const
 {
 	return m_binaryFileMap.at(fileId);
 }
@@ -34,7 +35,12 @@ void CBinaryFileStateManager::load(const std::filesystem::path& filePath)
     const auto tmpBinary = std::make_shared<CBinaryFile>(filePath, binary, 0, binaryAttributes);
     const auto fileId = tmpBinary->fileId();
 
+    if (m_binaryFileMap.find(fileId) != m_binaryFileMap.end()) {
+        throw RuntimeException(strenc("The choosen file is already loaded. Please, select another one."));
+    }
+
     m_binaryFileMap[fileId] = std::move(tmpBinary);
+    m_vecBinaryFileId.push_back(fileId);
     setCurrentWorkFile(fileId);
 
 	m_eventBus->publish(std::make_shared<CFileLoadedEvent>(fileId));
@@ -54,17 +60,21 @@ void CBinaryFileStateManager::unload(const file_id fileId)
     }
 
     m_binaryFileMap.erase(res);
+
+    for(auto it = m_vecBinaryFileId.begin(); it != m_vecBinaryFileId.end();) {
+        if (strcmp(it->c_str(), fileId.c_str()) == 0) {
+            m_vecBinaryFileId.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
 	m_eventBus->publish(std::make_shared<CFileUnloadedEvent>(fileId));
 }
 
 std::vector<file_id> CBinaryFileStateManager::loadedFiles() const
 {
-    auto vec = std::vector<file_id> { };
-    for(const auto& pair : m_binaryFileMap) {
-        vec.push_back(pair.first);
-    }
-
-    return vec;
+    return m_vecBinaryFileId;
 }
 
 void CBinaryFileStateManager::save(const std::filesystem::path& filePath)

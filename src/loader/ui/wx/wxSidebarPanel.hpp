@@ -14,7 +14,7 @@ class CwxSidebarPanel : public wxPanel
     std::unique_ptr<wxBoxSizer> m_sizer;
 
     std::unique_ptr<wxListCtrl> m_fileList;
-    std::map<long, file_id> m_fileListIds;
+    std::vector<file_id> m_fileListIds;
     long m_fileListSelected;
 
     std::unique_ptr<wxButton> m_btnOpenFile;

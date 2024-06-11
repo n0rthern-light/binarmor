@@ -12,13 +12,14 @@ class CBinaryFileStateManager
 	IMessageBus* m_eventBus;
 	IFileReader* m_fileReader;
 
-    std::map<file_id, std::shared_ptr<CBinaryFile>> m_binaryFileMap;
-    std::shared_ptr<CBinaryFile> m_binaryFileCurrent;
+    std::vector<file_id> m_vecBinaryFileId;
+    std::map<file_id, binary_file_ptr> m_binaryFileMap;
+    binary_file_ptr m_binaryFileCurrent;
 
     std::shared_ptr<CAnalysisRunner> m_analysisRunner;
 public:
 	CBinaryFileStateManager(IMessageBus* eventBus, IFileReader* fileReader, CAnalysisRunner* analysisRunner);
-	std::shared_ptr<CBinaryFile> binaryFile(const file_id& fileId) const;
+    binary_file_ptr binaryFile(const file_id& fileId) const;
 	CBinary binaryFileBinary(const file_id& fileId) const;
 	void load(const std::filesystem::path& filePath);
     void setCurrentWorkFile(const file_id& fileId);

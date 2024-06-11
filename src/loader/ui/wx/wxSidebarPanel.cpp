@@ -52,30 +52,33 @@ void CwxSidebarPanel::appendToLoadedFiles(const CBinaryFile* binary)
     auto index = m_fileList->GetItemCount();
     m_fileList->InsertItem(index, binary->fileName().c_str());
     m_fileList->CheckItem(index, true);
-    m_fileListIds[index] = binary->fileId();
+    m_fileListIds.push_back(binary->fileId());
 }
 
 void CwxSidebarPanel::highlightFile(const file_id& fileId)
 {
-    for(const auto& pair : m_fileListIds) {
-        if (pair.second == fileId) {
-            m_fileList->SetItemState(pair.first, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-            m_fileList->EnsureVisible(pair.first);
-            m_fileListSelected = pair.first;
+    for(auto i = 0; i < m_fileListIds.size(); ++i) {
+        const auto cur = m_fileListIds[i];
+        if (cur == fileId) {
+            m_fileList->SetItemState(i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+            m_fileList->EnsureVisible(i);
+            m_fileListSelected = i;
         } else {
-            m_fileList->SetItemState(pair.first, 0, wxLIST_STATE_SELECTED);
+            m_fileList->SetItemState(i, 0, wxLIST_STATE_SELECTED);
         }
     }
 }
 
 void CwxSidebarPanel::removeFromLoadedFiles(const file_id& fileId)
 {
-   for (auto it = m_fileListIds.begin(); it != m_fileListIds.end(); ) {
-        if (it->second == fileId) {
-            m_fileList->DeleteItem(it->first);
+    auto i = 0;
+    for (auto it = m_fileListIds.begin(); it != m_fileListIds.end(); ) {
+        if (strcmp(it->c_str(), fileId.c_str()) == 0) {
+            m_fileList->DeleteItem(i);
             it = m_fileListIds.erase(it);
         } else {
             ++it;
+            ++i;
         }
     }
 

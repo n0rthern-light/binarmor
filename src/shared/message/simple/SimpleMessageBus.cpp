@@ -1,4 +1,5 @@
 #include "SimpleMessageBus.hpp"
+#include "../events/RuntimeExceptionOccuredEvent.hpp"
 #include "../../RuntimeException.hpp"
 #include "../../self_obfuscation/strenc.hpp"
 
@@ -27,7 +28,13 @@ void CSimpleMessageBus::publish(message_ptr message) {
 		}
 	}
 	for (auto& handler : handlers) {
-		m_handlerType([&] { handler(message); });
+		m_handlerType([&] {
+            try {
+                handler(message);
+            } catch (const RuntimeException& exception) {
+                publish(std::make_shared<CRuntimeExceptionOccuredEvent>(exception.what()));
+            }
+        });
 	}
 }
 

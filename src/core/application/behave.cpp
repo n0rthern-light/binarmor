@@ -4,6 +4,7 @@
 #include "events/FileUnloadRequestedEvent.hpp"
 #include "events/WorkFileChangeRequestedEvent.hpp"
 #include "events/NewFileSelectedEvent.hpp"
+#include <shared/RuntimeException.hpp>
 
 void program::core::application::behave(int argc, char** argv)
 {
