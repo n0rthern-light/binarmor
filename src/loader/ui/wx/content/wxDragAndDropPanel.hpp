@@ -12,7 +12,6 @@ class CwxDragAndDropPanel : public wxPanel
     std::unique_ptr<wxSizer> m_sizer;
 public:
     CwxDragAndDropPanel(wxWindow* parent, IMessageBus* t_eventBus);
-    void notifyAboutNewFile(const std::string& path);
 };
 
 #endif // LOADER_UI_WX_CONTENT_WX_DRAG_AND_DROP_PANEL_HPP_

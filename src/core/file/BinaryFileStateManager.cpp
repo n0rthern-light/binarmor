@@ -56,9 +56,8 @@ void CBinaryFileStateManager::unload(const file_id fileId)
     auto res = m_binaryFileMap.find(fileId);
 
     if (res == m_binaryFileMap.end()) {
-        throw RuntimeException(strenc("Cannot find file of id: ") + fileId);
+        throw RuntimeException(strenc("Cannot find file: ") + fileId);
     }
-
     m_binaryFileMap.erase(res);
 
     for(auto it = m_vecBinaryFileId.begin(); it != m_vecBinaryFileId.end();) {
