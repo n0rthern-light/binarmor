@@ -1,7 +1,6 @@
 #ifndef LOADER_UI_WX_WX_FRAME_HPP_
 #define LOADER_UI_WX_WX_FRAME_HPP_
 
-#include "components/ThreadWorker.hpp"
 #include "wxContentPanel.hpp"
 #include "wxSidebarPanel.hpp"
 #include <shared/message/IMessageBus.hpp>
@@ -15,10 +14,11 @@ private:
     std::unique_ptr<wxBoxSizer> m_mainSizer;
     std::unique_ptr<CwxSidebarPanel> m_sidebarPanel;
     std::unique_ptr<CwxContentPanel> m_contentPanel;
-    std::unique_ptr<CThreadWorker> m_threadWorker;
 
     void initUi();
     void initEventListener();
+    void initThreads();
+    void initFileDrop();
     void onEventDisplayWindowOpenFile(wxCommandEvent& event);
 public:
     CwxFrame(IMessageBus* t_eventBus);

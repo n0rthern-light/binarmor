@@ -1,10 +1,8 @@
 #include "wxFrame.hpp"
 #include "../settings.hpp"
 #include "components/FileDropTarget.hpp"
-#include "loader/ui/wx/components/ThreadWorker.hpp"
 #include "wxContentPanel.hpp"
 #include "wxSidebarPanel.hpp"
-#include "wx_headers.hpp"
 #include <memory>
 #include <shared/self_obfuscation/strenc.hpp>
 #include <core/application/events/NewFileSelectedEvent.hpp>
@@ -20,10 +18,9 @@ CwxFrame::CwxFrame(IMessageBus* t_eventBus): wxFrame(NULL, wxID_ANY, strenc("Bin
     m_sidebarPanel = nullptr;
     m_contentPanel = nullptr;
 
-    this->initUi();
-    this->initEventListener();
-
-    m_threadWorker = std::make_unique<CThreadWorker>(this);
+    initUi();
+    initEventListener();
+    initFileDrop();
 }
 
 void CwxFrame::initUi()
@@ -37,13 +34,6 @@ void CwxFrame::initUi()
     m_mainSizer->Add(m_contentPanel.get(), 1, wxEXPAND | wxALL, 5);
 
     m_mainPanel->SetSizer(m_mainSizer.get());
-
-    auto dropTarget = new CFileDropTarget([&](vec_file_paths files) {
-        for(const auto& file : files) {
-            notifyAboutNewFile(file.string());
-        }
-    });
-    SetDropTarget(dropTarget);
 
     CreateStatusBar();
     SetStatusText(strenc("Welcome to BinArmor v0.1"));
@@ -66,6 +56,16 @@ void CwxFrame::onEventDisplayWindowOpenFile(wxCommandEvent& wxCommandEvent)
 
     wxString filePath = fileDialog.GetPath();
     m_eventBus->publish(std::make_shared<CNewFileSelectedEvent>(filePath.c_str()));
+}
+
+void CwxFrame::initFileDrop()
+{
+    auto dropTarget = new CFileDropTarget([&](vec_file_paths files) {
+        for(const auto& file : files) {
+            notifyAboutNewFile(file.string());
+        }
+    });
+    SetDropTarget(dropTarget);
 }
 
 void CwxFrame::promptOpenFile()
@@ -106,8 +106,6 @@ void CwxFrame::displayStatus(const std::string& statusText)
 
 void CwxFrame::notifyAboutNewFile(const std::string& path)
 {
-    //m_threadWorker->doHeavyLifting([&] {
     m_eventBus->publish(std::make_shared<CNewFileSelectedEvent>(path.c_str()));
-    //});
 }
 
