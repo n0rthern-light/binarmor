@@ -4,8 +4,8 @@
 
 void format::assertBinaryNotNull(const CBinary* binary)
 {
-	if (!binary) {
-		throw RuntimeException(strenc("Binary is not present"));
+    if (!binary) {
+        throw RuntimeException(strenc("Binary is not present"));
     }
 }
 

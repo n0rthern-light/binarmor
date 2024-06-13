@@ -7,8 +7,8 @@
 class IFileReader
 {
 public:
-	virtual ~IFileReader() {};
-	virtual const CBinary read(const std::string& filePath) = 0;
+    virtual ~IFileReader() {};
+    virtual const CBinary read(const std::string& filePath) = 0;
 };
 
 #endif // CORE_FILE__I_FILE_READER_HPP_

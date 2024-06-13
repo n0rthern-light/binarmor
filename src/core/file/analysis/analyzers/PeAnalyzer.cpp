@@ -8,7 +8,7 @@
 void CPeAnalyzer::analyze(const CBinary* binary, BinaryAttributes_t& attributes)
 {
     if (attributes.format != Format::Windows_PE) {
-	    throw UnsupportedFileException(strenc("Not detected any supported file format"));
+        throw UnsupportedFileException(strenc("Not detected any supported file format"));
     }
 
     auto pe = std::make_unique<CPeFormat>(const_cast<CBinary*>(binary));

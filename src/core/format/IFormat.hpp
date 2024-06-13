@@ -7,12 +7,12 @@
 class IFormat
 {
 public:
-	virtual ~IFormat() { };
-	virtual Architecture architecture() const = 0;
-	virtual Type type() const = 0;
-	virtual Endianness endianness() const = 0;
-	virtual AddressType addressType() const = 0;
-	virtual CUnsigned entryPoint() const = 0;
+    virtual ~IFormat() { };
+    virtual Architecture architecture() const = 0;
+    virtual Type type() const = 0;
+    virtual Endianness endianness() const = 0;
+    virtual AddressType addressType() const = 0;
+    virtual CUnsigned entryPoint() const = 0;
 };
 
 #endif // CORE_FORMAT__I_FORMAT_HPP_

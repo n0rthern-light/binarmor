@@ -14,27 +14,27 @@ byte_ptr CBinary::at(const binary_offset& offset) const
 
 CBinary CBinary::part(const binary_offset& offset, const size_t& count) const
 {
-	if (offset == 0 && count == 0) {
-		return *this;
-	}
+    if (offset == 0 && count == 0) {
+        return *this;
+    }
 
-	if (offset >= _bytes.size()) {
-		throw std::out_of_range(strenc("Offset is out of the range of the data vector."));
-	}
+    if (offset >= _bytes.size()) {
+        throw std::out_of_range(strenc("Offset is out of the range of the data vector."));
+    }
 
     auto localCount = count;
 
-	if (count == 0 || offset + count > _bytes.size()) {
-		localCount = _bytes.size() - offset;
-	}
+    if (count == 0 || offset + count > _bytes.size()) {
+        localCount = _bytes.size() - offset;
+    }
 
-	auto subVector = byte_vec(&_bytes[offset], &_bytes[offset + localCount]);
+    auto subVector = byte_vec(&_bytes[offset], &_bytes[offset + localCount]);
 
-	return CBinary(subVector);
+    return CBinary(subVector);
 }
 
 byte_vec CBinary::bytes() const {
-	return _bytes;
+    return _bytes;
 }
 
 std::string CBinary::string(const binary_offset& offset) const
@@ -44,18 +44,18 @@ std::string CBinary::string(const binary_offset& offset) const
 
 binary_offset CBinary::size() const
 {
-	return _bytes.size();
+    return _bytes.size();
 }
 
 CBinaryPointer CBinary::pointer(const binary_offset& offset) const
 {
-	if (!offsetExists(offset)) {
+    if (!offsetExists(offset)) {
         char message[128];
         sprintf(message, strenc("Out of range! Binary size is %u bytes, requested %u"), _bytes.size(), offset);
-		throw std::out_of_range(message);
-	}
+        throw std::out_of_range(message);
+    }
 
-	return CBinaryPointer(offset, reinterpret_cast<uint_auto>(&_bytes[offset]));
+    return CBinaryPointer(offset, reinterpret_cast<uint_auto>(&_bytes[offset]));
 }
 
 bool CBinary::offsetExists(const binary_offset& offset) const

@@ -9,18 +9,18 @@
 
 class CPeFormat : public IFormat
 {
-	CBinary* _binary;
+    CBinary* _binary;
 public:
-	CPeFormat(CBinary* binary);
+    CPeFormat(CBinary* binary);
     CBinary* binary() const;
-	Architecture architecture() const;
-	Type type() const;
-	Endianness endianness() const;
-	AddressType addressType() const;
-	CUnsigned entryPoint() const;
+    Architecture architecture() const;
+    Type type() const;
+    Endianness endianness() const;
+    AddressType addressType() const;
+    CUnsigned entryPoint() const;
     binary_offset rvaToOffset(const binary_offset& rva) const;
     CBinaryPointer rvaToPointer(const binary_offset& rva) const;
-	pe_section_vec sections() const;
+    pe_section_vec sections() const;
     pe_module_map imports() const;
 };
 
