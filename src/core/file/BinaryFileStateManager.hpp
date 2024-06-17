@@ -4,7 +4,7 @@
 #include "BinaryFile.hpp"
 #include <shared/message/IMessageBus.hpp>
 #include "IFileReader.hpp"
-#include "analysis/AnalysisRunner.hpp"
+#include "../analysis/AnalysisRunner.hpp"
 #include <memory>
 
 class CBinaryFileStateManager

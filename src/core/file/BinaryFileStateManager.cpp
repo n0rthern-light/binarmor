@@ -3,7 +3,7 @@
 #include "../application/events/FileUnloadedEvent.hpp"
 #include "core/file/BinaryAttributes.hpp"
 #include "core/file/BinaryFile.hpp"
-#include "core/file/analysis/AnalysisRunner.hpp"
+#include "core/analysis/AnalysisRunner.hpp"
 #include <memory>
 #include <shared/RuntimeException.hpp>
 #include <shared/self_obfuscation/strenc.hpp>

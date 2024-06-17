@@ -31,17 +31,17 @@ bool isMachO(const CBinary* binary) {
 void CFormatAnalyzer::analyze(const CBinary* binary, BinaryAttributes_t& attributes)
 {
     if (isWindowsPE(binary)) {
-        attributes.format = Format::Windows_PE;
+		attributes.format = Format::Windows_PE;
     }
     else if (isELF(binary)) {
-        // attributes.format = Format::Linux_ELF;
+		// attributes.format = Format::Linux_ELF;
     }
     else if (isMachO(binary)) {
-        // attributes.format = Format::MacOS_MachO;
+		// attributes.format = Format::MacOS_MachO;
     }
 
     if (attributes.format == Format::UNKNOWN) {
-        throw UnsupportedFileException(strenc("The choosen file has a format that is not supported."));
+	    throw UnsupportedFileException(strenc("The choosen file has a format that is not supported."));
     }
 }
 

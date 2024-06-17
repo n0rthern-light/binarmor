@@ -3,7 +3,7 @@
 
 #include "../file/IFileReader.hpp"
 #include "../file/BinaryFileStateManager.hpp"
-#include "../file/analysis/AnalysisRunner.hpp"
+#include "../analysis/AnalysisRunner.hpp"
 
 namespace program
 {

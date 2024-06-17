@@ -1,7 +1,7 @@
 #ifndef CORE_FILE_ANALYSIS__I_ANALYZER_HPP_
 #define CORE_FILE_ANALYSIS__I_ANALYZER_HPP_
 
-#include "../BinaryAttributes.hpp"
+#include "../file/BinaryAttributes.hpp"
 #include "core/Binary.hpp"
 
 class IAnalyzer

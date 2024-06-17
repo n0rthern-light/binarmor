@@ -1,6 +1,6 @@
 #include "PeAnalyzer.hpp"
 #include "../exceptions/UnsupportedFileException.hpp"
-#include "../../../format/pe/PeFormat.hpp"
+#include "../../format/pe/PeFormat.hpp"
 #include <shared/value/AddressType.hpp>
 #include <memory>
 #include <shared/self_obfuscation/strenc.hpp>
