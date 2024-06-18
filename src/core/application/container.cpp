@@ -1,10 +1,12 @@
 #include "container.hpp"
 #include <shared/application/container.hpp>
 #include "../file/fstream/fstreamFileReader.hpp"
+#include "../assembler/asmjit/AsmJitAssembler.hpp"
 
 std::unique_ptr<IFileReader> program::core::container::file::fileReader = nullptr;
 std::unique_ptr<CBinaryFileStateManager> program::core::container::file::binaryFileStateManager = nullptr;
 std::unique_ptr<CAnalysisRunner> program::core::container::file::analysis::runner = nullptr;
+std::unique_ptr<IAssembler> program::core::container::assembly::assembler = nullptr;
 
 void program::core::container::init(int argc, char** argv)
 {
@@ -18,5 +20,6 @@ void program::core::container::init(int argc, char** argv)
         program::core::container::file::fileReader.get(),
         program::core::container::file::analysis::runner.get()
     );
+    program::core::container::assembly::assembler = std::make_unique<CAsmJitAssembler>();
 }
 

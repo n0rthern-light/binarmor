@@ -13,3 +13,10 @@ build
 out
 .vs
 .cache
+
+# ida
+**/*.til
+**/*.nam
+**/*.id0
+**/*.id1
+**/*.id2

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LOADER_UI_WX_COMPONENTS__FILE_DROP_TARGET_HPP_
+#define LOADER_UI_WX_COMPONENTS__FILE_DROP_TARGET_HPP_
 
 #include "../wx_headers.hpp"
 #include <functional>
@@ -16,3 +17,4 @@ private:
     file_drop_target_handler_fn m_handler;
 };
 
+#endif // LOADER_UI_WX_COMPONENTS__FILE_DROP_TARGET_HPP_
