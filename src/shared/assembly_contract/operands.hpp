@@ -20,40 +20,46 @@ namespace assembly
         virtual ~Operand() = default;
         OperandType type() const { return m_type; }
         template <typename T>
-        T* concrete() { return dynamic_cast<T*>(this); }
+        T* concrete() {
+            T* derived = dynamic_cast<T*>(this);
+            if (derived == nullptr) {
+                throw std::bad_cast();
+            }
+            return derived;
+        }
     protected:
         OperandType m_type;
     };
 
-    class ImmediateOperand : public Operand {
+    class CImmediateOperand : public Operand {
     public:
-        ImmediateOperand(int value) : m_value(value) { m_type = OperandType::IMMEDIATE; }
+        CImmediateOperand(int value) : m_value(value) { m_type = OperandType::IMMEDIATE; }
         int value() const { return m_value; }
     private:
         int m_value;
     };
 
-    class LabelOperand : public Operand {
+    class CLabelOperand : public Operand {
     public:
-        LabelOperand(const std::string& label) : m_label(label) { m_type = OperandType::LABEL; }
+        CLabelOperand(const std::string& label) : m_label(label) { m_type = OperandType::LABEL; }
         std::string label() const { return m_label; }
     private:
         std::string m_label;
     };
 
     template <typename T>
-    class RegisterOperand : public Operand {
+    class CRegisterOperand : public Operand {
     public:
-        RegisterOperand(const T& t_register) : m_register(t_register) { m_type = OperandType::REGISTER; }
+        CRegisterOperand(const T& t_register) : m_register(t_register) { m_type = OperandType::REGISTER; }
         T getRegister() const { return m_register; }
     private:
         T m_register;
     };
 
     template <typename T>
-    class MemoryOperand : public Operand {
+    class CMemoryOperand : public Operand {
     public:
-        MemoryOperand(const T& baseRegister, int offset) : m_baseRegister(baseRegister), m_offset(offset) { m_type = OperandType::MEMORY; }
+        CMemoryOperand(const T& baseRegister, int offset) : m_baseRegister(baseRegister), m_offset(offset) { m_type = OperandType::MEMORY; }
         T baseRegister() const { return m_baseRegister; }
         int offset() const { return m_offset; }
     private:

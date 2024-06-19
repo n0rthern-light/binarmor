@@ -1,17 +1,31 @@
 #include "AsmJitAssembler.hpp"
 #include <asmjit/asmjit.h>
 #include "../defines.hpp"
+#include "core/assembler/AssembleException.hpp"
+#include "shared/assembly_contract/code.hpp"
 #include <cstring>
 #include <shared/self_obfuscation/strenc.hpp>
 
 using namespace asmjit;
 
-asm_opcodes CAsmJitAssembler::assemble(Architecture arch, const asm_instructions& input)
+x86::Assembler translate_x86(const CodeHolder& code)
 {
-    std::vector<unsigned char> opcodes { };
+}
+
+asm_opcodes CAsmJitAssembler::assemble(const asm_instructions& input)
+{
+    asm_opcodes opcodes { };
 
     Environment env;
-    env.setArch(Arch::kX86);
+    if (input.arch() == assembly::Architecture::X86) {
+        env.setArch(Arch::kX86);
+    } else if (input.arch() == assembly::Architecture::X86_64) {
+        env.setArch(Arch::kX64);
+    } else if (input.arch() == assembly::Architecture::ARM64) {
+        env.setArch(Arch::kAArch64);
+    } else {
+        throw AssembleException(strenc("Unsupported architecture"));
+    }
 
     CodeHolder code;
     code.init(env);
