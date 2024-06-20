@@ -10,6 +10,7 @@ using namespace asmjit;
 
 x86::Assembler translate_x86(const CodeHolder& code)
 {
+    // todo implement translatorororroroo
 }
 
 asm_opcodes CAsmJitAssembler::assemble(const asm_instructions& input)
