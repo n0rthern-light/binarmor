@@ -17,8 +17,12 @@ TEST(UuidTest, CanGenerateUuidFromSeed)
 {
     auto uuid1 = new CUuid("This is potentially a really good seed 12345 !@#$%$_ ,./';");
     auto uuid2 = new CUuid("This is potentially a really good seed 12345 !@#$%$_ ,./';");
+    auto uuid3 = new CUuid("Different ID");
     ASSERT_TRUE(CUuid::isValidUuid(uuid1->toString()));
     ASSERT_TRUE(CUuid::isValidUuid(uuid2->toString()));
+    ASSERT_TRUE(CUuid::isValidUuid(uuid3->toString()));
     ASSERT_STREQ(uuid1->toString().c_str(), uuid2->toString().c_str());
+    ASSERT_STRNE(uuid1->toString().c_str(), uuid3->toString().c_str());
+    ASSERT_STRNE(uuid2->toString().c_str(), uuid3->toString().c_str());
 }
 
