@@ -14,5 +14,8 @@ class CAddSectionCommand : public IMessage
 
 public:
     CAddSectionCommand(const file_id& fileId, const section_id& sectionId, const CSectionPermissions& permissions): m_fileId(fileId), m_sectionId(sectionId), m_permissions(permissions) { }
+    file_id fileId() const { return m_fileId; }
+    section_id sectionId() const { return m_sectionId; }
+    CSectionPermissions permissions() const { return m_permissions; }
 };
 

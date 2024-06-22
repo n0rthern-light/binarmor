@@ -4,7 +4,7 @@
 #include "core/modification/AddStartupCodeCommand.hpp"
 #include "core/modification/ModificationException.hpp"
 #include "core/modification/WriteBytesCommand.hpp"
-#include "core/modification/code/InsertedBytesRepository.hpp"
+#include "core/modification/bytes/InsertedBytesRepository.hpp"
 #include "core/modification/ids.hpp"
 #include "core/modification/section/SectionPermissions.hpp"
 #include "core/modification/section/SectionQuery.hpp"

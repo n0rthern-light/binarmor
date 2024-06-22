@@ -1,7 +1,7 @@
 #pragma once
 
 #include "core/modification/AddBytesCommand.hpp"
-#include "core/modification/code/InsertedBytesRepository.hpp"
+#include "core/modification/bytes/InsertedBytesRepository.hpp"
 #include "core/modification/section/SectionQuery.hpp"
 #include "shared/message/IMessageBus.hpp"
 
