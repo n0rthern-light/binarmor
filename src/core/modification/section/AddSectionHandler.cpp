@@ -28,7 +28,7 @@ void CAddSectionHandler::handle(const CAddSectionCommand& command)
 
     pe->addSection(command.sectionId(), command.permissions());
 
-    // dont use fucking repository/query pattern just simply access the core file objects etc.
-    // omg what i ve done /XDDDDD
-    // simply use format sections etc and just it k33p it simple okay :-)
+    // 1. pull out pe's binary
+    // 2. extract diffs
+    // 3. register modification in binary file
 }

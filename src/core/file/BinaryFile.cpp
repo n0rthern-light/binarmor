@@ -2,7 +2,10 @@
 #include "core/shared/attributes.hpp"
 #include "core/file/BinaryAttributes.hpp"
 #include "core/file/BinaryModification.hpp"
+#include "shared/value/Uuid.hpp"
+#include <algorithm>
 #include <stdexcept>
+#include <vector>
 
 CBinaryFile::CBinaryFile(const std::string& filePath, const CBinary& binary, uint_32 flags, const BinaryAttributes_t& attributes): m_filePath(filePath), m_originalBinary(binary), m_flags(flags), m_attributes(attributes), m_vecBinaryModification({ })
 { }
@@ -30,17 +33,18 @@ CBinary CBinaryFile::originalBinary() const
 CBinary CBinaryFile::modifiedBinary() const
 {
     auto modifiedBinary = m_originalBinary.bytes();
+    auto appliedModifications = std::vector<CUuid> { };
 
     for (const auto& modification : m_vecBinaryModification) {
-        const auto& offset = modification.offset();
-        const auto& size = modification.size();
-        const auto& modificationBytes = modification.bytes();
-
-        if (offset + size > modifiedBinary.size()) {
-            modifiedBinary.resize(offset + size);
+        for (const auto& dependency : modification.requiredModificationIds()) {
+            auto it = std::find(appliedModifications.begin(), appliedModifications.end(), dependency);
+            if (it == appliedModifications.end()) {
+                throw std::runtime_error(strenc("Required modification was not applied"));
+            }
         }
 
-        std::copy(modificationBytes.begin(), modificationBytes.end(), modifiedBinary.begin() + offset);
+        modifiedBinary = modification.apply(modifiedBinary);
+        appliedModifications.push_back(modification.id());
     }
     
     return CBinary { modifiedBinary };

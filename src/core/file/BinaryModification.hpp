@@ -1,7 +1,7 @@
 #pragma once
 
-#include "core/shared/Binary.hpp"
 #include "shared/value/Uuid.hpp"
+#include <map>
 #include <shared/types/defines.hpp>
 #include <vector>
 
@@ -12,32 +12,43 @@ enum class BinaryModificationType
     APPEND_CODE = 2,
 };
 
+enum class BinaryModificationDiffType
+{
+    ADD = 0,
+    REMOVE = 1,
+};
+
+struct BinaryModificationDiff_t
+{
+    const CUuid id;
+    const BinaryModificationDiffType type;
+    const binary_offset offset;
+    const binary_offset size;
+    const byte_vec bytes;
+
+    static BinaryModificationDiff_t add(binary_offset offset, const byte_vec& bytes);
+    static BinaryModificationDiff_t remove(binary_offset offset, binary_offset size);
+};
+
+using vec_diff = std::vector<const BinaryModificationDiff_t>;
+
 class CBinaryModification
 {
     const CUuid m_id;
     const BinaryModificationType m_type;
-    const binary_offset m_offset;
-    const byte_vec m_bytes;
+    const vec_diff m_vecDiff;
     const std::vector<CUuid> m_requiredModificationIds;
 public:
     CBinaryModification(
         const CUuid& id,
         BinaryModificationType type,
-        binary_offset offset,
-        const byte_vec& bytes,
+        const vec_diff& vecDiff,
         const std::vector<CUuid>& requiredModificationIds
-    ):  m_id(id),
-        m_type(type),
-        m_offset(offset),
-        m_bytes(bytes),
-        m_requiredModificationIds(requiredModificationIds)
-    { }
-    CUuid id() const { return m_id; }
-    BinaryModificationType type() const { return m_type; }
-    binary_offset offset() const { return m_offset; }
-    const byte_vec bytes() const { return m_bytes; }
-    binary_offset size() const { return m_bytes.size(); }
-    std::vector<CUuid> requiredModificationIds() const { return m_requiredModificationIds; }
-    bool operator ==(const CBinaryModification& other) const { return id() == other.id(); };
+    );
+    CUuid id() const;
+    BinaryModificationType type() const;
+    std::vector<CUuid> requiredModificationIds() const;
+    const byte_vec apply(byte_vec targetBytes) const;
+    bool operator ==(const CBinaryModification& other) const;
 };
 

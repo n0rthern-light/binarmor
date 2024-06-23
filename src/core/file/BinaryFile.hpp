@@ -18,7 +18,7 @@ class CBinaryFile
 {
     const std::filesystem::path m_filePath;
     const CBinary m_originalBinary;
-    std::vector<CBinaryModification> m_vecBinaryModification;
+    std::vector<const CBinaryModification> m_vecBinaryModification;
     uint_32 m_flags;
     BinaryAttributes_t m_attributes;
 public:
