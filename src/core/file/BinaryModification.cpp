@@ -5,24 +5,38 @@
 #include <algorithm>
 #include <stdexcept>
 
-BinaryModificationDiff_t BinaryModificationDiff_t::add(binary_offset offset, const byte_vec& bytes)
+BinaryModificationDiff_t BinaryModificationDiff_t::add(binary_offset offset, const byte_vec& newBytes)
 {
     return BinaryModificationDiff_t {
         CUuid { },
         BinaryModificationDiffType::ADD,
         offset,
-        bytes.size(),
-        bytes
+        newBytes.size(),
+        { },
+        newBytes
     };
 }
 
-BinaryModificationDiff_t BinaryModificationDiff_t::remove(binary_offset offset, binary_offset size)
+BinaryModificationDiff_t BinaryModificationDiff_t::modify(binary_offset offset, const byte_vec& oldBytes, const byte_vec& newBytes)
+{
+    return BinaryModificationDiff_t {
+        CUuid { },
+        BinaryModificationDiffType::MODIFY,
+        offset,
+        newBytes.size(),
+        oldBytes,
+        newBytes
+    };
+}
+
+BinaryModificationDiff_t BinaryModificationDiff_t::remove(binary_offset offset, const byte_vec& oldBytes)
 {
     return BinaryModificationDiff_t {
         CUuid { },
         BinaryModificationDiffType::REMOVE,
         offset,
-        size,
+        oldBytes.size(),
+        oldBytes,
         { }
     };
 }
@@ -65,7 +79,7 @@ const byte_vec CBinaryModification::apply(byte_vec targetBytes) const
             throw std::runtime_error(strenc("Remove diff type not supported yet"));
         }
 
-        const auto& bytes = diff.bytes;
+        const auto& bytes = diff.newBytes;
         std::copy(bytes.begin(), bytes.end(), targetBytes.begin() + diff.offset);
     }
     
