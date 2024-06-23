@@ -2,7 +2,7 @@
 #include "analyzers/FormatAnalyzer.hpp"
 #include "analyzers/PeAnalyzer.hpp"
 #include "analyzers/HashAnalyzer.hpp"
-#include "../attributes.hpp"
+#include "../shared/attributes.hpp"
 #include "core/file/BinaryAttributes.hpp"
 
 CAnalysisRunner::CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hasher): m_eventBus(t_eventBus), m_hasher(t_hasher)

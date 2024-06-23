@@ -2,7 +2,7 @@
 #define CORE_ANALYSIS__I_ANALYZER_HPP_
 
 #include "../file/BinaryAttributes.hpp"
-#include "core/Binary.hpp"
+#include "core/shared/Binary.hpp"
 
 class IAnalyzer
 {

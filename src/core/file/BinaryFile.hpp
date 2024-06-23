@@ -1,8 +1,8 @@
 #ifndef CORE_FILE__BINARY_FILE_HPP_
 #define CORE_FILE__BINARY_FILE_HPP_
 
-#include "../Binary.hpp"
-#include "../attributes.hpp"
+#include "../shared/Binary.hpp"
+#include "../shared/attributes.hpp"
 #include "BinaryAttributes.hpp"
 #include "core/file/BinaryModification.hpp"
 #include "flags.hpp"

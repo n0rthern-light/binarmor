@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../assembler/defines.hpp"
-#include "../attributes.hpp"
+#include "../shared/attributes.hpp"
 
 class IAssembler
 {

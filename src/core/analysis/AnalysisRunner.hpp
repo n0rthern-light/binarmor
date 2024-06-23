@@ -4,7 +4,7 @@
 #include <map>
 #include <vector>
 #include "IAnalyzer.hpp"
-#include "core/attributes.hpp"
+#include "core/shared/attributes.hpp"
 #include "core/file/BinaryAttributes.hpp"
 #include <shared/message/IMessageBus.hpp>
 #include <memory>

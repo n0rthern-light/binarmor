@@ -2,10 +2,10 @@
 #define CORE_FORMAT_PE__PE_FORMAT_HPP_
 
 #include "../IFormat.hpp"
-#include "../../Binary.hpp"
+#include "../../shared/Binary.hpp"
 #include "PeSection.hpp"
 #include "PeModule.hpp"
-#include "../../BinaryPointer.hpp"
+#include "../../shared/BinaryPointer.hpp"
 #include "../../shared/SectionPermissions.hpp"
 
 class CPeFormat : public IFormat

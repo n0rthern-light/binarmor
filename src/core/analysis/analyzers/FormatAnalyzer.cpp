@@ -1,7 +1,7 @@
 #include "FormatAnalyzer.hpp"
 #include "../exceptions/UnsupportedFileException.hpp"
-#include "core/Binary.hpp"
-#include "core/attributes.hpp"
+#include "core/shared/Binary.hpp"
+#include "core/shared/attributes.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
 
 bool isWindowsPE(const CBinary* binary) {

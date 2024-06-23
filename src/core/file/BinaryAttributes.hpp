@@ -1,7 +1,7 @@
 #ifndef CORE_FILE__BINARY_ATTRIBUTES_HPP_
 #define CORE_FILE__BINARY_ATTRIBUTES_HPP_
 
-#include "../attributes.hpp"
+#include "../shared/attributes.hpp"
 #include "shared/value/Unsigned.hpp"
 #include <shared/types/defines.hpp>
 #include <string>

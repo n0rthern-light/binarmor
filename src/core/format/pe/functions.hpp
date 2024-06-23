@@ -3,7 +3,6 @@
 
 #include "core/format/pe/PeFormat.hpp"
 #include "defines.hpp"
-#include "../../Binary.hpp"
 #include "PeSection.hpp"
 #include "PeModule.hpp"
 

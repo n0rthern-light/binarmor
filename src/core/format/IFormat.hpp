@@ -1,7 +1,7 @@
 #ifndef CORE_FORMAT__I_FORMAT_HPP_
 #define CORE_FORMAT__I_FORMAT_HPP_
 
-#include "../attributes.hpp"
+#include "../shared/attributes.hpp"
 #include <shared/value/Unsigned.hpp>
 
 class IFormat

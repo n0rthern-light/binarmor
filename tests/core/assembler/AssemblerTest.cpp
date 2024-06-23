@@ -1,6 +1,6 @@
 #include "core/assembler/asmjit/AsmJitAssembler.hpp"
 #include "core/assembler/defines.hpp"
-#include "core/attributes.hpp"
+#include "core/shared/attributes.hpp"
 #include <gtest/gtest.h>
 
 auto assembler = new CAsmJitAssembler();

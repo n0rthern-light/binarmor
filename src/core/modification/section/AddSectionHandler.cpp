@@ -1,5 +1,5 @@
 #include "AddSectionHandler.hpp"
-#include "core/attributes.hpp"
+#include "core/shared/attributes.hpp"
 #include "core/format/pe/PeFormat.hpp"
 #include "core/modification/AddSectionCommand.hpp"
 #include "core/modification/ModificationException.hpp"

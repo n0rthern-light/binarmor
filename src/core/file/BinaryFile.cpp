@@ -1,5 +1,5 @@
 #include "BinaryFile.hpp"
-#include "core/attributes.hpp"
+#include "core/shared/attributes.hpp"
 #include "core/file/BinaryAttributes.hpp"
 #include "core/file/BinaryModification.hpp"
 #include <stdexcept>

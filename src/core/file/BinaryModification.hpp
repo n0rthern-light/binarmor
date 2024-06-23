@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core/Binary.hpp"
+#include "core/shared/Binary.hpp"
 #include "shared/value/Uuid.hpp"
 #include <shared/types/defines.hpp>
 #include <vector>
