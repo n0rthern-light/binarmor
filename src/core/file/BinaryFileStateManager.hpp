@@ -20,7 +20,7 @@ class CBinaryFileStateManager
 public:
     CBinaryFileStateManager(IMessageBus* eventBus, IFileReader* fileReader, CAnalysisRunner* analysisRunner);
     binary_file_ptr binaryFile(const file_id& fileId) const;
-    CBinary binaryFileBinary(const file_id& fileId) const;
+    CBinary binaryFileModifiedBinary(const file_id& fileId) const;
     void load(const std::filesystem::path& filePath);
     void setCurrentWorkFile(const file_id& fileId);
     void unload(const file_id fileId);

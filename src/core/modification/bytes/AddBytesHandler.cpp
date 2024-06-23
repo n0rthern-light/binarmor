@@ -3,27 +3,20 @@
 #include "core/modification/AddSectionCommand.hpp"
 #include "core/modification/AddStartupCodeCommand.hpp"
 #include "core/modification/ModificationException.hpp"
-#include "core/modification/WriteBytesCommand.hpp"
-#include "core/modification/bytes/InsertedBytesRepository.hpp"
 #include "core/modification/ids.hpp"
-#include "core/modification/section/SectionPermissions.hpp"
-#include "core/modification/section/SectionQuery.hpp"
+#include "../../shared/SectionPermissions.hpp"
 #include "shared/message/IMessageBus.hpp"
 #include <memory>
 
 CAddBytesHandler::CAddBytesHandler(
-    IMessageBus* messageBus,
-    ISectionQuery* sectionQuery,
-    IInsertedBytesRepository* bytesRepository
-):  m_messageBus(messageBus),
-    m_sectionQuery(sectionQuery),
-    m_bytesRepository(bytesRepository)
+    IMessageBus* messageBus
+):  m_messageBus(messageBus)
 { }
 
 void CAddBytesHandler::handle(const CAddBytesCommand& command) const
 {
     bool specifiedExistingSection = command.sectionId().has_value();
-    auto sectionId = specifiedExistingSection ? command.sectionId().value() : section_id(modification::sectionName::MAIN);
+    auto sectionId = specifiedExistingSection ? command.sectionId().value() : std::string(modification::sectionName::MAIN);
 
     if (!specifiedExistingSection) {
         m_messageBus->publish(
@@ -31,6 +24,7 @@ void CAddBytesHandler::handle(const CAddBytesCommand& command) const
         );
     }
 
+    /*
     auto section = m_sectionQuery->findById(command.fileId(), sectionId);
     if (!section.has_value()) {
         throw ModificationException(strenc("Section not found in file"));
@@ -62,4 +56,5 @@ void CAddBytesHandler::handle(const CAddBytesCommand& command) const
             std::make_shared<CAddStartupCodeCommand>(command.fileId(), command.bytesId())
         );
     }
+    */
 }

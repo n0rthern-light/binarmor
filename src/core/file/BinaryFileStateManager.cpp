@@ -20,9 +20,9 @@ binary_file_ptr CBinaryFileStateManager::binaryFile(const file_id& fileId) const
     return m_binaryFileMap.at(fileId);
 }
 
-CBinary CBinaryFileStateManager::binaryFileBinary(const file_id& fileId) const
+CBinary CBinaryFileStateManager::binaryFileModifiedBinary(const file_id& fileId) const
 {
-    return binaryFile(fileId)->binary();
+    return binaryFile(fileId)->modifiedBinary();
 }
 
 void CBinaryFileStateManager::load(const std::filesystem::path& filePath)

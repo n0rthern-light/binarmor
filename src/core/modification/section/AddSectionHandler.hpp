@@ -1,13 +1,13 @@
 #pragma once
 
 #include "../AddSectionCommand.hpp"
-#include "core/modification/section/SectionQuery.hpp"
+#include "core/file/BinaryFileStateManager.hpp"
 
 class CAddSectionHandler
 {
-    ISectionQuery* m_sectionQuery;
+    CBinaryFileStateManager* m_binaryFilesManager;
 public:
-    CAddSectionHandler(ISectionQuery* sectionQuery);
+    CAddSectionHandler(CBinaryFileStateManager* binaryFileManager);
     void handle(const CAddSectionCommand& command);
 };
 

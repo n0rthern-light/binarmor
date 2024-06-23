@@ -84,5 +84,9 @@ public:
         }
         return oss.str();
     }
+
+    bool operator ==(const CUuid other) const {
+        return toString() == other.toString();
+    }
 };
 

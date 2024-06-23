@@ -22,7 +22,7 @@ public:
 
     static CPeFormat* readPeFromDisk(const char* path)
     {
-        return new CPeFormat(new CBinary(fileReader()->read(path)));
+        return new CPeFormat(*(new CBinary(fileReader()->read(path))));
     }
 
     static CPeFormat* x86exe()

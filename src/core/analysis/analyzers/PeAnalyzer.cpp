@@ -1,6 +1,7 @@
 #include "PeAnalyzer.hpp"
 #include "../exceptions/UnsupportedFileException.hpp"
 #include "../../format/pe/PeFormat.hpp"
+#include "core/modification/ids.hpp"
 #include <shared/value/AddressType.hpp>
 #include <memory>
 #include <shared/self_obfuscation/strenc.hpp>
@@ -11,7 +12,7 @@ void CPeAnalyzer::analyze(const CBinary* binary, BinaryAttributes_t& attributes)
         throw UnsupportedFileException(strenc("Not detected any supported file format"));
     }
 
-    auto pe = std::make_unique<CPeFormat>(const_cast<CBinary*>(binary));
+    auto pe = CPeFormat::create(binary);
 
     attributes.arch = pe->architecture();
     attributes.type = pe->type();
@@ -30,7 +31,7 @@ void CPeAnalyzer::analyze(const CBinary* binary, BinaryAttributes_t& attributes)
 
     uint_auto sizeOfCode = 0;
     for(const auto& section : sections) {
-        if (section->name() == strenc(".binarmor")) {
+        if (section->name() == modification::sectionName::MAIN) {
             attributes.isProtected = true;
         }
 

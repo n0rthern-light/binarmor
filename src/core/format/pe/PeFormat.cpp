@@ -4,19 +4,26 @@
 #include <shared/self_obfuscation/strenc.hpp>
 #include "functions.hpp"
 
-CPeFormat::CPeFormat(CBinary* binary)
+CPeFormat::CPeFormat(const CBinary& binary): m_binary(binary) { }
+
+std::unique_ptr<CPeFormat> CPeFormat::create(const CBinary* binary)
 {
-    _binary = binary;
+    return std::make_unique<CPeFormat>(*binary);
 }
 
-CBinary* CPeFormat::binary() const
+std::unique_ptr<CPeFormat> CPeFormat::create(const CBinary& binary)
 {
-    return _binary;
+    return std::make_unique<CPeFormat>(binary);
+}
+
+const CBinary* CPeFormat::binary() const
+{
+    return &m_binary;
 }
 
 Architecture CPeFormat::architecture() const
 {
-    auto ntHeaders = format::pe::ntHeaders32(_binary);
+    auto ntHeaders = format::pe::ntHeaders32(&m_binary);
 
     switch (ntHeaders->FileHeader.Machine) {
     case IMAGE_FILE_MACHINE_I386:
@@ -34,7 +41,7 @@ Architecture CPeFormat::architecture() const
 
 Type CPeFormat::type() const
 {
-    auto ntHeaders = format::pe::ntHeaders32(_binary);
+    auto ntHeaders = format::pe::ntHeaders32(&m_binary);
 
     if (ntHeaders->FileHeader.Characteristics & IMAGE_FILE_DLL) {
         return Type::Dynamic_Library;
@@ -54,7 +61,7 @@ Endianness CPeFormat::endianness() const
 
 AddressType CPeFormat::addressType() const
 {
-    auto ntHeaders = format::pe::ntHeaders32(_binary);
+    auto ntHeaders = format::pe::ntHeaders32(&m_binary);
 
     return ntHeaders->OptionalHeader.Magic == 0x20B ?
         AddressType::_64_BIT : AddressType::_32_BIT;
@@ -66,11 +73,11 @@ CUnsigned CPeFormat::entryPoint() const
 
     if (addressType_ == AddressType::_64_BIT)
     {
-        return CUnsigned(format::pe::ntHeaders64(_binary)->OptionalHeader.AddressOfEntryPoint);
+        return CUnsigned(format::pe::ntHeaders64(&m_binary)->OptionalHeader.AddressOfEntryPoint);
     }
     else if (addressType_ == AddressType::_32_BIT)
     {
-        return CUnsigned(format::pe::ntHeaders32(_binary)->OptionalHeader.AddressOfEntryPoint);
+        return CUnsigned(format::pe::ntHeaders32(&m_binary)->OptionalHeader.AddressOfEntryPoint);
     }
 
     throw RuntimeException(strenc("Not found entry point"));
@@ -94,5 +101,10 @@ CBinaryPointer CPeFormat::rvaToPointer(const binary_offset& rva) const
 pe_module_map CPeFormat::imports() const
 {
     return format::pe::readImportModules(this);
+}
+
+void CPeFormat::addSection(const std::string name, const CSectionPermissions permissions)
+{
+    
 }
 
