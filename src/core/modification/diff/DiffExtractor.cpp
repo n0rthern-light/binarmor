@@ -1,13 +1,14 @@
-#include "DiffExtractor.hpp" #include "core/file/BinaryModification.hpp"
-#include <algorithm>
+#include "DiffExtractor.hpp"
+#include "core/file/BinaryModification.hpp"
+#include "shared/value/ByteVecOperations.hpp"
 
-const std::vector<const BinaryModificationDiff_t> CDiffExtractor::extract(const byte_vec& original, const byte_vec& modified)
+const vec_diff CDiffExtractor::extract(const byte_vec& original, const byte_vec& modified)
 {
+    std::vector<const BinaryModificationDiff_t> diffs;
     byte_vec tempOriginal = original;
     const auto modifiedSize = modified.size();
 
-    std::vector<const BinaryModificationDiff_t> diffs;
-
+extract_start:
     if (tempOriginal.size() == modifiedSize) {
         size_t i = 0;
         while (i < modifiedSize) {
@@ -20,7 +21,8 @@ const std::vector<const BinaryModificationDiff_t> CDiffExtractor::extract(const 
                     newBytes.push_back(modified[i]);
                     ++i;
                 }
-                std::copy(newBytes.begin(), newBytes.end(), tempOriginal.begin() + start);
+                
+                tempOriginal = CByteVecOperations::bytesModify(tempOriginal, start, newBytes);
                 diffs.push_back(BinaryModificationDiff_t::modify(start, oldBytes, newBytes));
             } else {
                 ++i;
@@ -36,9 +38,10 @@ const std::vector<const BinaryModificationDiff_t> CDiffExtractor::extract(const 
                     newBytes.push_back(modified[i]);
                     ++i;
                 }
-                tempOriginal.insert(tempOriginal.begin() + start, newBytes.begin(), newBytes.end());
+
+                tempOriginal = CByteVecOperations::bytesInsert(tempOriginal, start, newBytes);
                 diffs.push_back(BinaryModificationDiff_t::add(start, newBytes));
-                break;
+                goto extract_start;
             } else {
                 ++i;
             }
@@ -55,15 +58,14 @@ const std::vector<const BinaryModificationDiff_t> CDiffExtractor::extract(const 
                     ++i;
                 }
 
-                tempOriginal = byte_vec(tempOriginal.begin() + start, tempOriginal.begin() + start + oldBytes.size());
+                tempOriginal = CByteVecOperations::bytesRemove(tempOriginal, start, oldBytes.size());
                 diffs.push_back(BinaryModificationDiff_t::remove(start, oldBytes));
-                break;
+                goto extract_start;
             } else {
                 ++i;
             }
         }
     }
-
 
     return diffs;
 }

@@ -1,6 +1,7 @@
 #include "BinaryModification.hpp"
 #include "shared/self_obfuscation/strenc.hpp"
 #include "shared/types/defines.hpp"
+#include "shared/value/ByteVecOperations.hpp"
 #include "shared/value/Uuid.hpp"
 #include <algorithm>
 #include <stdexcept>
@@ -75,12 +76,44 @@ const byte_vec CBinaryModification::apply(byte_vec targetBytes) const
 {
     for (const auto& diff : m_vecDiff) 
     {   
-        if (diff.type == BinaryModificationDiffType::REMOVE) {
-            throw std::runtime_error(strenc("Remove diff type not supported yet"));
+        switch (diff.type)
+        {
+            case BinaryModificationDiffType::REMOVE:
+                CByteVecOperations::bytesRemove(targetBytes, diff.offset, diff.size);
+                break;
+            case BinaryModificationDiffType::ADD:
+                CByteVecOperations::bytesInsert(targetBytes, diff.offset, diff.newBytes);
+                break;
+            case BinaryModificationDiffType::MODIFY:
+                CByteVecOperations::bytesModify(targetBytes, diff.offset, diff.newBytes);
+                break;
+            default:
+                throw std::runtime_error(strenc("Unsupported diff type"));
+                break;
         }
+    }
+    
+    return targetBytes;
+}
 
-        const auto& bytes = diff.newBytes;
-        std::copy(bytes.begin(), bytes.end(), targetBytes.begin() + diff.offset);
+const byte_vec CBinaryModification::revert(byte_vec targetBytes) const
+{
+    for (auto diff = m_vecDiff.rbegin(); diff != m_vecDiff.rend(); ++diff) {
+        switch (diff->type)
+        {
+            case BinaryModificationDiffType::REMOVE:
+                CByteVecOperations::bytesInsert(targetBytes, diff->offset, diff->oldBytes);
+                break;
+            case BinaryModificationDiffType::ADD:
+                CByteVecOperations::bytesRemove(targetBytes, diff->offset, diff->newBytes.size());
+                break;
+            case BinaryModificationDiffType::MODIFY:
+                CByteVecOperations::bytesModify(targetBytes, diff->offset, diff->oldBytes);
+                break;
+            default:
+                throw std::runtime_error(strenc("Unsupported diff type"));
+                break;
+        }
     }
     
     return targetBytes;

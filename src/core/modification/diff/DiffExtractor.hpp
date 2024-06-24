@@ -5,5 +5,5 @@
 class CDiffExtractor
 {
 public:
-    const std::vector<const BinaryModificationDiff_t> extract(const byte_vec& original, const byte_vec& modified);
+    static const vec_diff extract(const byte_vec& original, const byte_vec& modified);
 };
