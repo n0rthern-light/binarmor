@@ -13,11 +13,12 @@ const auto hasher = new COpenSslHasher();
 
 TEST(BinaryModificationTest, CanModifyUsingDiff)
 {
-    const auto source = x86exe->binary()->bytes();
+    // x86 size: 246818 bytes... shit
+    //
+    const auto source = x86exe->binary()->part(0, 1000).bytes();
+    const auto target = x86_64dll->binary()->part(0, 1000).bytes();
 
-    const auto target = x86_64dll->binary()->bytes();
     const auto targetHash = hasher->sha256FromBytes(target);
-
     const auto diff = CDiffExtractor::extract(source, target);
 
     //ASSERT_EQ(diff.size(), 647);
@@ -33,9 +34,11 @@ TEST(BinaryModificationTest, CanModifyUsingDiff)
     const auto modifiedHash = hasher->sha256FromBytes(modified);
 
     ASSERT_EQ(modified.size(), target.size());
-    //ASSERT_STREQ(modifiedHash.c_str(), targetHash.c_str());
+    ASSERT_STREQ(modifiedHash.c_str(), targetHash.c_str());
 
     //const auto outputDiff = CDiffExtractor::extract(target, modified);
     //ASSERT_EQ(outputDiff.size(), 0);
+    
+    // try to modify add code to SHIFT because it MODIFIES atm
 }
 

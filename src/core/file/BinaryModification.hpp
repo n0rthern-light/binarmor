@@ -1,9 +1,8 @@
 #pragma once
 
 #include "shared/value/Uuid.hpp"
-#include <map>
 #include <shared/types/defines.hpp>
-#include <vector>
+#include <utility>
 
 enum class BinaryModificationType
 {
@@ -15,8 +14,8 @@ enum class BinaryModificationType
 enum class BinaryModificationDiffType
 {
     ADD = 0,
-    MODIFY = 1,
-    REMOVE = 2,
+    REMOVE = 1,
+    MODIFY = 2
 };
 
 struct BinaryModificationDiff_t

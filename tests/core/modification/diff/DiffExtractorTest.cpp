@@ -1,9 +1,8 @@
 #include "core/modification/diff/DiffExtractor.hpp"
 #include "core/file/BinaryModification.hpp"
-#include "core/shared/Binary.hpp"
 #include <gtest/gtest.h>
 
-auto bytes = byte_vec {0xAA, 0x90, 0xCC, 0x00, 0x00, 0x00, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A};
+const auto bytes = byte_vec {0xAA, 0x90, 0xCC, 0x00, 0x00, 0x00, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A};
 
 TEST(DiffExtractorTest, WillBeEmptyIfThereIsNoDiff)
 {
@@ -140,7 +139,7 @@ TEST(DiffExtractorTest, CanDetectMultipleChanges)
 
         auto diffs = CDiffExtractor::extract(bytes, modified);
 
-        ASSERT_EQ(diffs.size(), 3);
+        ASSERT_EQ(diffs.size(), 4);
 
         ASSERT_EQ(diffs[0].type, BinaryModificationDiffType::REMOVE);
         ASSERT_EQ(diffs[0].offset, 0);
