@@ -79,13 +79,13 @@ const byte_vec CBinaryModification::apply(byte_vec targetBytes) const
         switch (diff.type)
         {
             case BinaryModificationDiffType::REMOVE:
-                CByteVecOperations::bytesRemove(targetBytes, diff.offset, diff.size);
+                targetBytes = CByteVecOperations::bytesRemove(targetBytes, diff.offset, diff.size);
                 break;
             case BinaryModificationDiffType::ADD:
-                CByteVecOperations::bytesInsert(targetBytes, diff.offset, diff.newBytes);
+                targetBytes = CByteVecOperations::bytesInsert(targetBytes, diff.offset, diff.newBytes);
                 break;
             case BinaryModificationDiffType::MODIFY:
-                CByteVecOperations::bytesModify(targetBytes, diff.offset, diff.newBytes);
+                targetBytes = CByteVecOperations::bytesModify(targetBytes, diff.offset, diff.newBytes);
                 break;
             default:
                 throw std::runtime_error(strenc("Unsupported diff type"));

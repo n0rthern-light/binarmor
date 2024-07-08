@@ -15,9 +15,10 @@ TEST(BinaryModificationTest, CanModifyUsingDiff)
 {
     // x86 size: 246818 bytes... shit
     //
-    const auto source = x86exe->binary()->part(0, 1000).bytes();
-    const auto target = x86_64dll->binary()->part(0, 1000).bytes();
+    const auto source = x86exe->binary()->part(200, 300).bytes();
+    const auto target = x86_64dll->binary()->part(200, 300).bytes();
 
+    const auto sourceHash = hasher->sha256FromBytes(source);
     const auto targetHash = hasher->sha256FromBytes(target);
     const auto diff = CDiffExtractor::extract(source, target);
 
@@ -31,7 +32,19 @@ TEST(BinaryModificationTest, CanModifyUsingDiff)
     };
 
     const auto modified = modification.apply(source);
+    const auto modifiedDiff = CDiffExtractor::extract(modified, target);
     const auto modifiedHash = hasher->sha256FromBytes(modified);
+
+    const auto modificationTwo = CBinaryModification {
+        CUuid { "BINARY_TRANSLATION" },
+        BinaryModificationType::APPEND_CODE,
+        modifiedDiff,
+        { }
+    };
+
+    const auto finalModified = modificationTwo.apply(modified);
+    const auto finalModifiedDiff = CDiffExtractor::extract(finalModified, target);
+    const auto finalModifiedHash = hasher->sha256FromBytes(finalModified);
 
     ASSERT_EQ(modified.size(), target.size());
     ASSERT_STREQ(modifiedHash.c_str(), targetHash.c_str());
