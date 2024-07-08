@@ -1,6 +1,7 @@
 #include "DiffExtractor.hpp"
 #include "core/file/BinaryModification.hpp"
 #include "shared/self_obfuscation/strenc.hpp"
+#include "shared/types/defines.hpp"
 #include <algorithm>
 #include <map>
 #include <stdexcept>
@@ -20,8 +21,7 @@ int min3(unsigned int a, unsigned int b, unsigned int c) {
     return std::min(std::min(a, b), c);
 }
 
-std::vector<Diff> myersDiff(const byte_vec& a, const byte_vec& b)
-{
+std::vector<Diff> myersDiff(const byte_vec& a, const byte_vec& b) {
     unsigned int n = a.size();
     unsigned int m = b.size();
     std::vector<std::vector<unsigned int>> dp(n + 1, std::vector<unsigned int>(m + 1, 0));
@@ -66,17 +66,15 @@ std::vector<Diff> myersDiff(const byte_vec& a, const byte_vec& b)
     return diffs;
 }
 
-const vec_diff CDiffExtractor::extract(const byte_vec& original, const byte_vec& modified)
-{
+const vec_diff CDiffExtractor::extract(const byte_vec& original, const byte_vec& modified) {
     std::vector<const BinaryModificationDiff_t> diffs;
 
     const auto myersDiffBytes = myersDiff(original, modified);
     const auto myersDiffBytesSize = myersDiffBytes.size();
 
-    auto indexedDiffs = std::map<binary_offset, std::pair<const Diff*, const Diff*>> { };
-    
-    for(auto i = 0; i < myersDiffBytesSize; ++i)
-    {
+    auto indexedDiffs = std::map<binary_offset, std::pair<const Diff*, const Diff*>>{};
+
+    for (auto i = 0; i < myersDiffBytesSize; ++i) {
         if (myersDiffBytes[i].type == EditType::None) {
             continue;
         }
@@ -90,23 +88,28 @@ const vec_diff CDiffExtractor::extract(const byte_vec& original, const byte_vec&
         }
     }
 
-    for (auto it = indexedDiffs.begin(); it != indexedDiffs.end(); ++it)
-    {
+    auto minRemovedOffset = original.size() - 1;
+    int balance = 0;
+
+    for (auto it = indexedDiffs.begin(); it != indexedDiffs.end(); ) {
         const auto& currentPair = it->second;
 
         if (currentPair.first == nullptr && currentPair.second == nullptr) {
             throw std::logic_error(strenc("Invalid index pair"));
         }
 
-        const auto& offset = it->first;
-        auto oldBytes = byte_vec { };
-        auto newBytes = byte_vec { };
+        auto offset = it->first;
+        auto oldBytes = byte_vec{};
+        auto newBytes = byte_vec{};
         BinaryModificationDiffType type;
+        auto lastOffset = offset;
+        auto chunkSize = 0;
 
         while (
             it != indexedDiffs.end() &&
             !!currentPair.first == !!it->second.first &&
-            !!currentPair.second == !!it->second.second
+            !!currentPair.second == !!it->second.second &&
+            (chunkSize == 0 || it->first - lastOffset == 1) // no gaps allowed in chunks
         ) {
             const auto& currentAdd = it->second.first;
             const auto& currentRemove = it->second.second;
@@ -125,21 +128,30 @@ const vec_diff CDiffExtractor::extract(const byte_vec& original, const byte_vec&
                 throw std::logic_error(strenc("Invalid index pair"));
             }
 
+            lastOffset = it->first;
+            ++chunkSize;
             ++it;
+        }
+
+        // ghetto fix (when previous removals shrinked the size and the offset is off)
+        if (balance < 0 && minRemovedOffset <= offset && type != BinaryModificationDiffType::ADD) {
+        //if (offset > original.size() - 1 + balance && balance < 0) {
+            offset += balance;
         }
 
         if (type == BinaryModificationDiffType::MODIFY) {
             diffs.push_back(BinaryModificationDiff_t::modify(offset, oldBytes, newBytes));
         } else if (type == BinaryModificationDiffType::ADD) {
             diffs.push_back(BinaryModificationDiff_t::add(offset, newBytes));
+            balance += newBytes.size();
         } else if (type == BinaryModificationDiffType::REMOVE) {
             diffs.push_back(BinaryModificationDiff_t::remove(offset, oldBytes));
+            balance -= oldBytes.size();
+            if (offset < minRemovedOffset) {
+                minRemovedOffset = offset;
+            }
         } else {
             throw std::logic_error(strenc("Unsupported diff type"));
-        }
-
-        if (it == indexedDiffs.end()) {
-            break;
         }
     }
 

@@ -139,7 +139,10 @@ TEST(DiffExtractorTest, CanDetectMultipleChanges)
 
         auto diffs = CDiffExtractor::extract(bytes, modified);
 
-        ASSERT_EQ(diffs.size(), 4);
+        ASSERT_EQ(diffs.size(), 6);
+        
+        //   [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]  [11]  [12]
+        // { 0xAA, 0x90, 0xCC, 0x00, 0x00, 0x00, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A }
 
         ASSERT_EQ(diffs[0].type, BinaryModificationDiffType::REMOVE);
         ASSERT_EQ(diffs[0].offset, 0);
@@ -147,17 +150,53 @@ TEST(DiffExtractorTest, CanDetectMultipleChanges)
         ASSERT_EQ(diffs[0].oldBytes, byte_vec({0xAA, 0x90}));
         ASSERT_EQ(diffs[0].newBytes, byte_vec({}));
 
-        ASSERT_EQ(diffs[1].type, BinaryModificationDiffType::MODIFY);
+        //   [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]
+        // { 0xCC, 0x00, 0x00, 0x00, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A }
+
+        ASSERT_EQ(diffs[1].type, BinaryModificationDiffType::ADD);
         ASSERT_EQ(diffs[1].offset, 4);
-        ASSERT_EQ(diffs[1].size, 3);
-        ASSERT_EQ(diffs[1].oldBytes, byte_vec({0x0F, 0xBC, 0x01}));
-        ASSERT_EQ(diffs[1].newBytes, byte_vec({0xFE, 0xFC, 0xA0}));
+        ASSERT_EQ(diffs[1].size, 2);
+        ASSERT_EQ(diffs[1].oldBytes, byte_vec({}));
+        ASSERT_EQ(diffs[1].newBytes, byte_vec({0xFE, 0xFC}));
+
+        //   [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]  [11]  [12]
+        // { 0xCC, 0x00, 0x00, 0x00, 0xFE, 0xFC, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A }
 
         ASSERT_EQ(diffs[2].type, BinaryModificationDiffType::MODIFY);
-        ASSERT_EQ(diffs[2].offset, 10);
+        ASSERT_EQ(diffs[2].offset, 6);
         ASSERT_EQ(diffs[2].size, 1);
-        ASSERT_EQ(diffs[2].oldBytes, byte_vec({0x0A}));
-        ASSERT_EQ(diffs[2].newBytes, byte_vec({0x00}));
+        ASSERT_EQ(diffs[2].oldBytes, byte_vec({0x0F}));
+        ASSERT_EQ(diffs[2].newBytes, byte_vec({0xA0}));
+
+        //   [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]  [11]  [12]
+        // { 0xCC, 0x00, 0x00, 0x00, 0xFE, 0xFC, 0xA0, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A }
+
+        ASSERT_EQ(diffs[3].type, BinaryModificationDiffType::REMOVE);
+        ASSERT_EQ(diffs[3].offset, 7);
+        ASSERT_EQ(diffs[3].size, 2);
+        ASSERT_EQ(diffs[3].oldBytes, byte_vec({0xBC, 0x01}));
+        ASSERT_EQ(diffs[3].newBytes, byte_vec({}));
+
+        //   [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]
+        // { 0xCC, 0x00, 0x00, 0x00, 0xFE, 0xFC, 0xA0, 0x00, 0xFF, 0xFF, 0x0A }
+
+        ASSERT_EQ(diffs[4].type, BinaryModificationDiffType::ADD);
+        ASSERT_EQ(diffs[4].offset, 10);
+        ASSERT_EQ(diffs[4].size, 1);
+        ASSERT_EQ(diffs[4].oldBytes, byte_vec({}));
+        ASSERT_EQ(diffs[4].newBytes, byte_vec({0x00}));
+
+        //   [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]  [11]
+        // { 0xCC, 0x00, 0x00, 0x00, 0xFE, 0xFC, 0xA0, 0x00, 0xFF, 0xFF, 0x00, 0x0A }
+
+        ASSERT_EQ(diffs[5].type, BinaryModificationDiffType::REMOVE);
+        ASSERT_EQ(diffs[5].offset, 11);
+        ASSERT_EQ(diffs[5].size, 1);
+        ASSERT_EQ(diffs[5].oldBytes, byte_vec({0x0A}));
+        ASSERT_EQ(diffs[5].newBytes, byte_vec({}));
+
+        //   [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]
+        // { 0xCC, 0x00, 0x00, 0x00, 0xFE, 0xFC, 0xA0, 0x00, 0xFF, 0xFF, 0x00 }
     }
 
     {
@@ -167,19 +206,73 @@ TEST(DiffExtractorTest, CanDetectMultipleChanges)
 
         auto diffs = CDiffExtractor::extract(bytes, modified);
 
-        ASSERT_EQ(diffs.size(), 2);
+        ASSERT_EQ(diffs.size(), 7);
 
-        ASSERT_EQ(diffs[0].type, BinaryModificationDiffType::ADD);
+        //  [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]  [11]  [12]
+        // {0xAA, 0x90, 0xCC, 0x00, 0x00, 0x00, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A}
+
+        ASSERT_EQ(diffs[0].type, BinaryModificationDiffType::REMOVE);
         ASSERT_EQ(diffs[0].offset, 0);
-        ASSERT_EQ(diffs[0].size, 16);
-        ASSERT_EQ(diffs[0].oldBytes, byte_vec({}));
-        ASSERT_EQ(diffs[0].newBytes, byte_vec({0xCC, 0x00, 0x00, 0x00, 0xFE, 0xFC, 0xA0, 0x00, 0xFF, 0xFF, 0x00, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC}));
+        ASSERT_EQ(diffs[0].size, 2);
+        ASSERT_EQ(diffs[0].oldBytes, byte_vec({0xAA, 0x90}));
+        ASSERT_EQ(diffs[0].newBytes, byte_vec({}));
 
-        ASSERT_EQ(diffs[1].type, BinaryModificationDiffType::REMOVE);
-        ASSERT_EQ(diffs[1].offset, 16);
-        ASSERT_EQ(diffs[1].size, 13);
-        ASSERT_EQ(diffs[1].oldBytes, byte_vec({0xAA, 0x90, 0xCC, 0x00, 0x00, 0x00, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A}));
-        ASSERT_EQ(diffs[1].newBytes, byte_vec());
+        //  [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]
+        // {0xCC, 0x00, 0x00, 0x00, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A}
+
+        ASSERT_EQ(diffs[1].type, BinaryModificationDiffType::ADD);
+        ASSERT_EQ(diffs[1].offset, 4);
+        ASSERT_EQ(diffs[1].size, 2);
+        ASSERT_EQ(diffs[1].oldBytes, byte_vec({}));
+        ASSERT_EQ(diffs[1].newBytes, byte_vec({0xFE, 0xFC}));
+        
+        //  [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]  [11]  [12]
+        // {0xCC, 0x00, 0x00, 0x00, 0xFE, 0xFC, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A}
+
+        ASSERT_EQ(diffs[2].type, BinaryModificationDiffType::MODIFY);
+        ASSERT_EQ(diffs[2].offset, 6);
+        ASSERT_EQ(diffs[2].size, 1);
+        ASSERT_EQ(diffs[2].oldBytes, byte_vec({0x0F}));
+        ASSERT_EQ(diffs[2].newBytes, byte_vec({0xA0}));
+
+        //  [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]  [11]  [12]
+        // {0xCC, 0x00, 0x00, 0x00, 0xFE, 0xFC, 0xA0, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A}
+        
+        ASSERT_EQ(diffs[3].type, BinaryModificationDiffType::REMOVE);
+        ASSERT_EQ(diffs[3].offset, 7);
+        ASSERT_EQ(diffs[3].size, 2);
+        ASSERT_EQ(diffs[3].oldBytes, byte_vec({0xBC, 0x01}));
+        ASSERT_EQ(diffs[3].newBytes, byte_vec({}));
+        
+        //  [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]
+        // {0xCC, 0x00, 0x00, 0x00, 0xFE, 0xFC, 0xA0, 0x00, 0xFF, 0xFF, 0x0A}
+        
+        ASSERT_EQ(diffs[4].type, BinaryModificationDiffType::ADD);
+        ASSERT_EQ(diffs[4].offset, 10);
+        ASSERT_EQ(diffs[4].size, 2);
+        ASSERT_EQ(diffs[4].oldBytes, byte_vec({}));
+        ASSERT_EQ(diffs[4].newBytes, byte_vec({0x00, 0xCC}));
+        
+        //  [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]  [11]  [12]
+        // {0xCC, 0x00, 0x00, 0x00, 0xFE, 0xFC, 0xA0, 0x00, 0xFF, 0xFF, 0x00, 0xCC, 0x0A}
+        
+        ASSERT_EQ(diffs[5].type, BinaryModificationDiffType::MODIFY);
+        ASSERT_EQ(diffs[5].offset, 12);
+        ASSERT_EQ(diffs[5].size, 1);
+        ASSERT_EQ(diffs[5].oldBytes, byte_vec({0x0A}));
+        ASSERT_EQ(diffs[5].newBytes, byte_vec({0xCC}));
+        
+        //  [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]  [11]  [12]
+        // {0xCC, 0x00, 0x00, 0x00, 0xFE, 0xFC, 0xA0, 0x00, 0xFF, 0xFF, 0x00, 0xCC, 0xCC}
+        
+        ASSERT_EQ(diffs[6].type, BinaryModificationDiffType::ADD);
+        ASSERT_EQ(diffs[6].offset, 13);
+        ASSERT_EQ(diffs[6].size, 3);
+        ASSERT_EQ(diffs[6].oldBytes, byte_vec({}));
+        ASSERT_EQ(diffs[6].newBytes, byte_vec({0xCC, 0xCC, 0xCC}));
+        
+        //  [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]  [11]  [12]  [13]  [14]  [15]
+        // {0xCC, 0x00, 0x00, 0x00, 0xFE, 0xFC, 0xA0, 0x00, 0xFF, 0xFF, 0x00, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC}
     }
 
     {
@@ -190,52 +283,76 @@ TEST(DiffExtractorTest, CanDetectMultipleChanges)
         auto diffs = CDiffExtractor::extract(bytes, modified);
 
         ASSERT_EQ(diffs.size(), 3);
+        
+        //  [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]  [11]  [12]
+        // {0xAA, 0x90, 0xCC, 0x00, 0x00, 0x00, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A}
 
         ASSERT_EQ(diffs[0].type, BinaryModificationDiffType::ADD);
         ASSERT_EQ(diffs[0].offset, 1);
         ASSERT_EQ(diffs[0].size, 2);
         ASSERT_EQ(diffs[0].oldBytes, byte_vec({}));
         ASSERT_EQ(diffs[0].newBytes, byte_vec({0xCC, 0xCC}));
+        
+        //  [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]  [11]  [12]  [13]  [14]
+        // {0xAA, 0xCC, 0xCC, 0x90, 0xCC, 0x00, 0x00, 0x00, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A}
 
         ASSERT_EQ(diffs[1].type, BinaryModificationDiffType::ADD);
         ASSERT_EQ(diffs[1].offset, 7);
         ASSERT_EQ(diffs[1].size, 2);
         ASSERT_EQ(diffs[1].oldBytes, byte_vec({}));
         ASSERT_EQ(diffs[1].newBytes, byte_vec({0xCC, 0xCC}));
+        
+        //  [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]  [11]  [12]  [13]  [14]  [15]  [16]
+        // {0xAA, 0xCC, 0xCC, 0x90, 0xCC, 0x00, 0x00, 0xCC, 0xCC, 0x00, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A}
 
         ASSERT_EQ(diffs[2].type, BinaryModificationDiffType::ADD);
         ASSERT_EQ(diffs[2].offset, 17);
         ASSERT_EQ(diffs[2].size, 1);
         ASSERT_EQ(diffs[2].oldBytes, byte_vec({}));
         ASSERT_EQ(diffs[2].newBytes, byte_vec({0xCC}));
+        
+        //  [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]  [11]  [12]  [13]  [14]  [15]  [16]  [17]
+        // {0xAA, 0xCC, 0xCC, 0x90, 0xCC, 0x00, 0x00, 0xCC, 0xCC, 0x00, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A, 0xCC}
     }
 
     {
         SCOPED_TRACE("MULTIPLE_REMOVALS");
 
-        auto modified = byte_vec {0x90, 0xCC, 0x0F, 0xBC, 0x01, 0x00, 0xFF};
+        auto modified = byte_vec {0x90, 0xCC, 0x0F, 0xBC, 0x01, 0x00};
 
         auto diffs = CDiffExtractor::extract(bytes, modified);
 
         ASSERT_EQ(diffs.size(), 3);
+        
+        //  [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]  [11]  [12]
+        // {0xAA, 0x90, 0xCC, 0x00, 0x00, 0x00, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A}
 
         ASSERT_EQ(diffs[0].type, BinaryModificationDiffType::REMOVE);
         ASSERT_EQ(diffs[0].offset, 0);
         ASSERT_EQ(diffs[0].size, 1);
         ASSERT_EQ(diffs[0].oldBytes, byte_vec({0xAA}));
         ASSERT_EQ(diffs[0].newBytes, byte_vec({}));
+        //
+        //  [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]   [9]   [10]  [11]
+        // {0x90, 0xCC, 0x00, 0x00, 0x00, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A}
 
         ASSERT_EQ(diffs[1].type, BinaryModificationDiffType::REMOVE);
         ASSERT_EQ(diffs[1].offset, 2);
         ASSERT_EQ(diffs[1].size, 3);
         ASSERT_EQ(diffs[1].oldBytes, byte_vec({0x00, 0x00, 0x00}));
         ASSERT_EQ(diffs[1].newBytes, byte_vec({}));
+        
+        //  [0]   [1]   [2]   [3]   [4]   [5]   [6]   [7]   [8]
+        // {0x90, 0xCC, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A}
 
         ASSERT_EQ(diffs[2].type, BinaryModificationDiffType::REMOVE);
-        ASSERT_EQ(diffs[2].offset, 7);
-        ASSERT_EQ(diffs[2].size, 2);
-        ASSERT_EQ(diffs[2].oldBytes, byte_vec({0xFF, 0x0A}));
+        ASSERT_EQ(diffs[2].offset, 6);
+        ASSERT_EQ(diffs[2].size, 3);
+        ASSERT_EQ(diffs[2].oldBytes, byte_vec({0xFF, 0xFF, 0x0A}));
         ASSERT_EQ(diffs[2].newBytes, byte_vec({}));
+        
+        //  [0]   [1]   [2]   [3]   [4]   [5]
+        // {0x90, 0xCC, 0x0F, 0xBC, 0x01, 0x00}
     }
 }
 
