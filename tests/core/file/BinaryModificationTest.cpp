@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 #include "core/modification/diff/DiffExtractor.hpp"
 #include "shared/crypto/openssl/OpenSslHasher.hpp"
-#include "shared/value/Unsigned.hpp"
+#include "shared/diff/diff_match_patch.hpp"
 #include "../BinaryMother.hpp"
 #include <vector>
 #include <stdio.h>
@@ -11,18 +11,14 @@ const auto x86exe = BinaryMother::x86exe();
 const auto x86_64dll = BinaryMother::x86_64dll();
 const auto hasher = new COpenSslHasher();
 
-TEST(BinaryModificationTest, CanModifyUsingDiff)
+TEST(BinaryModificationTest, CanModifyFullExecutablesUsingDomainDiff)
 {
-    // x86 size: 246818 bytes... shit
-    //
-    const auto source = x86exe->binary()->part(0, 30).bytes();
-    const auto target = x86_64dll->binary()->part(50, 30).bytes();
+    // given
+    const auto source = x86exe->binary()->bytes();
+    const auto target = x86_64dll->binary()->bytes();
 
-    const auto sourceHash = hasher->sha256FromBytes(source);
-    const auto targetHash = hasher->sha256FromBytes(target);
+    // when
     const auto diff = CDiffExtractor::extract(source, target);
-
-    //ASSERT_EQ(diff.size(), 647);
 
     const auto modification = CBinaryModification {
         CUuid { "BINARY_TRANSLATION" },
@@ -32,28 +28,90 @@ TEST(BinaryModificationTest, CanModifyUsingDiff)
     };
 
     const auto modified = modification.apply(source);
-    const auto modifiedDiff = CDiffExtractor::extract(modified, target);
-    const auto modifiedHash = hasher->sha256FromBytes(modified);
 
-    if (modifiedDiff.size() > 0) {
-        const auto modificationTwo = CBinaryModification {
-            CUuid { "BINARY_TRANSLATION" },
-            BinaryModificationType::APPEND_CODE,
-            modifiedDiff,
-            { }
-        };
-
-        const auto finalModified = modificationTwo.apply(modified);
-        const auto finalModifiedDiff = CDiffExtractor::extract(finalModified, target);
-        const auto finalModifiedHash = hasher->sha256FromBytes(finalModified);
-    }
+    // then
+    const auto modifiedDiff = CDiffExtractor::extract(target, modified);
+    ASSERT_EQ(modifiedDiff.size(), 0);
 
     ASSERT_EQ(modified.size(), target.size());
-    ASSERT_STREQ(modifiedHash.c_str(), targetHash.c_str());
 
-    //const auto outputDiff = CDiffExtractor::extract(target, modified);
-    //ASSERT_EQ(outputDiff.size(), 0);
-    
-    // try to modify add code to SHIFT because it MODIFIES atm
+    const auto sourceHash = hasher->sha256FromBytes(source); const auto targetHash = hasher->sha256FromBytes(target);
+    const auto modifiedHash = hasher->sha256FromBytes(modified);
+    ASSERT_STREQ(modifiedHash.c_str(), targetHash.c_str());
+}
+
+TEST(BinaryModificationTest, CanModifyWhenSourceIsBiggerThanTarget)
+{
+    // given
+    const auto source = x86exe->binary()->part(0, 3241).bytes();
+    const auto target = x86_64dll->binary()->part(963, 723).bytes();
+
+    // when
+    const auto diff = CDiffExtractor::extract(source, target);
+
+    const auto modification = CBinaryModification {
+        CUuid { "BINARY_TRANSLATION" },
+        BinaryModificationType::APPEND_CODE,
+        diff,
+        { }
+    };
+
+    const auto modified = modification.apply(source);
+
+    // then
+    const auto modifiedDiff = CDiffExtractor::extract(target, modified);
+    ASSERT_EQ(modifiedDiff.size(), 0);
+
+    ASSERT_EQ(modified.size(), target.size());
+
+    const auto sourceHash = hasher->sha256FromBytes(source); const auto targetHash = hasher->sha256FromBytes(target);
+    const auto modifiedHash = hasher->sha256FromBytes(modified);
+    ASSERT_STREQ(modifiedHash.c_str(), targetHash.c_str());
+}
+
+TEST(BinaryModificationTest, CanModifyWhenSourceIsSmallerThanTarget)
+{
+    // given
+    const auto source = x86exe->binary()->part(1432, 583).bytes();
+    const auto target = x86_64dll->binary()->part(958, 4321).bytes();
+
+    // when
+    const auto diff = CDiffExtractor::extract(source, target);
+
+    const auto modification = CBinaryModification {
+        CUuid { "BINARY_TRANSLATION" },
+        BinaryModificationType::APPEND_CODE,
+        diff,
+        { }
+    };
+
+    const auto modified = modification.apply(source);
+
+    // then
+    const auto modifiedDiff = CDiffExtractor::extract(target, modified);
+    ASSERT_EQ(modifiedDiff.size(), 0);
+
+    ASSERT_EQ(modified.size(), target.size());
+
+    const auto sourceHash = hasher->sha256FromBytes(source); const auto targetHash = hasher->sha256FromBytes(target);
+    const auto modifiedHash = hasher->sha256FromBytes(modified);
+    ASSERT_STREQ(modifiedHash.c_str(), targetHash.c_str());
+}
+
+TEST(BinaryModificationTest, CanModifyUsingDiffAlgorithmDirectly)
+{
+    // given
+    const auto source = x86exe->binary()->part(0, 1000).bytes();
+    const auto target = x86_64dll->binary()->part(500, 1000).bytes();
+
+    // when
+    const auto diff = diff::match(source, target);
+    const auto modified = diff::patch(source, diff);
+
+    // then
+    ASSERT_EQ(modified.size(), target.size());
+    const auto modifiedHash = hasher->sha256FromBytes(modified);
+    const auto targetHash = hasher->sha256FromBytes(target);
+    ASSERT_STREQ(modifiedHash.c_str(), targetHash.c_str());
 }
 

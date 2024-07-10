@@ -43,11 +43,29 @@ public:
         return byteVec;
     }
 
+    static byte_vec bytesAppendToEnd(const byte_vec& byteVec, const byte_vec& other)
+    {
+        return bytesInsert(byteVec, byteVec.size(), other);
+    }
+
     static byte_vec bytesRemove(byte_vec byteVec, binary_offset offset, binary_offset removeCount)
     {
         assertWithinRange(byteVec, offset, std::optional<binary_offset>(removeCount));
         byteVec.erase(byteVec.begin() + offset, byteVec.begin() + offset + removeCount);
 
         return byteVec;
+    }
+
+    static std::vector<byte_vec> chunk(const byte_vec& byteVec, binary_offset chunkSize)
+    {
+        std::vector<byte_vec> chunks { };
+
+        for (size_t i = 0; i < byteVec.size(); i += chunkSize) {
+            byte_vec chunk(byteVec.begin() + i, byteVec.begin() + std::min(byteVec.size(), i + chunkSize));
+
+            chunks.push_back(chunk);
+        }
+
+        return chunks;
     }
 };

@@ -15,7 +15,6 @@ enum class BinaryModificationDiffType
 {
     ADD = 0,
     REMOVE = 1,
-    MODIFY = 2
 };
 
 struct BinaryModificationDiff_t
@@ -28,7 +27,6 @@ struct BinaryModificationDiff_t
     const byte_vec newBytes;
 
     static BinaryModificationDiff_t add(binary_offset offset, const byte_vec& newBytes);
-    static BinaryModificationDiff_t modify(binary_offset offset, const byte_vec& oldBytes, const byte_vec& newBytes);
     static BinaryModificationDiff_t remove(binary_offset offset, const byte_vec& oldBytes);
 };
 
@@ -51,7 +49,6 @@ public:
     BinaryModificationType type() const;
     std::vector<CUuid> requiredModificationIds() const;
     const byte_vec apply(byte_vec targetBytes) const;
-    const byte_vec revert(byte_vec targetBytes) const;
     bool operator ==(const CBinaryModification& other) const;
 };
 
