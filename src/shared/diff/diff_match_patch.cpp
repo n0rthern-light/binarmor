@@ -38,7 +38,7 @@ std::vector<diff::Diff> diff::match(const byte_vec &original, const byte_vec &ta
 }
 
 byte_vec diff::patch(const byte_vec &original, const std::vector<diff::Diff> &diffs) {
-    byte_vec result;
+    byte_vec result = { };
     binary_offset currentIndex = 0;
 
     for (const auto &diff : diffs) {
@@ -50,12 +50,12 @@ byte_vec diff::patch(const byte_vec &original, const std::vector<diff::Diff> &di
         if (diff.type == diff::EditType::Delete) {
             currentIndex += diff.values.size();
         } else if (diff.type == diff::EditType::Insert) {
-            result = CByteVecOperations::bytesAppendToEnd(result, diff.values);
+            result.insert(result.end(), diff.values.begin(), diff.values.end());
         }
     }
 
     if (currentIndex < original.size()) {
-        result = CByteVecOperations::bytesInsert(result, currentIndex, original);
+        result.insert(result.end(), original.begin() + currentIndex, original.end());
     }
 
     return result;

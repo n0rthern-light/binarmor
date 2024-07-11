@@ -33,6 +33,14 @@ public:
         return binary;
     }
 
+    static CPeFormat* metin2exe()
+    {
+        auto path = testBinaryPath("/windows/metin2clientVMPDumpFixedTotalDisabledTls.exe");
+        static auto binary = readPeFromDisk(path.c_str());
+
+        return binary;
+    }
+
     static CPeFormat* x86dll()
     {
         auto path = testBinaryPath("/windows/x86.dll");

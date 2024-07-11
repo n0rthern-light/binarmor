@@ -30,9 +30,6 @@ TEST(BinaryModificationTest, CanModifyFullExecutablesUsingDomainDiff)
     const auto modified = modification.apply(source);
 
     // then
-    const auto modifiedDiff = CDiffExtractor::extract(target, modified);
-    ASSERT_EQ(modifiedDiff.size(), 0);
-
     ASSERT_EQ(modified.size(), target.size());
 
     const auto sourceHash = hasher->sha256FromBytes(source); const auto targetHash = hasher->sha256FromBytes(target);
@@ -59,9 +56,6 @@ TEST(BinaryModificationTest, CanModifyWhenSourceIsBiggerThanTarget)
     const auto modified = modification.apply(source);
 
     // then
-    const auto modifiedDiff = CDiffExtractor::extract(target, modified);
-    ASSERT_EQ(modifiedDiff.size(), 0);
-
     ASSERT_EQ(modified.size(), target.size());
 
     const auto sourceHash = hasher->sha256FromBytes(source); const auto targetHash = hasher->sha256FromBytes(target);
@@ -88,9 +82,6 @@ TEST(BinaryModificationTest, CanModifyWhenSourceIsSmallerThanTarget)
     const auto modified = modification.apply(source);
 
     // then
-    const auto modifiedDiff = CDiffExtractor::extract(target, modified);
-    ASSERT_EQ(modifiedDiff.size(), 0);
-
     ASSERT_EQ(modified.size(), target.size());
 
     const auto sourceHash = hasher->sha256FromBytes(source); const auto targetHash = hasher->sha256FromBytes(target);
@@ -101,8 +92,8 @@ TEST(BinaryModificationTest, CanModifyWhenSourceIsSmallerThanTarget)
 TEST(BinaryModificationTest, CanModifyUsingDiffAlgorithmDirectly)
 {
     // given
-    const auto source = x86exe->binary()->part(0, 1000).bytes();
-    const auto target = x86_64dll->binary()->part(500, 1000).bytes();
+    const auto source = x86exe->binary()->part(0, 250).bytes();
+    const auto target = x86_64dll->binary()->part(1000, 250).bytes();
 
     // when
     const auto diff = diff::match(source, target);

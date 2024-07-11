@@ -20,3 +20,6 @@ out
 **/*.id0
 **/*.id1
 **/*.id2
+
+# big executables
+tests/binaries/windows/metin2clientVMPDumpFixedTotalDisabledTls.exe
