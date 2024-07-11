@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SHARED_VALUE__BYTE_VEC_OPERATIONS_HPP_
+#define SHARED_VALUE__BYTE_VEC_OPERATIONS_HPP_
 
 #include "../types/defines.hpp"
 #include "../self_obfuscation/strenc.hpp"
@@ -69,3 +70,5 @@ public:
         return chunks;
     }
 };
+
+#endif // SHARED_VALUE__BYTE_VEC_OPERATIONS_HPP_

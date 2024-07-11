@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SHARED_VALUE__UUID_HPP_
+#define SHARED_VALUE__UUID_HPP_
 
 #include "shared/self_obfuscation/strenc.hpp"
 #include <openssl/rand.h>
@@ -90,3 +91,4 @@ public:
     }
 };
 
+#endif // SHARED_VALUE__UUID_HPP_

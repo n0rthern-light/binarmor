@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CORE_MODIFICATION__ADD_BYTES_COMMAND_HPP_
+#define CORE_MODIFICATION__ADD_BYTES_COMMAND_HPP_
 
 #include "../file/BinaryFile.hpp"
 #include <optional>
@@ -36,3 +37,4 @@ public:
     bool executable() const { return m_executable; }
 };
 
+#endif // CORE_MODIFICATION__ADD_BYTES_COMMAND_HPP_

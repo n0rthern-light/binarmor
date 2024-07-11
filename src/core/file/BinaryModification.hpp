@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CORE_FILE__BINARY_MODIFICATION_HPP_
+#define CORE_FILE__BINARY_MODIFICATION_HPP_
 
 #include "shared/value/Uuid.hpp"
 #include <shared/types/defines.hpp>
@@ -52,3 +53,4 @@ public:
     bool operator ==(const CBinaryModification& other) const;
 };
 
+#endif // CORE_FILE__BINARY_MODIFICATION_HPP_

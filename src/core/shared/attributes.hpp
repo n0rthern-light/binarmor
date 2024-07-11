@@ -1,5 +1,5 @@
-#ifndef CORE_ATTRIBUTES_HPP_
-#define CORE_ATTRIBUTES_HPP_
+#ifndef CORE_SHARED_ATTRIBUTES_HPP_
+#define CORE_SHARED_ATTRIBUTES_HPP_
 
 enum class Format
 {
@@ -33,4 +33,4 @@ enum class Endianness
     BIG = 2,
 };
 
-#endif // CORE_ATTRIBUTES_HPP_
+#endif // CORE_SHARED_ATTRIBUTES_HPP_

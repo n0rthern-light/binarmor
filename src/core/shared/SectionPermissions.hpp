@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CORE_SHARED__SECTION_PERMISSIONS_HPP_
+#define CORE_SHARED__SECTION_PERMISSIONS_HPP_
 
 #include "shared/types/defines.hpp"
 
@@ -32,3 +33,5 @@ public:
         return (m_valFlags & static_cast<uint_8>(permission)) == static_cast<uint_8>(permission);
     }
 };
+
+#endif // CORE_SHARED__SECTION_PERMISSIONS_HPP_

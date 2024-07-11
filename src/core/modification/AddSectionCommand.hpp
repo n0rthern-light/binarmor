@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CORE_MODIFICATION__ADD_SECTION_COMMAND_HPP_
+#define CORE_MODIFICATION__ADD_SECTION_COMMAND_HPP_
 
 #include "core/file/BinaryFile.hpp"
 #include "../shared/SectionPermissions.hpp"
@@ -17,3 +18,4 @@ public:
     CSectionPermissions permissions() const { return m_permissions; }
 };
 
+#endif // CORE_MODIFICATION__ADD_SECTION_COMMAND_HPP_

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CORE_MODIFICATION_SECTION__ADD_SECTION_HANDLER_HPP_
+#define CORE_MODIFICATION_SECTION__ADD_SECTION_HANDLER_HPP_
 
 #include "../AddSectionCommand.hpp"
 #include "core/file/BinaryFileStateManager.hpp"
@@ -11,3 +12,4 @@ public:
     void handle(const CAddSectionCommand& command);
 };
 
+#endif // CORE_MODIFICATION_SECTION__ADD_SECTION_HANDLER_HPP_

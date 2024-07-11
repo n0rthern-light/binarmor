@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SHARED_DIFF_DIFF_MATCH_PATCH_HPP_
+#define SHARED_DIFF_DIFF_MATCH_PATCH_HPP_
 
 #include "../types/defines.hpp"
 #include <optional>
@@ -19,3 +20,4 @@ namespace diff
     byte_vec patch(const byte_vec &original, const std::vector<Diff> &diffs);
 };
 
+#endif // SHARED_DIFF_DIFF_MATCH_PATCH_HPP_

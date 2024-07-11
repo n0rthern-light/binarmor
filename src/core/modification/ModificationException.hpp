@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CORE_MODIFICATION__MODIFICATION_EXCEPTION_HPP_
+#define CORE_MODIFICATION__MODIFICATION_EXCEPTION_HPP_
 
 #include <stdexcept>
 
@@ -9,3 +10,4 @@ public:
     inline ModificationException(const string& msg): runtime_error(msg) {};
 };
 
+#endif // CORE_MODIFICATION__MODIFICATION_EXCEPTION_HPP_
