@@ -13,6 +13,11 @@ TEST(UuidTest, CanCreateUuidFromString)
     ASSERT_TRUE(CUuid::isValidUuid(uuid->toString()));
 }
 
+TEST(UuidTest, RecognizesInvalidUuid)
+{
+    ASSERT_FALSE(CUuid::isValidUuid("invalid-uuid"));
+}
+
 TEST(UuidTest, CanGenerateUuidFromSeed)
 {
     auto uuid1 = new CUuid("This is potentially a really good seed 12345 !@#$%$_ ,./';");

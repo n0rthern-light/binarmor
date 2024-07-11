@@ -89,6 +89,32 @@ TEST(BinaryModificationTest, CanModifyWhenSourceIsSmallerThanTarget)
     ASSERT_STREQ(modifiedHash.c_str(), targetHash.c_str());
 }
 
+TEST(BinaryModificationTest, CanModifyWhenTheSizeIsTheSame)
+{
+    // given
+    const auto source = x86exe->binary()->part(1432, 500).bytes();
+    const auto target = x86_64dll->binary()->part(958, 500).bytes();
+
+    // when
+    const auto diff = CDiffExtractor::extract(source, target);
+
+    const auto modification = CBinaryModification {
+        CUuid { "BINARY_TRANSLATION" },
+        BinaryModificationType::APPEND_CODE,
+        diff,
+        { }
+    };
+
+    const auto modified = modification.apply(source);
+
+    // then
+    ASSERT_EQ(modified.size(), target.size());
+
+    const auto sourceHash = hasher->sha256FromBytes(source); const auto targetHash = hasher->sha256FromBytes(target);
+    const auto modifiedHash = hasher->sha256FromBytes(modified);
+    ASSERT_STREQ(modifiedHash.c_str(), targetHash.c_str());
+}
+
 TEST(BinaryModificationTest, CanModifyUsingDiffAlgorithmDirectly)
 {
     // given
