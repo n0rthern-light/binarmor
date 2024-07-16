@@ -24,9 +24,9 @@ void CAddSectionHandler::handle(const CAddSectionCommand& command)
         throw ModificationException(strenc("Unsupported binary file architecture for modification"));
     }
 
-    auto pe = CPeFormat::create(binaryFile->modifiedBinary());
+    //auto pe = CPeFormat::create(binaryFile->modifiedBinary());
 
-    pe->addSection(command.sectionId(), command.permissions());
+    //pe->addSection(command.sectionId(), command.permissions());
 
     // 1. pull out pe's binary
     // 2. extract diffs

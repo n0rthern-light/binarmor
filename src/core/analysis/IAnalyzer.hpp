@@ -8,7 +8,7 @@ class IAnalyzer
 {
 public:
     virtual ~IAnalyzer() {}
-    virtual void analyze(const CBinary* binary, BinaryAttributes_t& attributes) = 0;
+    virtual void analyze(const CBinary& binary, BinaryAttributes_t& attributes) = 0;
 };
 
 #endif // CORE_ANALYSIS__I_ANALYZER_HPP_

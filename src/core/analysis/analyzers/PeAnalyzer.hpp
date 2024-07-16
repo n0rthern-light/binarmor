@@ -6,7 +6,7 @@
 class CPeAnalyzer : public IAnalyzer
 {
 public:
-    void analyze(const CBinary* binary, BinaryAttributes_t& attributes);
+    void analyze(const CBinary& binary, BinaryAttributes_t& attributes);
 };
 
 #endif // CORE_ANALYSIS_ANALYZERS__PE_ANALYZER_HPP_

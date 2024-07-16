@@ -6,19 +6,19 @@
 #include <memory>
 #include <shared/self_obfuscation/strenc.hpp>
 
-void CPeAnalyzer::analyze(const CBinary* binary, BinaryAttributes_t& attributes)
+void CPeAnalyzer::analyze(const CBinary& binary, BinaryAttributes_t& attributes)
 {
     if (attributes.format != Format::Windows_PE) {
         throw UnsupportedFileException(strenc("Not detected any supported file format"));
     }
 
-    auto pe = CPeFormat::create(binary);
+    auto pe = CPeFormat(binary);
 
-    attributes.arch = pe->architecture();
-    attributes.type = pe->type();
-    auto sections = pe->sections();
+    attributes.arch = pe.architecture();
+    attributes.type = pe.type();
+    auto sections = pe.sections();
     attributes.sectionCount = sections.size();
-    auto importModules = pe->imports();
+    auto importModules = pe.imports();
     attributes.importedModuleCount = importModules.size();
     uint_8 importFuncCount = 0;
     for(const auto& mod : importModules) {
@@ -26,8 +26,8 @@ void CPeAnalyzer::analyze(const CBinary* binary, BinaryAttributes_t& attributes)
         importFuncCount += functions.size();
     }
     attributes.importedFunctionsCount = importFuncCount;
-    attributes.entryPoint = pe->entryPoint();
-    attributes.sizeOfBinary = CUnsigned{ pe->addressType() == AddressType::_32_BIT ? as_32(binary->size()) : as_64(binary->size()) };
+    attributes.entryPoint = pe.entryPoint();
+    attributes.sizeOfBinary = CUnsigned{ pe.addressType() == AddressType::_32_BIT ? as_32(binary.size()) : as_64(binary.size()) };
 
     uint_auto sizeOfCode = 0;
     for(const auto& section : sections) {
@@ -42,6 +42,6 @@ void CPeAnalyzer::analyze(const CBinary* binary, BinaryAttributes_t& attributes)
         sizeOfCode += section->rawSize();
     }
 
-    attributes.sizeOfCode = CUnsigned{ pe->addressType() == AddressType::_32_BIT ? as_32(sizeOfCode) : as_64(sizeOfCode)};
+    attributes.sizeOfCode = CUnsigned{ pe.addressType() == AddressType::_32_BIT ? as_32(sizeOfCode) : as_64(sizeOfCode)};
 }
 

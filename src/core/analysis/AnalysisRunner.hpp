@@ -19,7 +19,7 @@ class CAnalysisRunner
     analyzer_vec_map m_analyzers;
 public:
     CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hasher);
-    void run(const CBinary* binary, BinaryAttributes_t& attributes);
+    void run(const CBinary& binary, BinaryAttributes_t& attributes);
 };
 
 #endif // CORE_ANALYSIS__ANALYSIS_RUNNER_HPP_

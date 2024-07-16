@@ -19,7 +19,7 @@ CAnalysisRunner::CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hashe
     };
 }
 
-void CAnalysisRunner::run(const CBinary* binary, BinaryAttributes_t& binaryAttributes)
+void CAnalysisRunner::run(const CBinary& binary, BinaryAttributes_t& binaryAttributes)
 {
     const auto initialFormat = binaryAttributes.format;
 

@@ -30,7 +30,7 @@ void CBinaryFileStateManager::load(const std::filesystem::path& filePath)
     auto binary = m_fileReader->read(filePath.string());
     auto binaryAttributes = BinaryAttributes_t { };
 
-    m_analysisRunner->run(&binary, binaryAttributes);
+    m_analysisRunner->run(binary, binaryAttributes);
 
     const auto tmpBinary = std::make_shared<CBinaryFile>(filePath, binary, 0, binaryAttributes);
     const auto fileId = tmpBinary->fileId();

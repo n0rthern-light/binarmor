@@ -13,8 +13,6 @@ class CPeFormat : public IFormat
     CBinary m_binary;
 public:
     CPeFormat(const CBinary& binary);
-    static std::unique_ptr<CPeFormat> create(const CBinary* binary);
-    static std::unique_ptr<CPeFormat> create(const CBinary& binary);
     const CBinary* binary() const;
     Architecture architecture() const;
     Type type() const;
@@ -25,7 +23,11 @@ public:
     CBinaryPointer rvaToPointer(const binary_offset& rva) const;
     pe_section_vec sections() const;
     pe_module_map imports() const;
-    void addSection(const std::string name, const CSectionPermissions permissions);
+    CPeFormat addSection(
+        const std::string& name,
+        binary_offset size,
+        const CSectionPermissions permissions
+    ) const;
 };
 
 #endif // CORE_FORMAT_PE__PE_FORMAT_HPP_

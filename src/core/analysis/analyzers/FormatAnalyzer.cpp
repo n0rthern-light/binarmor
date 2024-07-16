@@ -4,20 +4,20 @@
 #include "core/shared/attributes.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
 
-bool isWindowsPE(const CBinary* binary) {
-    auto firstBytes = binary->part(0, 2).string();
+bool isWindowsPE(const CBinary& binary) {
+    auto firstBytes = binary.part(0, 2).string();
 
     return firstBytes == strenc("MZ");
 }
 
-bool isELF(const CBinary* binary) {
-    auto firstBytes = binary->part(0, 4).string();
+bool isELF(const CBinary& binary) {
+    auto firstBytes = binary.part(0, 4).string();
 
     return firstBytes.size() >= 4 && firstBytes[0] == strenc('0x7F') && firstBytes.substr(1, 3) == strenc("ELF");
 }
 
-bool isMachO(const CBinary* binary) {
-    auto firstBytes = binary->part(0, 4).string();
+bool isMachO(const CBinary& binary) {
+    auto firstBytes = binary.part(0, 4).string();
 
     if (firstBytes.size() < 4) {
         return false;
@@ -28,7 +28,7 @@ bool isMachO(const CBinary* binary) {
     return magic == 0xFEEDFACE || magic == 0xFEEDFACF || magic == 0xCAFEBABE;
 }
 
-void CFormatAnalyzer::analyze(const CBinary* binary, BinaryAttributes_t& attributes)
+void CFormatAnalyzer::analyze(const CBinary& binary, BinaryAttributes_t& attributes)
 {
     if (isWindowsPE(binary)) {
 		attributes.format = Format::Windows_PE;
