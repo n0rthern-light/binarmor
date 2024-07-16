@@ -13,7 +13,7 @@ class CPeFormat : public IFormat
     CBinary m_binary;
 public:
     CPeFormat(const CBinary& binary);
-    const CBinary* binary() const;
+    const CBinary& binary() const;
     Architecture architecture() const;
     Type type() const;
     Endianness endianness() const;
