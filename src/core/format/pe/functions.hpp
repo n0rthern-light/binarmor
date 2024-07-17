@@ -3,6 +3,7 @@
 
 #include "core/format/pe/PeFormat.hpp"
 #include "core/shared/Binary.hpp"
+#include "core/shared/SectionPermissions.hpp"
 #include "defines.hpp"
 #include "PeSection.hpp"
 #include "PeModule.hpp"
@@ -22,6 +23,7 @@ namespace format {
         template <typename IMAGE_THUNK_DATA, typename IMAGE_ORDINAL_FLAG>
         pe_import_vec readModuleImports(const CPeFormat& peFormat, const IMAGE_IMPORT_DESCRIPTOR* imageImportDescriptor, const IMAGE_ORDINAL_FLAG& imageOrdinalFlag);
         pe_module_map readImportModules(const CPeFormat& peFormat);
+        uint_32 convertSectionPermissionsToCharacteristics(const CSectionPermissions& permissions);
         CPeFormat addSection(
             const CPeFormat& peFormat,
             const std::string& name,

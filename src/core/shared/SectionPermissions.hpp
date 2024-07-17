@@ -29,7 +29,7 @@ public:
         }
     }
 
-    bool hasPermissionTo(SectionPermissionType permission) {
+    bool hasPermissionTo(SectionPermissionType permission) const {
         return (m_valFlags & static_cast<uint_8>(permission)) == static_cast<uint_8>(permission);
     }
 };

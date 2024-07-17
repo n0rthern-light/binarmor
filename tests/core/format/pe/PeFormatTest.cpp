@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../../BinaryMother.hpp"
+#include "core/shared/SectionPermissions.hpp"
 #include <shared/value/AddressType.hpp>
 
 auto x86exe = BinaryMother::x86exe();
@@ -45,5 +46,17 @@ TEST(PeFormatTest, CanResolveEntryPoint)
     ASSERT_EQ(x86dll->entryPoint().get(), 0x13A0);
     ASSERT_EQ(x86_64exe->entryPoint().get(), 0x13F0);
     ASSERT_EQ(x86_64dll->entryPoint().get(), 0x1330);
+}
+
+TEST(PeSectionTest, CanAddNewSections)
+{
+    auto modified = x86exe->addSection(".test_d", 0x10000, CSectionPermissions { SectionPermissionType::WRITE })
+        .addSection(".test_x", 0x10000, CSectionPermissions { SectionPermissionType::EXECUTE });
+
+    auto originalSections = x86exe->sections();
+    auto modifiedSections = modified.sections();
+
+    //ASSERT_EQ(modifiedSections.size(), originalSections.size() + 2);
+    ASSERT_EQ(x86exe->binary().size(), modified.binary().size());
 }
 

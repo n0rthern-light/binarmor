@@ -9,9 +9,9 @@ class CBinaryPointer
     uint_auto _loadedAtAddress;
 public:
     CBinaryPointer(binary_offset offsetInBinary, uint_auto loadedAtAddress);
-    binary_offset offset();
-    uint_auto ptr();
-    CBinaryPointer shift(int _offset);
+    binary_offset offset() const;
+    uint_auto ptr() const;
+    CBinaryPointer shift(int _offset) const;
 };
 
 #endif // CORE_SHARED__BINARY_POINTER_HPP_
