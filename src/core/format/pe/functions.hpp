@@ -24,6 +24,14 @@ namespace format {
         pe_import_vec readModuleImports(const CPeFormat& peFormat, const IMAGE_IMPORT_DESCRIPTOR* imageImportDescriptor, const IMAGE_ORDINAL_FLAG& imageOrdinalFlag);
         pe_module_map readImportModules(const CPeFormat& peFormat);
         uint_32 convertSectionPermissionsToCharacteristics(const CSectionPermissions& permissions);
+        IMAGE_SECTION_HEADER createNextSectionHeader(
+            const uint_32 fileAlignment,
+            const uint_32 sectionAlignment,
+            const IMAGE_SECTION_HEADER& previousSectionHeader,
+            const std::string& name,
+            binary_offset size,
+            const CSectionPermissions permissions
+        );
         CPeFormat addSection(
             const CPeFormat& peFormat,
             const std::string& name,

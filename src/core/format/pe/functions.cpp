@@ -3,6 +3,7 @@
 #include "core/shared/Binary.hpp"
 #include "defines.hpp"
 #include "shared/value/AddressType.hpp"
+#include "shared/value/ByteVecOperations.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
 #include <shared/RuntimeException.hpp>
 #include <stdio.h>
@@ -248,60 +249,75 @@ uint_32 format::pe::convertSectionPermissionsToCharacteristics(const CSectionPer
     return characteristics;
 }
 
+IMAGE_SECTION_HEADER format::pe::createNextSectionHeader(
+    const uint_32 fileAlignment,
+    const uint_32 sectionAlignment,
+    const IMAGE_SECTION_HEADER& previousSectionHeader,
+    const std::string& name,
+    binary_offset size,
+    const CSectionPermissions permissions
+) {
+    IMAGE_SECTION_HEADER newSectionHeader = {};
+    strncpy(reinterpret_cast<char*>(newSectionHeader.Name), name.c_str(), IMAGE_SIZEOF_SHORT_NAME);
+
+    newSectionHeader.VirtualAddress = (previousSectionHeader.VirtualAddress + previousSectionHeader.Misc.VirtualSize + sectionAlignment - 1) & ~(sectionAlignment - 1);
+    newSectionHeader.SizeOfRawData = (size + fileAlignment - 1) & ~(fileAlignment - 1);
+    newSectionHeader.PointerToRawData = (previousSectionHeader.PointerToRawData + previousSectionHeader.SizeOfRawData + fileAlignment - 1) & ~(fileAlignment - 1);
+    newSectionHeader.Misc.VirtualSize = size; // this might be adjusted to match raw data size i think
+    newSectionHeader.Characteristics = format::pe::convertSectionPermissionsToCharacteristics(permissions);
+
+    return newSectionHeader;
+}
+
 CPeFormat format::pe::addSection(
         const CPeFormat& peFormat,
         const std::string& name,
         binary_offset size,
         const CSectionPermissions permissions
 ) {
-    auto binary = peFormat.binary();
-    auto addressType = peFormat.addressType();
+    const auto binary = peFormat.binary();
+    const auto addressType = peFormat.addressType();
 
     IMAGE_DOS_HEADER* dosHeader = format::pe::dosHeader(binary);
     binary_offset sectionAlignment, fileAlignment;
 
     if (addressType == AddressType::_32_BIT) {
-        auto ntHeaders = format::pe::ntHeaders32(binary);
+        const auto ntHeaders = format::pe::ntHeaders32(binary);
         sectionAlignment = ntHeaders->OptionalHeader.SectionAlignment;
         fileAlignment = ntHeaders->OptionalHeader.FileAlignment;
     } else if (addressType == AddressType::_64_BIT) {
-        auto ntHeaders = format::pe::ntHeaders64(binary);
+        const auto ntHeaders = format::pe::ntHeaders64(binary);
         sectionAlignment = ntHeaders->OptionalHeader.SectionAlignment;
         fileAlignment = ntHeaders->OptionalHeader.FileAlignment;
     } else {
         throw RuntimeException("Unknown address type!");
     }
 
-    auto numberOfSections = format::pe::numberOfSections(peFormat);
-    auto offset = format::pe::sectionsStartOffset(peFormat);
+    const auto numberOfSections = format::pe::numberOfSections(peFormat);
+    const auto offset = format::pe::sectionsStartOffset(peFormat);
+    const auto sections = peFormat.sections();
+    const auto lastSectionOrigin = sections.back()->origin();
+    const auto lastSection = *reinterpret_cast<IMAGE_SECTION_HEADER*>(lastSectionOrigin.ptr());
 
-    IMAGE_SECTION_HEADER newSection = {};
-    strncpy(reinterpret_cast<char*>(newSection.Name), name.c_str(), IMAGE_SIZEOF_SHORT_NAME);
-    
-    auto sections = peFormat.sections();
-    auto lastSection = *reinterpret_cast<IMAGE_SECTION_HEADER*>(sections.back()->origin().ptr());
-
-    newSection.VirtualAddress = (lastSection.VirtualAddress + lastSection.Misc.VirtualSize + sectionAlignment - 1) & ~(sectionAlignment - 1);
-    newSection.SizeOfRawData = (size + fileAlignment - 1) & ~(fileAlignment - 1);
-    newSection.PointerToRawData = (lastSection.PointerToRawData + lastSection.SizeOfRawData + fileAlignment - 1) & ~(fileAlignment - 1);
-    newSection.Misc.VirtualSize = size;
-    newSection.Characteristics = format::pe::convertSectionPermissionsToCharacteristics(permissions);
+    const auto newSectionHeader = format::pe::createNextSectionHeader(fileAlignment, sectionAlignment, lastSection, name, size, permissions);
+    const auto sizeOfHeaders = sizeof(IMAGE_SECTION_HEADER);
+    auto newSectionHeaderBytes = byte_vec(sizeOfHeaders , 0x00);
+    std::memcpy(&newSectionHeaderBytes[0], &newSectionHeader, sizeOfHeaders);
 
     auto bytes = binary.bytes();
-    auto newBinary = CBinary { bytes };
-    bytes.resize(newSection.PointerToRawData + newSection.SizeOfRawData, 0);
+    bytes = CByteVecOperations::bytesInsert(bytes, lastSectionOrigin.offset() + sizeOfHeaders, newSectionHeaderBytes);
+    bytes = CByteVecOperations::bytesInsert(bytes, newSectionHeader.PointerToRawData, byte_vec(newSectionHeader.SizeOfRawData, 0x00));
 
-    // Update the PE headers
+    auto newBinary = CBinary { bytes };
+
     if (addressType == AddressType::_32_BIT) {
-        auto ntHeaders = format::pe::ntHeaders32(binary);
+        auto ntHeaders = format::pe::ntHeaders32(newBinary);
         ntHeaders->FileHeader.NumberOfSections++;
-        ntHeaders->OptionalHeader.SizeOfImage = newSection.VirtualAddress + newSection.Misc.VirtualSize;
-        std::memcpy(reinterpret_cast<void*>(newBinary.pointer(offset + numberOfSections * sizeof(IMAGE_SECTION_HEADER)).ptr()), &newSection, sizeof(IMAGE_SECTION_HEADER));
+        ntHeaders->OptionalHeader.SizeOfImage = newSectionHeader.VirtualAddress + newSectionHeader.Misc.VirtualSize;
     } else if (addressType == AddressType::_64_BIT) {
-        auto ntHeaders = format::pe::ntHeaders64(binary);
+        auto ntHeaders = format::pe::ntHeaders64(newBinary);
         ntHeaders->FileHeader.NumberOfSections++;
-        ntHeaders->OptionalHeader.SizeOfImage = newSection.VirtualAddress + newSection.Misc.VirtualSize;
-        std::memcpy(reinterpret_cast<void*>(newBinary.pointer(offset + numberOfSections * sizeof(IMAGE_SECTION_HEADER)).ptr()), &newSection, sizeof(IMAGE_SECTION_HEADER));
+        ntHeaders->OptionalHeader.SizeOfImage = newSectionHeader.VirtualAddress + newSectionHeader.Misc.VirtualSize;
     }
 
     return CPeFormat{ newBinary };
