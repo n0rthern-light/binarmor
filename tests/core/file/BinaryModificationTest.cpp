@@ -14,8 +14,8 @@ const auto hasher = new COpenSslHasher();
 TEST(BinaryModificationTest, CanModifyFullExecutablesUsingDomainDiff)
 {
     // given
-    const auto source = x86exe->binary().bytes();
-    const auto target = x86_64dll->binary().bytes();
+    const auto source = x86exe->binary()->bytes();
+    const auto target = x86_64dll->binary()->bytes();
 
     // when
     const auto diff = CDiffExtractor::extract(source, target);
@@ -40,8 +40,8 @@ TEST(BinaryModificationTest, CanModifyFullExecutablesUsingDomainDiff)
 TEST(BinaryModificationTest, CanModifyWhenSourceIsBiggerThanTarget)
 {
     // given
-    const auto source = x86exe->binary().part(0, 3241).bytes();
-    const auto target = x86_64dll->binary().part(963, 723).bytes();
+    const auto source = x86exe->binary()->part(0, 3241).bytes();
+    const auto target = x86_64dll->binary()->part(963, 723).bytes();
 
     // when
     const auto diff = CDiffExtractor::extract(source, target);
@@ -66,8 +66,8 @@ TEST(BinaryModificationTest, CanModifyWhenSourceIsBiggerThanTarget)
 TEST(BinaryModificationTest, CanModifyWhenSourceIsSmallerThanTarget)
 {
     // given
-    const auto source = x86exe->binary().part(1432, 583).bytes();
-    const auto target = x86_64dll->binary().part(958, 4321).bytes();
+    const auto source = x86exe->binary()->part(1432, 583).bytes();
+    const auto target = x86_64dll->binary()->part(958, 4321).bytes();
 
     // when
     const auto diff = CDiffExtractor::extract(source, target);
@@ -92,8 +92,8 @@ TEST(BinaryModificationTest, CanModifyWhenSourceIsSmallerThanTarget)
 TEST(BinaryModificationTest, CanModifyWhenTheSizeIsTheSame)
 {
     // given
-    const auto source = x86exe->binary().part(1432, 500).bytes();
-    const auto target = x86_64dll->binary().part(958, 500).bytes();
+    const auto source = x86exe->binary()->part(1432, 500).bytes();
+    const auto target = x86_64dll->binary()->part(958, 500).bytes();
 
     // when
     const auto diff = CDiffExtractor::extract(source, target);
@@ -118,8 +118,8 @@ TEST(BinaryModificationTest, CanModifyWhenTheSizeIsTheSame)
 TEST(BinaryModificationTest, CanModifyUsingDiffAlgorithmDirectly)
 {
     // given
-    const auto source = x86exe->binary().part(0, 250).bytes();
-    const auto target = x86_64dll->binary().part(1000, 250).bytes();
+    const auto source = x86exe->binary()->part(0, 250).bytes();
+    const auto target = x86_64dll->binary()->part(1000, 250).bytes();
 
     // when
     const auto diff = diff::match(source, target);

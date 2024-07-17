@@ -7,9 +7,9 @@
 
 CPeFormat::CPeFormat(const CBinary& binary): m_binary(binary) { }
 
-const CBinary& CPeFormat::binary() const
+const CBinary* CPeFormat::binary() const
 {
-    return m_binary;
+    return &m_binary;
 }
 
 Architecture CPeFormat::architecture() const
@@ -86,7 +86,7 @@ binary_offset CPeFormat::rvaToOffset(const binary_offset& rva) const
 
 CBinaryPointer CPeFormat::rvaToPointer(const binary_offset& rva) const
 {
-    return binary().pointer(rvaToOffset(rva));
+    return binary()->pointer(rvaToOffset(rva));
 }
 
 pe_module_map CPeFormat::imports() const
@@ -99,6 +99,6 @@ CPeFormat CPeFormat::addSection(
     binary_offset size,
     const CSectionPermissions permissions
 ) const {
-    return format::pe::addSection(*this, name, size, permissions);
+    return *this;
 }
 

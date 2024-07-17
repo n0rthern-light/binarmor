@@ -6,17 +6,17 @@ CBinaryPointer::CBinaryPointer(binary_offset offsetInBinary, uint_auto loadedAtA
     _loadedAtAddress = loadedAtAddress;
 }
 
-binary_offset CBinaryPointer::offset() const
+binary_offset CBinaryPointer::offset()
 {
     return _offsetInBinary;
 }
 
-uint_auto CBinaryPointer::ptr() const
+uint_auto CBinaryPointer::ptr()
 {
     return _loadedAtAddress;
 }
 
-CBinaryPointer CBinaryPointer::shift(int _offset) const
+CBinaryPointer CBinaryPointer::shift(int _offset)
 {
     return CBinaryPointer(offset() + _offset, ptr() + _offset);
 }
