@@ -5,7 +5,7 @@
 #include <core/application/container.hpp>
 #include <loader/application/container.hpp>
 
-TEST(bootstrapTest, DISABLED_programCanBeBootstrapped)
+TEST(bootstrapTest, programCanBeBootstrapped)
 {
     ASSERT_EQ(program::shared::container::eventBus, nullptr);
     ASSERT_EQ(program::core::container::file::binaryFileStateManager, nullptr);

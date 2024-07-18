@@ -3,13 +3,12 @@
 
 #include "shared/value/Uuid.hpp"
 #include <shared/types/defines.hpp>
-#include <utility>
 
 enum class BinaryModificationType
 {
     APPEND_SECTION = 0,
-    APPEND_DATA = 1,
-    APPEND_CODE = 2,
+    WRITE_DATA = 1,
+    WRITE_CODE = 2,
 };
 
 enum class BinaryModificationDiffType

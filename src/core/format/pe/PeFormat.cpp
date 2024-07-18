@@ -7,9 +7,14 @@
 
 CPeFormat::CPeFormat(const CBinary& binary): m_binary(binary) { }
 
-const CBinary& CPeFormat::binary() const
+CBinary CPeFormat::binary() const
 {
     return m_binary;
+}
+
+byte_vec CPeFormat::bytes() const
+{
+    return binary().bytes();
 }
 
 Architecture CPeFormat::architecture() const

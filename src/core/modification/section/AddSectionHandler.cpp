@@ -1,4 +1,5 @@
 #include "AddSectionHandler.hpp"
+#include "core/modification/diff/DiffExtractor.hpp"
 #include "core/shared/attributes.hpp"
 #include "core/format/pe/PeFormat.hpp"
 #include "core/modification/AddSectionCommand.hpp"
@@ -6,7 +7,8 @@
 #include "shared/self_obfuscation/strenc.hpp"
 #include <memory>
 
-CAddSectionHandler::CAddSectionHandler(CBinaryFileStateManager* binaryFileManager): m_binaryFilesManager(binaryFileManager) { }
+CAddSectionHandler::CAddSectionHandler(CBinaryFileStateManager* binaryFileManager):
+    m_binaryFilesManager(binaryFileManager) { }
 
 void CAddSectionHandler::handle(const CAddSectionCommand& command)
 {
@@ -24,11 +26,21 @@ void CAddSectionHandler::handle(const CAddSectionCommand& command)
         throw ModificationException(strenc("Unsupported binary file architecture for modification"));
     }
 
-    //auto pe = CPeFormat::create(binaryFile->modifiedBinary());
+    const auto pe = CPeFormat { binaryFile->modifiedBinary() };
+    const auto modifiedPe = pe.addSection(command.sectionId(), command.size(), command.permissions());
 
-    //pe->addSection(command.sectionId(), command.permissions());
+    const auto diff = CDiffExtractor::extract(pe.bytes(), modifiedPe.bytes()); 
 
-    // 1. pull out pe's binary
-    // 2. extract diffs
-    // 3. register modification in binary file
+    if (diff.size() == 0) {
+        throw ModificationException(strenc("Could not add new section, diff is zero."));
+    }
+
+    const auto modification = CBinaryModification {
+        CUuid { command.sectionId() },
+        BinaryModificationType::APPEND_SECTION,
+        diff,
+        { }
+    };
+
+    binaryFile->registerModification(modification);
 }

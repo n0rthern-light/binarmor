@@ -22,7 +22,7 @@ TEST(BinaryModificationTest, CanModifyFullExecutablesUsingDomainDiff)
 
     const auto modification = CBinaryModification {
         CUuid { "BINARY_TRANSLATION" },
-        BinaryModificationType::APPEND_CODE,
+        BinaryModificationType::WRITE_CODE,
         diff,
         { }
     };
@@ -48,7 +48,7 @@ TEST(BinaryModificationTest, CanModifyWhenSourceIsBiggerThanTarget)
 
     const auto modification = CBinaryModification {
         CUuid { "BINARY_TRANSLATION" },
-        BinaryModificationType::APPEND_CODE,
+        BinaryModificationType::WRITE_CODE,
         diff,
         { }
     };
@@ -74,7 +74,7 @@ TEST(BinaryModificationTest, CanModifyWhenSourceIsSmallerThanTarget)
 
     const auto modification = CBinaryModification {
         CUuid { "BINARY_TRANSLATION" },
-        BinaryModificationType::APPEND_CODE,
+        BinaryModificationType::WRITE_CODE,
         diff,
         { }
     };
@@ -100,7 +100,7 @@ TEST(BinaryModificationTest, CanModifyWhenTheSizeIsTheSame)
 
     const auto modification = CBinaryModification {
         CUuid { "BINARY_TRANSLATION" },
-        BinaryModificationType::APPEND_CODE,
+        BinaryModificationType::WRITE_CODE,
         diff,
         { }
     };

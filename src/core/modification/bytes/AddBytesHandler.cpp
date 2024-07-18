@@ -20,7 +20,7 @@ void CAddBytesHandler::handle(const CAddBytesCommand& command) const
 
     if (!specifiedExistingSection) {
         m_messageBus->publish(
-            std::make_shared<CAddSectionCommand>(command.fileId(), sectionId, CSectionPermissions(SectionPermissionType::EXECUTE))
+            std::make_shared<CAddSectionCommand>(command.fileId(), sectionId, CSectionPermissions(SectionPermissionType::EXECUTE), 0x1000)
         );
     }
 
