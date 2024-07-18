@@ -3,6 +3,7 @@
 
 #include "../ISection.hpp"
 #include "core/shared/BinaryPointer.hpp"
+#include "core/shared/SectionPermissions.hpp"
 #include "defines.hpp"
 #include <optional>
 #include <string>
@@ -57,6 +58,7 @@ public:
     CUnsigned baseAddress() const;
     size_t size() const;
     CBinaryPointer origin() const;
+    CSectionPermissions permissions() const;
 
     CUnsigned rawAddress() const;
     uint_32 rawSize() const;

@@ -13,10 +13,13 @@ enum class SectionPermissionType
 class CSectionPermissions
 {
     uint_8 m_valFlags;
+    CSectionPermissions(const uint_8 valFlags): m_valFlags(valFlags) { }
+
 public:
+    CSectionPermissions(): CSectionPermissions(0) { }
     CSectionPermissions(SectionPermissionType permission)
     {
-        m_valFlags ^= m_valFlags; // xor to clear
+        m_valFlags ^= m_valFlags;
 
         m_valFlags |= static_cast<uint_8>(SectionPermissionType::READ); // every section is readable
 
@@ -29,8 +32,20 @@ public:
         }
     }
 
-    bool hasPermissionTo(SectionPermissionType permission) const {
+    bool hasPermissionTo(SectionPermissionType permission) const
+    {
         return (m_valFlags & static_cast<uint_8>(permission)) == static_cast<uint_8>(permission);
+    }
+
+    CSectionPermissions withPermission(SectionPermissionType permission) const
+    {
+        auto flags = static_cast<uint_8>(m_valFlags | static_cast<uint_8>(permission));
+        return CSectionPermissions{ flags };
+    }
+
+    bool operator==(const CSectionPermissions other) const
+    {
+        return other.m_valFlags == m_valFlags;
     }
 };
 

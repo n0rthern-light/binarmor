@@ -24,6 +24,7 @@ namespace format {
         pe_import_vec readModuleImports(const CPeFormat& peFormat, const IMAGE_IMPORT_DESCRIPTOR* imageImportDescriptor, const IMAGE_ORDINAL_FLAG& imageOrdinalFlag);
         pe_module_map readImportModules(const CPeFormat& peFormat);
         uint_32 convertSectionPermissionsToCharacteristics(const CSectionPermissions& permissions);
+        CSectionPermissions convertCharacteristicsToSectionPermissions(const uint_32 characteristics);
         IMAGE_SECTION_HEADER createNextSectionHeader(
             const uint_32 fileAlignment,
             const uint_32 sectionAlignment,

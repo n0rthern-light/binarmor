@@ -1,6 +1,7 @@
 #include "functions.hpp"
 #include "core/format/pe/PeSection.hpp"
 #include "core/shared/Binary.hpp"
+#include "core/shared/SectionPermissions.hpp"
 #include "defines.hpp"
 #include "shared/value/AddressType.hpp"
 #include "shared/value/ByteVecOperations.hpp"
@@ -238,15 +239,44 @@ uint_32 format::pe::convertSectionPermissionsToCharacteristics(const CSectionPer
 {
     uint_32 characteristics = IMAGE_SCN_MEM_READ;
 
+    if (
+        permissions.hasPermissionTo(SectionPermissionType::READ) &&
+        !permissions.hasPermissionTo(SectionPermissionType::WRITE) &&
+        !permissions.hasPermissionTo(SectionPermissionType::EXECUTE)
+    ) {
+        characteristics |= IMAGE_SCN_CNT_INITIALIZED_DATA;
+    }
+
     if (permissions.hasPermissionTo(SectionPermissionType::WRITE)) {
         characteristics |= IMAGE_SCN_MEM_WRITE;
     }
 
     if (permissions.hasPermissionTo(SectionPermissionType::EXECUTE)) {
         characteristics |= IMAGE_SCN_MEM_EXECUTE;
+        characteristics |= IMAGE_SCN_CNT_CODE;
     }
 
     return characteristics;
+}
+
+CSectionPermissions format::pe::convertCharacteristicsToSectionPermissions(const uint_32 characteristics)
+{
+    auto permissions = CSectionPermissions { };
+    auto checkProperty = [=](uint_32 property) -> bool { return (characteristics & property) == property; };
+
+    if (checkProperty(IMAGE_SCN_MEM_READ)) {
+        permissions = permissions.withPermission(SectionPermissionType::READ);
+    }
+
+    if (checkProperty(IMAGE_SCN_MEM_WRITE)) {
+        permissions = permissions.withPermission(SectionPermissionType::WRITE);
+    }
+
+    if (checkProperty(IMAGE_SCN_MEM_EXECUTE)) {
+        permissions = permissions.withPermission(SectionPermissionType::EXECUTE);
+    }
+
+    return permissions;
 }
 
 IMAGE_SECTION_HEADER format::pe::createNextSectionHeader(

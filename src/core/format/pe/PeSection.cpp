@@ -1,4 +1,5 @@
 #include "PeSection.hpp"
+#include "core/format/pe/functions.hpp"
 #include "core/shared/BinaryPointer.hpp"
 #include <optional>
 
@@ -79,6 +80,11 @@ size_t CPeSection::size() const
 CBinaryPointer CPeSection::origin() const
 {
     return m_origin.value();
+}
+
+CSectionPermissions CPeSection::permissions() const
+{
+    return format::pe::convertCharacteristicsToSectionPermissions(m_characteristics);
 }
 
 CUnsigned CPeSection::rawAddress() const

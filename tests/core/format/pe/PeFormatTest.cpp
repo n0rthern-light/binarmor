@@ -53,7 +53,8 @@ TEST(PeFormatTest, CanResolveEntryPoint)
 TEST(PeSectionTest, CanAddNewSectionsIn32Bit)
 {
     constexpr binary_offset SECTION_SIZE = 0x10001;
-    auto modified = x86exe->addSection(".test_d", SECTION_SIZE, CSectionPermissions { SectionPermissionType::WRITE });
+    const auto permissions = CSectionPermissions { SectionPermissionType::READ };
+    auto modified = x86exe->addSection(".test_d", SECTION_SIZE, permissions);
 
     auto originalSections = x86exe->sections();
     auto modifiedSections = modified.sections();
@@ -65,6 +66,8 @@ TEST(PeSectionTest, CanAddNewSectionsIn32Bit)
     ASSERT_STREQ(insertedSection->name().c_str(), ".test_d");
     ASSERT_EQ(insertedSection->virtualSize(), SECTION_SIZE);
     ASSERT_GE(insertedSection->rawSize(), SECTION_SIZE);
+    ASSERT_EQ(insertedSection->permissions(), permissions);
+    ASSERT_EQ(insertedSection->characteristics(), 0x40000040);
 
     const auto sectionBytes = modified.binary().part(insertedSection->rawAddress().get(), insertedSection->rawSize());
     ASSERT_EQ(sectionBytes, byte_vec(insertedSection->rawSize(), 0x00));
@@ -73,7 +76,8 @@ TEST(PeSectionTest, CanAddNewSectionsIn32Bit)
 TEST(PeSectionTest, CanAddNewSectionsIn64Bit)
 {
     constexpr binary_offset SECTION_SIZE = 0x10001;
-    auto modified = x86_64exe->addSection(".test_d", SECTION_SIZE, CSectionPermissions { SectionPermissionType::WRITE });
+    const auto permissions = CSectionPermissions { SectionPermissionType::EXECUTE };
+    auto modified = x86_64exe->addSection(".test_d", SECTION_SIZE, permissions);
 
     auto originalSections = x86_64exe->sections();
     auto modifiedSections = modified.sections();
@@ -85,6 +89,8 @@ TEST(PeSectionTest, CanAddNewSectionsIn64Bit)
     ASSERT_STREQ(insertedSection->name().c_str(), ".test_d");
     ASSERT_EQ(insertedSection->virtualSize(), SECTION_SIZE);
     ASSERT_GE(insertedSection->rawSize(), SECTION_SIZE);
+    ASSERT_EQ(insertedSection->permissions(), permissions);
+    ASSERT_EQ(insertedSection->characteristics(), 0x60000020);
 
     const auto sectionBytes = modified.binary().part(insertedSection->rawAddress().get(), insertedSection->rawSize());
     ASSERT_EQ(sectionBytes, byte_vec(insertedSection->rawSize(), 0x00));

@@ -3,19 +3,16 @@
 
 #include <shared/types/defines.hpp>
 
-// PE File Signatures
-constexpr uint_16 IMAGE_DOS_SIGNATURE = 0x5A4D;      // MZ
-constexpr uint_32 IMAGE_NT_SIGNATURE = 0x00004550;   // PE00
+constexpr uint_16 IMAGE_DOS_SIGNATURE = 0x5A4D;
+constexpr uint_32 IMAGE_NT_SIGNATURE = 0x00004550;
 
-// Characteristics
 constexpr uint_16 IMAGE_FILE_DLL = 0x2000;
 constexpr uint_16 IMAGE_FILE_EXECUTABLE_IMAGE = 0x0002;
 
-// Machine identifiers for COFF headers
-constexpr uint_16 IMAGE_FILE_MACHINE_I386 = 0x014C;   // Intel 386 or later processors and compatible processors
-constexpr uint_16 IMAGE_FILE_MACHINE_AMD64 = 0x8664;  // x64 (AMD64 or Intel EM64T)
-constexpr uint_16 IMAGE_FILE_MACHINE_ARM = 0x01C0;    // ARM little endian
-constexpr uint_16 IMAGE_FILE_MACHINE_ARM64 = 0xAA64;  // ARM64 little endian
+constexpr uint_16 IMAGE_FILE_MACHINE_I386 = 0x014C;
+constexpr uint_16 IMAGE_FILE_MACHINE_AMD64 = 0x8664;
+constexpr uint_16 IMAGE_FILE_MACHINE_ARM = 0x01C0;
+constexpr uint_16 IMAGE_FILE_MACHINE_ARM64 = 0xAA64;
 
 constexpr uint_32 IMAGE_ORDINAL_FLAG32 = 0x80000000;
 constexpr uint_64 IMAGE_ORDINAL_FLAG64 = 0x8000000000000000;
@@ -24,9 +21,42 @@ constexpr uint_8 IMAGE_DIRECTORY_ENTRY_IMPORT = 1;
 
 constexpr uint_8 IMAGE_SIZEOF_SHORT_NAME = 8;
 
+constexpr uint_32 IMAGE_SCN_TYPE_NO_PAD = 0x00000008;
+constexpr uint_32 IMAGE_SCN_CNT_CODE = 0x00000020;
+constexpr uint_32 IMAGE_SCN_CNT_INITIALIZED_DATA = 0x00000040;
+constexpr uint_32 IMAGE_SCN_CNT_UNINITIALIZED_DATA = 0x00000080;
+constexpr uint_32 IMAGE_SCN_LNK_OTHER = 0x00000100;
+constexpr uint_32 IMAGE_SCN_LNK_INFO = 0x00000200;
+constexpr uint_32 IMAGE_SCN_LNK_REMOVE = 0x00000800;
+constexpr uint_32 IMAGE_SCN_LNK_COMDAT = 0x00001000;
+constexpr uint_32 IMAGE_SCN_NO_DEFER_SPEC_EXC = 0x00004000;
+constexpr uint_32 IMAGE_SCN_GPREL = 0x00008000;
+constexpr uint_32 IMAGE_SCN_MEM_PURGEABLE = 0x00020000;
+constexpr uint_32 IMAGE_SCN_MEM_LOCKED = 0x00040000;
+constexpr uint_32 IMAGE_SCN_MEM_PRELOAD = 0x00080000;
+constexpr uint_32 IMAGE_SCN_ALIGN_1BYTES = 0x00100000;
+constexpr uint_32 IMAGE_SCN_ALIGN_2BYTES = 0x00200000;
+constexpr uint_32 IMAGE_SCN_ALIGN_4BYTES = 0x00300000;
+constexpr uint_32 IMAGE_SCN_ALIGN_8BYTES = 0x00400000;
+constexpr uint_32 IMAGE_SCN_ALIGN_16BYTES = 0x00500000;
+constexpr uint_32 IMAGE_SCN_ALIGN_32BYTES = 0x00600000;
+constexpr uint_32 IMAGE_SCN_ALIGN_64BYTES = 0x00700000;
+constexpr uint_32 IMAGE_SCN_ALIGN_128BYTES = 0x00800000;
+constexpr uint_32 IMAGE_SCN_ALIGN_256BYTES = 0x00900000;
+constexpr uint_32 IMAGE_SCN_ALIGN_512BYTES = 0x00A00000;
+constexpr uint_32 IMAGE_SCN_ALIGN_1024BYTES = 0x00B00000;
+constexpr uint_32 IMAGE_SCN_ALIGN_2048BYTES = 0x00C00000;
+constexpr uint_32 IMAGE_SCN_ALIGN_4096BYTES = 0x00D00000;
+constexpr uint_32 IMAGE_SCN_ALIGN_8192BYTES = 0x00E00000;
+constexpr uint_32 IMAGE_SCN_LNK_NRELOC_OVFL = 0x01000000;
+constexpr uint_32 IMAGE_SCN_MEM_DISCARDABLE = 0x02000000;
+constexpr uint_32 IMAGE_SCN_MEM_NOT_CACHED = 0x04000000;
+constexpr uint_32 IMAGE_SCN_MEM_NOT_PAGED = 0x08000000;
+constexpr uint_32 IMAGE_SCN_MEM_SHARED = 0x10000000;
+constexpr uint_32 IMAGE_SCN_MEM_EXECUTE = 0x20000000;
 constexpr uint_32 IMAGE_SCN_MEM_READ = 0x40000000;
 constexpr uint_32 IMAGE_SCN_MEM_WRITE = 0x80000000;
-constexpr uint_32 IMAGE_SCN_MEM_EXECUTE = 0x20000000;
+
 
 // DOS Header (at the file's beginning)
 struct IMAGE_DOS_HEADER {
