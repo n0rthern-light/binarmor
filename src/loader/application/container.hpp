@@ -7,7 +7,7 @@ namespace program
 {
     namespace loader {
         namespace container {
-            extern std::unique_ptr<IGuiApp> guiApp;
+            extern IGuiApp* guiApp;
 
             void init(int argc, char** argv);
             void exit();

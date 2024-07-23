@@ -5,6 +5,7 @@
 #include "wxSidebarPanel.hpp"
 #include <shared/message/IMessageBus.hpp>
 #include <core/file/BinaryFile.hpp>
+#include <wx/event.h>
 
 class CwxFrame : public wxFrame
 {

@@ -81,6 +81,6 @@ void CwxWidgetsGuiApp::displayEmpty()
 
 void CwxWidgetsGuiApp::exit()
 {
-    Exit();
+    m_frame->Close(true);
 }
 
