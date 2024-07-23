@@ -14,6 +14,7 @@ namespace program
             extern std::unique_ptr<IHasher> hasher;
 
             void init(int argc, char** argv);
+            void exit();
         }
     }
 }

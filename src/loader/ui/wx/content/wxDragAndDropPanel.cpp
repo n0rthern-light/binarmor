@@ -5,7 +5,7 @@
 CwxDragAndDropPanel::CwxDragAndDropPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {
     m_eventBus = t_eventBus;
-    m_sizer = std::make_unique<wxBoxSizer>(wxVERTICAL);
+    m_sizer = new wxBoxSizer(wxVERTICAL);
 
     wxStaticText* centeredText = new wxStaticText(this, wxID_ANY, strenc("Drop a Binary here in order to open it."));
     m_sizer->AddSpacer(225);
@@ -13,7 +13,7 @@ CwxDragAndDropPanel::CwxDragAndDropPanel(wxWindow* parent, IMessageBus* t_eventB
 
     SetBackgroundColour(*wxLIGHT_GREY);
 
-    SetSizerAndFit(m_sizer.get());
+    SetSizerAndFit(m_sizer);
     Layout();
 }
 

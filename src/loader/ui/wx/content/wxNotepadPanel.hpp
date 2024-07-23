@@ -9,11 +9,11 @@
 class CwxNotepadPanel : public wxPanel
 {
     IMessageBus* m_eventBus;
-    std::unique_ptr<wxBoxSizer> m_sizer;
-    std::unique_ptr<wxStaticText> m_fileName;
-    std::unique_ptr<wxNotebook> m_notebook;
-    std::unique_ptr<CwxBinaryFileInfoPanel> m_binaryFileInfoPanel;
-    std::unique_ptr<wxSizer> m_binaryFileInfoPanelSizer;
+    wxBoxSizer* m_sizer;
+    wxStaticText* m_fileName;
+    wxNotebook* m_notebook;
+    CwxBinaryFileInfoPanel* m_binaryFileInfoPanel;
+    wxSizer* m_binaryFileInfoPanelSizer;
 public:
     CwxNotepadPanel(wxWindow* parent, IMessageBus* t_eventBus);
     void loadFileData(const CBinaryFile& binaryFile);

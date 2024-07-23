@@ -5,15 +5,15 @@ CwxContentPanel::CwxContentPanel(wxWindow* parent, IMessageBus* t_eventBus) : wx
 {
     m_eventBus = t_eventBus;
 
-    m_sizer = std::make_unique<wxBoxSizer>(wxVERTICAL);
+    m_sizer = new wxBoxSizer(wxVERTICAL);
 
-    m_notepadPanel = std::make_unique<CwxNotepadPanel>(this, m_eventBus);
-    m_sizer->Add(m_notepadPanel.get(), 1, wxEXPAND | wxALL, 5);
+    m_notepadPanel = new CwxNotepadPanel(this, m_eventBus);
+    m_sizer->Add(m_notepadPanel, 1, wxEXPAND | wxALL, 5);
 
-    m_dragAndDropPanel = std::make_unique<CwxDragAndDropPanel>(this, m_eventBus);
-    m_sizer->Add(m_dragAndDropPanel.get(), 1, wxEXPAND | wxALL, 5);
+    m_dragAndDropPanel = new CwxDragAndDropPanel(this, m_eventBus);
+    m_sizer->Add(m_dragAndDropPanel, 1, wxEXPAND | wxALL, 5);
 
-    this->SetSizer(m_sizer.get());
+    this->SetSizer(m_sizer);
 
     showDragAndDrop();
 }

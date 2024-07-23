@@ -25,6 +25,7 @@ namespace program
             }
 
             void init(int argc, char** argv);
+            void exit();
         }
     }
 }

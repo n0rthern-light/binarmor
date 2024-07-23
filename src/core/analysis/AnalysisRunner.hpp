@@ -9,7 +9,7 @@
 #include <shared/message/IMessageBus.hpp>
 #include <memory>
 
-typedef std::vector<std::shared_ptr<IAnalyzer>> analyzer_vec;
+typedef std::vector<IAnalyzer*> analyzer_vec;
 typedef std::map<Format, analyzer_vec> analyzer_vec_map;
 
 class CAnalysisRunner
@@ -18,6 +18,7 @@ class CAnalysisRunner
     const IHasher* m_hasher;
     analyzer_vec_map m_analyzers;
 public:
+    ~CAnalysisRunner();
     CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hasher);
     void run(const CBinary& binary, BinaryAttributes_t& attributes);
 };

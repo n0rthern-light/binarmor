@@ -11,20 +11,20 @@ class CwxSidebarPanel : public wxPanel
 {
     IMessageBus* m_eventBus;
 
-    std::unique_ptr<wxBoxSizer> m_sizer;
+    wxBoxSizer* m_sizer;
 
-    std::unique_ptr<wxListCtrl> m_fileList;
+    wxListCtrl* m_fileList;
     std::vector<file_id> m_fileListIds;
     long m_fileListSelected;
 
-    std::unique_ptr<wxButton> m_btnOpenFile;
-    std::unique_ptr<wxButton> m_btnUnloadFile;
-    std::unique_ptr<wxButton> m_btnAntiDebugging;
-    std::unique_ptr<wxButton> m_btnObfuscation;
-    std::unique_ptr<wxButton> m_btnVirtualization;
-    std::unique_ptr<wxButton> m_btnLicenseManager;
-    std::unique_ptr<wxButton> m_btnExportFile;
-    std::unique_ptr<wxButton> m_btnHelp;
+    wxButton* m_btnOpenFile;
+    wxButton* m_btnUnloadFile;
+    wxButton* m_btnAntiDebugging;
+    wxButton* m_btnObfuscation;
+    wxButton* m_btnVirtualization;
+    wxButton* m_btnLicenseManager;
+    wxButton* m_btnExportFile;
+    wxButton* m_btnHelp;
     
     void toggleFileManagementButtons();
     void update();

@@ -10,6 +10,7 @@ namespace program
             extern std::unique_ptr<IGuiApp> guiApp;
 
             void init(int argc, char** argv);
+            void exit();
         }
     }
 }

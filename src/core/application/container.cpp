@@ -23,3 +23,10 @@ void program::core::container::init(int argc, char** argv)
     program::core::container::assembly::assembler = std::make_unique<CAsmJitAssembler>();
 }
 
+void program::core::container::exit()
+{
+    program::core::container::assembly::assembler = nullptr;
+    program::core::container::file::binaryFileStateManager = nullptr;
+    program::core::container::file::analysis::runner = nullptr;
+    program::core::container::file::fileReader = nullptr;
+}

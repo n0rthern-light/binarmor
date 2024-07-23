@@ -5,17 +5,28 @@
 #include "../shared/attributes.hpp"
 #include "core/file/BinaryAttributes.hpp"
 
+CAnalysisRunner::~CAnalysisRunner() {
+    /*
+    for (auto& analyzerMapItem : m_analyzers) {
+        for (auto& analyzer : analyzerMapItem.second) {
+            analyzer.reset();
+        }
+        analyzerMapItem.second = analyzer_vec { };
+    }
+    */
+}
+
 CAnalysisRunner::CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hasher): m_eventBus(t_eventBus), m_hasher(t_hasher)
 {
 	m_analyzers = { };
 
     m_analyzers[Format::UNKNOWN] = {
-        std::make_shared<CFormatAnalyzer>(),
-        std::make_shared<CHashAnalyzer>(m_hasher)
+        new CFormatAnalyzer(),
+        new CHashAnalyzer(m_hasher)
     };
 
     m_analyzers[Format::Windows_PE] = {
-        std::make_shared<CPeAnalyzer>()
+        new CPeAnalyzer()
     };
 }
 

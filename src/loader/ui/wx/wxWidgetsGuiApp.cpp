@@ -10,7 +10,7 @@ CwxWidgetsGuiApp::CwxWidgetsGuiApp(int t_argc, char** t_argv, IMessageBus* t_eve
 
     wxApp::SetInstance(this);
     CallOnInit();
-    m_frame = std::make_unique<CwxFrame>(m_eventBus);
+    m_frame = new CwxFrame(m_eventBus);
 
     //overrideEventBusHandlerType();
 }

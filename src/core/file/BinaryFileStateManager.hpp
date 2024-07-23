@@ -16,7 +16,7 @@ class CBinaryFileStateManager
     std::map<file_id, binary_file_ptr> m_binaryFileMap;
     binary_file_ptr m_binaryFileCurrent;
 
-    std::shared_ptr<CAnalysisRunner> m_analysisRunner;
+    CAnalysisRunner* m_analysisRunner;
 public:
     CBinaryFileStateManager(IMessageBus* eventBus, IFileReader* fileReader, CAnalysisRunner* analysisRunner);
     binary_file_ptr binaryFile(const file_id& fileId) const;

@@ -11,3 +11,9 @@ void program::shared::container::init(int argc, char** argv)
     program::shared::container::hasher = std::make_unique<COpenSslHasher>();
 }
 
+void program::shared::container::exit()
+{
+    program::shared::container::hasher = nullptr;
+    program::shared::container::eventBus = nullptr;
+}
+
