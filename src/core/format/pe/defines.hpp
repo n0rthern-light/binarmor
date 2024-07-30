@@ -57,7 +57,6 @@ constexpr uint_32 IMAGE_SCN_MEM_EXECUTE = 0x20000000;
 constexpr uint_32 IMAGE_SCN_MEM_READ = 0x40000000;
 constexpr uint_32 IMAGE_SCN_MEM_WRITE = 0x80000000;
 
-
 // DOS Header (at the file's beginning)
 struct IMAGE_DOS_HEADER {
     uint_16 e_magic;    // Magic number (MZ)
