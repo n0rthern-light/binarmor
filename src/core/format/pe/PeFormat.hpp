@@ -29,6 +29,9 @@ public:
         binary_offset size,
         const CSectionPermissions permissions
     ) const;
+    CPeFormat addCode(
+
+    ) const;
 };
 
 #endif // CORE_FORMAT_PE__PE_FORMAT_HPP_

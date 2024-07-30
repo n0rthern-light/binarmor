@@ -3,7 +3,9 @@
 
 #include "core/file/BinaryFile.hpp"
 #include "../shared/SectionPermissions.hpp"
+#include "core/modification/ModificationException.hpp"
 #include "shared/message/IMessage.hpp"
+#include "shared/self_obfuscation/strenc.hpp"
 #include "shared/types/defines.hpp"
 
 class CAddSectionCommand : public IMessage
@@ -24,7 +26,12 @@ public:
         m_sectionId(sectionId),
         m_permissions(permissions),
         m_size(size)
-    { }
+    {
+        if (sectionId.size() > 7) {
+            // due to Windows PE null terminated IMAGE_SECTION_HEADER->Name being of type uint_8 Name[8];
+            throw ModificationException(strenc("Section name is max 7 chars"));
+        }
+    }
     file_id fileId() const { return m_fileId; }
     std::string sectionId() const { return m_sectionId; }
     CSectionPermissions permissions() const { return m_permissions; }

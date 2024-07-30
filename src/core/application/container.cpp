@@ -1,12 +1,15 @@
 #include "container.hpp"
+#include <memory>
 #include <shared/application/container.hpp>
 #include "../file/fstream/fstreamFileReader.hpp"
 #include "../assembler/asmjit/AsmJitAssembler.hpp"
+#include "core/modification/section/AddSectionHandler.hpp"
 
 std::unique_ptr<IFileReader> program::core::container::file::fileReader = nullptr;
 std::unique_ptr<CBinaryFileStateManager> program::core::container::file::binaryFileStateManager = nullptr;
 std::unique_ptr<CAnalysisRunner> program::core::container::file::analysis::runner = nullptr;
 std::unique_ptr<IAssembler> program::core::container::assembly::assembler = nullptr;
+std::unique_ptr<CAddSectionHandler> program::core::container::handler::addSectionHandler = nullptr;
 
 void program::core::container::init(int argc, char** argv)
 {
@@ -21,6 +24,9 @@ void program::core::container::init(int argc, char** argv)
         program::core::container::file::analysis::runner.get()
     );
     program::core::container::assembly::assembler = std::make_unique<CAsmJitAssembler>();
+    program::core::container::handler::addSectionHandler = std::make_unique<CAddSectionHandler>(
+        program::core::container::file::binaryFileStateManager.get()
+    );
 }
 
 void program::core::container::exit()
