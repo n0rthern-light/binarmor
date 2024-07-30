@@ -7,7 +7,7 @@
 
 CAnalysisRunner::CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hasher): m_eventBus(t_eventBus), m_hasher(t_hasher)
 {
-	m_analyzers = { };
+    m_analyzers = { };
 
     m_analyzers[Format::UNKNOWN] = {
         new CFormatAnalyzer(),
@@ -23,9 +23,9 @@ void CAnalysisRunner::run(const CBinary& binary, BinaryAttributes_t& binaryAttri
 {
     const auto initialFormat = binaryAttributes.format;
 
-	for (const auto& analyzer : m_analyzers[initialFormat]) {
-		analyzer->analyze(binary, binaryAttributes);
-	}
+    for (const auto& analyzer : m_analyzers[initialFormat]) {
+        analyzer->analyze(binary, binaryAttributes);
+    }
 
     if (binaryAttributes.format != initialFormat) {
         run(binary, binaryAttributes);
