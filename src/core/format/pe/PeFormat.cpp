@@ -1,22 +1,25 @@
 #include "PeFormat.hpp"
+#include "core/format/pe/PeSection.hpp"
 #include "defines.hpp"
 #include <shared/RuntimeException.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
 #include "functions.hpp"
 
-CPeFormat::CPeFormat(CBinary* binary)
+CPeFormat::CPeFormat(const CBinary& binary): m_binary(binary) { }
+
+CBinary CPeFormat::binary() const
 {
-    _binary = binary;
+    return m_binary;
 }
 
-CBinary* CPeFormat::binary() const
+byte_vec CPeFormat::bytes() const
 {
-    return _binary;
+    return binary().bytes();
 }
 
 Architecture CPeFormat::architecture() const
 {
-    auto ntHeaders = format::pe::ntHeaders32(_binary);
+    auto ntHeaders = format::pe::ntHeaders32(m_binary);
 
     switch (ntHeaders->FileHeader.Machine) {
     case IMAGE_FILE_MACHINE_I386:
@@ -34,7 +37,7 @@ Architecture CPeFormat::architecture() const
 
 Type CPeFormat::type() const
 {
-    auto ntHeaders = format::pe::ntHeaders32(_binary);
+    auto ntHeaders = format::pe::ntHeaders32(m_binary);
 
     if (ntHeaders->FileHeader.Characteristics & IMAGE_FILE_DLL) {
         return Type::Dynamic_Library;
@@ -54,7 +57,7 @@ Endianness CPeFormat::endianness() const
 
 AddressType CPeFormat::addressType() const
 {
-    auto ntHeaders = format::pe::ntHeaders32(_binary);
+    auto ntHeaders = format::pe::ntHeaders32(m_binary);
 
     return ntHeaders->OptionalHeader.Magic == 0x20B ?
         AddressType::_64_BIT : AddressType::_32_BIT;
@@ -66,33 +69,54 @@ CUnsigned CPeFormat::entryPoint() const
 
     if (addressType_ == AddressType::_64_BIT)
     {
-        return CUnsigned(format::pe::ntHeaders64(_binary)->OptionalHeader.AddressOfEntryPoint);
+        return CUnsigned(format::pe::ntHeaders64(m_binary)->OptionalHeader.AddressOfEntryPoint);
     }
     else if (addressType_ == AddressType::_32_BIT)
     {
-        return CUnsigned(format::pe::ntHeaders32(_binary)->OptionalHeader.AddressOfEntryPoint);
+        return CUnsigned(format::pe::ntHeaders32(m_binary)->OptionalHeader.AddressOfEntryPoint);
     }
 
     throw RuntimeException(strenc("Not found entry point"));
 }
 
-pe_section_vec CPeFormat::sections() const
+pe_section_vec CPeFormat::peSections() const
 {
-    return format::pe::readSectionList(this);
+    return format::pe::readSectionList(*this);
+}
+
+section_vec CPeFormat::sections() const
+{
+    const auto pe = peSections();
+    auto res = section_vec { };
+    res.reserve(pe.size());
+
+    for (const auto& section : pe) {
+        res.push_back(std::static_pointer_cast<ISection>(section));
+    }
+
+    return res;
 }
 
 binary_offset CPeFormat::rvaToOffset(const binary_offset& rva) const
 {
-    return format::pe::rvaToOffset(this, rva);
+    return format::pe::rvaToOffset(*this, rva);
 }
 
 CBinaryPointer CPeFormat::rvaToPointer(const binary_offset& rva) const
 {
-    return binary()->pointer(rvaToOffset(rva));
+    return binary().pointer(rvaToOffset(rva));
 }
 
 pe_module_map CPeFormat::imports() const
 {
-    return format::pe::readImportModules(this);
+    return format::pe::readImportModules(*this);
+}
+
+CPeFormat CPeFormat::addSection(
+    const std::string& name,
+    binary_offset size,
+    const CSectionPermissions permissions
+) const {
+    return format::pe::addSection(*this, name, size, permissions);
 }
 

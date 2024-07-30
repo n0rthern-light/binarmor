@@ -5,15 +5,16 @@
 #include "wxSidebarPanel.hpp"
 #include <shared/message/IMessageBus.hpp>
 #include <core/file/BinaryFile.hpp>
+#include <wx/event.h>
 
 class CwxFrame : public wxFrame
 {
 private:
     IMessageBus* m_eventBus;
-    std::unique_ptr<wxPanel> m_mainPanel;
-    std::unique_ptr<wxBoxSizer> m_mainSizer;
-    std::unique_ptr<CwxSidebarPanel> m_sidebarPanel;
-    std::unique_ptr<CwxContentPanel> m_contentPanel;
+    wxPanel* m_mainPanel;
+    wxBoxSizer* m_mainSizer;
+    CwxSidebarPanel* m_sidebarPanel;
+    CwxContentPanel* m_contentPanel;
 
     void initUi();
     void initEventListener();

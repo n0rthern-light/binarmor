@@ -3,7 +3,7 @@
 #include "../application/events/FileUnloadedEvent.hpp"
 #include "core/file/BinaryAttributes.hpp"
 #include "core/file/BinaryFile.hpp"
-#include "core/file/analysis/AnalysisRunner.hpp"
+#include "core/analysis/AnalysisRunner.hpp"
 #include <memory>
 #include <shared/RuntimeException.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
@@ -20,9 +20,9 @@ binary_file_ptr CBinaryFileStateManager::binaryFile(const file_id& fileId) const
     return m_binaryFileMap.at(fileId);
 }
 
-CBinary CBinaryFileStateManager::binaryFileBinary(const file_id& fileId) const
+CBinary CBinaryFileStateManager::binaryFileModifiedBinary(const file_id& fileId) const
 {
-    return binaryFile(fileId)->binary();
+    return binaryFile(fileId)->modifiedBinary();
 }
 
 void CBinaryFileStateManager::load(const std::filesystem::path& filePath)
@@ -30,7 +30,7 @@ void CBinaryFileStateManager::load(const std::filesystem::path& filePath)
     auto binary = m_fileReader->read(filePath.string());
     auto binaryAttributes = BinaryAttributes_t { };
 
-    m_analysisRunner->run(&binary, binaryAttributes);
+    m_analysisRunner->run(binary, binaryAttributes);
 
     const auto tmpBinary = std::make_shared<CBinaryFile>(filePath, binary, 0, binaryAttributes);
     const auto fileId = tmpBinary->fileId();

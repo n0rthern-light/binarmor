@@ -14,42 +14,42 @@
 void program::loader::application::behave(int argc, char** argv)
 {
     program::shared::container::eventBus->subscribe(typeid(CRuntimeExceptionOccuredEvent), [&](message_ptr event) {
-		auto castedEvent = dynamic_cast<CRuntimeExceptionOccuredEvent*>(event.get());
+        auto castedEvent = dynamic_cast<CRuntimeExceptionOccuredEvent*>(event.get());
         program::loader::container::guiApp->displayStatus(strenc("An problem occured: ") + castedEvent->message());
         program::loader::container::guiApp->displayErrorMessageBox(strenc("Oops!"), castedEvent->message());
-	});
+    });
 
     program::shared::container::eventBus->subscribe(typeid(CUIRequestedOpenFileEvent), [&](message_ptr event) {
         program::loader::container::guiApp->promptOpenFile();
-	});
+    });
 
     program::shared::container::eventBus->subscribe(typeid(CNewFileSelectedEvent), [&](message_ptr event) {
-		auto castedEvent = dynamic_cast<CNewFileSelectedEvent*>(event.get());
+        auto castedEvent = dynamic_cast<CNewFileSelectedEvent*>(event.get());
         program::loader::container::guiApp->displayStatus(strenc("Opening a file: ") + castedEvent->path() + strenc("..."));
-	});
+    });
 
     program::shared::container::eventBus->subscribe(typeid(CFileLoadedEvent), [&](message_ptr event) {
-		auto castedEvent = dynamic_cast<CFileLoadedEvent*>(event.get());
-		auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile(castedEvent->fileId());
+        auto castedEvent = dynamic_cast<CFileLoadedEvent*>(event.get());
+        auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile(castedEvent->fileId());
         program::loader::container::guiApp->appendToLoadedFiles(binaryFile.get());
         program::loader::container::guiApp->highlightBinaryInFileList(castedEvent->fileId());
         program::loader::container::guiApp->displayBinaryFile(*binaryFile.get());
         program::loader::container::guiApp->displayStatus(strenc("File Loaded: ") + binaryFile->filePath().string());
-	});
+    });
 
     program::shared::container::eventBus->subscribe(typeid(CWorkFileChangeRequestedEvent), [&](message_ptr event) {
-		auto castedEvent = dynamic_cast<CWorkFileChangeRequestedEvent*>(event.get());
-		auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile(castedEvent->fileId());
+        auto castedEvent = dynamic_cast<CWorkFileChangeRequestedEvent*>(event.get());
+        auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile(castedEvent->fileId());
         program::loader::container::guiApp->displayBinaryFile(*binaryFile.get());
-	});
+    });
 
     program::shared::container::eventBus->subscribe(typeid(CFileUnloadedEvent), [&](message_ptr event) {
-		auto castedEvent = dynamic_cast<CFileUnloadedEvent*>(event.get());
+        auto castedEvent = dynamic_cast<CFileUnloadedEvent*>(event.get());
 
         program::loader::container::guiApp->displayStatus(strenc("File ") + castedEvent->fileId() + strenc(" has been unloaded."));
         program::loader::container::guiApp->removeFromFileList(castedEvent->fileId());
 
-		auto loadedFiles = program::core::container::file::binaryFileStateManager->loadedFiles();
+        auto loadedFiles = program::core::container::file::binaryFileStateManager->loadedFiles();
         if (loadedFiles.empty()) {
             program::loader::container::guiApp->displayEmpty();
         } else {

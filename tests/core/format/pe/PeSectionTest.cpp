@@ -4,10 +4,10 @@
 #include <vector>
 #include <stdio.h>
 
-auto x86exe_Sections = BinaryMother::x86exe()->sections();
-auto x86dll_Sections = BinaryMother::x86dll()->sections();
-auto x86_64exe_Sections = BinaryMother::x86_64exe()->sections();
-auto x86_64dll_Sections = BinaryMother::x86_64dll()->sections();
+auto x86exe_Sections = BinaryMother::x86exe()->peSections();
+auto x86dll_Sections = BinaryMother::x86dll()->peSections();
+auto x86_64exe_Sections = BinaryMother::x86_64exe()->peSections();
+auto x86_64dll_Sections = BinaryMother::x86_64dll()->peSections();
 
 TEST(PeSectionTest, EqOperandTest)
 {

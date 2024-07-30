@@ -3,7 +3,9 @@
 
 #include "../file/IFileReader.hpp"
 #include "../file/BinaryFileStateManager.hpp"
-#include "../file/analysis/AnalysisRunner.hpp"
+#include "../analysis/AnalysisRunner.hpp"
+#include "../assembler/Assembler.hpp"
+#include "core/modification/section/AddSectionHandler.hpp"
 
 namespace program
 {
@@ -19,7 +21,16 @@ namespace program
                 }
             }
 
+            namespace assembly {
+                extern std::unique_ptr<IAssembler> assembler;
+            }
+
+            namespace handler {
+                extern std::unique_ptr<CAddSectionHandler> addSectionHandler;
+            }
+
             void init(int argc, char** argv);
+            void exit();
         }
     }
 }

@@ -4,7 +4,7 @@
 #include "BinaryFile.hpp"
 #include <shared/message/IMessageBus.hpp>
 #include "IFileReader.hpp"
-#include "analysis/AnalysisRunner.hpp"
+#include "../analysis/AnalysisRunner.hpp"
 #include <memory>
 
 class CBinaryFileStateManager
@@ -16,11 +16,11 @@ class CBinaryFileStateManager
     std::map<file_id, binary_file_ptr> m_binaryFileMap;
     binary_file_ptr m_binaryFileCurrent;
 
-    std::shared_ptr<CAnalysisRunner> m_analysisRunner;
+    CAnalysisRunner* m_analysisRunner;
 public:
     CBinaryFileStateManager(IMessageBus* eventBus, IFileReader* fileReader, CAnalysisRunner* analysisRunner);
     binary_file_ptr binaryFile(const file_id& fileId) const;
-    CBinary binaryFileBinary(const file_id& fileId) const;
+    CBinary binaryFileModifiedBinary(const file_id& fileId) const;
     void load(const std::filesystem::path& filePath);
     void setCurrentWorkFile(const file_id& fileId);
     void unload(const file_id fileId);

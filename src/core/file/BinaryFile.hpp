@@ -1,10 +1,12 @@
 #ifndef CORE_FILE__BINARY_FILE_HPP_
 #define CORE_FILE__BINARY_FILE_HPP_
 
-#include "../Binary.hpp"
-#include "../attributes.hpp"
+#include "../shared/Binary.hpp"
+#include "../shared/attributes.hpp"
 #include "BinaryAttributes.hpp"
+#include "core/file/BinaryModification.hpp"
 #include "flags.hpp"
+#include "shared/value/Uuid.hpp"
 #include <string>
 #include <filesystem>
 
@@ -15,7 +17,8 @@ using binary_file_ptr = std::shared_ptr<CBinaryFile>;
 class CBinaryFile
 {
     const std::filesystem::path m_filePath;
-    const CBinary m_binary;
+    const CBinary m_originalBinary;
+    std::vector<const CBinaryModification> m_vecBinaryModification;
     uint_32 m_flags;
     BinaryAttributes_t m_attributes;
 public:
@@ -23,16 +26,18 @@ public:
     std::filesystem::path filePath() const;
     std::string fileName() const;
     file_id fileId() const;
-    CBinary binary() const;
+    CBinary originalBinary() const;
+    CBinary modifiedBinary() const;
     Format format() const;
+    Architecture arch() const;
     BinaryAttributes_t attributes() const;
     void enableFlags(BinaryFileFlags flags);
     void disableFlags(BinaryFileFlags flags);
     bool hasFlags(BinaryFileFlags flags) const;
     bool hasAnyFlags() const;
     bool isProtectedByBinarmor() const;
-    void assignAttributes(const BinaryAttributes_t& attributes);
-    void completeAnalysis();
+    bool hasModification(const CUuid& modificationId);
+    void registerModification(const CBinaryModification& modification);
 };
 
 #endif // CORE_FILE__BINARY_FILE_HPP_

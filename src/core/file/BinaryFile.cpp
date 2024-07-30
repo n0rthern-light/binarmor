@@ -1,7 +1,13 @@
 #include "BinaryFile.hpp"
+#include "core/shared/attributes.hpp"
 #include "core/file/BinaryAttributes.hpp"
+#include "core/file/BinaryModification.hpp"
+#include "shared/value/Uuid.hpp"
+#include <algorithm>
+#include <stdexcept>
+#include <vector>
 
-CBinaryFile::CBinaryFile(const std::string& filePath, const CBinary& binary, uint_32 flags, const BinaryAttributes_t& attributes): m_filePath(filePath), m_binary(binary), m_flags(flags), m_attributes(attributes)
+CBinaryFile::CBinaryFile(const std::string& filePath, const CBinary& binary, uint_32 flags, const BinaryAttributes_t& attributes): m_filePath(filePath), m_originalBinary(binary), m_flags(flags), m_attributes(attributes), m_vecBinaryModification({ })
 { }
 
 std::filesystem::path CBinaryFile::filePath() const
@@ -19,14 +25,39 @@ file_id CBinaryFile::fileId() const
     return filePath().string();
 }
 
-CBinary CBinaryFile::binary() const
+CBinary CBinaryFile::originalBinary() const
 {
-    return m_binary;
+    return m_originalBinary;
+}
+
+CBinary CBinaryFile::modifiedBinary() const
+{
+    auto modifiedBinary = m_originalBinary.bytes();
+    auto appliedModifications = std::vector<CUuid> { };
+
+    for (const auto& modification : m_vecBinaryModification) {
+        for (const auto& dependency : modification.requiredModificationIds()) {
+            auto it = std::find(appliedModifications.begin(), appliedModifications.end(), dependency);
+            if (it == appliedModifications.end()) {
+                throw std::runtime_error(strenc("Required modification was not applied"));
+            }
+        }
+
+        modifiedBinary = modification.apply(modifiedBinary);
+        appliedModifications.push_back(modification.id());
+    }
+    
+    return CBinary { modifiedBinary };
 }
 
 Format CBinaryFile::format() const
 {
     return m_attributes.format;
+}
+
+Architecture CBinaryFile::arch() const
+{
+    return m_attributes.arch;
 }
 
 BinaryAttributes_t CBinaryFile::attributes() const
@@ -63,8 +94,29 @@ bool CBinaryFile::isProtectedByBinarmor() const
     return m_attributes.isProtected;
 }
 
-void CBinaryFile::assignAttributes(const BinaryAttributes_t& attributes)
+bool CBinaryFile::hasModification(const CUuid& modificationId)
 {
-    m_attributes = attributes;
+    for (const auto& modification : m_vecBinaryModification) {
+        if (modification.id() == modificationId) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void CBinaryFile::registerModification(const CBinaryModification& modification)
+{
+    if (hasModification(modification.id())) {
+        throw std::runtime_error(strenc("Modification already registered"));
+    }
+
+    for (const auto& dependency : modification.requiredModificationIds()) {
+        if (!hasModification(dependency)) {
+            throw std::runtime_error(strenc("Modification requirements not met"));
+        }
+    }
+
+    m_vecBinaryModification.push_back(modification);
 }
 

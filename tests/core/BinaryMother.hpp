@@ -2,7 +2,7 @@
 #define TESTS_CORE__BINARY_MOTHER_HPP_
 
 #include <core/file/fstream/fstreamFileReader.hpp>
-#include <core/Binary.hpp>
+#include <core/shared/Binary.hpp>
 #include <core/format/pe/PeFormat.hpp>
 
 class BinaryMother
@@ -22,12 +22,20 @@ public:
 
     static CPeFormat* readPeFromDisk(const char* path)
     {
-        return new CPeFormat(new CBinary(fileReader()->read(path)));
+        return new CPeFormat(*(new CBinary(fileReader()->read(path))));
     }
 
     static CPeFormat* x86exe()
     {
         auto path = testBinaryPath("/windows/x86.exe");
+        static auto binary = readPeFromDisk(path.c_str());
+
+        return binary;
+    }
+
+    static CPeFormat* metin2exe()
+    {
+        auto path = testBinaryPath("/windows/metin2clientVMPDumpFixedTotalDisabledTls.exe");
         static auto binary = readPeFromDisk(path.c_str());
 
         return binary;

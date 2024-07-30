@@ -7,6 +7,7 @@ class CompressorRecipe(ConanFile):
 
     def requirements(self):
         self.requires("openssl/3.2.2")
+        self.requires("asmjit/cci.20240531")
 
     def layout(self):
         cmake_layout(self)

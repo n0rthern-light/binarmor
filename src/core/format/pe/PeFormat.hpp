@@ -2,17 +2,19 @@
 #define CORE_FORMAT_PE__PE_FORMAT_HPP_
 
 #include "../IFormat.hpp"
-#include "../../Binary.hpp"
+#include "../../shared/Binary.hpp"
 #include "PeSection.hpp"
 #include "PeModule.hpp"
-#include "../../BinaryPointer.hpp"
+#include "../../shared/BinaryPointer.hpp"
+#include "../../shared/SectionPermissions.hpp"
 
 class CPeFormat : public IFormat
 {
-    CBinary* _binary;
+    CBinary m_binary;
 public:
-    CPeFormat(CBinary* binary);
-    CBinary* binary() const;
+    CPeFormat(const CBinary& binary);
+    CBinary binary() const;
+    byte_vec bytes() const;
     Architecture architecture() const;
     Type type() const;
     Endianness endianness() const;
@@ -20,8 +22,17 @@ public:
     CUnsigned entryPoint() const;
     binary_offset rvaToOffset(const binary_offset& rva) const;
     CBinaryPointer rvaToPointer(const binary_offset& rva) const;
-    pe_section_vec sections() const;
+    pe_section_vec peSections() const;
+    section_vec sections() const;
     pe_module_map imports() const;
+    CPeFormat addSection(
+        const std::string& name,
+        binary_offset size,
+        const CSectionPermissions permissions
+    ) const;
+    CPeFormat addCode(
+
+    ) const;
 };
 
 #endif // CORE_FORMAT_PE__PE_FORMAT_HPP_

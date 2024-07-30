@@ -2,7 +2,7 @@
 #define CORE_FILE__I_FILE_READER_HPP_
 
 #include <string>
-#include "../Binary.hpp"
+#include "../shared/Binary.hpp"
 
 class IFileReader
 {

@@ -6,6 +6,7 @@
 #include <memory>
 #include <shared/self_obfuscation/strenc.hpp>
 #include <core/application/events/NewFileSelectedEvent.hpp>
+#include <wx/event.h>
 
 wxDECLARE_EVENT(EVENT_DISPLAY_WINDOW_OPEN_FILE, wxCommandEvent);
 wxDEFINE_EVENT(EVENT_DISPLAY_WINDOW_OPEN_FILE, wxCommandEvent);
@@ -25,15 +26,15 @@ CwxFrame::CwxFrame(IMessageBus* t_eventBus): wxFrame(NULL, wxID_ANY, strenc("Bin
 
 void CwxFrame::initUi()
 {
-    m_mainPanel = std::make_unique<wxPanel>(this, wxID_ANY);
-    m_sidebarPanel = std::make_unique<CwxSidebarPanel>(m_mainPanel.get(), m_eventBus);
-    m_contentPanel = std::make_unique<CwxContentPanel>(m_mainPanel.get(), m_eventBus);
+    m_mainPanel = new wxPanel(this, wxID_ANY);
+    m_sidebarPanel = new CwxSidebarPanel(m_mainPanel, m_eventBus);
+    m_contentPanel = new CwxContentPanel(m_mainPanel, m_eventBus);
 
-    m_mainSizer = std::make_unique<wxBoxSizer>(wxHORIZONTAL);
-    m_mainSizer->Add(m_sidebarPanel.get(), 0, wxEXPAND | wxALL, 5);
-    m_mainSizer->Add(m_contentPanel.get(), 1, wxEXPAND | wxALL, 5);
+    m_mainSizer = new wxBoxSizer(wxHORIZONTAL);
+    m_mainSizer->Add(m_sidebarPanel, 0, wxEXPAND | wxALL, 5);
+    m_mainSizer->Add(m_contentPanel, 1, wxEXPAND | wxALL, 5);
 
-    m_mainPanel->SetSizer(m_mainSizer.get());
+    m_mainPanel->SetSizer(m_mainSizer);
 
     CreateStatusBar();
     SetStatusText(strenc("Welcome to BinArmor v0.1"));

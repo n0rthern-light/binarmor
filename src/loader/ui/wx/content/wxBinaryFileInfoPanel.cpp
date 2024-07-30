@@ -1,5 +1,5 @@
 #include "wxBinaryFileInfoPanel.hpp"
-#include "core/attributes.hpp"
+#include "core/shared/attributes.hpp"
 #include "loader/ui/wx/wx_headers.hpp"
 #include "shared/RuntimeException.hpp"
 #include "shared/self_obfuscation/strenc.hpp"

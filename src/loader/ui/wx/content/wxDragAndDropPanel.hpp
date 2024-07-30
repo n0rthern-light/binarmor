@@ -9,7 +9,7 @@
 class CwxDragAndDropPanel : public wxPanel
 {
     IMessageBus* m_eventBus;
-    std::unique_ptr<wxSizer> m_sizer;
+    wxSizer* m_sizer;
 public:
     CwxDragAndDropPanel(wxWindow* parent, IMessageBus* t_eventBus);
 };

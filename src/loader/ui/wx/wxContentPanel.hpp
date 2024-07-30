@@ -9,9 +9,9 @@
 class CwxContentPanel : public wxPanel
 {
     IMessageBus* m_eventBus;
-    std::unique_ptr<wxBoxSizer> m_sizer;
-    std::unique_ptr<CwxNotepadPanel> m_notepadPanel;
-    std::unique_ptr<CwxDragAndDropPanel> m_dragAndDropPanel;
+    wxBoxSizer* m_sizer;
+    CwxNotepadPanel* m_notepadPanel;
+    CwxDragAndDropPanel* m_dragAndDropPanel;
 
 public:
     CwxContentPanel(wxWindow* parent, IMessageBus* t_eventBus);
