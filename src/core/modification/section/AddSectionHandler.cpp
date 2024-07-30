@@ -22,10 +22,6 @@ void CAddSectionHandler::handle(const CAddSectionCommand& command)
         throw ModificationException(strenc("Unsupported binary file format for modification"));
     }
 
-    if (binaryFile->arch() != Architecture::X86) {
-        throw ModificationException(strenc("Unsupported binary file architecture for modification"));
-    }
-
     const auto pe = CPeFormat { binaryFile->modifiedBinary() };
     const auto modifiedPe = pe.addSection(command.sectionId(), command.size(), command.permissions());
 
