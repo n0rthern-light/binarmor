@@ -3,6 +3,7 @@
 
 #include "../shared/attributes.hpp"
 #include <shared/value/Unsigned.hpp>
+#include "ISection.hpp"
 
 class IFormat
 {
@@ -13,6 +14,7 @@ public:
     virtual Endianness endianness() const = 0;
     virtual AddressType addressType() const = 0;
     virtual CUnsigned entryPoint() const = 0;
+    virtual section_vec sections() const = 0;
 };
 
 #endif // CORE_FORMAT__I_FORMAT_HPP_

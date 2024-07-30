@@ -56,8 +56,8 @@ TEST(PeSectionTest, CanAddNewSectionsIn32Bit)
     const auto permissions = CSectionPermissions { SectionPermissionType::READ };
     auto modified = x86exe->addSection(".test_d", SECTION_SIZE, permissions);
 
-    auto originalSections = x86exe->sections();
-    auto modifiedSections = modified.sections();
+    auto originalSections = x86exe->peSections();
+    auto modifiedSections = modified.peSections();
     const auto insertedSection = modifiedSections.back();
 
     ASSERT_EQ(modifiedSections.size(), originalSections.size() + 1);
@@ -79,8 +79,8 @@ TEST(PeSectionTest, CanAddNewSectionsIn64Bit)
     const auto permissions = CSectionPermissions { SectionPermissionType::EXECUTE };
     auto modified = x86_64exe->addSection(".test_d", SECTION_SIZE, permissions);
 
-    auto originalSections = x86_64exe->sections();
-    auto modifiedSections = modified.sections();
+    auto originalSections = x86_64exe->peSections();
+    auto modifiedSections = modified.peSections();
     const auto insertedSection = modifiedSections.back();
 
     ASSERT_EQ(modifiedSections.size(), originalSections.size() + 1);

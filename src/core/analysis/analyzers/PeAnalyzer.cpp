@@ -16,7 +16,7 @@ void CPeAnalyzer::analyze(const CBinary& binary, BinaryAttributes_t& attributes)
 
     attributes.arch = pe.architecture();
     attributes.type = pe.type();
-    auto sections = pe.sections();
+    auto sections = pe.peSections();
     attributes.sectionCount = sections.size();
     auto importModules = pe.imports();
     attributes.importedModuleCount = importModules.size();

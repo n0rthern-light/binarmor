@@ -79,9 +79,22 @@ CUnsigned CPeFormat::entryPoint() const
     throw RuntimeException(strenc("Not found entry point"));
 }
 
-pe_section_vec CPeFormat::sections() const
+pe_section_vec CPeFormat::peSections() const
 {
     return format::pe::readSectionList(*this);
+}
+
+section_vec CPeFormat::sections() const
+{
+    const auto pe = peSections();
+    auto res = section_vec { };
+    res.reserve(pe.size());
+
+    for (const auto& section : pe) {
+        res.push_back(std::static_pointer_cast<ISection>(section));
+    }
+
+    return res;
 }
 
 binary_offset CPeFormat::rvaToOffset(const binary_offset& rva) const

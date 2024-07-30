@@ -40,7 +40,7 @@ TEST(AddSectionHandlerTest, CanAddSectionToX86)
 
     //then
     auto pe = CPeFormat { program::core::container::file::binaryFileStateManager->binaryFileModifiedBinary(fileId) };
-    auto sections = pe.sections();
+    auto sections = pe.peSections();
 
     ASSERT_STREQ(sections.back()->name().c_str(), ".zxcvbd");
     ASSERT_TRUE(sections.back()->permissions().hasPermissionTo(SectionPermissionType::WRITE));
@@ -79,7 +79,7 @@ TEST(AddSectionHandlerTest, CanAddSectionToX64)
 
     //then
     auto pe = CPeFormat { program::core::container::file::binaryFileStateManager->binaryFileModifiedBinary(fileId) };
-    auto sections = pe.sections();
+    auto sections = pe.peSections();
 
     ASSERT_STREQ(sections.back()->name().c_str(), "._2");
     ASSERT_TRUE(sections.back()->permissions().hasPermissionTo(SectionPermissionType::WRITE));

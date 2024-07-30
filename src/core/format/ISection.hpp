@@ -6,6 +6,11 @@
 #include <string>
 #include <shared/value/Unsigned.hpp>
 
+class ISection;
+
+typedef std::shared_ptr<ISection> section_ptr;
+typedef std::vector<section_ptr> section_vec;
+
 class ISection {
 public:
     virtual ~ISection() = default;

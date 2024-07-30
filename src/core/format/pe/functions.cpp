@@ -325,7 +325,7 @@ CPeFormat format::pe::addSection(
 
     const auto numberOfSections = format::pe::numberOfSections(peFormat);
     const auto offset = format::pe::sectionsStartOffset(peFormat);
-    const auto sections = peFormat.sections();
+    const auto sections = peFormat.peSections();
     const auto lastSectionOrigin = sections.back()->origin();
     const auto lastSection = *reinterpret_cast<IMAGE_SECTION_HEADER*>(lastSectionOrigin.ptr());
 
