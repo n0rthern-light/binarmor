@@ -54,7 +54,7 @@ TEST(PeSectionTest, CanAddNewSectionsIn32Bit)
 {
     constexpr binary_offset SECTION_SIZE = 0x10001;
     const auto permissions = CSectionPermissions { SectionPermissionType::READ };
-    auto modified = x86exe->addSection(".test_d", SECTION_SIZE, permissions);
+    auto modified = x86exe->addPeSection(".test_d", SECTION_SIZE, permissions);
 
     auto originalSections = x86exe->peSections();
     auto modifiedSections = modified.peSections();
@@ -77,7 +77,7 @@ TEST(PeSectionTest, CanAddNewSectionsIn64Bit)
 {
     constexpr binary_offset SECTION_SIZE = 0x10001;
     const auto permissions = CSectionPermissions { SectionPermissionType::EXECUTE };
-    auto modified = x86_64exe->addSection(".test_d", SECTION_SIZE, permissions);
+    auto modified = x86_64exe->addPeSection(".test_d", SECTION_SIZE, permissions);
 
     auto originalSections = x86_64exe->peSections();
     auto modifiedSections = modified.peSections();

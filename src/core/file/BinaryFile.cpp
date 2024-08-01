@@ -1,9 +1,12 @@
 #include "BinaryFile.hpp"
+#include "core/format/pe/PeFormat.hpp"
 #include "core/shared/attributes.hpp"
 #include "core/file/BinaryAttributes.hpp"
 #include "core/file/BinaryModification.hpp"
+#include "shared/RuntimeException.hpp"
 #include "shared/value/Uuid.hpp"
 #include <algorithm>
+#include <memory>
 #include <stdexcept>
 #include <vector>
 
@@ -48,6 +51,16 @@ CBinary CBinaryFile::modifiedBinary() const
     }
     
     return CBinary { modifiedBinary };
+}
+
+std::shared_ptr<IFormat> CBinaryFile::modifiedBinaryAsFormat() const
+{
+    const auto& fmt = format();
+    if (fmt == Format::Windows_PE) {
+        return std::make_shared<CPeFormat>(modifiedBinary());
+    } else {
+        throw RuntimeException(strenc("Unsupported format"));
+    }
 }
 
 Format CBinaryFile::format() const

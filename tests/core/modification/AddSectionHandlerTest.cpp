@@ -3,6 +3,7 @@
 #include "core/application/container.hpp"
 #include "core/application/behave.hpp"
 #include "core/format/pe/PeFormat.hpp"
+#include "core/format/pe/defines.hpp"
 #include "core/modification/AddSectionCommand.hpp"
 #include "core/shared/SectionPermissions.hpp"
 #include "shared/application/container.hpp"
@@ -44,9 +45,11 @@ TEST(AddSectionHandlerTest, CanAddSectionToX86)
 
     ASSERT_STREQ(sections.back()->name().c_str(), ".zxcvbd");
     ASSERT_TRUE(sections.back()->permissions().hasPermissionTo(SectionPermissionType::WRITE));
+    ASSERT_EQ(pe.binary().part(sections.back()->rawAddress().get(), sections.back()->rawSize()), byte_vec(sections.back()->rawSize(), PE_SECTION_NULL_BYTE));
 
     ASSERT_STREQ(sections[sections.size() - 2]->name().c_str(), ".zxcvbx");
     ASSERT_TRUE(sections[sections.size() - 2]->permissions().hasPermissionTo(SectionPermissionType::EXECUTE));
+    ASSERT_EQ(pe.binary().part(sections[sections.size() - 2]->rawAddress().get(), sections[sections.size() - 2]->rawSize()), byte_vec(sections[sections.size() - 2]->rawSize(), PE_SECTION_NULL_BYTE));
 }
 
 TEST(AddSectionHandlerTest, CanAddSectionToX64)
@@ -83,8 +86,10 @@ TEST(AddSectionHandlerTest, CanAddSectionToX64)
 
     ASSERT_STREQ(sections.back()->name().c_str(), "._2");
     ASSERT_TRUE(sections.back()->permissions().hasPermissionTo(SectionPermissionType::WRITE));
+    ASSERT_EQ(pe.binary().part(sections.back()->rawAddress().get(), sections.back()->rawSize()), byte_vec(sections.back()->rawSize(), PE_SECTION_NULL_BYTE));
 
     ASSERT_STREQ(sections[sections.size() - 2]->name().c_str(), "._1");
     ASSERT_TRUE(sections[sections.size() - 2]->permissions().hasPermissionTo(SectionPermissionType::EXECUTE));
+    ASSERT_EQ(pe.binary().part(sections[sections.size() - 2]->rawAddress().get(), sections[sections.size() - 2]->rawSize()), byte_vec(sections[sections.size() - 2]->rawSize(), PE_SECTION_NULL_BYTE));
 }
 

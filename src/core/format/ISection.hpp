@@ -20,6 +20,7 @@ public:
     virtual size_t size() const = 0;
     virtual CBinaryPointer origin() const = 0;
     virtual CSectionPermissions permissions() const = 0;
+    virtual unsigned char nullByteRepresentation() const = 0;
 };
 
 #endif // CORE_FORMAT__I_SECTION_HPP_

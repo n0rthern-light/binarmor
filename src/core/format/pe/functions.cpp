@@ -331,12 +331,12 @@ CPeFormat format::pe::addSection(
 
     const auto newSectionHeader = format::pe::createNextSectionHeader(fileAlignment, sectionAlignment, lastSection, name, size, permissions);
     const auto sizeOfHeaders = sizeof(IMAGE_SECTION_HEADER);
-    auto newSectionHeaderBytes = byte_vec(sizeOfHeaders , 0x00);
+    auto newSectionHeaderBytes = byte_vec(sizeOfHeaders , PE_SECTION_NULL_BYTE);
     std::memcpy(&newSectionHeaderBytes[0], &newSectionHeader, sizeOfHeaders);
 
     auto bytes = binary.bytes();
     bytes = CByteVecOperations::bytesInsert(bytes, lastSectionOrigin.offset() + sizeOfHeaders, newSectionHeaderBytes);
-    bytes = CByteVecOperations::bytesInsert(bytes, newSectionHeader.PointerToRawData, byte_vec(newSectionHeader.SizeOfRawData, 0x00));
+    bytes = CByteVecOperations::bytesInsert(bytes, newSectionHeader.PointerToRawData, byte_vec(newSectionHeader.SizeOfRawData, PE_SECTION_NULL_BYTE));
 
     auto newBinary = CBinary { bytes };
 

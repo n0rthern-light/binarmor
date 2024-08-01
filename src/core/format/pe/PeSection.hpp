@@ -59,6 +59,7 @@ public:
     size_t size() const;
     CBinaryPointer origin() const;
     CSectionPermissions permissions() const;
+    unsigned char nullByteRepresentation() const;
 
     CUnsigned rawAddress() const;
     uint_32 rawSize() const;

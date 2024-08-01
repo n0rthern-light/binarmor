@@ -14,20 +14,23 @@ class CAddBytesCommand : public IMessage
     const byte_vec m_bytes;
     const bool m_executeOnStartup;
     const bool m_executable;
+    const bool m_writeable;
 public:
     CAddBytesCommand(
         const file_id& fileId,
         const CUuid& bytesId,
         const std::optional<std::string>& sectionId,
         const byte_vec& bytes,
-        bool executeOnStartup,
-        bool executable
+        bool executable = false,
+        bool writeable = false,
+        bool executeOnStartup = false
     ):  m_fileId(fileId),
         m_bytesId(bytesId),
         m_sectionId(sectionId),
         m_bytes(bytes),
-        m_executeOnStartup(executeOnStartup),
-        m_executable(executable)
+        m_executable(executable),
+        m_writeable(writeable),
+        m_executeOnStartup(executeOnStartup)
     { }
     file_id fileId() const { return m_fileId; }
     CUuid bytesId() const { return m_bytesId; }
@@ -35,6 +38,7 @@ public:
     byte_vec bytes() const { return m_bytes; }
     bool executeOnStartup() const { return m_executeOnStartup; }
     bool executable() const { return m_executable; }
+    bool writeable() const { return m_writeable; }
 };
 
 #endif // CORE_MODIFICATION__ADD_BYTES_COMMAND_HPP_

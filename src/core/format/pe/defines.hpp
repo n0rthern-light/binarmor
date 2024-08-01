@@ -3,6 +3,8 @@
 
 #include <shared/types/defines.hpp>
 
+constexpr unsigned char PE_SECTION_NULL_BYTE = 0x00;
+
 constexpr uint_16 IMAGE_DOS_SIGNATURE = 0x5A4D;
 constexpr uint_32 IMAGE_NT_SIGNATURE = 0x00004550;
 

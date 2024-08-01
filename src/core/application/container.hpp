@@ -5,6 +5,7 @@
 #include "../file/BinaryFileStateManager.hpp"
 #include "../analysis/AnalysisRunner.hpp"
 #include "../assembler/Assembler.hpp"
+#include "core/modification/bytes/AddBytesHandler.hpp"
 #include "core/modification/section/AddSectionHandler.hpp"
 
 namespace program
@@ -27,6 +28,7 @@ namespace program
 
             namespace handler {
                 extern std::unique_ptr<CAddSectionHandler> addSectionHandler;
+                extern std::unique_ptr<CAddBytesHandler> addBytesHandler;
             }
 
             void init(int argc, char** argv);
