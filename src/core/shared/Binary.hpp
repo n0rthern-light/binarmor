@@ -19,6 +19,7 @@ public:
     CBinaryPointer pointer(const binary_offset& offset) const;
     bool offsetExists(const binary_offset& offset) const;
     std::string hash(const IHasher* hasher) const;
+    bool allBytesAre(unsigned char byte) const;
 
     bool operator==(const CBinary& other) const;
 };

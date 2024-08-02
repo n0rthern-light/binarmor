@@ -68,6 +68,17 @@ std::string CBinary::hash(const IHasher* hasher) const
     return hasher->sha256FromBytes(m_bytes);
 }
 
+bool CBinary::allBytesAre(unsigned char byte) const
+{
+    for(const auto& b : m_bytes) {
+        if (b != byte) {
+            return false;
+        }
+    }
+
+    return m_bytes.size() != 0;
+}
+
 bool CBinary::operator==(const CBinary& other) const
 {
     if (size() != other.size()) {

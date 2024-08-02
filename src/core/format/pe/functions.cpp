@@ -92,8 +92,7 @@ pe_section_vec format::pe::readSectionList(const CPeFormat& peFormat)
     {
         auto sectionOrigin = binaryPointer.shift(i * sizeof(IMAGE_SECTION_HEADER));
         auto sectionHeader = *reinterpret_cast<IMAGE_SECTION_HEADER*>(sectionOrigin.ptr());
-        //auto section = CPeSection { sectionOrigin, sectionHeader };
-        auto section = std::make_shared<CPeSection>(sectionOrigin, sectionHeader);
+        auto section = std::make_shared<CPeSection>(sectionOrigin.offset(), sectionHeader);
         vec.push_back(section);
     }
 
@@ -325,17 +324,30 @@ CPeFormat format::pe::addSection(
 
     const auto numberOfSections = format::pe::numberOfSections(peFormat);
     const auto offset = format::pe::sectionsStartOffset(peFormat);
-    const auto sections = peFormat.peSections();
-    const auto lastSectionOrigin = sections.back()->headerAddress();
-    const auto lastSection = *reinterpret_cast<IMAGE_SECTION_HEADER*>(lastSectionOrigin.ptr());
-
-    const auto newSectionHeader = format::pe::createNextSectionHeader(fileAlignment, sectionAlignment, lastSection, name, size, permissions);
+    const auto& sections = peFormat.peSections();
+    const auto& firstSection = sections.front();
+    const auto& lastSection = sections.back();
+    const auto lastSectionHeaderOffset = lastSection->headerOffset();
+    const auto lastSectionHeader = *reinterpret_cast<IMAGE_SECTION_HEADER*>(binary.pointer(lastSectionHeaderOffset).ptr());
     const auto sizeOfHeaders = sizeof(IMAGE_SECTION_HEADER);
+    const auto newSectionHeaderOffset = lastSectionHeaderOffset + sizeOfHeaders;
+
+    // check if there is still a place for new section if not, realignment must be done.... NOT READY
+    const auto spaceLeftInHeaders = firstSection->baseAddress().get() - newSectionHeaderOffset;
+    if (spaceLeftInHeaders < sizeOfHeaders) {
+        throw RuntimeException(strenc("No more space left for a new section header"));
+    }
+    const auto newSectionHeaderCurrentBytes = binary.part(newSectionHeaderOffset, spaceLeftInHeaders);
+    if (newSectionHeaderCurrentBytes.allBytesAre(PE_SECTION_NULL_BYTE) == false) {
+        throw RuntimeException(strenc("Section header seem to be already initialized"));
+    }
+
+    const auto newSectionHeader = format::pe::createNextSectionHeader(fileAlignment, sectionAlignment, lastSectionHeader, name, size, permissions);
     auto newSectionHeaderBytes = byte_vec(sizeOfHeaders , PE_SECTION_NULL_BYTE);
     std::memcpy(&newSectionHeaderBytes[0], &newSectionHeader, sizeOfHeaders);
 
     auto bytes = binary.bytes();
-    bytes = CByteVecOperations::bytesModify(bytes, lastSectionOrigin.offset() + sizeOfHeaders, newSectionHeaderBytes);
+    bytes = CByteVecOperations::bytesModify(bytes, newSectionHeaderOffset, newSectionHeaderBytes);
     bytes = CByteVecOperations::bytesInsert(bytes, newSectionHeader.PointerToRawData, byte_vec(newSectionHeader.SizeOfRawData, PE_SECTION_NULL_BYTE));
 
     auto newBinary = CBinary { bytes };
