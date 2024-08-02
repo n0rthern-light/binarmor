@@ -332,7 +332,7 @@ CPeFormat format::pe::addSection(
     const auto sizeOfHeaders = sizeof(IMAGE_SECTION_HEADER);
     const auto newSectionHeaderOffset = lastSectionHeaderOffset + sizeOfHeaders;
 
-    // check if there is still a place for new section if not, realignment must be done.... NOT READY
+    // check if there is still a place for new section, if not realignment must be done, which is... NOT READY
     const auto spaceLeftInHeaders = firstSection->baseAddress().get() - newSectionHeaderOffset;
     if (spaceLeftInHeaders < sizeOfHeaders) {
         throw RuntimeException(strenc("No more space left for a new section header"));
