@@ -23,6 +23,7 @@ public:
     virtual Endianness endianness() const = 0;
     virtual AddressType addressType() const = 0;
     virtual CUnsigned entryPoint() const = 0;
+    virtual uint_16 sectionCount() const = 0;
     virtual section_vec sections() const = 0;
     virtual format_ptr addSection(
         const std::string& name,

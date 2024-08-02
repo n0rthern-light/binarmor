@@ -52,7 +52,6 @@ TEST(AddBytesHandlerTest, CanAddBytesToX86)
     ASSERT_EQ(partActual0, partExpected0);
 
     //when-continue
-
     program::shared::container::commandBus->publish(
         std::make_shared<CAddBytesCommand>(
             fileId,

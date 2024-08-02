@@ -19,6 +19,7 @@ TEST(AddSectionHandlerTest, CanAddSectionToX86)
     program::core::application::behave(0, nullptr);
     program::core::container::file::binaryFileStateManager->load(BinaryMother::testBinaryPath("/windows/x86.dll"));
     const auto fileId = program::core::container::file::binaryFileStateManager->loadedFiles()[0];
+    const auto originalSize = program::core::container::file::binaryFileStateManager->binaryFile(fileId)->originalBinary().size();
 
     //when
     program::shared::container::commandBus->publish(
@@ -50,6 +51,9 @@ TEST(AddSectionHandlerTest, CanAddSectionToX86)
     ASSERT_STREQ(sections[sections.size() - 2]->name().c_str(), ".zxcvbx");
     ASSERT_TRUE(sections[sections.size() - 2]->permissions().hasPermissionTo(SectionPermissionType::EXECUTE));
     ASSERT_EQ(pe.binary().part(sections[sections.size() - 2]->rawAddress().get(), sections[sections.size() - 2]->rawSize()), byte_vec(sections[sections.size() - 2]->rawSize(), PE_SECTION_NULL_BYTE));
+
+    const auto finalSize = program::core::container::file::binaryFileStateManager->binaryFile(fileId)->modifiedBinary().size();
+    ASSERT_EQ(finalSize, originalSize + 2048);
 }
 
 TEST(AddSectionHandlerTest, CanAddSectionToX64)
@@ -60,6 +64,7 @@ TEST(AddSectionHandlerTest, CanAddSectionToX64)
     program::core::application::behave(0, nullptr);
     program::core::container::file::binaryFileStateManager->load(BinaryMother::testBinaryPath("/windows/x86_64.exe"));
     const auto fileId = program::core::container::file::binaryFileStateManager->loadedFiles()[0];
+    const auto originalSize = program::core::container::file::binaryFileStateManager->binaryFile(fileId)->originalBinary().size();
 
     //when
     program::shared::container::commandBus->publish(
@@ -91,5 +96,8 @@ TEST(AddSectionHandlerTest, CanAddSectionToX64)
     ASSERT_STREQ(sections[sections.size() - 2]->name().c_str(), "._1");
     ASSERT_TRUE(sections[sections.size() - 2]->permissions().hasPermissionTo(SectionPermissionType::EXECUTE));
     ASSERT_EQ(pe.binary().part(sections[sections.size() - 2]->rawAddress().get(), sections[sections.size() - 2]->rawSize()), byte_vec(sections[sections.size() - 2]->rawSize(), PE_SECTION_NULL_BYTE));
+
+    const auto finalSize = program::core::container::file::binaryFileStateManager->binaryFile(fileId)->modifiedBinary().size();
+    ASSERT_EQ(finalSize, originalSize + 2048);
 }
 

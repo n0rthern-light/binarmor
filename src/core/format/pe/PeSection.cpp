@@ -17,7 +17,7 @@ CPeSection::CPeSection(
     const uint_16& numberOfRelocations,
     const uint_32& characteristics
 ) : m_name(name),
-    m_origin(origin),
+    m_headerAddress(origin),
     m_rawAddress(rawAddress),
     m_rawSize(rawSize),
     m_virtualAddress(virtualAddress),
@@ -39,7 +39,7 @@ CPeSection::CPeSection(
     const uint_16& numberOfRelocations,
     const uint_32& characteristics
 ) : m_name(name),
-    m_origin(std::nullopt),
+    m_headerAddress(std::nullopt),
     m_rawAddress(rawAddress),
     m_rawSize(rawSize),
     m_virtualAddress(virtualAddress),
@@ -79,9 +79,9 @@ size_t CPeSection::size() const
     return static_cast<size_t>(rawSize());
 }
 
-CBinaryPointer CPeSection::origin() const
+CBinaryPointer CPeSection::headerAddress() const
 {
-    return m_origin.value();
+    return m_headerAddress.value();
 }
 
 CSectionPermissions CPeSection::permissions() const

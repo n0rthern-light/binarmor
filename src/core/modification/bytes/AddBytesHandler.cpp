@@ -36,8 +36,8 @@ void CAddBytesHandler::handle(const CAddBytesCommand& command) const
         requestedPermissions = requestedPermissions.withPermission(SectionPermissionType::WRITE);
     }
 
-    auto fmt = binaryFile->modifiedBinaryAsFormat();
     bool requestedSectionExists = false;
+    auto fmt = binaryFile->modifiedBinaryAsFormat();
     for (const auto& section : fmt->sections()) {
         if (section->name() != requestedSectionId) {
             continue;
@@ -63,7 +63,7 @@ void CAddBytesHandler::handle(const CAddBytesCommand& command) const
 
         fmt = binaryFile->modifiedBinaryAsFormat();
     }
-    
+
     format_ptr fmtModified = nullptr;
     for(const auto& section : fmt->sections()) {
         if (section->name() != requestedSectionId) {
@@ -75,8 +75,9 @@ void CAddBytesHandler::handle(const CAddBytesCommand& command) const
         const auto sectionBytes = fmt->binary().part(sectionOffset, sectionSize).bytes();
         const auto requiredSize = command.bytes().size();
         binary_offset sectionFirstFreeOffset = 0;
+        bool inserted = false;
 
-        while(sectionFirstFreeOffset < sectionBytes.size()) {
+        while(sectionFirstFreeOffset < sectionBytes.size() && !inserted) {
             binary_offset currentStreak = 0;
             while(
                 sectionFirstFreeOffset + currentStreak < sectionBytes.size() &&
@@ -86,7 +87,7 @@ void CAddBytesHandler::handle(const CAddBytesCommand& command) const
                 ++currentStreak;
             }
 
-            if (currentStreak >= requiredSize) {
+            if (currentStreak >= requiredSize && !inserted) {
                 const auto finalOffset = sectionOffset + sectionFirstFreeOffset;
                 if (fmt->binary().offsetExists(finalOffset) == false) {
                     throw ModificationException(strenc("Not found empty space in requested section."));
@@ -96,6 +97,7 @@ void CAddBytesHandler::handle(const CAddBytesCommand& command) const
                 peBytes = CByteVecOperations::bytesModify(peBytes, finalOffset, command.bytes());
 
                 fmtModified = fmt->changeBytes(peBytes);
+                inserted = true;
                 break;
             }
 

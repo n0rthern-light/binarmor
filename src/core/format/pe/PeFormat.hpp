@@ -25,6 +25,7 @@ public:
     binary_offset rvaToOffset(const binary_offset& rva) const;
     CBinaryPointer rvaToPointer(const binary_offset& rva) const;
     pe_section_vec peSections() const;
+    uint_16 sectionCount() const;
     section_vec sections() const;
     pe_module_map imports() const;
     CPeFormat addPeSection(

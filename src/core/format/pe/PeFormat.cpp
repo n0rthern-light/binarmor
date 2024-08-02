@@ -88,6 +88,11 @@ pe_section_vec CPeFormat::peSections() const
     return format::pe::readSectionList(*this);
 }
 
+uint_16 CPeFormat::sectionCount() const
+{
+    return format::pe::numberOfSections(*this);
+}
+
 section_vec CPeFormat::sections() const
 {
     const auto pe = peSections();

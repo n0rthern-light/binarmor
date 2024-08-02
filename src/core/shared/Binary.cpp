@@ -5,11 +5,11 @@
 #include <shared/types/defines.hpp>
 #include <stdio.h>
 
-CBinary::CBinary(const byte_vec& bytes): _bytes(bytes) { }
+CBinary::CBinary(const byte_vec& bytes): m_bytes(bytes) { }
 
 byte_ptr CBinary::at(const binary_offset& offset) const
 {
-    return reinterpret_cast<byte_ptr>(&_bytes[offset]);
+    return reinterpret_cast<byte_ptr>(&m_bytes[offset]);
 }
 
 CBinary CBinary::part(const binary_offset& offset, const size_t& count) const
@@ -18,23 +18,23 @@ CBinary CBinary::part(const binary_offset& offset, const size_t& count) const
         return *this;
     }
 
-    if (offset >= _bytes.size()) {
+    if (offset >= m_bytes.size()) {
         throw std::out_of_range(strenc("Offset is out of the range of the data vector."));
     }
 
     auto localCount = count;
 
-    if (count == 0 || offset + count > _bytes.size()) {
-        localCount = _bytes.size() - offset;
+    if (count == 0 || offset + count > m_bytes.size()) {
+        localCount = m_bytes.size() - offset;
     }
 
-    auto subVector = byte_vec(&_bytes[offset], &_bytes[offset + localCount]);
+    auto subVector = byte_vec(&m_bytes[offset], &m_bytes[offset + localCount]);
 
     return CBinary(subVector);
 }
 
 byte_vec CBinary::bytes() const {
-    return _bytes;
+    return m_bytes;
 }
 
 std::string CBinary::string(const binary_offset& offset) const
@@ -44,18 +44,18 @@ std::string CBinary::string(const binary_offset& offset) const
 
 binary_offset CBinary::size() const
 {
-    return _bytes.size();
+    return m_bytes.size();
 }
 
 CBinaryPointer CBinary::pointer(const binary_offset& offset) const
 {
     if (!offsetExists(offset)) {
         char message[128];
-        sprintf(message, strenc("Out of range! Binary size is %u bytes, requested %u"), _bytes.size(), offset);
+        sprintf(message, strenc("Out of range! Binary size is %u bytes, requested %u"), m_bytes.size(), offset);
         throw std::out_of_range(message);
     }
 
-    return CBinaryPointer(offset, reinterpret_cast<uint_auto>(&_bytes[offset]));
+    return CBinaryPointer(offset, reinterpret_cast<uint_auto>(&m_bytes[offset]));
 }
 
 bool CBinary::offsetExists(const binary_offset& offset) const
@@ -65,7 +65,7 @@ bool CBinary::offsetExists(const binary_offset& offset) const
 
 std::string CBinary::hash(const IHasher* hasher) const
 {
-    return hasher->sha256FromBytes(_bytes);
+    return hasher->sha256FromBytes(m_bytes);
 }
 
 bool CBinary::operator==(const CBinary& other) const
@@ -74,8 +74,8 @@ bool CBinary::operator==(const CBinary& other) const
         return false;
     }
 
-    for(size_t i = 0; i < _bytes.size(); i++) {
-        if (_bytes[i] != other._bytes[i]) {
+    for(size_t i = 0; i < m_bytes.size(); i++) {
+        if (m_bytes[i] != other.m_bytes[i]) {
             return false;
         }
     }

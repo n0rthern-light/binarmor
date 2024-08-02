@@ -18,7 +18,7 @@ public:
     virtual std::string name() const = 0;
     virtual CUnsigned baseAddress() const = 0;
     virtual size_t size() const = 0;
-    virtual CBinaryPointer origin() const = 0;
+    virtual CBinaryPointer headerAddress() const = 0;
     virtual CSectionPermissions permissions() const = 0;
     virtual unsigned char nullByteRepresentation() const = 0;
 };

@@ -8,7 +8,7 @@
 
 class CBinary
 {
-    const byte_vec _bytes;
+    const byte_vec m_bytes;
     byte_ptr at(const binary_offset& offset) const;
 public:
     CBinary(const byte_vec& bytes);

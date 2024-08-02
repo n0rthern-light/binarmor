@@ -17,7 +17,7 @@ typedef std::vector<pe_section_ptr> pe_section_vec;
 class CPeSection : public ISection
 {
     std::string m_name;
-    std::optional<CBinaryPointer> m_origin;
+    std::optional<CBinaryPointer> m_headerAddress;
     CUnsigned m_rawAddress;
     uint_32 m_rawSize;
     CUnsigned m_virtualAddress;
@@ -29,7 +29,7 @@ class CPeSection : public ISection
 public:
     CPeSection(
         const std::string& name,
-        const CBinaryPointer& origin,
+        const CBinaryPointer& headerAddress,
         const CUnsigned& rawAddress,
         const uint_32& rawSize,
         const CUnsigned& virtualAddress,
@@ -57,7 +57,7 @@ public:
     std::string name() const;
     CUnsigned baseAddress() const;
     size_t size() const;
-    CBinaryPointer origin() const;
+    CBinaryPointer headerAddress() const;
     CSectionPermissions permissions() const;
     unsigned char nullByteRepresentation() const;
 

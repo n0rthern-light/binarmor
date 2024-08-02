@@ -326,7 +326,7 @@ CPeFormat format::pe::addSection(
     const auto numberOfSections = format::pe::numberOfSections(peFormat);
     const auto offset = format::pe::sectionsStartOffset(peFormat);
     const auto sections = peFormat.peSections();
-    const auto lastSectionOrigin = sections.back()->origin();
+    const auto lastSectionOrigin = sections.back()->headerAddress();
     const auto lastSection = *reinterpret_cast<IMAGE_SECTION_HEADER*>(lastSectionOrigin.ptr());
 
     const auto newSectionHeader = format::pe::createNextSectionHeader(fileAlignment, sectionAlignment, lastSection, name, size, permissions);
@@ -335,7 +335,7 @@ CPeFormat format::pe::addSection(
     std::memcpy(&newSectionHeaderBytes[0], &newSectionHeader, sizeOfHeaders);
 
     auto bytes = binary.bytes();
-    bytes = CByteVecOperations::bytesInsert(bytes, lastSectionOrigin.offset() + sizeOfHeaders, newSectionHeaderBytes);
+    bytes = CByteVecOperations::bytesModify(bytes, lastSectionOrigin.offset() + sizeOfHeaders, newSectionHeaderBytes);
     bytes = CByteVecOperations::bytesInsert(bytes, newSectionHeader.PointerToRawData, byte_vec(newSectionHeader.SizeOfRawData, PE_SECTION_NULL_BYTE));
 
     auto newBinary = CBinary { bytes };

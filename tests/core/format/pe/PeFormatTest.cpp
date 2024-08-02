@@ -50,18 +50,19 @@ TEST(PeFormatTest, CanResolveEntryPoint)
     ASSERT_EQ(x86_64dll->entryPoint().get(), 0x1330);
 }
 
-TEST(PeSectionTest, CanAddNewSectionsIn32Bit)
+TEST(PeFormatTest, CanAddNewSectionsIn32Bit)
 {
     constexpr binary_offset SECTION_SIZE = 0x10001;
     const auto permissions = CSectionPermissions { SectionPermissionType::READ };
     auto modified = x86exe->addPeSection(".test_d", SECTION_SIZE, permissions);
+    const auto originalSectionCount = x86exe->sectionCount();
 
     auto originalSections = x86exe->peSections();
     auto modifiedSections = modified.peSections();
     const auto insertedSection = modifiedSections.back();
 
     ASSERT_EQ(modifiedSections.size(), originalSections.size() + 1);
-    ASSERT_EQ(modified.binary().size(), x86exe->binary().size() + insertedSection->rawSize() + sizeof(IMAGE_SECTION_HEADER));
+    ASSERT_EQ(modified.binary().size(), x86exe->binary().size() + insertedSection->rawSize());
 
     ASSERT_STREQ(insertedSection->name().c_str(), ".test_d");
     ASSERT_EQ(insertedSection->virtualSize(), SECTION_SIZE);
@@ -71,20 +72,22 @@ TEST(PeSectionTest, CanAddNewSectionsIn32Bit)
 
     const auto sectionBytes = modified.binary().part(insertedSection->rawAddress().get(), insertedSection->rawSize());
     ASSERT_EQ(sectionBytes, byte_vec(insertedSection->rawSize(), 0x00));
+    ASSERT_EQ(modified.sectionCount(), originalSectionCount + 1);
 }
 
-TEST(PeSectionTest, CanAddNewSectionsIn64Bit)
+TEST(PeFormatTest, CanAddNewSectionsIn64Bit)
 {
     constexpr binary_offset SECTION_SIZE = 0x10001;
     const auto permissions = CSectionPermissions { SectionPermissionType::EXECUTE };
     auto modified = x86_64exe->addPeSection(".test_d", SECTION_SIZE, permissions);
+    const auto originalSectionCount = x86_64exe->sectionCount();
 
     auto originalSections = x86_64exe->peSections();
     auto modifiedSections = modified.peSections();
     const auto insertedSection = modifiedSections.back();
 
     ASSERT_EQ(modifiedSections.size(), originalSections.size() + 1);
-    ASSERT_EQ(modified.binary().size(), x86_64exe->binary().size() + insertedSection->rawSize() + sizeof(IMAGE_SECTION_HEADER));
+    ASSERT_EQ(modified.binary().size(), x86_64exe->binary().size() + insertedSection->rawSize());
 
     ASSERT_STREQ(insertedSection->name().c_str(), ".test_d");
     ASSERT_EQ(insertedSection->virtualSize(), SECTION_SIZE);
@@ -94,5 +97,6 @@ TEST(PeSectionTest, CanAddNewSectionsIn64Bit)
 
     const auto sectionBytes = modified.binary().part(insertedSection->rawAddress().get(), insertedSection->rawSize());
     ASSERT_EQ(sectionBytes, byte_vec(insertedSection->rawSize(), 0x00));
+    ASSERT_EQ(modified.sectionCount(), originalSectionCount + 1);
 }
 
