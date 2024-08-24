@@ -6,7 +6,6 @@
 #include "core/format/pe/PeFormat.hpp"
 #include "core/format/pe/defines.hpp"
 #include "core/modification/AddBytesCommand.hpp"
-#include "core/modification/AddSectionCommand.hpp"
 #include "core/shared/SectionPermissions.hpp"
 #include "shared/application/container.hpp"
 #include "shared/value/ByteVecOperations.hpp"
@@ -16,13 +15,16 @@
 #include <stdio.h>
 #include <unistd.h>
 
-TEST(AddBytesHandlerTest, CanAddBytesToX86)
+class AddBytesHandlerTest : public ::testing::TestWithParam<std::string> {
+};
+
+TEST_P(AddBytesHandlerTest, CanAddBytes)
 {
     //given
     program::shared::container::init(0, nullptr);
     program::core::container::init(0, nullptr);
     program::core::application::behave(0, nullptr);
-    program::core::container::file::binaryFileStateManager->load(BinaryMother::testBinaryPath("/windows/x86.dll"));
+    program::core::container::file::binaryFileStateManager->load(BinaryMother::testBinaryPath(GetParam()));
     const auto fileId = program::core::container::file::binaryFileStateManager->loadedFiles()[0];
     const CUuid bytesId { };
     const auto sectionSize = 512;
@@ -94,3 +96,8 @@ TEST(AddBytesHandlerTest, CanAddBytesToX86)
     ASSERT_EQ(partActual2, partExpected2);
 }
 
+INSTANTIATE_TEST_SUITE_P(
+    AddBytesHandlerMultipleFilesTest,
+    AddBytesHandlerTest,
+    ::testing::Values("/windows/x86.dll", "/windows/x86.exe", "/windows/x86_64.dll", "/windows/x86_64.exe")
+);
