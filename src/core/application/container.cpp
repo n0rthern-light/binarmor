@@ -6,7 +6,7 @@
 #include "core/modification/bytes/AddBytesHandler.hpp"
 #include "core/modification/section/AddSectionHandler.hpp"
 
-std::unique_ptr<IFileReader> program::core::container::file::fileReader = nullptr;
+std::unique_ptr<IFileSystem> program::core::container::file::fileSystem = nullptr;
 std::unique_ptr<CBinaryFileStateManager> program::core::container::file::binaryFileStateManager = nullptr;
 std::unique_ptr<CAnalysisRunner> program::core::container::file::analysis::runner = nullptr;
 std::unique_ptr<IAssembler> program::core::container::assembly::assembler = nullptr;
@@ -15,14 +15,14 @@ std::unique_ptr<CAddBytesHandler> program::core::container::handler::addBytesHan
 
 void program::core::container::init(int argc, char** argv)
 {
-    program::core::container::file::fileReader = std::make_unique<CfstreamFileReader>();
+    program::core::container::file::fileSystem = std::make_unique<CfstreamFileSystem>();
     program::core::container::file::analysis::runner = std::make_unique<CAnalysisRunner>(
         program::shared::container::eventBus.get(),
         program::shared::container::hasher.get()
     );
     program::core::container::file::binaryFileStateManager = std::make_unique<CBinaryFileStateManager>(
         program::shared::container::eventBus.get(),
-        program::core::container::file::fileReader.get(),
+        program::core::container::file::fileSystem.get(),
         program::core::container::file::analysis::runner.get()
     );
     program::core::container::assembly::assembler = std::make_unique<CAsmJitAssembler>();
@@ -40,7 +40,7 @@ void program::core::container::exit()
     program::core::container::assembly::assembler = nullptr;
     program::core::container::file::binaryFileStateManager = nullptr;
     program::core::container::file::analysis::runner = nullptr;
-    program::core::container::file::fileReader = nullptr;
+    program::core::container::file::fileSystem = nullptr;
     program::core::container::handler::addSectionHandler = nullptr;
     program::core::container::handler::addBytesHandler = nullptr;
 }
