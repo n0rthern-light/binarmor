@@ -1,6 +1,7 @@
 #include "behave.hpp"
 #include "container.hpp"
 #include <shared/application/container.hpp>
+#include "core/modification/AddBytesCommand.hpp"
 #include "core/modification/AddSectionCommand.hpp"
 #include "events/FileUnloadRequestedEvent.hpp"
 #include "events/WorkFileChangeRequestedEvent.hpp"
@@ -28,6 +29,11 @@ void program::core::application::behave(int argc, char** argv)
     program::shared::container::commandBus->subscribe(typeid(CAddSectionCommand), [&](message_ptr command) {
         auto castedCommand = dynamic_cast<CAddSectionCommand*>(command.get());
         program::core::container::handler::addSectionHandler->handle(*castedCommand);
+    });
+
+    program::shared::container::commandBus->subscribe(typeid(CAddBytesCommand), [&](message_ptr command) {
+        auto castedCommand = dynamic_cast<CAddBytesCommand*>(command.get());
+        program::core::container::handler::addBytesHandler->handle(*castedCommand);
     });
 }
 

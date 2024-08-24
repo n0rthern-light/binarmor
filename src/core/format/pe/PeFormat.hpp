@@ -7,11 +7,13 @@
 #include "PeModule.hpp"
 #include "../../shared/BinaryPointer.hpp"
 #include "../../shared/SectionPermissions.hpp"
+#include "shared/types/defines.hpp"
 
 class CPeFormat : public IFormat
 {
     CBinary m_binary;
 public:
+    CPeFormat(const CPeFormat& other);
     CPeFormat(const CBinary& binary);
     CBinary binary() const;
     byte_vec bytes() const;
@@ -23,15 +25,21 @@ public:
     binary_offset rvaToOffset(const binary_offset& rva) const;
     CBinaryPointer rvaToPointer(const binary_offset& rva) const;
     pe_section_vec peSections() const;
+    uint_16 sectionCount() const;
     section_vec sections() const;
     pe_module_map imports() const;
-    CPeFormat addSection(
+    CPeFormat addPeSection(
         const std::string& name,
         binary_offset size,
         const CSectionPermissions permissions
     ) const;
-    CPeFormat addCode(
-
+    format_ptr addSection(
+        const std::string& name,
+        binary_offset size,
+        const CSectionPermissions permissions
+    ) const;
+    format_ptr changeBytes(
+        const byte_vec& bytes
     ) const;
 };
 

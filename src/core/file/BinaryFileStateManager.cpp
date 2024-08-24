@@ -8,7 +8,14 @@
 #include <shared/RuntimeException.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
 
-CBinaryFileStateManager::CBinaryFileStateManager(IMessageBus* eventBus, IFileReader* fileReader, CAnalysisRunner* analysisRunner) : m_eventBus(eventBus), m_fileReader(fileReader), m_analysisRunner(analysisRunner)
+CBinaryFileStateManager::CBinaryFileStateManager(
+    IMessageBus* eventBus,
+    IFileSystem* fileSystem,
+    CAnalysisRunner* analysisRunner
+):
+    m_eventBus(eventBus),
+    m_fileSystem(fileSystem),
+    m_analysisRunner(analysisRunner)
 {
     m_vecBinaryFileId = { };
     m_binaryFileMap = { };
@@ -17,6 +24,10 @@ CBinaryFileStateManager::CBinaryFileStateManager(IMessageBus* eventBus, IFileRea
 
 binary_file_ptr CBinaryFileStateManager::binaryFile(const file_id& fileId) const
 {
+    if (m_binaryFileMap.find(fileId) == m_binaryFileMap.end()) {
+        throw RuntimeException("Requested file id is not loaded");
+    }
+
     return m_binaryFileMap.at(fileId);
 }
 
@@ -27,7 +38,7 @@ CBinary CBinaryFileStateManager::binaryFileModifiedBinary(const file_id& fileId)
 
 void CBinaryFileStateManager::load(const std::filesystem::path& filePath)
 {
-    auto binary = m_fileReader->read(filePath.string());
+    auto binary = m_fileSystem->read(filePath.string());
     auto binaryAttributes = BinaryAttributes_t { };
 
     m_analysisRunner->run(binary, binaryAttributes);
@@ -51,7 +62,7 @@ void CBinaryFileStateManager::setCurrentWorkFile(const file_id& fileId)
     m_binaryFileCurrent = binaryFile(fileId);
 }
 
-void CBinaryFileStateManager::unload(const file_id fileId)
+void CBinaryFileStateManager::unload(const file_id& fileId)
 {
     auto res = m_binaryFileMap.find(fileId);
 
@@ -76,7 +87,9 @@ std::vector<file_id> CBinaryFileStateManager::loadedFiles() const
     return m_vecBinaryFileId;
 }
 
-void CBinaryFileStateManager::save(const std::filesystem::path& filePath)
+void CBinaryFileStateManager::save(const file_id& fileId, const std::filesystem::path& filePath)
 {
-    throw RuntimeException(strenc("Unimplemented!"));
+    const auto binary = binaryFileModifiedBinary(fileId);
+
+    this->m_fileSystem->save(binary, filePath);
 } 

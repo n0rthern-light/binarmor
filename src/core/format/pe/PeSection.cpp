@@ -1,11 +1,11 @@
 #include "PeSection.hpp"
+#include "core/format/pe/defines.hpp"
 #include "core/format/pe/functions.hpp"
-#include "core/shared/BinaryPointer.hpp"
-#include <optional>
+#include "shared/types/defines.hpp"
 
 CPeSection::CPeSection(
     const std::string& name,
-    const CBinaryPointer& origin,
+    const binary_offset& headerOffset,
     const CUnsigned& rawAddress,
     const uint_32& rawSize,
     const CUnsigned& virtualAddress,
@@ -15,7 +15,7 @@ CPeSection::CPeSection(
     const uint_16& numberOfRelocations,
     const uint_32& characteristics
 ) : m_name(name),
-    m_origin(origin),
+    m_headerOffset(headerOffset),
     m_rawAddress(rawAddress),
     m_rawSize(rawSize),
     m_virtualAddress(virtualAddress),
@@ -26,32 +26,10 @@ CPeSection::CPeSection(
     m_characteristics(characteristics) {
 }
 
-CPeSection::CPeSection(
-    const std::string& name,
-    const CUnsigned& rawAddress,
-    const uint_32& rawSize,
-    const CUnsigned& virtualAddress,
-    const uint_32& virtualSize,
-    const CUnsigned& pointerToRelocations,
-    const uint_16& numberOfLinenumbers,
-    const uint_16& numberOfRelocations,
-    const uint_32& characteristics
-) : m_name(name),
-    m_origin(std::nullopt),
-    m_rawAddress(rawAddress),
-    m_rawSize(rawSize),
-    m_virtualAddress(virtualAddress),
-    m_virtualSize(virtualSize),
-    m_pointerToRelocations(pointerToRelocations),
-    m_numberOfLinenumbers(numberOfLinenumbers),
-    m_numberOfRelocations(numberOfRelocations),
-    m_characteristics(characteristics) {
-}
-
-CPeSection::CPeSection(const CBinaryPointer& origin, const IMAGE_SECTION_HEADER& header)
+CPeSection::CPeSection(const binary_offset& headerOffset, const IMAGE_SECTION_HEADER& header)
 : CPeSection(
     std::string(reinterpret_cast<const char*>(header.Name)),
-    origin,
+    headerOffset,
     CUnsigned(header.PointerToRawData),
     header.SizeOfRawData,
     CUnsigned(header.VirtualAddress),
@@ -77,14 +55,19 @@ size_t CPeSection::size() const
     return static_cast<size_t>(rawSize());
 }
 
-CBinaryPointer CPeSection::origin() const
+binary_offset CPeSection::headerOffset() const
 {
-    return m_origin.value();
+    return m_headerOffset;
 }
 
 CSectionPermissions CPeSection::permissions() const
 {
     return format::pe::convertCharacteristicsToSectionPermissions(m_characteristics);
+}
+
+unsigned char CPeSection::nullByteRepresentation() const
+{
+    return PE_SECTION_NULL_BYTE;
 }
 
 CUnsigned CPeSection::rawAddress() const

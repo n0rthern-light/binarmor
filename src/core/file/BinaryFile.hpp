@@ -5,6 +5,7 @@
 #include "../shared/attributes.hpp"
 #include "BinaryAttributes.hpp"
 #include "core/file/BinaryModification.hpp"
+#include "core/format/IFormat.hpp"
 #include "flags.hpp"
 #include "shared/value/Uuid.hpp"
 #include <string>
@@ -28,6 +29,7 @@ public:
     file_id fileId() const;
     CBinary originalBinary() const;
     CBinary modifiedBinary() const;
+    std::shared_ptr<IFormat> modifiedBinaryAsFormat() const;
     Format format() const;
     Architecture arch() const;
     BinaryAttributes_t attributes() const;

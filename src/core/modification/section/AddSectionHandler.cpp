@@ -13,19 +13,14 @@ CAddSectionHandler::CAddSectionHandler(CBinaryFileStateManager* binaryFileManage
 void CAddSectionHandler::handle(const CAddSectionCommand& command)
 {
     auto binaryFile = m_binaryFilesManager->binaryFile(command.fileId());
-     
     if (binaryFile == nullptr) {
         throw ModificationException(strenc("Binary file not found in memory"));
     }
 
-    if (binaryFile->format() != Format::Windows_PE) {
-        throw ModificationException(strenc("Unsupported binary file format for modification"));
-    }
+    const auto format = binaryFile->modifiedBinaryAsFormat();
+    const auto modifiedFormat = format->addSection(command.sectionId(), command.size(), command.permissions());
 
-    const auto pe = CPeFormat { binaryFile->modifiedBinary() };
-    const auto modifiedPe = pe.addSection(command.sectionId(), command.size(), command.permissions());
-
-    const auto diff = CDiffExtractor::extract(pe.bytes(), modifiedPe.bytes()); 
+    const auto diff = CDiffExtractor::extract(format->bytes(), modifiedFormat->bytes()); 
 
     if (diff.size() == 0) {
         throw ModificationException(strenc("Could not add new section, diff is zero."));

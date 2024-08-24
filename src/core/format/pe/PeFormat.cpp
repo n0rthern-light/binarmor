@@ -1,9 +1,13 @@
 #include "PeFormat.hpp"
+#include "core/format/IFormat.hpp"
 #include "core/format/pe/PeSection.hpp"
 #include "defines.hpp"
+#include <memory>
 #include <shared/RuntimeException.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
 #include "functions.hpp"
+
+CPeFormat::CPeFormat(const CPeFormat& other): m_binary(other.binary()) { }
 
 CPeFormat::CPeFormat(const CBinary& binary): m_binary(binary) { }
 
@@ -84,6 +88,11 @@ pe_section_vec CPeFormat::peSections() const
     return format::pe::readSectionList(*this);
 }
 
+uint_16 CPeFormat::sectionCount() const
+{
+    return format::pe::numberOfSections(*this);
+}
+
 section_vec CPeFormat::sections() const
 {
     const auto pe = peSections();
@@ -112,11 +121,25 @@ pe_module_map CPeFormat::imports() const
     return format::pe::readImportModules(*this);
 }
 
-CPeFormat CPeFormat::addSection(
+CPeFormat CPeFormat::addPeSection(
     const std::string& name,
     binary_offset size,
     const CSectionPermissions permissions
 ) const {
     return format::pe::addSection(*this, name, size, permissions);
+}
+
+format_ptr CPeFormat::addSection(
+    const std::string& name,
+    binary_offset size,
+    const CSectionPermissions permissions
+) const {
+    return std::make_shared<CPeFormat>(addPeSection(name, size, permissions));
+}
+
+format_ptr CPeFormat::changeBytes(
+    const byte_vec& bytes
+) const {
+    return std::make_shared<CPeFormat>(bytes);
 }
 

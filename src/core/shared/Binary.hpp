@@ -8,7 +8,7 @@
 
 class CBinary
 {
-    const byte_vec _bytes;
+    const byte_vec m_bytes;
     byte_ptr at(const binary_offset& offset) const;
 public:
     CBinary(const byte_vec& bytes);
@@ -19,6 +19,7 @@ public:
     CBinaryPointer pointer(const binary_offset& offset) const;
     bool offsetExists(const binary_offset& offset) const;
     std::string hash(const IHasher* hasher) const;
+    bool allBytesAre(unsigned char byte) const;
 
     bool operator==(const CBinary& other) const;
 };

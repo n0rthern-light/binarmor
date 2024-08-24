@@ -1,12 +1,14 @@
 #ifndef CORE_FILE_FSTREAM_FSTREAM_FILE_READER_HPP_
 #define CORE_FILE_FSTREAM_FSTREAM_FILE_READER_HPP_
 
-#include "../IFileReader.hpp"
+#include "core/file/IFileSystem.hpp"
 
-class CfstreamFileReader : public IFileReader
+class CfstreamFileSystem : public IFileSystem
 {
 public:
-    const CBinary read(const std::string& filePath);
+    CBinary read(const std::string& filePath) const;
+    void save(const CBinary& binary, const std::string& filePath) const;
+    void remove(const std::string& filePath) const;
 };
 
 #endif // CORE_FILE_FSTREAM_FSTREAM_FILE_READER_HPP_

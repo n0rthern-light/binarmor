@@ -2,10 +2,9 @@
 #define CORE_FORMAT_PE__PE_SECTION_HPP_
 
 #include "../ISection.hpp"
-#include "core/shared/BinaryPointer.hpp"
 #include "core/shared/SectionPermissions.hpp"
 #include "defines.hpp"
-#include <optional>
+#include "shared/types/defines.hpp"
 #include <string>
 #include <memory>
 
@@ -17,7 +16,7 @@ typedef std::vector<pe_section_ptr> pe_section_vec;
 class CPeSection : public ISection
 {
     std::string m_name;
-    std::optional<CBinaryPointer> m_origin;
+    binary_offset m_headerOffset;
     CUnsigned m_rawAddress;
     uint_32 m_rawSize;
     CUnsigned m_virtualAddress;
@@ -29,7 +28,7 @@ class CPeSection : public ISection
 public:
     CPeSection(
         const std::string& name,
-        const CBinaryPointer& origin,
+        const binary_offset& headerOffset,
         const CUnsigned& rawAddress,
         const uint_32& rawSize,
         const CUnsigned& virtualAddress,
@@ -40,25 +39,14 @@ public:
         const uint_32& characteristics
     );
 
-    CPeSection(
-        const std::string& name,
-        const CUnsigned& rawAddress,
-        const uint_32& rawSize,
-        const CUnsigned& virtualAddress,
-        const uint_32& virtualSize,
-        const CUnsigned& pointerToRelocations,
-        const uint_16& numberOfLinenumbers,
-        const uint_16& numberOfRelocations,
-        const uint_32& characteristics
-    );
-
-    CPeSection(const CBinaryPointer& origin, const IMAGE_SECTION_HEADER& header);
+    CPeSection(const binary_offset& headerOffset, const IMAGE_SECTION_HEADER& header);
 
     std::string name() const;
     CUnsigned baseAddress() const;
     size_t size() const;
-    CBinaryPointer origin() const;
+    binary_offset headerOffset() const;
     CSectionPermissions permissions() const;
+    unsigned char nullByteRepresentation() const;
 
     CUnsigned rawAddress() const;
     uint_32 rawSize() const;

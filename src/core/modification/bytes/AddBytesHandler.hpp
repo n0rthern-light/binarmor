@@ -1,14 +1,19 @@
 #ifndef CORE_MODIFICATION_BYTES__ADD_BYTES_HANDLER_HPP_
 #define CORE_MODIFICATION_BYTES__ADD_BYTES_HANDLER_HPP_
 
+#include "core/file/BinaryFileStateManager.hpp"
 #include "core/modification/AddBytesCommand.hpp"
 #include "shared/message/IMessageBus.hpp"
 
 class CAddBytesHandler
 {
-    IMessageBus* m_messageBus;
+    IMessageBus* m_commandBus;
+    CBinaryFileStateManager* m_binaryFilesManager;
 public:
-    CAddBytesHandler(IMessageBus* messageBus);
+    CAddBytesHandler(
+        IMessageBus* commandBus,
+        CBinaryFileStateManager* binaryFileManager
+    );
     void handle(const CAddBytesCommand& command) const;
 };
 
