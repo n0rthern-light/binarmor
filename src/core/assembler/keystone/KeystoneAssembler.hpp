@@ -3,11 +3,14 @@
 
 #include "../Assembler.hpp"
 #include "core/assembler/defines.hpp"
-#include "shared/assembly_contract/code.hpp"
+#include "core/shared/attributes.hpp"
 
-class CAsmJitAssembler : public IAssembler
+class KeystoneAssembler : public IAssembler
 {
+    Architecture m_architecture;
+    Endianness m_endianness;
 public:
+    KeystoneAssembler(Architecture architecture, Endianness endianness);
     asm_opcodes assemble(const asm_instructions& input) override;
 };
 

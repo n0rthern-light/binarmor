@@ -3,7 +3,7 @@
 
 #include "../shared/Binary.hpp"
 #include "../shared/attributes.hpp"
-#include "BinaryAttributes.hpp"
+#include "BinaryFileAttributes.hpp"
 #include "core/file/BinaryModification.hpp"
 #include "core/format/IFormat.hpp"
 #include "flags.hpp"
@@ -21,9 +21,9 @@ class CBinaryFile
     const CBinary m_originalBinary;
     std::vector<const CBinaryModification> m_vecBinaryModification;
     uint_32 m_flags;
-    BinaryAttributes_t m_attributes;
+    BinaryFileAttributes_t m_attributes;
 public:
-    CBinaryFile(const std::string& filePath, const CBinary& binary, uint_32 flags, const BinaryAttributes_t& attributes);
+    CBinaryFile(const std::string& filePath, const CBinary& binary, uint_32 flags, const BinaryFileAttributes_t& attributes);
     std::filesystem::path filePath() const;
     std::string fileName() const;
     file_id fileId() const;
@@ -32,7 +32,7 @@ public:
     std::shared_ptr<IFormat> modifiedBinaryAsFormat() const;
     Format format() const;
     Architecture arch() const;
-    BinaryAttributes_t attributes() const;
+    BinaryFileAttributes_t attributes() const;
     void enableFlags(BinaryFileFlags flags);
     void disableFlags(BinaryFileFlags flags);
     bool hasFlags(BinaryFileFlags flags) const;

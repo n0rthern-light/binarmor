@@ -5,7 +5,7 @@
 #include <vector>
 #include "IAnalyzer.hpp"
 #include "core/shared/attributes.hpp"
-#include "core/file/BinaryAttributes.hpp"
+#include "core/file/BinaryFileAttributes.hpp"
 #include <shared/message/IMessageBus.hpp>
 #include <memory>
 
@@ -19,7 +19,7 @@ class CAnalysisRunner
     analyzer_vec_map m_analyzers;
 public:
     CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hasher);
-    void run(const CBinary& binary, BinaryAttributes_t& attributes);
+    void run(const CBinary& binary, BinaryFileAttributes_t& attributes);
 };
 
 #endif // CORE_ANALYSIS__ANALYSIS_RUNNER_HPP_

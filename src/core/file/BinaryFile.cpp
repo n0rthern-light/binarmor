@@ -1,7 +1,7 @@
 #include "BinaryFile.hpp"
 #include "core/format/pe/PeFormat.hpp"
 #include "core/shared/attributes.hpp"
-#include "core/file/BinaryAttributes.hpp"
+#include "core/file/BinaryFileAttributes.hpp"
 #include "core/file/BinaryModification.hpp"
 #include "shared/RuntimeException.hpp"
 #include "shared/value/Uuid.hpp"
@@ -10,7 +10,7 @@
 #include <stdexcept>
 #include <vector>
 
-CBinaryFile::CBinaryFile(const std::string& filePath, const CBinary& binary, uint_32 flags, const BinaryAttributes_t& attributes): m_filePath(filePath), m_originalBinary(binary), m_flags(flags), m_attributes(attributes), m_vecBinaryModification({ })
+CBinaryFile::CBinaryFile(const std::string& filePath, const CBinary& binary, uint_32 flags, const BinaryFileAttributes_t& attributes): m_filePath(filePath), m_originalBinary(binary), m_flags(flags), m_attributes(attributes), m_vecBinaryModification({ })
 { }
 
 std::filesystem::path CBinaryFile::filePath() const
@@ -73,7 +73,7 @@ Architecture CBinaryFile::arch() const
     return m_attributes.arch;
 }
 
-BinaryAttributes_t CBinaryFile::attributes() const
+BinaryFileAttributes_t CBinaryFile::attributes() const
 {
     return m_attributes;
 }

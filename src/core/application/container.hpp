@@ -23,7 +23,9 @@ namespace program
             }
 
             namespace assembly {
-                extern std::unique_ptr<IAssembler> assembler;
+                extern std::unique_ptr<IAssembler> assembler_x86;
+                extern std::unique_ptr<IAssembler> assembler_x86_64;
+                extern std::unique_ptr<IAssembler> assembler_arm64;
             }
 
             namespace handler {

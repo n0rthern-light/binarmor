@@ -6,7 +6,7 @@
 #include <memory>
 #include <shared/self_obfuscation/strenc.hpp>
 
-void CPeAnalyzer::analyze(const CBinary& binary, BinaryAttributes_t& attributes)
+void CPeAnalyzer::analyze(const CBinary& binary, BinaryFileAttributes_t& attributes)
 {
     if (attributes.format != Format::Windows_PE) {
         throw UnsupportedFileException(strenc("Not detected any supported file format"));

@@ -3,7 +3,7 @@
 #include "analyzers/PeAnalyzer.hpp"
 #include "analyzers/HashAnalyzer.hpp"
 #include "../shared/attributes.hpp"
-#include "core/file/BinaryAttributes.hpp"
+#include "core/file/BinaryFileAttributes.hpp"
 
 CAnalysisRunner::CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hasher): m_eventBus(t_eventBus), m_hasher(t_hasher)
 {
@@ -19,7 +19,7 @@ CAnalysisRunner::CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hashe
     };
 }
 
-void CAnalysisRunner::run(const CBinary& binary, BinaryAttributes_t& binaryAttributes)
+void CAnalysisRunner::run(const CBinary& binary, BinaryFileAttributes_t& binaryAttributes)
 {
     const auto initialFormat = binaryAttributes.format;
 

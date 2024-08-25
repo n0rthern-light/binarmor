@@ -1,7 +1,7 @@
 #include "BinaryFileStateManager.hpp"
 #include "../application/events/FileLoadedEvent.hpp"
 #include "../application/events/FileUnloadedEvent.hpp"
-#include "core/file/BinaryAttributes.hpp"
+#include "core/file/BinaryFileAttributes.hpp"
 #include "core/file/BinaryFile.hpp"
 #include "core/analysis/AnalysisRunner.hpp"
 #include <memory>
@@ -39,7 +39,7 @@ CBinary CBinaryFileStateManager::binaryFileModifiedBinary(const file_id& fileId)
 void CBinaryFileStateManager::load(const std::filesystem::path& filePath)
 {
     auto binary = m_fileSystem->read(filePath.string());
-    auto binaryAttributes = BinaryAttributes_t { };
+    auto binaryAttributes = BinaryFileAttributes_t { };
 
     m_analysisRunner->run(binary, binaryAttributes);
 
