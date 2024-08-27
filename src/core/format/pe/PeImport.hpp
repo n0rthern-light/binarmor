@@ -13,7 +13,7 @@ typedef std::vector<pe_import_ptr> pe_import_vec;
 
 // todo: add address of data size
 
-class CPeImport : IImport
+class CPeImport : public IImport
 {
     std::string _name;
     uint_16 _hint;

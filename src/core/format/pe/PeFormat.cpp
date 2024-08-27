@@ -1,5 +1,6 @@
 #include "PeFormat.hpp"
 #include "core/format/IFormat.hpp"
+#include "core/format/IModule.hpp"
 #include "core/format/pe/PeSection.hpp"
 #include "defines.hpp"
 #include <memory>
@@ -116,9 +117,21 @@ CBinaryPointer CPeFormat::rvaToPointer(const binary_offset& rva) const
     return binary().pointer(rvaToOffset(rva));
 }
 
-pe_module_map CPeFormat::imports() const
+pe_module_map CPeFormat::peImportModules() const
 {
     return format::pe::readImportModules(*this);
+}
+
+module_map CPeFormat::importModules() const
+{
+    const auto pe = peImportModules();
+    auto res = module_map { };
+
+    for (const auto& keyVal : pe) {
+        res[keyVal.first] = std::static_pointer_cast<IModule>(keyVal.second);
+    }
+
+    return res;
 }
 
 CPeFormat CPeFormat::addPeSection(

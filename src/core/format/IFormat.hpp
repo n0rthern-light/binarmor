@@ -5,6 +5,7 @@
 #include <memory>
 #include <shared/value/Unsigned.hpp>
 #include "ISection.hpp"
+#include "core/format/IModule.hpp"
 #include "core/shared/Binary.hpp"
 #include "shared/types/defines.hpp"
 
@@ -25,6 +26,7 @@ public:
     virtual CUnsigned entryPoint() const = 0;
     virtual uint_16 sectionCount() const = 0;
     virtual section_vec sections() const = 0;
+    virtual module_map importModules() const = 0;
     virtual format_ptr addSection(
         const std::string& name,
         binary_offset size,

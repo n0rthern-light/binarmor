@@ -1,4 +1,5 @@
 #include "core/assembler/keystone/KeystoneAssembler.hpp"
+#include "core/assembler/defines.hpp"
 #include "core/shared/attributes.hpp"
 #include <gtest/gtest.h>
 
@@ -11,7 +12,7 @@ TEST(KeystoneAssemblerTest, ProduceX86Opcodes)
         "ret"
     });
     
-    ASSERT_EQ(opcodes, (asm_opcodes {0x01, 0xD8, 0xC3}));
+    ASSERT_EQ(opcodes, (binarmor::core::assembler::asm_opcodes {0x01, 0xD8, 0xC3}));
 }
 
 TEST(KeystoneAssemblerTest, ProduceX86_64Opcodes)
@@ -23,7 +24,7 @@ TEST(KeystoneAssemblerTest, ProduceX86_64Opcodes)
         "ret"
     });
     
-    ASSERT_EQ(opcodes, (asm_opcodes {0x48, 0x01, 0xD8, 0xC3}));
+    ASSERT_EQ(opcodes, (binarmor::core::assembler::asm_opcodes {0x48, 0x01, 0xD8, 0xC3}));
 }
 
 TEST(KeystoneAssemblerTest, ProduceArm64Opcodes)
@@ -37,6 +38,6 @@ TEST(KeystoneAssemblerTest, ProduceArm64Opcodes)
         "ret",
     });
     
-    ASSERT_EQ(opcodes, (asm_opcodes {0x20, 0x00, 0x80, 0xD2, 0x41, 0x00, 0x80, 0xD2, 0x02, 0x00, 0x01, 0x8B, 0xC0, 0x03, 0x5F, 0xD6}));
+    ASSERT_EQ(opcodes, (binarmor::core::assembler::asm_opcodes {0x20, 0x00, 0x80, 0xD2, 0x41, 0x00, 0x80, 0xD2, 0x02, 0x00, 0x01, 0x8B, 0xC0, 0x03, 0x5F, 0xD6}));
 }
 
