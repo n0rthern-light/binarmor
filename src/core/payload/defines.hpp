@@ -6,8 +6,9 @@
 #include <map>
 #include <optional>
 #include <string>
+#include <vector>
 
-namespace binarmor
+namespace program
 {
     namespace core
     {
@@ -25,12 +26,14 @@ namespace binarmor
                 OFFSET = 0,
                 VALUE = 1,
             };
-            struct DataRequirement_t
+            struct Data_t
             {
-                const data_id id;
-                const DataResolveType resolveType = DataResolveType::OFFSET;
-                const std::optional<uint_32> sizeInBytes = std::nullopt;
-                const std::optional<data_id> resolveAsAlias = std::nullopt;
+                const std::string definition;
+            };
+            struct SectionData_t
+            {
+                const std::string sectionName;
+                const std::vector<const Data_t> data;
             };
 
             struct ImportResolved_t
@@ -53,7 +56,12 @@ namespace binarmor
             struct Procedure_t
             {
                 const procedure_id procedureId;
-                const binarmor::core::assembler::asm_instructions code;
+                const program::core::assembler::asm_instructions code;
+            };
+            struct SectionProcedures_t
+            {
+                const std::string sectionName;
+                const std::vector<const Procedure_t> procedures;
             };
 
             struct ResolvedProcedure_t

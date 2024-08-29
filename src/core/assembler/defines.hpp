@@ -5,7 +5,7 @@
 #include <string>
 #include <shared/types/defines.hpp>
 
-namespace binarmor
+namespace program
 {
     namespace core
     {

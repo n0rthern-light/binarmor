@@ -5,6 +5,7 @@
 #include "../assembler/keystone/KeystoneAssembler.hpp"
 #include "core/modification/bytes/AddBytesHandler.hpp"
 #include "core/modification/section/AddSectionHandler.hpp"
+#include "core/payload/processor/DefaultPayloadProcessor.hpp"
 #include "core/shared/attributes.hpp"
 
 std::unique_ptr<IFileSystem> program::core::container::file::fileSystem = nullptr;
@@ -13,6 +14,7 @@ std::unique_ptr<CAnalysisRunner> program::core::container::file::analysis::runne
 std::unique_ptr<IAssembler> program::core::container::assembly::assembler_x86 = nullptr;
 std::unique_ptr<IAssembler> program::core::container::assembly::assembler_x86_64 = nullptr;
 std::unique_ptr<IAssembler> program::core::container::assembly::assembler_arm64 = nullptr;
+std::unique_ptr<IPayloadProcessor> program::core::container::payload::payloadProcessor = nullptr;
 std::unique_ptr<CAddSectionHandler> program::core::container::handler::addSectionHandler = nullptr;
 std::unique_ptr<CAddBytesHandler> program::core::container::handler::addBytesHandler = nullptr;
 
@@ -31,6 +33,9 @@ void program::core::container::init(int argc, char** argv)
     program::core::container::assembly::assembler_x86 = std::make_unique<KeystoneAssembler>(Architecture::X86, Endianness::LITTLE);
     program::core::container::assembly::assembler_x86_64 = std::make_unique<KeystoneAssembler>(Architecture::X86_64, Endianness::LITTLE);
     program::core::container::assembly::assembler_arm64 = std::make_unique<KeystoneAssembler>(Architecture::ARM64, Endianness::LITTLE);
+    program::core::container::payload::payloadProcessor = std::make_unique<CDefaultPayloadProcessor>(
+        program::core::container::file::binaryFileStateManager.get()
+    );
     program::core::container::handler::addSectionHandler = std::make_unique<CAddSectionHandler>(
         program::core::container::file::binaryFileStateManager.get()
     );
@@ -48,6 +53,7 @@ void program::core::container::exit()
     program::core::container::file::binaryFileStateManager = nullptr;
     program::core::container::file::analysis::runner = nullptr;
     program::core::container::file::fileSystem = nullptr;
+    program::core::container::payload::payloadProcessor = nullptr;
     program::core::container::handler::addSectionHandler = nullptr;
     program::core::container::handler::addBytesHandler = nullptr;
 }

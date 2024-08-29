@@ -2,6 +2,7 @@
 #include "core/format/IFormat.hpp"
 #include "core/format/IModule.hpp"
 #include "core/format/pe/PeSection.hpp"
+#include "core/shared/attributes.hpp"
 #include "defines.hpp"
 #include <memory>
 #include <shared/RuntimeException.hpp>
@@ -11,6 +12,11 @@
 CPeFormat::CPeFormat(const CPeFormat& other): m_binary(other.binary()) { }
 
 CPeFormat::CPeFormat(const CBinary& binary): m_binary(binary) { }
+
+Format CPeFormat::format() const
+{
+    return Format::Windows_PE;
+}
 
 CBinary CPeFormat::binary() const
 {

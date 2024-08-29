@@ -7,6 +7,7 @@
 #include "core/file/IFileSystem.hpp"
 #include "core/modification/bytes/AddBytesHandler.hpp"
 #include "core/modification/section/AddSectionHandler.hpp"
+#include "core/payload/processor/PayloadProcessor.hpp"
 
 namespace program
 {
@@ -26,6 +27,10 @@ namespace program
                 extern std::unique_ptr<IAssembler> assembler_x86;
                 extern std::unique_ptr<IAssembler> assembler_x86_64;
                 extern std::unique_ptr<IAssembler> assembler_arm64;
+            }
+
+            namespace payload {
+                extern std::unique_ptr<IPayloadProcessor> payloadProcessor;
             }
 
             namespace handler {

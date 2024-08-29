@@ -36,6 +36,11 @@ CBinary CBinaryFileStateManager::binaryFileModifiedBinary(const file_id& fileId)
     return binaryFile(fileId)->modifiedBinary();
 }
 
+std::shared_ptr<IFormat> CBinaryFileStateManager::binaryFileModifiedBinaryAsFormat(const file_id& fileId) const
+{
+    return binaryFile(fileId)->modifiedBinaryAsFormat();
+}
+
 void CBinaryFileStateManager::load(const std::filesystem::path& filePath)
 {
     auto binary = m_fileSystem->read(filePath.string());

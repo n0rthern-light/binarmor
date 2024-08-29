@@ -5,13 +5,15 @@
 #include "core/assembler/defines.hpp"
 #include "core/shared/attributes.hpp"
 
+using namespace program::core::assembler;
+
 class KeystoneAssembler : public IAssembler
 {
     Architecture m_architecture;
     Endianness m_endianness;
 public:
     KeystoneAssembler(Architecture architecture, Endianness endianness);
-    binarmor::core::assembler::asm_opcodes assemble(const binarmor::core::assembler::asm_instructions& input) override;
+    asm_opcodes assemble(const asm_instructions& input) override;
 };
 
 #endif // CORE_ASSEMBLER_ASMJIT__ASM_JIT_ASSEMBLER_HPP_

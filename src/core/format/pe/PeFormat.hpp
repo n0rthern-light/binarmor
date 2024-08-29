@@ -8,6 +8,7 @@
 #include "../../shared/BinaryPointer.hpp"
 #include "../../shared/SectionPermissions.hpp"
 #include "core/format/IModule.hpp"
+#include "core/shared/attributes.hpp"
 #include "shared/types/defines.hpp"
 
 class CPeFormat : public IFormat
@@ -16,6 +17,7 @@ class CPeFormat : public IFormat
 public:
     CPeFormat(const CPeFormat& other);
     CPeFormat(const CBinary& binary);
+    Format format() const;
     CBinary binary() const;
     byte_vec bytes() const;
     Architecture architecture() const;

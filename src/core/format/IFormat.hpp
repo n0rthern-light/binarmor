@@ -17,6 +17,7 @@ class IFormat
 {
 public:
     virtual ~IFormat() { };
+    virtual Format format() const = 0;
     virtual byte_vec bytes() const = 0;
     virtual CBinary binary() const = 0;
     virtual Architecture architecture() const = 0;

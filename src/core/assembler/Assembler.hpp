@@ -3,10 +3,12 @@
 
 #include "../assembler/defines.hpp"
 
+using namespace program::core::assembler;
+
 class IAssembler
 {
 public:
-    virtual binarmor::core::assembler::asm_opcodes assemble(const binarmor::core::assembler::asm_instructions& input) = 0;
+    virtual asm_opcodes assemble(const asm_instructions& input) = 0;
     virtual ~IAssembler() { };
 };
 
