@@ -1,14 +1,13 @@
 #pragma once
 
 #include "core/file/BinaryFile.hpp"
-#include "core/file/BinaryModification.hpp"
-#include "core/modification/AddBytesCommand.hpp"
+#include "core/modification/ModificationCommand.hpp"
 #include "core/payload/IPayload.hpp"
-#include <optional>
+#include <memory>
 
 class IPayloadProcessor
 {
 public:
-    virtual const std::optional<CAddBytesCommand> next(const file_id& fileId, const IPayload* payload) const = 0;
+    virtual const std::shared_ptr<IModificationCommand> next(const file_id& fileId, const IPayload* payload) const = 0;
     virtual ~IPayloadProcessor() { };
 };

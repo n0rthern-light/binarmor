@@ -13,6 +13,7 @@ class IImport
 {
 public:
     virtual ~IImport() { };
+    virtual std::string name() const = 0;
 };
 
 #endif // CORE_FORMAT__I_IMPORT_HPP_

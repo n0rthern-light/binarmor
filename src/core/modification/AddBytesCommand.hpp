@@ -2,11 +2,12 @@
 #define CORE_MODIFICATION__ADD_BYTES_COMMAND_HPP_
 
 #include "../file/BinaryFile.hpp"
+#include "core/file/BinaryModification.hpp"
+#include "core/modification/ModificationCommand.hpp"
 #include <optional>
-#include <shared/message/IMessage.hpp>
 #include <shared/value/Uuid.hpp>
 
-class CAddBytesCommand : public IMessage
+class CAddBytesCommand : public IModificationCommand
 {
     const file_id m_fileId;
     const CUuid m_bytesId;
@@ -34,6 +35,8 @@ public:
     { }
     file_id fileId() const { return m_fileId; }
     CUuid bytesId() const { return m_bytesId; }
+    BinaryModificationType type() const { return executable() ? BinaryModificationType::WRITE_CODE : BinaryModificationType::WRITE_DATA; } 
+    CUuid modificationId() const { return bytesId(); }
     std::optional<std::string> sectionId() const { return m_sectionId; }
     byte_vec bytes() const { return m_bytes; }
     bool executeOnStartup() const { return m_executeOnStartup; }

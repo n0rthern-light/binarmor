@@ -140,6 +140,24 @@ module_map CPeFormat::importModules() const
     return res;
 }
 
+import_ptr CPeFormat::import(const std::string& module, const std::string& function) const
+{
+    const auto& modulesMap = importModules();
+    const auto moduleObj = modulesMap.find(module);
+
+    if (moduleObj == modulesMap.end()) {
+        return nullptr;
+    }
+
+    for(const auto& import : moduleObj->second->imports()) {
+        if (import->name() == function) {
+            return import;
+        }
+    }
+
+    return nullptr;
+}
+
 CPeFormat CPeFormat::addPeSection(
     const std::string& name,
     binary_offset size,

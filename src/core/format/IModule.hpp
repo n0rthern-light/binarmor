@@ -1,6 +1,7 @@
 #ifndef CORE_FORMAT__I_MODULE_HPP_
 #define CORE_FORMAT__I_MODULE_HPP_
 
+#include "core/format/IImport.hpp"
 #include <map>
 #include <string>
 
@@ -13,6 +14,8 @@ class IModule
 {
 public:
     virtual ~IModule() {};
+    virtual std::string name() const = 0;
+    virtual import_vec imports() const = 0;
 };
 
 #endif // CORE_FORMAT__I_MODULE_HPP_

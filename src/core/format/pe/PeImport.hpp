@@ -11,18 +11,16 @@ class CPeImport;
 typedef std::shared_ptr<CPeImport> pe_import_ptr;
 typedef std::vector<pe_import_ptr> pe_import_vec;
 
-// todo: add address of data size
-
 class CPeImport : public IImport
 {
-    std::string _name;
-    uint_16 _hint;
-    uint_32 _ordinal;
-    uint_32 _rvaOriginalThunk;
-    uint_32 _rvaThunk;
-    uint_32 _rvaOriginalThunkAddressOfData;
-    uint_32 _rvaThunkAddressOfData;
-    uint_32 _sizeOfThunk;
+    std::string m_name;
+    uint_16 m_hint;
+    uint_32 m_ordinal;
+    uint_32 m_rvaOriginalThunk;
+    uint_32 m_rvaThunk;
+    uint_32 m_rvaOriginalThunkAddressOfData;
+    uint_32 m_rvaThunkAddressOfData;
+    uint_32 m_sizeOfThunk;
 public:
     CPeImport(
         const std::string& name,
@@ -34,14 +32,14 @@ public:
         const uint_32& rvaThunkAddressOfData,
         const uint_32& sizeOfThunk
     );
-    std::string name();
-    uint_16 hint();
-    uint_32 ordinal();
-    uint_32 rvaOriginalThunk();
-    uint_32 rvaThunk();
-    uint_32 rvaOriginalThunkAddressOfData();
-    uint_32 rvaThunkAddressOfData();
-    uint_32 sizeOfThunk();
+    std::string name() const;
+    uint_16 hint() const;
+    uint_32 ordinal() const;
+    uint_32 rvaOriginalThunk() const;
+    uint_32 rvaThunk() const;
+    uint_32 rvaOriginalThunkAddressOfData() const;
+    uint_32 rvaThunkAddressOfData() const;
+    uint_32 sizeOfThunk() const;
 };
 
 #endif // CORE_FORMAT_PE__PE_IMPORT_HPP_

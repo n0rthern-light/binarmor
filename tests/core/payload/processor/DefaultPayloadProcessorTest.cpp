@@ -1,10 +1,13 @@
+#include <format>
 #include <gtest/gtest.h>
 #include <core/application/behave.hpp>
 #include <shared/application/container.hpp>
 #include <core/application/container.hpp>
+#include <stdexcept>
 #include "../../BinaryMother.hpp"
 #include "core/file/BinaryModification.hpp"
 #include "core/modification/AddBytesCommand.hpp"
+#include "core/modification/ModificationCommand.hpp"
 #include "core/payload/IPayload.hpp"
 #include "core/shared/attributes.hpp"
 #include "shared/value/Uuid.hpp"
@@ -54,7 +57,8 @@ TEST(DefaultPayloadProcessorTest, BytesWillBeResolvedCorrectlyAndWithCorrectOrde
         { { strenc(".data"), {
             { strenc("functionRef dd function") },
             { strenc("importRef dd LoadUserProfile") },
-            { strenc("DummyString db 'Hello Data', 0") }
+            { strenc("DummyString db 'Hello Data', 0") },
+            { strenc("DummyHex dd 0xDEADBEEF") }
         } } },
         { { strenc(".text"), {
             {
@@ -81,17 +85,29 @@ TEST(DefaultPayloadProcessorTest, BytesWillBeResolvedCorrectlyAndWithCorrectOrde
     };
 
     //when
-    std::vector<CAddBytesCommand> commands { };
+    std::vector<std::shared_ptr<IModificationCommand>> commands { };
     while (const auto& command = payloadProcessor->next(fileId, payload)) {
-        commands.push_back(command.value());
+        if (!commands.empty() && commands.back()->modificationId() == command->modificationId()) {
+            throw std::runtime_error(std::format("Modification {} already registered!", command->modificationId().toString()));
+        }
+
+        commands.push_back(command);
     };
 
-    ASSERT_EQ(commands.size(), 6);
-    ASSERT_EQ(commands[0].bytesId(), CUuid { "import:userenv.dll:LoadUserProfile" });
-    ASSERT_EQ(commands[1].bytesId(), CUuid { "data:.data:simple-payload:DummyString" });
-    ASSERT_EQ(commands[2].bytesId(), CUuid { "data:.data:simple-payload:importRef" });
-    ASSERT_EQ(commands[3].bytesId(), CUuid { "text:.text:simple-payload:function" });
-    ASSERT_EQ(commands[4].bytesId(), CUuid { "data:.data:simple-payload:functionRef" });
-    ASSERT_EQ(commands[5].bytesId(), CUuid { "code:.text:simple-payload:functionWrapper" });
+    ASSERT_EQ(commands.size(), 7);
+    ASSERT_EQ(commands[0]->modificationId(), CUuid { "import:userenv.dll:LoadUserProfile" });
+    ASSERT_EQ(commands[0]->type(), BinaryModificationType::WRITE_IMPORT);
+    ASSERT_EQ(commands[1]->modificationId(), CUuid { "data:.data:simple-payload:DummyString" });
+    ASSERT_EQ(commands[1]->type(), BinaryModificationType::WRITE_DATA);
+    ASSERT_EQ(commands[2]->modificationId(), CUuid { "data:.data:simple-payload:DummyHex" });
+    ASSERT_EQ(commands[2]->type(), BinaryModificationType::WRITE_DATA);
+    ASSERT_EQ(commands[3]->modificationId(), CUuid { "data:.data:simple-payload:importRef" });
+    ASSERT_EQ(commands[3]->type(), BinaryModificationType::WRITE_DATA);
+    ASSERT_EQ(commands[4]->modificationId(), CUuid { "text:.text:simple-payload:function" });
+    ASSERT_EQ(commands[4]->type(), BinaryModificationType::WRITE_CODE);
+    ASSERT_EQ(commands[5]->modificationId(), CUuid { "data:.data:simple-payload:functionRef" });
+    ASSERT_EQ(commands[5]->type(), BinaryModificationType::WRITE_DATA);
+    ASSERT_EQ(commands[6]->modificationId(), CUuid { "code:.text:simple-payload:functionWrapper" });
+    ASSERT_EQ(commands[6]->type(), BinaryModificationType::WRITE_CODE);
 }
 
