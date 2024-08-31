@@ -40,7 +40,7 @@ public:
     std::vector<SectionProcedures_t> text() const { return m_text; }
 };
 
-TEST(DefaultPayloadProcessorTest, BytesWillBeResolvedCorrectlyAndWithCorrectOrderInRegardOfDependencies)
+TEST(NasmPayloadProcessorTest, BytesWillBeResolvedCorrectlyAndWithCorrectOrderInRegardOfDependencies)
 {
     //given
     program::shared::container::init(0, nullptr);
@@ -58,7 +58,8 @@ TEST(DefaultPayloadProcessorTest, BytesWillBeResolvedCorrectlyAndWithCorrectOrde
             { strenc("functionRef dd function") },
             { strenc("importRef dd LoadUserProfile") },
             { strenc("DummyString db 'Hello Data', 0") },
-            { strenc("DummyHex dd 0xDEADBEEF") }
+            { strenc("DummyHex dd 0xDEADBEEF") },
+            { strenc("DummyDec dw 1997") },
         } } },
         { { strenc(".text"), {
             {
@@ -94,20 +95,22 @@ TEST(DefaultPayloadProcessorTest, BytesWillBeResolvedCorrectlyAndWithCorrectOrde
         commands.push_back(command);
     };
 
-    ASSERT_EQ(commands.size(), 7);
+    ASSERT_EQ(commands.size(), 8);
     ASSERT_EQ(commands[0]->modificationId(), CUuid { "import:userenv.dll:LoadUserProfile" });
     ASSERT_EQ(commands[0]->type(), BinaryModificationType::WRITE_IMPORT);
     ASSERT_EQ(commands[1]->modificationId(), CUuid { "data:.data:simple-payload:DummyString" });
     ASSERT_EQ(commands[1]->type(), BinaryModificationType::WRITE_DATA);
     ASSERT_EQ(commands[2]->modificationId(), CUuid { "data:.data:simple-payload:DummyHex" });
     ASSERT_EQ(commands[2]->type(), BinaryModificationType::WRITE_DATA);
-    ASSERT_EQ(commands[3]->modificationId(), CUuid { "data:.data:simple-payload:importRef" });
+    ASSERT_EQ(commands[3]->modificationId(), CUuid { "data:.data:simple-payload:DummyDec" });
     ASSERT_EQ(commands[3]->type(), BinaryModificationType::WRITE_DATA);
-    ASSERT_EQ(commands[4]->modificationId(), CUuid { "text:.text:simple-payload:function" });
-    ASSERT_EQ(commands[4]->type(), BinaryModificationType::WRITE_CODE);
-    ASSERT_EQ(commands[5]->modificationId(), CUuid { "data:.data:simple-payload:functionRef" });
-    ASSERT_EQ(commands[5]->type(), BinaryModificationType::WRITE_DATA);
-    ASSERT_EQ(commands[6]->modificationId(), CUuid { "code:.text:simple-payload:functionWrapper" });
-    ASSERT_EQ(commands[6]->type(), BinaryModificationType::WRITE_CODE);
+    ASSERT_EQ(commands[4]->modificationId(), CUuid { "data:.data:simple-payload:importRef" });
+    ASSERT_EQ(commands[4]->type(), BinaryModificationType::WRITE_DATA);
+    ASSERT_EQ(commands[5]->modificationId(), CUuid { "text:.text:simple-payload:function" });
+    ASSERT_EQ(commands[5]->type(), BinaryModificationType::WRITE_CODE);
+    ASSERT_EQ(commands[6]->modificationId(), CUuid { "data:.data:simple-payload:functionRef" });
+    ASSERT_EQ(commands[6]->type(), BinaryModificationType::WRITE_DATA);
+    ASSERT_EQ(commands[7]->modificationId(), CUuid { "code:.text:simple-payload:functionWrapper" });
+    ASSERT_EQ(commands[7]->type(), BinaryModificationType::WRITE_CODE);
 }
 

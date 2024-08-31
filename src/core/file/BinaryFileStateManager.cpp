@@ -36,7 +36,7 @@ CBinary CBinaryFileStateManager::binaryFileModifiedBinary(const file_id& fileId)
     return binaryFile(fileId)->modifiedBinary();
 }
 
-std::shared_ptr<IFormat> CBinaryFileStateManager::binaryFileModifiedBinaryAsFormat(const file_id& fileId) const
+format_ptr CBinaryFileStateManager::binaryFileModifiedBinaryAsFormat(const file_id& fileId) const
 {
     return binaryFile(fileId)->modifiedBinaryAsFormat();
 }

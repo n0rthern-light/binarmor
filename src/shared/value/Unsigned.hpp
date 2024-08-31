@@ -24,6 +24,7 @@ public:
     std::string asDecimalString() const;
     std::string asShortHexString() const;
     std::string asFullHexString() const;
+    byte_vec asLittleEndianBytes(unsigned int byteCount) const;
     bool operator==(const CUnsigned& other) const;
     bool operator!=(const CUnsigned& other) const;
 };

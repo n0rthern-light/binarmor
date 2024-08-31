@@ -26,7 +26,7 @@ public:
     );
     binary_file_ptr binaryFile(const file_id& fileId) const;
     CBinary binaryFileModifiedBinary(const file_id& fileId) const;
-    std::shared_ptr<IFormat> binaryFileModifiedBinaryAsFormat(const file_id& fileId) const;
+    format_ptr binaryFileModifiedBinaryAsFormat(const file_id& fileId) const;
     void load(const std::filesystem::path& filePath);
     void setCurrentWorkFile(const file_id& fileId);
     void unload(const file_id& fileId);
