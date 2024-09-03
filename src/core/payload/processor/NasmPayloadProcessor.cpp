@@ -8,6 +8,7 @@
 #include "shared/RuntimeException.hpp"
 #include "shared/self_obfuscation/strenc.hpp"
 #include "shared/string/StringFunctions.hpp"
+#include "shared/value/ByteVecOperations.hpp"
 #include <cassert>
 #include <format>
 #include <memory>
@@ -67,6 +68,11 @@ bool CNasmPayloadProcessor::hasDependency(const Data_t& data) const
             const auto& type = parts[i];
             const auto& val = parts[i+1];
 
+            while (StringFunctions::endsWith(parts[i+1], ",") && i < parts.size() - 1) {
+                // adjust if byte array
+                ++i;
+            }
+
             if (isImmediateValue(val) == false && (type == "dd" || type == "dq")) {
                 return true;
             }
@@ -104,11 +110,54 @@ data_id CNasmPayloadProcessor::dataId(const IPayload* payload, const std::string
     return std::format(strenc("data:{}:{}:{}"), sectionName, payload->id(), dataLabel);
 }
 
+bool CNasmPayloadProcessor::isValidTypeName(const std::string& str) const
+{
+    return str == "db" || str == "dw" || str == "dd" || str == "dq";
+}
+
 byte_vec CNasmPayloadProcessor::produceDataBytes(format_ptr format, const Data_t& data) const
 {
     if (format->endianness() != Endianness::LITTLE) {
         throw RuntimeException(strenc("Only LE byte order is supported"));
     }
+
+    const auto parseSingleValue = [&](const std::string& type, const std::string& value) -> byte_vec {
+        if (type == "db") {
+            return StringFunctions::convertToUnsigned(value).asLittleEndianBytes(1);
+        } else if (type == "dw") {
+            return StringFunctions::convertToUnsigned(value).asLittleEndianBytes(2);
+        } else if (type == "dd") {
+            return StringFunctions::convertToUnsigned(value).asLittleEndianBytes(4);
+        } else if (type == "dq") {
+            if (format->architecture() == Architecture::X86) {
+                throw RuntimeException(strenc("dq data type is not supported in 32 bit arch"));
+            }
+
+            return StringFunctions::convertToUnsigned(value).asLittleEndianBytes(8);
+        } else {
+            throw RuntimeException(std::format(strenc("{} is unknown data type in NasmPayloadProcessor"), type));
+        }
+    };
+
+    const auto parseSingleValueOfArray = [&](const std::string& value) -> byte_vec {
+        if (StringFunctions::isWrappedBy(value, "'", "'")) {
+            const auto stringContent = value.substr(1, value.length() - 1);
+
+            return StringFunctions::convertToBytes(stringContent);
+        } else if (StringFunctions::isDecValue(value) || StringFunctions::isHexValue(value)) {
+            const auto unsignedValue = StringFunctions::convertToUnsigned(value);
+
+            if (unsignedValue.get() > 0xFF) {
+                throw RuntimeException(std::format(strenc("{} is too big value for being byte"), unsignedValue.get()));
+            }
+
+            auto byteVec = byte_vec { };
+            byteVec.push_back(unsignedValue.get() & 0xFF);
+            return byteVec;
+        } else {
+            throw RuntimeException(std::format(strenc("{} is unrecognizable type"), value));
+        }
+    };
 
     const auto parts = extractPartsOfData(data);
 
@@ -117,32 +166,66 @@ byte_vec CNasmPayloadProcessor::produceDataBytes(format_ptr format, const Data_t
     }
 
     if (isStructData(data)) {
-        
+        auto bytes = byte_vec { };
+        for(size_t i = 1; i < parts.size() - 1; ++i) {
+            const auto& type = parts[i];
+            auto values = std::vector<std::string> { };
+
+
+            while(isValidTypeName(parts[i + 1]) == false && i < parts.size() - 1) {
+                auto currentValue = parts[i + 1];
+                if (StringFunctions::endsWith(currentValue, ",") == true) {
+                    currentValue = StringFunctions::trimFromEnd(currentValue, 1);
+                }
+
+                values.push_back(currentValue);
+
+                ++i;
+            }
+
+            if (values.size() == 1) {
+                const auto& singleValue = values[0];
+                bytes = CByteVecOperations::bytesAppendToEnd(bytes, parseSingleValue(type, singleValue));
+            } else if (values.size() > 1) {
+                if (type != "db") {
+                    throw RuntimeException(strenc("Only db type in array supported"));
+                }
+                for(const auto& singleValue : values) {
+                    bytes = CByteVecOperations::bytesAppendToEnd(bytes, parseSingleValueOfArray(singleValue));
+                }
+            } else {
+                throw RuntimeException(strenc("Could not parse values array"));
+            }
+        }
+
+        return bytes;
     } else {
         const auto& type = parts[1];
         const auto& value = parts[2];
 
         if (StringFunctions::endsWith(value, ",")) {
-            // is array or string (still array)
             if (type != "db") {
                 throw RuntimeException(strenc("Only db type in array supported"));
             }
-        } else {
-            // is immediate
-            if (type == "db") {
-                //byte
-            } else if (type == "dw") {
-                //word
-            } else if (type == "dd") {
-                //dword
-            } else if (type == "dq") {
-                //qword
-                if (format->architecture() == Architecture::X86) {
-                    throw RuntimeException(strenc("dq data type is not supported in 32 bit arch"));
-                }
-            } else {
-                throw RuntimeException(std::format(strenc("{} is unknown data type in NasmPayloadProcessor"), type));
+
+            if (parts.size() <= 3) {
+                throw RuntimeException(strenc("Expected more parts when comma occurs"));
             }
+
+            auto bytes = byte_vec { };
+            for(size_t i = 2; i < parts.size(); ++i) {
+                auto currentPart = parts[i];
+                
+                if (StringFunctions::endsWith(currentPart, ",")) {
+                    currentPart = StringFunctions::trimFromEnd(currentPart, 1);
+                }
+
+                CByteVecOperations::bytesAppendToEnd(bytes, parseSingleValueOfArray(currentPart));
+            }
+
+            return bytes;
+        } else {
+            return parseSingleValue(type, value);
         }
     }
 }
@@ -173,6 +256,8 @@ const std::shared_ptr<IModificationCommand> CNasmPayloadProcessor::next(const fi
         }
     }
 
+    const auto localData = std::vector<std::string> { };
+    // then not dependant data
     for(const auto& section : payload->data()) {
         for(const auto& sectionData : section.data) {
             if (hasDependency(sectionData) == true) {
@@ -199,8 +284,15 @@ const std::shared_ptr<IModificationCommand> CNasmPayloadProcessor::next(const fi
         }
     }
 
-    // then not dependant data
     // then not dependant code
+    for(const auto& sectionProcedures : payload->text()) {
+        for(const auto& procedure : sectionProcedures.procedures) {
+            for(const auto& instruction : procedure.instructions) {
+                
+            }
+        }
+    }
+
     // then dependant things
     // the things with the most dependencies last
 

@@ -17,6 +17,7 @@ class CNasmPayloadProcessor : public IPayloadProcessor
     std::vector<std::string> extractPartsOfData(const Data_t& data) const;
     std::string dataLabel(const Data_t& data) const;
     data_id dataId(const IPayload* payload, const std::string sectionName, const std::string& dataLabel) const;
+    bool isValidTypeName(const std::string& str) const;
     byte_vec produceDataBytes(format_ptr format, const Data_t& data) const;
 public:
     CNasmPayloadProcessor(CBinaryFileStateManager* fileManager);

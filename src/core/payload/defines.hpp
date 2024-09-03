@@ -56,7 +56,7 @@ namespace program
             struct Procedure_t
             {
                 const procedure_id procedureId;
-                const program::core::assembler::asm_instructions code;
+                const program::core::assembler::asm_instructions instructions;
             };
             struct SectionProcedures_t
             {

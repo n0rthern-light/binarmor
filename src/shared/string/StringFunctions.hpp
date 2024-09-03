@@ -5,6 +5,7 @@
 #include "shared/value/Unsigned.hpp"
 #include <format>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -84,12 +85,22 @@ public:
         return startsWithFrontWrap && endsWithBackWrap;
     }
 
-    static bool endsWith(const std::string& str, const std::string& end) {
+    static bool endsWith(const std::string& str, const std::string& end)
+    {
         if (end.size() > str.size()) {
             return false;
         }
         
         return str.compare(str.size() - end.size(), end.size(), end) == 0;
+    }
+
+    static std::string trimFromEnd(const std::string& str, unsigned int charCount)
+    {
+        if (str.length() < charCount) {
+            throw std::out_of_range(strenc("Trimmed string is shorted than trimmed characters"));
+        }
+
+        return str.substr(0, str.length() - charCount);
     }
 
     static std::string replaceAll(const std::string& str, const std::string& search, const std::string& to) {
@@ -134,5 +145,16 @@ public:
         } else {
             throw RuntimeException(std::format(strenc("{} is neither a decimal nor a hexadecimal value!"), str));
         }
+    }
+
+    static byte_vec convertToBytes(const std::string& str, bool terminatingZeroByte = true)
+    {
+        byte_vec bytes(str.begin(), str.end());
+
+        if (terminatingZeroByte == true) {
+            bytes.push_back(0);
+        }
+
+        return bytes;
     }
 };

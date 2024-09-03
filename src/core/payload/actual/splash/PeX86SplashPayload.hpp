@@ -61,10 +61,10 @@ class CPeX86SplashPayload : public IPayload
                     { strenc("windowWidth dd 800") },
                     { strenc("windowHeight dd 300") },
                     { dataLogo },
-                    { strenc("png_size equ 14161") },
-                    { strenc("png_width equ 800") },
-                    { strenc("png_height equ 300") },
-                    { strenc("png_height equ 300") },
+                    { strenc("png_size dw 14161") },
+                    { strenc("png_width dw 800") },
+                    { strenc("png_height dw 300") },
+                    { strenc("png_height dw 300") },
                     { strenc("hIcon dd 0") },
                     { strenc(R"(
                         WndClassEx:
