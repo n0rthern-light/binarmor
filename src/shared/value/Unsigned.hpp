@@ -8,15 +8,15 @@
 class CUnsigned
 {
     union {
-        uint_32 _32;
-        uint_64 _64;
-    } address;
-    AddressType type;
+        uint_32 m_32;
+        uint_64 m_64;
+    } m_address;
+    AddressType m_type;
 
 public:
-    CUnsigned(int _address);
-    CUnsigned(uint_32 _address);
-    CUnsigned(uint_64 _address);
+    CUnsigned(int address);
+    CUnsigned(uint_32 address);
+    CUnsigned(uint_64 address);
     AddressType bitType() const;
     uint_32 get32() const;
     uint_64 get64() const;

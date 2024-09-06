@@ -33,7 +33,7 @@ void program::core::container::init(int argc, char** argv)
     program::core::container::assembly::assembler_x86 = std::make_unique<KeystoneAssembler>(Architecture::X86, Endianness::LITTLE);
     program::core::container::assembly::assembler_x86_64 = std::make_unique<KeystoneAssembler>(Architecture::X86_64, Endianness::LITTLE);
     program::core::container::assembly::assembler_arm64 = std::make_unique<KeystoneAssembler>(Architecture::ARM64, Endianness::LITTLE);
-    program::core::container::payload::payloadProcessor = std::make_unique<CNasmPayloadProcessor>(
+    program::core::container::payload::payloadProcessor = std::make_unique<program::core::payload::nasm::CNasmPayloadProcessor>(
         program::core::container::file::binaryFileStateManager.get()
     );
     program::core::container::handler::addSectionHandler = std::make_unique<CAddSectionHandler>(

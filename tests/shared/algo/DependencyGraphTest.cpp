@@ -69,13 +69,14 @@ TEST(CDependencyGraphTest, ComplexDependencies) {
     EXPECT_EQ(sorted.size(), 10);
 
     EXPECT_TRUE(std::find(sorted.begin(), sorted.end(), "A") > std::find(sorted.begin(), sorted.end(), "B"));
+    EXPECT_TRUE(std::find(sorted.begin(), sorted.end(), "A") > std::find(sorted.begin(), sorted.end(), "E"));
     EXPECT_TRUE(std::find(sorted.begin(), sorted.end(), "A") > std::find(sorted.begin(), sorted.end(), "C"));
     EXPECT_TRUE(std::find(sorted.begin(), sorted.end(), "B") > std::find(sorted.begin(), sorted.end(), "D"));
     EXPECT_TRUE(std::find(sorted.begin(), sorted.end(), "C") > std::find(sorted.begin(), sorted.end(), "D"));
     EXPECT_TRUE(std::find(sorted.begin(), sorted.end(), "D") > std::find(sorted.begin(), sorted.end(), "E"));
     EXPECT_TRUE(std::find(sorted.begin(), sorted.end(), "F") > std::find(sorted.begin(), sorted.end(), "E"));
     EXPECT_TRUE(std::find(sorted.begin(), sorted.end(), "G") > std::find(sorted.begin(), sorted.end(), "E"));
-    EXPECT_TRUE(std::find(sorted.begin(), sorted.end(), "H") != sorted.end());
-    EXPECT_TRUE(std::find(sorted.begin(), sorted.end(), "I") != sorted.end());
-    EXPECT_TRUE(std::find(sorted.begin(), sorted.end(), "J") != sorted.end());
+    EXPECT_TRUE(std::find(sorted.begin(), sorted.end(), "H") < std::find(sorted.begin(), sorted.end(), "G"));
+    EXPECT_TRUE(std::find(sorted.begin(), sorted.end(), "I") < std::find(sorted.begin(), sorted.end(), "D"));
+    EXPECT_TRUE(std::find(sorted.begin(), sorted.end(), "J") < std::find(sorted.begin(), sorted.end(), "A"));
 }

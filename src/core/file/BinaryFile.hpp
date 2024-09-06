@@ -38,7 +38,8 @@ public:
     bool hasFlags(BinaryFileFlags flags) const;
     bool hasAnyFlags() const;
     bool isProtectedByBinarmor() const;
-    bool hasModification(const CUuid& modificationId);
+    bool hasModification(const CUuid& modificationId) const;
+    std::shared_ptr<const CBinaryModification> modification(const CUuid& modificationId) const;
     void registerModification(const CBinaryModification& modification);
 };
 

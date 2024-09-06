@@ -51,6 +51,7 @@ public:
     BinaryModificationType type() const;
     std::vector<CUuid> requiredModificationIds() const;
     const byte_vec apply(byte_vec targetBytes) const;
+    const binary_offset resolveFirstByteAddress() const;
     bool operator ==(const CBinaryModification& other) const;
 };
 

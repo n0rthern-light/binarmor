@@ -1,5 +1,6 @@
 #include "BinaryModification.hpp"
 #include "core/modification/ModificationException.hpp"
+#include "shared/RuntimeException.hpp"
 #include "shared/diff/diff_match_patch.hpp"
 #include "shared/self_obfuscation/strenc.hpp"
 #include "shared/types/defines.hpp"
@@ -77,6 +78,17 @@ const byte_vec CBinaryModification::apply(byte_vec targetBytes) const
     }
 
     return diff::patch(targetBytes, infDiff);
+}
+
+const binary_offset CBinaryModification::resolveFirstByteAddress() const
+{
+    for(const auto& diff : m_vecDiff) {
+        if (diff.type == BinaryModificationDiffType::ADD) {
+            return diff.offset;
+        }
+    }
+
+    throw RuntimeException(strenc("Modification does not have any ADD diff."));
 }
 
 bool CBinaryModification::operator ==(const CBinaryModification& other) const

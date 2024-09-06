@@ -107,7 +107,7 @@ bool CBinaryFile::isProtectedByBinarmor() const
     return m_attributes.isProtected;
 }
 
-bool CBinaryFile::hasModification(const CUuid& modificationId)
+bool CBinaryFile::hasModification(const CUuid& modificationId) const
 {
     for (const auto& modification : m_vecBinaryModification) {
         if (modification.id() == modificationId) {
@@ -116,6 +116,17 @@ bool CBinaryFile::hasModification(const CUuid& modificationId)
     }
 
     return false;
+}
+
+std::shared_ptr<const CBinaryModification> CBinaryFile::modification(const CUuid& modificationId) const
+{
+    for (const auto& modification : m_vecBinaryModification) {
+        if (modification.id() == modificationId) {
+            return std::make_shared<const CBinaryModification>(&modification);
+        }
+    }
+
+    return nullptr;
 }
 
 void CBinaryFile::registerModification(const CBinaryModification& modification)

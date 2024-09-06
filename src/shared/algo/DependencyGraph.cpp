@@ -20,7 +20,7 @@ std::vector<std::string> CDependencyGraph::topologicalSort() const {
     std::vector<std::string> sorted;
     std::queue<std::string> q;
 
-    std::unordered_map<std::string, int> localInDegree = { };
+    std::map<std::string, int> localInDegree = { };
 
     for (const auto& [node, dependencies] : m_graph) {
         if (localInDegree.find(node) == localInDegree.end()) {
