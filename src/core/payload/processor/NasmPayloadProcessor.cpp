@@ -12,6 +12,7 @@
 #include <format>
 #include <memory>
 #include <string>
+#include <vector>
 
 using namespace program::core::payload::nasm;
 
@@ -90,7 +91,7 @@ const std::shared_ptr<IModificationCommand> CNasmPayloadProcessor::processData(c
             }
 
             auto nasmDataUpdated = nasmData;
-
+            auto requiredModificationIds = std::vector<CUuid> { };
             for(const auto& dependency : dependencies) {
                 const auto dependencyModificationId = CUuid { dependency };
                 const auto& dependencyModification = binaryFile->modification(dependencyModificationId);
@@ -100,6 +101,8 @@ const std::shared_ptr<IModificationCommand> CNasmPayloadProcessor::processData(c
                 }
 
                 nasmDataUpdated = nasmDataUpdated.resolveDependency(dependency, dependencyModification->resolveFirstByteAddress());
+
+                requiredModificationIds.push_back(dependencyModificationId);
             }
 
             return std::make_shared<CAddBytesCommand>(
@@ -109,7 +112,8 @@ const std::shared_ptr<IModificationCommand> CNasmPayloadProcessor::processData(c
                 nasmDataUpdated.produceDataBytes(fileFormat->endianness(), fileFormat->architecture()),
                 false,
                 true,
-                false
+                false,
+                requiredModificationIds
             );
         }
     }
