@@ -122,7 +122,7 @@ std::shared_ptr<const CBinaryModification> CBinaryFile::modification(const CUuid
 {
     for (const auto& modification : m_vecBinaryModification) {
         if (modification.id() == modificationId) {
-            return std::make_shared<const CBinaryModification>(&modification);
+            return std::make_shared<const CBinaryModification>(modification);
         }
     }
 
