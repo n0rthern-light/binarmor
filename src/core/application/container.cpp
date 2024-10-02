@@ -4,6 +4,8 @@
 #include "../file/fstream/fstreamFileReader.hpp"
 #include "../assembler/keystone/KeystoneAssembler.hpp"
 #include "core/modification/bytes/AddBytesHandler.hpp"
+#include "core/modification/import/AddImportHandler.hpp"
+#include "core/modification/resize/FixBinaryResizeHandler.hpp"
 #include "core/modification/section/AddSectionHandler.hpp"
 #include "core/payload/processor/NasmPayloadProcessor.hpp"
 #include "core/shared/attributes.hpp"
@@ -17,6 +19,8 @@ std::unique_ptr<IAssembler> program::core::container::assembly::assembler_arm64 
 std::unique_ptr<IPayloadProcessor> program::core::container::payload::payloadProcessor = nullptr;
 std::unique_ptr<CAddSectionHandler> program::core::container::handler::addSectionHandler = nullptr;
 std::unique_ptr<CAddBytesHandler> program::core::container::handler::addBytesHandler = nullptr;
+std::unique_ptr<CAddImportHandler> program::core::container::handler::addImportHandler = nullptr;
+std::unique_ptr<CFixBinaryResizeHandler> program::core::container::handler::fixBinaryResizeHandler = nullptr;
 
 void program::core::container::init(int argc, char** argv)
 {
@@ -30,9 +34,9 @@ void program::core::container::init(int argc, char** argv)
         program::core::container::file::fileSystem.get(),
         program::core::container::file::analysis::runner.get()
     );
-    program::core::container::assembly::assembler_x86 = std::make_unique<KeystoneAssembler>(Architecture::X86, Endianness::LITTLE);
-    program::core::container::assembly::assembler_x86_64 = std::make_unique<KeystoneAssembler>(Architecture::X86_64, Endianness::LITTLE);
-    program::core::container::assembly::assembler_arm64 = std::make_unique<KeystoneAssembler>(Architecture::ARM64, Endianness::LITTLE);
+    program::core::container::assembly::assembler_x86 = std::make_unique<CKeystoneAssembler>(Architecture::X86, Endianness::LITTLE);
+    program::core::container::assembly::assembler_x86_64 = std::make_unique<CKeystoneAssembler>(Architecture::X86_64, Endianness::LITTLE);
+    program::core::container::assembly::assembler_arm64 = std::make_unique<CKeystoneAssembler>(Architecture::ARM64, Endianness::LITTLE);
     program::core::container::payload::payloadProcessor = std::make_unique<program::core::payload::nasm::CNasmPayloadProcessor>(
         program::core::container::file::binaryFileStateManager.get()
     );
@@ -43,6 +47,14 @@ void program::core::container::init(int argc, char** argv)
         program::shared::container::commandBus.get(),
         program::core::container::file::binaryFileStateManager.get()
     );
+    program::core::container::handler::addImportHandler = std::make_unique<CAddImportHandler>(
+        program::core::container::file::binaryFileStateManager.get()
+    );
+
+    program::core::container::handler::fixBinaryResizeHandler = std::make_unique<CFixBinaryResizeHandler>(
+        program::core::container::file::binaryFileStateManager.get()
+    );
+
 }
 
 void program::core::container::exit()
@@ -56,4 +68,6 @@ void program::core::container::exit()
     program::core::container::payload::payloadProcessor = nullptr;
     program::core::container::handler::addSectionHandler = nullptr;
     program::core::container::handler::addBytesHandler = nullptr;
+    program::core::container::handler::addImportHandler = nullptr;
+    program::core::container::handler::fixBinaryResizeHandler  = nullptr;
 }

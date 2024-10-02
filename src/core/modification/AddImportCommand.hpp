@@ -22,5 +22,7 @@ public:
     file_id fileId() const { return m_fileId; }
     CUuid modificationId() const { return { std::format("import:{}:{}", m_moduleName, m_functionName) }; }
     BinaryModificationType type() const { return BinaryModificationType::WRITE_IMPORT; }
+    std::string moduleName() const { return m_moduleName; }
+    std::string functionName() const { return m_functionName; }
 };
 

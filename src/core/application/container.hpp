@@ -6,6 +6,8 @@
 #include "../assembler/Assembler.hpp"
 #include "core/file/IFileSystem.hpp"
 #include "core/modification/bytes/AddBytesHandler.hpp"
+#include "core/modification/import/AddImportHandler.hpp"
+#include "core/modification/resize/FixBinaryResizeHandler.hpp"
 #include "core/modification/section/AddSectionHandler.hpp"
 #include "core/payload/processor/PayloadProcessor.hpp"
 
@@ -36,6 +38,8 @@ namespace program
             namespace handler {
                 extern std::unique_ptr<CAddSectionHandler> addSectionHandler;
                 extern std::unique_ptr<CAddBytesHandler> addBytesHandler;
+                extern std::unique_ptr<CAddImportHandler> addImportHandler;
+                extern std::unique_ptr<CFixBinaryResizeHandler> fixBinaryResizeHandler;
             }
 
             void init(int argc, char** argv);

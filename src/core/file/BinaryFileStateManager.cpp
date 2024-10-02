@@ -48,7 +48,13 @@ void CBinaryFileStateManager::load(const std::filesystem::path& filePath)
 
     m_analysisRunner->run(binary, binaryAttributes);
 
-    const auto tmpBinary = std::make_shared<CBinaryFile>(filePath, binary, 0, binaryAttributes);
+    const auto tmpBinary = std::make_shared<CBinaryFile>(
+        m_eventBus,
+        filePath,
+        binary,
+        0,
+        binaryAttributes
+    );
     const auto fileId = tmpBinary->fileId();
 
     if (m_binaryFileMap.find(fileId) != m_binaryFileMap.end()) {

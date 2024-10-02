@@ -5,7 +5,7 @@
 
 TEST(KeystoneAssemblerTest, ProduceX86Opcodes)
 {
-    auto assembler = new KeystoneAssembler(Architecture::X86, Endianness::LITTLE);
+    auto assembler = new CKeystoneAssembler(Architecture::X86, Endianness::LITTLE);
 
     auto opcodes = assembler->assemble({
         "add eax, ebx",
@@ -17,7 +17,7 @@ TEST(KeystoneAssemblerTest, ProduceX86Opcodes)
 
 TEST(KeystoneAssemblerTest, ProduceX86_64Opcodes)
 {
-    auto assembler = new KeystoneAssembler(Architecture::X86_64, Endianness::LITTLE);
+    auto assembler = new CKeystoneAssembler(Architecture::X86_64, Endianness::LITTLE);
 
     auto opcodes = assembler->assemble({
         "add rax, rbx",
@@ -29,7 +29,7 @@ TEST(KeystoneAssemblerTest, ProduceX86_64Opcodes)
 
 TEST(KeystoneAssemblerTest, ProduceArm64Opcodes)
 {
-    auto assembler = new KeystoneAssembler(Architecture::ARM64, Endianness::LITTLE);
+    auto assembler = new CKeystoneAssembler(Architecture::ARM64, Endianness::LITTLE);
 
     auto opcodes = assembler->assemble({
         "mov x0, #1",

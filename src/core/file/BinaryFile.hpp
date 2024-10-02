@@ -7,6 +7,7 @@
 #include "core/file/BinaryModification.hpp"
 #include "core/format/IFormat.hpp"
 #include "flags.hpp"
+#include "shared/message/IMessageBus.hpp"
 #include "shared/value/Uuid.hpp"
 #include <string>
 #include <filesystem>
@@ -17,13 +18,20 @@ using binary_file_ptr = std::shared_ptr<CBinaryFile>;
 
 class CBinaryFile
 {
+    IMessageBus* m_eventBus;
     const std::filesystem::path m_filePath;
     const CBinary m_originalBinary;
     std::vector<const CBinaryModification> m_vecBinaryModification;
     uint_32 m_flags;
     BinaryFileAttributes_t m_attributes;
 public:
-    CBinaryFile(const std::string& filePath, const CBinary& binary, uint_32 flags, const BinaryFileAttributes_t& attributes);
+    CBinaryFile(
+        IMessageBus* eventBus,
+        const std::string& filePath,
+        const CBinary& binary,
+        uint_32 flags,
+        const BinaryFileAttributes_t& attributes
+    );
     std::filesystem::path filePath() const;
     std::string fileName() const;
     file_id fileId() const;

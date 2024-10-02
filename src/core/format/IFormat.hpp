@@ -34,6 +34,10 @@ public:
         binary_offset size,
         const CSectionPermissions permissions
     ) const = 0;
+    virtual format_ptr addImport(
+        const std::string& moduleName,
+        const std::string& functionName
+    ) const = 0;
     virtual format_ptr changeBytes(
         const byte_vec& bytes
     ) const = 0;

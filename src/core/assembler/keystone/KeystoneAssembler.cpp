@@ -5,9 +5,9 @@
 #include <shared/self_obfuscation/strenc.hpp>
 #include <keystone/keystone.h>
 
-KeystoneAssembler::KeystoneAssembler(Architecture architecture, Endianness endianness): m_architecture(architecture), m_endianness(endianness) { }
+CKeystoneAssembler::CKeystoneAssembler(Architecture architecture, Endianness endianness): m_architecture(architecture), m_endianness(endianness) { }
 
-asm_opcodes KeystoneAssembler::assemble(const asm_instructions& input)
+asm_opcodes CKeystoneAssembler::assemble(const asm_instructions& input)
 {
     asm_opcodes opcodes;
 

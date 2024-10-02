@@ -100,7 +100,7 @@ const std::shared_ptr<IModificationCommand> CNasmPayloadProcessor::processData(c
                     throw RuntimeException(std::format(strenc("Required dependency {} must be loaded before data: {}"), dependency, dataId));
                 }
 
-                nasmDataUpdated = nasmDataUpdated.resolveDependency(dependency, dependencyModification->resolveFirstByteAddress());
+                nasmDataUpdated = nasmDataUpdated.resolveDependency(dependency, dependencyModification->firstAddByteAddress());
 
                 requiredModificationIds.push_back(dependencyModificationId);
             }
@@ -121,13 +121,19 @@ const std::shared_ptr<IModificationCommand> CNasmPayloadProcessor::processData(c
     return nullptr;
 }
 
-const std::shared_ptr<IModificationCommand> CNasmPayloadProcessor::processProcedure(const procedure_id& procedureId, const file_id& fileId, const IPayload* payload) const
-{
+const std::shared_ptr<IModificationCommand> CNasmPayloadProcessor::processProcedure(
+    const procedure_id& procedureId,
+    const file_id& fileId,
+    const IPayload* payload
+) const {
     return nullptr;
 }
 
-const std::shared_ptr<IModificationCommand> CNasmPayloadProcessor::processPayloadChunks(const std::vector<std::string>& payloadChunksOrder, const file_id& fileId, const IPayload* payload) const
-{
+const std::shared_ptr<IModificationCommand> CNasmPayloadProcessor::processPayloadChunks(
+    const std::vector<std::string>& payloadChunksOrder,
+    const file_id& fileId,
+    const IPayload* payload
+) const {
     auto binaryFile = m_fileManager->binaryFile(fileId);
     auto fileFormat = m_fileManager->binaryFileModifiedBinaryAsFormat(fileId);
 

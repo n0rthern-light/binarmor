@@ -1,5 +1,4 @@
-#ifndef CORE_ASSEMBLER_ASMJIT__ASM_JIT_ASSEMBLER_HPP_
-#define CORE_ASSEMBLER_ASMJIT__ASM_JIT_ASSEMBLER_HPP_
+#pragma once
 
 #include "../Assembler.hpp"
 #include "core/assembler/defines.hpp"
@@ -7,13 +6,12 @@
 
 using namespace program::core::assembler;
 
-class KeystoneAssembler : public IAssembler
+class CKeystoneAssembler : public IAssembler
 {
     Architecture m_architecture;
     Endianness m_endianness;
 public:
-    KeystoneAssembler(Architecture architecture, Endianness endianness);
+    CKeystoneAssembler(Architecture architecture, Endianness endianness);
     asm_opcodes assemble(const asm_instructions& input) override;
 };
 
-#endif // CORE_ASSEMBLER_ASMJIT__ASM_JIT_ASSEMBLER_HPP_

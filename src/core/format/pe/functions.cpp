@@ -364,3 +364,18 @@ CPeFormat format::pe::addSection(
 
     return CPeFormat{ newBinary };
 }
+
+CPeFormat format::pe::addImport(
+    const CPeFormat& peFormat,
+    const std::string& moduleName,
+    const std::string& functionName
+)
+{
+    const auto sections = format::pe::readSectionList(peFormat);
+    auto importDirectory = format::pe::imageDataDirectory(peFormat)[IMAGE_DIRECTORY_ENTRY_IMPORT];
+    auto iat = format::pe::imageDataDirectory(peFormat)[IMAGE_DIRECTORY_ENTRY_IAT];
+
+    
+
+    return peFormat;
+}
