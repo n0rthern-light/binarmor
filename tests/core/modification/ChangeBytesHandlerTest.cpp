@@ -2,17 +2,25 @@
 #include "../BinaryMother.hpp"
 #include "core/application/container.hpp"
 #include "core/application/behave.hpp"
-#include "core/modification/AddImportCommand.hpp"
+#include "core/file/BinaryModification.hpp"
+#include "core/format/IFormat.hpp"
+#include "core/format/pe/PeFormat.hpp"
+#include "core/format/pe/defines.hpp"
+#include "core/modification/AddBytesCommand.hpp"
+#include "core/modification/ChangeBytesCommand.hpp"
+#include "core/shared/SectionPermissions.hpp"
 #include "shared/application/container.hpp"
+#include "shared/value/ByteVecOperations.hpp"
 #include "shared/value/Uuid.hpp"
 #include <memory>
+#include <optional>
 #include <stdio.h>
 #include <unistd.h>
 
-class AddImportHandlerTest : public ::testing::TestWithParam<std::string> {
+class AddBytesHandlerTest : public ::testing::TestWithParam<std::string> {
 };
 
-TEST_P(AddImportHandlerTest, CanAddImport)
+TEST_P(AddBytesHandlerTest, CanAddBytes)
 {
     //given
     program::shared::container::init(0, nullptr);
@@ -26,23 +34,24 @@ TEST_P(AddImportHandlerTest, CanAddImport)
 
     //when
     program::shared::container::commandBus->publish(
-        std::make_shared<CAddImportCommand>(
+        std::make_shared<CChangeBytesCommand>(
             fileId,
-            "ntdll.dll",
-            "NtRaiseHardError"
+            CUuid{ },
+            100,
+            byte_vec { 0xDE, 0xDB, 0xEE, 0xFF, 0x01, 0x05, 0x00, 0xCC },
+            BinaryModificationType::ENCRYPT_DATA
         )
     );
 
     //then
-    const auto format = binaryFile->modifiedBinaryAsFormat();
-    const auto& importModules = format->importModules();
+    auto fmt = binaryFile->modifiedBinaryAsFormat();
+    auto bytes = fmt->binary().part(100, 8).bytes();
 
-    ASSERT_TRUE(importModules.find("KERNEL32.dll") != importModules.end());
-    ASSERT_TRUE(importModules.find("ntdll.dll") != importModules.end());
+    ASSERT_EQ(bytes, (byte_vec { 0xDE, 0xDB, 0xEE, 0xFF, 0x01, 0x05, 0x00, 0xCC }));
 }
 
 INSTANTIATE_TEST_SUITE_P(
-    AddImportHandlerMultipleFilesTest,
-    AddImportHandlerTest,
+    AddBytesHandlerMultipleFilesTest,
+    AddBytesHandlerTest,
     ::testing::Values("/windows/x86.dll", "/windows/x86.exe", "/windows/x86_64.dll", "/windows/x86_64.exe")
 );

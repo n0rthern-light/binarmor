@@ -10,7 +10,8 @@ enum class BinaryModificationType
     WRITE_DATA = 1,
     WRITE_CODE = 2,
     WRITE_IMPORT = 3,
-    INIT_STARTUP_CODE = 4
+    INIT_STARTUP_CODE = 4,
+    ENCRYPT_DATA = 5
 };
 
 enum class BinaryModificationDiffType

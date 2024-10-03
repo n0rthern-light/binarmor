@@ -375,7 +375,5 @@ CPeFormat format::pe::addImport(
     auto importDirectory = format::pe::imageDataDirectory(peFormat)[IMAGE_DIRECTORY_ENTRY_IMPORT];
     auto iat = format::pe::imageDataDirectory(peFormat)[IMAGE_DIRECTORY_ENTRY_IAT];
 
-    
-
     return peFormat;
 }

@@ -5,6 +5,7 @@
 #include "core/modification/AddBytesCommand.hpp"
 #include "core/modification/AddImportCommand.hpp"
 #include "core/modification/AddSectionCommand.hpp"
+#include "core/modification/ChangeBytesCommand.hpp"
 #include "core/modification/resize/BinarySizeChangedEvent.hpp"
 #include "core/modification/resize/FixBinaryResizeCommand.hpp"
 #include "core/modification/import/AddImportHandler.hpp"
@@ -48,9 +49,19 @@ void program::core::application::behave(int argc, char** argv)
         program::core::container::handler::addBytesHandler->handle(*castedCommand);
     });
 
+    program::shared::container::commandBus->subscribe(typeid(CChangeBytesCommand), [&](message_ptr command) {
+        auto castedCommand = dynamic_cast<CChangeBytesCommand*>(command.get());
+        program::core::container::handler::changeBytesHandler->handle(*castedCommand);
+    });
+
     program::shared::container::commandBus->subscribe(typeid(CAddImportCommand), [&](message_ptr command) {
         auto castedCommand = dynamic_cast<CAddImportCommand*>(command.get());
         program::core::container::handler::addImportHandler->handle(*castedCommand);
+    });
+
+    program::shared::container::commandBus->subscribe(typeid(CFixBinaryResizeCommand), [&](message_ptr command) {
+        auto castedCommand = dynamic_cast<CFixBinaryResizeCommand*>(command.get());
+        program::core::container::handler::fixBinaryResizeHandler->handle(*castedCommand);
     });
 }
 

@@ -29,11 +29,14 @@ void CSimpleMessageBus::publish(message_ptr message) {
     }
     for (auto& handler : handlers) {
         m_handlerType([&] {
+            handler(message);
+            /*
             try {
                 handler(message);
             } catch (const RuntimeException& exception) {
                 publish(std::make_shared<CRuntimeExceptionOccuredEvent>(exception.what()));
             }
+            */
         });
     }
 }
