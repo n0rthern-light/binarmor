@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <memory>
 #include <shared/message/simple/SimpleMessageBus.hpp>
 
 class DummyEvent : public IMessage
@@ -14,10 +15,10 @@ TEST(SimpleEventBusTest, HandlerWillBeCalledWithProperEvent) {
 
     bool gotCalled = false;
     eventBus->subscribe(typeid(DummyEvent), [&](message_ptr event) {
-        auto dummyEvent = dynamic_cast<DummyEvent*>(event.get());
+        auto dummyEvent = std::dynamic_pointer_cast<DummyEvent>(event);
         gotCalled = true;
         ASSERT_STREQ(dummyEvent->message.c_str(), "Test");
-        ASSERT_EQ(dummyEvent, publishedEvent.get());
+        ASSERT_EQ(dummyEvent, publishedEvent);
     });
 
     eventBus->publish(publishedEvent);

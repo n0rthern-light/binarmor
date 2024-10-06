@@ -1,4 +1,5 @@
 #include "PeImport.hpp"
+#include "core/format/IImport.hpp"
 #include <shared/value/AddressType.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
 
@@ -51,5 +52,25 @@ uint_32 CPeImport::rvaThunkAddressOfData() const {
 
 uint_32 CPeImport::sizeOfThunk() const {
     return m_sizeOfThunk;
+}
+
+definitions_t CPeImport::definitions() const
+{
+    auto defs = definitions_t {
+        ImportDefinition_t { rvaOriginalThunk(), sizeOfThunk() },
+        ImportDefinition_t { rvaThunk(), sizeOfThunk() },
+    };
+
+    if (name() != strenc("Ordinal")) {
+        const auto importByNameSize = 2 + name().length() + 1; // uint_16 hint + ascii zero terminated string
+        const auto importByNames = definitions_t {
+            ImportDefinition_t { rvaOriginalThunkAddressOfData(), importByNameSize },
+            ImportDefinition_t { rvaThunkAddressOfData(), importByNameSize }
+        };
+
+        defs.insert(defs.end(), importByNames.begin(), importByNames.end());
+    }
+
+    return defs;
 }
 

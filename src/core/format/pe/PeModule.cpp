@@ -43,3 +43,13 @@ pe_import_vec CPeModule::peImports() const
     return m_imports;
 }
 
+uint_auto CPeModule::definitionRva() const
+{
+    return rvaImportDescriptor();
+}
+
+uint_auto CPeModule::definitionSize() const
+{
+    return sizeOfImportDescriptor();
+}
+

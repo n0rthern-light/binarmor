@@ -40,6 +40,7 @@ public:
     uint_32 rvaOriginalThunkAddressOfData() const;
     uint_32 rvaThunkAddressOfData() const;
     uint_32 sizeOfThunk() const;
+    definitions_t definitions() const;
 };
 
 #endif // CORE_FORMAT_PE__PE_IMPORT_HPP_

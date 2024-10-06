@@ -52,6 +52,23 @@ TEST_P(OpenSslCrypterByteTest, WillEncryptAndDecryptBytesCorrectly) {
     ASSERT_EQ(unxored, original);
 }
 
+TEST_P(OpenSslCrypterStringTest, XoredEntropyWillBeGreater) {
+    auto crypter = std::make_unique<COpenSslCrypter>();
+
+    const std::string original = std::get<0>(GetParam());
+    if (original == "" || original == " " || original == "!@#$%^&*()") { 
+        // entropy will be always equal in this case
+        return;
+    }
+    const std::string key = std::get<1>(GetParam());
+
+    const auto xored = crypter->xorString(original, key);
+    const auto xoredEntropy = calculateEntropy(byte_vec(xored.begin(), xored.end()));
+    const auto originalEntropy = calculateEntropy(byte_vec(original.begin(), original.end()));
+
+    ASSERT_GT(xoredEntropy, originalEntropy);
+}
+
 TEST_P(OpenSslCrypterByteTest, XoredEntropyWillBeGreater) {
     auto crypter = std::make_unique<COpenSslCrypter>();
 

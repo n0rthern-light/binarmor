@@ -31,6 +31,8 @@ public:
     uint_32 sizeOfImportDescriptor() const;
     import_vec imports() const;
     pe_import_vec peImports() const;
+    uint_auto definitionRva() const;
+    uint_auto definitionSize() const;
 };
 
 #endif // CORE_FORMAT_PE__PE_MODULE_HPP_

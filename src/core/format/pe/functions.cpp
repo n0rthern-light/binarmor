@@ -164,8 +164,8 @@ pe_import_vec format::pe::readModuleImports(const CPeFormat& peFormat, const IMA
                 currentOriginalThunk->u1.Ordinal & 0xFFFF,
                 currentOriginalThunkRva,
                 currentThunkRva,
-                currentOriginalThunk->u1.AddressOfData,
-                currentThunk->u1.AddressOfData,
+                currentOriginalThunkRva, // no pointer to import by name, so just ref to self; might be nullptr either
+                currentThunkRva,
                 sizeof(IMAGE_THUNK_DATA)
             );
         } else {
@@ -177,7 +177,7 @@ pe_import_vec format::pe::readModuleImports(const CPeFormat& peFormat, const IMA
                 0,
                 currentOriginalThunkRva,
                 currentThunkRva,
-                currentOriginalThunk->u1.AddressOfData,
+                currentOriginalThunk->u1.AddressOfData, // import by name address ptr
                 currentThunk->u1.AddressOfData,
                 sizeof(IMAGE_THUNK_DATA)
             );
@@ -363,17 +363,4 @@ CPeFormat format::pe::addSection(
     }
 
     return CPeFormat{ newBinary };
-}
-
-CPeFormat format::pe::addImport(
-    const CPeFormat& peFormat,
-    const std::string& moduleName,
-    const std::string& functionName
-)
-{
-    const auto sections = format::pe::readSectionList(peFormat);
-    auto importDirectory = format::pe::imageDataDirectory(peFormat)[IMAGE_DIRECTORY_ENTRY_IMPORT];
-    auto iat = format::pe::imageDataDirectory(peFormat)[IMAGE_DIRECTORY_ENTRY_IAT];
-
-    return peFormat;
 }

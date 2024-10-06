@@ -174,14 +174,6 @@ format_ptr CPeFormat::addSection(
     return std::make_shared<CPeFormat>(addPeSection(name, size, permissions));
 }
 
-format_ptr CPeFormat::addImport(
-    const std::string& moduleName,
-    const std::string& functionName
-) const
-{
-    return std::make_shared<CPeFormat>(format::pe::addImport(*this, moduleName, functionName));
-}
-
 format_ptr CPeFormat::changeBytes(
     const byte_vec& bytes
 ) const {

@@ -39,6 +39,8 @@ TEST_P(AddImportHandlerTest, CanAddImport)
 
     ASSERT_TRUE(importModules.find("KERNEL32.dll") != importModules.end());
     ASSERT_TRUE(importModules.find("ntdll.dll") != importModules.end());
+
+    // todo add assertion for hashed section of original imports
 }
 
 INSTANTIATE_TEST_SUITE_P(

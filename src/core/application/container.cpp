@@ -53,7 +53,9 @@ void program::core::container::init(int argc, char** argv)
         program::core::container::file::binaryFileStateManager.get()
     );
     program::core::container::handler::addImportHandler = std::make_unique<CAddImportHandler>(
-        program::core::container::file::binaryFileStateManager.get()
+        program::core::container::file::binaryFileStateManager.get(),
+        program::shared::container::crypter.get(),
+        program::shared::container::commandBus.get()
     );
 
     program::core::container::handler::fixBinaryResizeHandler = std::make_unique<CFixBinaryResizeHandler>(

@@ -38,11 +38,6 @@ namespace format::pe {
         binary_offset size,
         const CSectionPermissions permissions
     );
-    CPeFormat addImport(
-        const CPeFormat& peFormat,
-        const std::string& moduleName,
-        const std::string& functionName
-    );
 }
 
 #endif // CORE_FORMAT_PE_FUNCTIONS_HPP_
