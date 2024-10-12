@@ -6,7 +6,7 @@
 #include <memory>
 #include <shared/self_obfuscation/strenc.hpp>
 
-void CPeAnalyzer::analyze(const CBinary& binary, BinaryAttributes_t& attributes)
+void CPeAnalyzer::analyze(const CBinary& binary, BinaryFileAttributes_t& attributes)
 {
     if (attributes.format != Format::Windows_PE) {
         throw UnsupportedFileException(strenc("Not detected any supported file format"));
@@ -18,11 +18,11 @@ void CPeAnalyzer::analyze(const CBinary& binary, BinaryAttributes_t& attributes)
     attributes.type = pe.type();
     auto sections = pe.peSections();
     attributes.sectionCount = sections.size();
-    auto importModules = pe.imports();
+    auto importModules = pe.peImportModules();
     attributes.importedModuleCount = importModules.size();
     uint_8 importFuncCount = 0;
     for(const auto& mod : importModules) {
-        auto functions = mod.second->imports();
+        auto functions = mod.second->peImports();
         importFuncCount += functions.size();
     }
     attributes.importedFunctionsCount = importFuncCount;

@@ -1,16 +1,30 @@
 #include "BinaryFile.hpp"
 #include "core/format/pe/PeFormat.hpp"
+#include "core/modification/resize/BinarySizeChangedEvent.hpp"
 #include "core/shared/attributes.hpp"
-#include "core/file/BinaryAttributes.hpp"
+#include "core/file/BinaryFileAttributes.hpp"
 #include "core/file/BinaryModification.hpp"
 #include "shared/RuntimeException.hpp"
+#include "shared/message/IMessageBus.hpp"
 #include "shared/value/Uuid.hpp"
 #include <algorithm>
 #include <memory>
 #include <stdexcept>
 #include <vector>
 
-CBinaryFile::CBinaryFile(const std::string& filePath, const CBinary& binary, uint_32 flags, const BinaryAttributes_t& attributes): m_filePath(filePath), m_originalBinary(binary), m_flags(flags), m_attributes(attributes), m_vecBinaryModification({ })
+CBinaryFile::CBinaryFile(
+    IMessageBus* eventBus,
+    const std::string& filePath,
+    const CBinary& binary,
+    uint_32 flags,
+    const BinaryFileAttributes_t& attributes
+):
+    m_eventBus(eventBus),
+    m_filePath(filePath),
+    m_originalBinary(binary),
+    m_flags(flags),
+    m_attributes(attributes),
+    m_vecBinaryModification({ })
 { }
 
 std::filesystem::path CBinaryFile::filePath() const
@@ -73,7 +87,7 @@ Architecture CBinaryFile::arch() const
     return m_attributes.arch;
 }
 
-BinaryAttributes_t CBinaryFile::attributes() const
+BinaryFileAttributes_t CBinaryFile::attributes() const
 {
     return m_attributes;
 }
@@ -107,7 +121,7 @@ bool CBinaryFile::isProtectedByBinarmor() const
     return m_attributes.isProtected;
 }
 
-bool CBinaryFile::hasModification(const CUuid& modificationId)
+bool CBinaryFile::hasModification(const CUuid& modificationId) const
 {
     for (const auto& modification : m_vecBinaryModification) {
         if (modification.id() == modificationId) {
@@ -116,6 +130,17 @@ bool CBinaryFile::hasModification(const CUuid& modificationId)
     }
 
     return false;
+}
+
+std::shared_ptr<const CBinaryModification> CBinaryFile::modification(const CUuid& modificationId) const
+{
+    for (const auto& modification : m_vecBinaryModification) {
+        if (modification.id() == modificationId) {
+            return std::make_shared<const CBinaryModification>(modification);
+        }
+    }
+
+    return nullptr;
 }
 
 void CBinaryFile::registerModification(const CBinaryModification& modification)
@@ -131,5 +156,17 @@ void CBinaryFile::registerModification(const CBinaryModification& modification)
     }
 
     m_vecBinaryModification.push_back(modification);
+
+    const auto totalSizeDiff = modification.totalSizeDiff();
+    if (totalSizeDiff != 0) {
+        m_eventBus->publish(
+            std::make_shared<CBinarySizeChangedEvent>(
+                fileId(),
+                modification.id(),
+                modification.firstByteAddress(),
+                totalSizeDiff
+            )
+        );
+    }
 }
 

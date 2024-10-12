@@ -1,5 +1,6 @@
 #include "BinaryModification.hpp"
 #include "core/modification/ModificationException.hpp"
+#include "shared/RuntimeException.hpp"
 #include "shared/diff/diff_match_patch.hpp"
 #include "shared/self_obfuscation/strenc.hpp"
 #include "shared/types/defines.hpp"
@@ -77,6 +78,71 @@ const byte_vec CBinaryModification::apply(byte_vec targetBytes) const
     }
 
     return diff::patch(targetBytes, infDiff);
+}
+
+const binary_offset CBinaryModification::firstByteAddress() const
+{
+    std::optional<binary_offset> first = std::nullopt;
+    for(const auto& diff : m_vecDiff) {
+        if (first.has_value() == false) {
+            first = diff.offset;
+            continue;
+        }
+        const auto& value = first.value();
+        if (value > diff.offset) {
+            first = diff.offset;
+        }
+    }
+
+    if (first.has_value() == false) {
+        throw RuntimeException(strenc("Modification does not have any diff."));
+    }
+
+    return first.value();
+}
+
+const binary_offset CBinaryModification::firstByteAddressOfType(BinaryModificationDiffType type) const
+{
+    std::optional<binary_offset> first = std::nullopt;
+    for(const auto& diff : m_vecDiff) {
+        if (diff.type != type) {
+            continue;
+        }
+
+        if (first.has_value() == false) {
+            first = diff.offset;
+            continue;
+        }
+        const auto& value = first.value();
+        if (value > diff.offset) {
+            first = diff.offset;
+        }
+    }
+
+    if (first.has_value() == false) {
+        throw RuntimeException(strenc("Modification does not have any diff of requested type."));
+    }
+
+    return first.value();
+}
+
+const binary_offset CBinaryModification::firstAddByteAddress() const
+{
+    return firstByteAddressOfType(BinaryModificationDiffType::ADD);
+}
+
+int CBinaryModification::totalSizeDiff() const
+{
+    int diffSize = 0;
+    for(const auto& diff : m_vecDiff) {
+        if (diff.type == BinaryModificationDiffType::ADD) {
+            diffSize += diff.size;
+        } else if (diff.type == BinaryModificationDiffType::REMOVE) {
+            diffSize -= diff.size;
+        }
+    }
+
+    return diffSize;
 }
 
 bool CBinaryModification::operator ==(const CBinaryModification& other) const

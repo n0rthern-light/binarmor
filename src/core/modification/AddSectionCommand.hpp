@@ -3,12 +3,14 @@
 
 #include "core/file/BinaryFile.hpp"
 #include "../shared/SectionPermissions.hpp"
+#include "core/file/BinaryModification.hpp"
+#include "core/modification/ModificationCommand.hpp"
 #include "core/modification/ModificationException.hpp"
-#include "shared/message/IMessage.hpp"
 #include "shared/self_obfuscation/strenc.hpp"
 #include "shared/types/defines.hpp"
+#include "shared/value/Uuid.hpp"
 
-class CAddSectionCommand : public IMessage
+class CAddSectionCommand : public IModificationCommand
 {
     const file_id m_fileId;
     const std::string m_sectionId;
@@ -33,6 +35,8 @@ public:
         }
     }
     file_id fileId() const { return m_fileId; }
+    CUuid modificationId() const { return { sectionId() }; }
+    BinaryModificationType type() const { return BinaryModificationType::ADD_SECTION; }
     std::string sectionId() const { return m_sectionId; }
     CSectionPermissions permissions() const { return m_permissions; }
     binary_offset size() const { return m_size; }

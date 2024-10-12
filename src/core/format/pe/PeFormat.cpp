@@ -1,6 +1,9 @@
 #include "PeFormat.hpp"
 #include "core/format/IFormat.hpp"
+#include "core/format/IModule.hpp"
+#include "core/format/ISection.hpp"
 #include "core/format/pe/PeSection.hpp"
+#include "core/shared/attributes.hpp"
 #include "defines.hpp"
 #include <memory>
 #include <shared/RuntimeException.hpp>
@@ -10,6 +13,11 @@
 CPeFormat::CPeFormat(const CPeFormat& other): m_binary(other.binary()) { }
 
 CPeFormat::CPeFormat(const CBinary& binary): m_binary(binary) { }
+
+Format CPeFormat::format() const
+{
+    return Format::Windows_PE;
+}
 
 CBinary CPeFormat::binary() const
 {
@@ -106,6 +114,18 @@ section_vec CPeFormat::sections() const
     return res;
 }
 
+section_ptr CPeFormat::findSectionByName(const std::string& name) const
+{
+    section_ptr ret = nullptr;
+    for(const auto& section : sections()) {
+        if(section->name() == name) {
+            ret = section;
+        }
+    }
+
+    return ret;
+}
+
 binary_offset CPeFormat::rvaToOffset(const binary_offset& rva) const
 {
     return format::pe::rvaToOffset(*this, rva);
@@ -116,9 +136,39 @@ CBinaryPointer CPeFormat::rvaToPointer(const binary_offset& rva) const
     return binary().pointer(rvaToOffset(rva));
 }
 
-pe_module_map CPeFormat::imports() const
+pe_module_map CPeFormat::peImportModules() const
 {
     return format::pe::readImportModules(*this);
+}
+
+module_map CPeFormat::importModules() const
+{
+    const auto pe = peImportModules();
+    auto res = module_map { };
+
+    for (const auto& keyVal : pe) {
+        res[keyVal.first] = std::dynamic_pointer_cast<IModule>(keyVal.second);
+    }
+
+    return res;
+}
+
+import_ptr CPeFormat::import(const std::string& module, const std::string& function) const
+{
+    const auto& modulesMap = importModules();
+    const auto moduleObj = modulesMap.find(module);
+
+    if (moduleObj == modulesMap.end()) {
+        return nullptr;
+    }
+
+    for(const auto& import : moduleObj->second->imports()) {
+        if (import->name() == function) {
+            return import;
+        }
+    }
+
+    return nullptr;
 }
 
 CPeFormat CPeFormat::addPeSection(

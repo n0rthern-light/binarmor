@@ -5,7 +5,7 @@
 TEST(PeImportTest, X86ExeImportsAreCorrect)
 {
     auto pe = BinaryMother::x86exe();
-    auto imports = pe->imports();
+    auto imports = pe->peImportModules();
     ASSERT_EQ(imports.size(), 2);
 
     {
@@ -21,7 +21,7 @@ TEST(PeImportTest, X86ExeImportsAreCorrect)
         ASSERT_EQ(kernel32Module->sizeOfImportDescriptor(), 0x14);
         ASSERT_EQ(pe->rvaToOffset(kernel32Module->rvaImportDescriptor()), 0x8A00);
 
-        pe_import_vec kernel32ModuleImports = kernel32Module->imports();
+        pe_import_vec kernel32ModuleImports = kernel32Module->peImports();
         ASSERT_EQ(kernel32ModuleImports.size(), 15);
 
         {
@@ -82,7 +82,7 @@ TEST(PeImportTest, X86ExeImportsAreCorrect)
         ASSERT_EQ(msvcrtModule->sizeOfImportDescriptor(), 0x14);
         ASSERT_EQ(pe->rvaToOffset(msvcrtModule->rvaImportDescriptor()), 0x8A14);
 
-        auto msvcrtModuleImports = msvcrtModule->imports();
+        auto msvcrtModuleImports = msvcrtModule->peImports();
         ASSERT_EQ(msvcrtModuleImports.size(), 35);
 
         {
@@ -134,7 +134,7 @@ TEST(PeImportTest, X86ExeImportsAreCorrect)
 TEST(PeImportTest, X86DllImportsAreCorrect)
 {
     auto pe = BinaryMother::x86dll();
-    auto imports = pe->imports();
+    auto imports = pe->peImportModules();
     ASSERT_EQ(imports.size(), 2);
 
     {
@@ -150,7 +150,7 @@ TEST(PeImportTest, X86DllImportsAreCorrect)
         ASSERT_EQ(kernel32Module->sizeOfImportDescriptor(), 0x14);
         ASSERT_EQ(pe->rvaToOffset(kernel32Module->rvaImportDescriptor()), 0x8800);
 
-        pe_import_vec kernel32ModuleImports = kernel32Module->imports();
+        pe_import_vec kernel32ModuleImports = kernel32Module->peImports();
         ASSERT_EQ(kernel32ModuleImports.size(), 14);
 
         {
@@ -211,7 +211,7 @@ TEST(PeImportTest, X86DllImportsAreCorrect)
         ASSERT_EQ(msvcrtModule->sizeOfImportDescriptor(), 0x14);
         ASSERT_EQ(pe->rvaToOffset(msvcrtModule->rvaImportDescriptor()), 0x8814);
 
-        auto msvcrtModuleImports = msvcrtModule->imports();
+        auto msvcrtModuleImports = msvcrtModule->peImports();
         ASSERT_EQ(msvcrtModuleImports.size(), 25);
 
         {
@@ -263,7 +263,7 @@ TEST(PeImportTest, X86DllImportsAreCorrect)
 TEST(PeImportTest, X86_64ExeImportsAreCorrect)
 {
     auto pe = BinaryMother::x86_64exe();
-    auto imports = pe->imports();
+    auto imports = pe->peImportModules();
 
     ASSERT_EQ(imports.size(), 2);
 
@@ -280,7 +280,7 @@ TEST(PeImportTest, X86_64ExeImportsAreCorrect)
         ASSERT_EQ(kernel32Module->sizeOfImportDescriptor(), 0x14);
         ASSERT_EQ(pe->rvaToOffset(kernel32Module->rvaImportDescriptor()), 0x9400);
 
-        pe_import_vec kernel32ModuleImports = kernel32Module->imports();
+        pe_import_vec kernel32ModuleImports = kernel32Module->peImports();
         ASSERT_EQ(kernel32ModuleImports.size(), 13);
 
         {
@@ -341,7 +341,7 @@ TEST(PeImportTest, X86_64ExeImportsAreCorrect)
         ASSERT_EQ(msvcrtModule->sizeOfImportDescriptor(), 0x14);
         ASSERT_EQ(pe->rvaToOffset(msvcrtModule->rvaImportDescriptor()), 0x9414);
 
-        auto msvcrtModuleImports = msvcrtModule->imports();
+        auto msvcrtModuleImports = msvcrtModule->peImports();
         ASSERT_EQ(msvcrtModuleImports.size(), 34);
 
         {
@@ -393,7 +393,7 @@ TEST(PeImportTest, X86_64ExeImportsAreCorrect)
 TEST(PeImportTest, X86_64DllImportsAreCorrect)
 {
     auto pe = BinaryMother::x86_64dll();
-    auto imports = pe->imports();
+    auto imports = pe->peImportModules();
 
     ASSERT_EQ(imports.size(), 2);
 
@@ -410,7 +410,7 @@ TEST(PeImportTest, X86_64DllImportsAreCorrect)
         ASSERT_EQ(kernel32Module->sizeOfImportDescriptor(), 0x14);
         ASSERT_EQ(pe->rvaToOffset(kernel32Module->rvaImportDescriptor()), 0x9000);
 
-        pe_import_vec kernel32ModuleImports = kernel32Module->imports();
+        pe_import_vec kernel32ModuleImports = kernel32Module->peImports();
         ASSERT_EQ(kernel32ModuleImports.size(), 12);
 
         {
@@ -471,7 +471,7 @@ TEST(PeImportTest, X86_64DllImportsAreCorrect)
         ASSERT_EQ(msvcrtModule->sizeOfImportDescriptor(), 0x14);
         ASSERT_EQ(pe->rvaToOffset(msvcrtModule->rvaImportDescriptor()), 0x9014);
 
-        auto msvcrtModuleImports = msvcrtModule->imports();
+        auto msvcrtModuleImports = msvcrtModule->peImports();
         ASSERT_EQ(msvcrtModuleImports.size(), 23);
 
         {

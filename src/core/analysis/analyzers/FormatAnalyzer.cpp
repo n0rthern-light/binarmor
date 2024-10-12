@@ -28,7 +28,7 @@ bool isMachO(const CBinary& binary) {
     return magic == 0xFEEDFACE || magic == 0xFEEDFACF || magic == 0xCAFEBABE;
 }
 
-void CFormatAnalyzer::analyze(const CBinary& binary, BinaryAttributes_t& attributes)
+void CFormatAnalyzer::analyze(const CBinary& binary, BinaryFileAttributes_t& attributes)
 {
     if (isWindowsPE(binary)) {
         attributes.format = Format::Windows_PE;

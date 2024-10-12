@@ -6,7 +6,7 @@
 #include <shared/types/defines.hpp>
 #include <string>
 
-struct BinaryAttributes_t
+struct BinaryFileAttributes_t
 {
     Format format = Format::UNKNOWN;
     Architecture arch = Architecture::UNKNOWN;

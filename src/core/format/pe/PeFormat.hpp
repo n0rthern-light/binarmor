@@ -7,6 +7,9 @@
 #include "PeModule.hpp"
 #include "../../shared/BinaryPointer.hpp"
 #include "../../shared/SectionPermissions.hpp"
+#include "core/format/IImport.hpp"
+#include "core/format/IModule.hpp"
+#include "core/shared/attributes.hpp"
 #include "shared/types/defines.hpp"
 
 class CPeFormat : public IFormat
@@ -15,6 +18,7 @@ class CPeFormat : public IFormat
 public:
     CPeFormat(const CPeFormat& other);
     CPeFormat(const CBinary& binary);
+    Format format() const;
     CBinary binary() const;
     byte_vec bytes() const;
     Architecture architecture() const;
@@ -27,7 +31,10 @@ public:
     pe_section_vec peSections() const;
     uint_16 sectionCount() const;
     section_vec sections() const;
-    pe_module_map imports() const;
+    section_ptr findSectionByName(const std::string& name) const;
+    pe_module_map peImportModules() const;
+    module_map importModules() const;
+    import_ptr import(const std::string& module, const std::string& function) const;
     CPeFormat addPeSection(
         const std::string& name,
         binary_offset size,

@@ -2,7 +2,8 @@
 #define CORE_ASSEMBLER__ASSEMBLER_HPP_
 
 #include "../assembler/defines.hpp"
-#include "../shared/attributes.hpp"
+
+using namespace program::core::assembler;
 
 class IAssembler
 {

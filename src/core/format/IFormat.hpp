@@ -5,6 +5,7 @@
 #include <memory>
 #include <shared/value/Unsigned.hpp>
 #include "ISection.hpp"
+#include "core/format/IModule.hpp"
 #include "core/shared/Binary.hpp"
 #include "shared/types/defines.hpp"
 
@@ -16,6 +17,7 @@ class IFormat
 {
 public:
     virtual ~IFormat() { };
+    virtual Format format() const = 0;
     virtual byte_vec bytes() const = 0;
     virtual CBinary binary() const = 0;
     virtual Architecture architecture() const = 0;
@@ -25,6 +27,9 @@ public:
     virtual CUnsigned entryPoint() const = 0;
     virtual uint_16 sectionCount() const = 0;
     virtual section_vec sections() const = 0;
+    virtual section_ptr findSectionByName(const std::string& name) const = 0;
+    virtual module_map importModules() const = 0;
+    virtual import_ptr import(const std::string& module, const std::string& function) const = 0;
     virtual format_ptr addSection(
         const std::string& name,
         binary_offset size,

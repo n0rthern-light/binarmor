@@ -1,7 +1,7 @@
 #include "BinaryFileStateManager.hpp"
 #include "../application/events/FileLoadedEvent.hpp"
 #include "../application/events/FileUnloadedEvent.hpp"
-#include "core/file/BinaryAttributes.hpp"
+#include "core/file/BinaryFileAttributes.hpp"
 #include "core/file/BinaryFile.hpp"
 #include "core/analysis/AnalysisRunner.hpp"
 #include <memory>
@@ -36,14 +36,25 @@ CBinary CBinaryFileStateManager::binaryFileModifiedBinary(const file_id& fileId)
     return binaryFile(fileId)->modifiedBinary();
 }
 
+format_ptr CBinaryFileStateManager::binaryFileModifiedBinaryAsFormat(const file_id& fileId) const
+{
+    return binaryFile(fileId)->modifiedBinaryAsFormat();
+}
+
 void CBinaryFileStateManager::load(const std::filesystem::path& filePath)
 {
     auto binary = m_fileSystem->read(filePath.string());
-    auto binaryAttributes = BinaryAttributes_t { };
+    auto binaryAttributes = BinaryFileAttributes_t { };
 
     m_analysisRunner->run(binary, binaryAttributes);
 
-    const auto tmpBinary = std::make_shared<CBinaryFile>(filePath, binary, 0, binaryAttributes);
+    const auto tmpBinary = std::make_shared<CBinaryFile>(
+        m_eventBus,
+        filePath,
+        binary,
+        0,
+        binaryAttributes
+    );
     const auto fileId = tmpBinary->fileId();
 
     if (m_binaryFileMap.find(fileId) != m_binaryFileMap.end()) {

@@ -6,9 +6,14 @@
 
 enum class BinaryModificationType
 {
-    APPEND_SECTION = 0,
+    ADD_SECTION = 0,
     WRITE_DATA = 1,
     WRITE_CODE = 2,
+    WRITE_IMPORT = 3,
+    INIT_STARTUP_CODE = 4,
+    ENCRYPT_OLD_IMPORT = 5,
+    RENAME_SECTION = 6,
+    ENCRYPT_DATA = 7
 };
 
 enum class BinaryModificationDiffType
@@ -49,6 +54,10 @@ public:
     BinaryModificationType type() const;
     std::vector<CUuid> requiredModificationIds() const;
     const byte_vec apply(byte_vec targetBytes) const;
+    const binary_offset firstByteAddress() const;
+    const binary_offset firstByteAddressOfType(BinaryModificationDiffType type) const;
+    const binary_offset firstAddByteAddress() const;
+    int totalSizeDiff() const;
     bool operator ==(const CBinaryModification& other) const;
 };
 

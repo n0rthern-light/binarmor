@@ -5,6 +5,7 @@
 #include "defines.hpp"
 #include "shared/value/AddressType.hpp"
 #include "shared/value/ByteVecOperations.hpp"
+#include <format>
 #include <shared/self_obfuscation/strenc.hpp>
 #include <shared/RuntimeException.hpp>
 #include <stdio.h>
@@ -125,7 +126,7 @@ binary_offset format::pe::rvaToOffset(const CPeFormat& peFormat, const binary_of
         return offset;
     }
 
-    throw RuntimeException(strenc("Could not convert RVA to Raw Offset"));
+    throw RuntimeException(std::format(strenc("Could not convert RVA: 0x{:x} to Raw Offset"), rva));
 }
 
 IMAGE_DATA_DIRECTORY* format::pe::imageDataDirectory(const CPeFormat& peFormat)
@@ -164,8 +165,8 @@ pe_import_vec format::pe::readModuleImports(const CPeFormat& peFormat, const IMA
                 currentOriginalThunk->u1.Ordinal & 0xFFFF,
                 currentOriginalThunkRva,
                 currentThunkRva,
-                currentOriginalThunk->u1.AddressOfData,
-                currentThunk->u1.AddressOfData,
+                currentOriginalThunkRva, // no pointer to import by name, so just ref to self; might be nullptr either
+                currentThunkRva,
                 sizeof(IMAGE_THUNK_DATA)
             );
         } else {
@@ -177,7 +178,7 @@ pe_import_vec format::pe::readModuleImports(const CPeFormat& peFormat, const IMA
                 0,
                 currentOriginalThunkRva,
                 currentThunkRva,
-                currentOriginalThunk->u1.AddressOfData,
+                currentOriginalThunk->u1.AddressOfData, // import by name address ptr
                 currentThunk->u1.AddressOfData,
                 sizeof(IMAGE_THUNK_DATA)
             );

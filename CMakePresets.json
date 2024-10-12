@@ -56,7 +56,7 @@
         "BUILD_GMOCK": "ON",
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_COLOR_MAKEFILE": "ON",
-        "CMAKE_CXX_FLAGS": "-arch arm64 -arch x86_64",
+        "CMAKE_CXX_FLAGS": "-arch arm64 -arch x86_64 -Wall -Wextra",
         "CMAKE_CXX_FLAGS_DEBUG": "-g",
         "CMAKE_CXX_FLAGS_MINSIZEREL": "-Os -DNDEBUG",
         "CMAKE_CXX_FLAGS_RELEASE": "-O3 -DNDEBUG",
@@ -69,14 +69,18 @@
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "CMAKE_INSTALL_PREFIX": "/usr/local",
         "CMAKE_OSX_ARCHITECTURES": "arm64;x86_64",
-        "CMAKE_OSX_SYSROOT": "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk",
+        "CMAKE_OSX_SYSROOT": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
         "_wxWidgets_ROOT_DIR": "/Users/michal/Documents/Lib/wxWidgets-3.2.4",
         "_wxWidgets_WX_CONFIG": "/buildOSX/wx-config",
         "_wxWidgets_LIB_X64": "/buildOSX/lib",
         "_wxWidgets_LIB_X86": "/buildOSX/lib",
         "wxWidgets_CONFIGURATION": "osx_cocoa",
         "wxWidgets_USE_DEBUG": "ON",
-        "wxWidgets_USE_STATIC": "ON"
+        "wxWidgets_USE_STATIC": "ON",
+        "KEYSTONE_LIBRARY": "/Users/michal/Documents/Lib/keystone/macos-arm64-build/llvm/lib/libkeystone.a",
+        "KEYSTONE_INCLUDE_DIR": "/Users/michal/Documents/Lib/keystone/include",
+        "CAPSTONE_LIBRARY": "/Users/michal/Documents/Lib/capstone/debug-osx-arm64/build/libcapstone.a",
+        "CAPSTONE_INCLUDE_DIR": "/Users/michal/Documents/Lib/capstone/include"
       }
     },
 	{

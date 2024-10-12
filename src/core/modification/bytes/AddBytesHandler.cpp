@@ -119,7 +119,7 @@ void CAddBytesHandler::handle(const CAddBytesCommand& command) const
         CUuid { command.bytesId() },
         command.executable() ? BinaryModificationType::WRITE_CODE : BinaryModificationType::WRITE_DATA,
         diff,
-        { }
+        command.requiredModificationIds()
     };
 
     binaryFile->registerModification(modification);

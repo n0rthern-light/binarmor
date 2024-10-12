@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "shared/value/Unsigned.hpp"
+#include "shared/types/defines.hpp"
 #include <climits>
 #include <limits>
 #include <vector>
@@ -57,6 +58,35 @@ TEST(UnsignedTest, WorksWith32BitUnisgnedInts)
         ASSERT_STREQ(vec[4].asDecimalString().c_str(), "4294967295");
         ASSERT_STREQ(vec[4].asFullHexString().c_str(), "0xFFFFFFFF");
         ASSERT_STREQ(vec[4].asShortHexString().c_str(), "0xFFFFFFFF");
+    }
+
+    {
+        SCOPED_TRACE("Testing reading as little endian");
+
+        ASSERT_EQ(vec[0].asLittleEndianBytes(1), (byte_vec { 0x00 }));
+        ASSERT_EQ(vec[0].asLittleEndianBytes(2), (byte_vec { 0x00, 0x00 }));
+        ASSERT_EQ(vec[0].asLittleEndianBytes(3), (byte_vec { 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[0].asLittleEndianBytes(4), (byte_vec { 0x00, 0x00, 0x00, 0x00 }));
+
+        ASSERT_EQ(vec[1].asLittleEndianBytes(1), (byte_vec { 0x0A }));
+        ASSERT_EQ(vec[1].asLittleEndianBytes(2), (byte_vec { 0x0A, 0x00, }));
+        ASSERT_EQ(vec[1].asLittleEndianBytes(3), (byte_vec { 0x0A, 0x00, 0x00 }));
+        ASSERT_EQ(vec[1].asLittleEndianBytes(4), (byte_vec { 0x0A, 0x00, 0x00, 0x00 }));
+
+        ASSERT_EQ(vec[2].asLittleEndianBytes(1), (byte_vec { 0x0F }));
+        ASSERT_EQ(vec[2].asLittleEndianBytes(2), (byte_vec { 0x0F, 0x00, }));
+        ASSERT_EQ(vec[2].asLittleEndianBytes(3), (byte_vec { 0x0F, 0x00, 0x00 }));
+        ASSERT_EQ(vec[2].asLittleEndianBytes(4), (byte_vec { 0x0F, 0x00, 0x00, 0x00 }));
+
+        ASSERT_EQ(vec[3].asLittleEndianBytes(1), (byte_vec { 0xFE }));
+        ASSERT_EQ(vec[3].asLittleEndianBytes(2), (byte_vec { 0xFE, 0xFF, }));
+        ASSERT_EQ(vec[3].asLittleEndianBytes(3), (byte_vec { 0xFE, 0xFF, 0xFF }));
+        ASSERT_EQ(vec[3].asLittleEndianBytes(4), (byte_vec { 0xFE, 0xFF, 0xFF, 0xFF }));
+
+        ASSERT_EQ(vec[4].asLittleEndianBytes(1), (byte_vec { 0xFF }));
+        ASSERT_EQ(vec[4].asLittleEndianBytes(2), (byte_vec { 0xFF, 0xFF, }));
+        ASSERT_EQ(vec[4].asLittleEndianBytes(3), (byte_vec { 0xFF, 0xFF, 0xFF }));
+        ASSERT_EQ(vec[4].asLittleEndianBytes(4), (byte_vec { 0xFF, 0xFF, 0xFF, 0xFF }));
     }
 }
 
@@ -122,6 +152,73 @@ TEST(UnsignedTest, WorksWith64BitUnisgnedInts)
         ASSERT_STREQ(vec[6].asDecimalString().c_str(), "18446744073709551615");
         ASSERT_STREQ(vec[6].asFullHexString().c_str(), "0xFFFFFFFFFFFFFFFF");
         ASSERT_STREQ(vec[6].asShortHexString().c_str(), "0xFFFFFFFFFFFFFFFF");
+    }
+
+    {
+        SCOPED_TRACE("Testing reading as little endian");
+
+        ASSERT_EQ(vec[0].asLittleEndianBytes(1), (byte_vec { 0x00 }));
+        ASSERT_EQ(vec[0].asLittleEndianBytes(2), (byte_vec { 0x00, 0x00 }));
+        ASSERT_EQ(vec[0].asLittleEndianBytes(3), (byte_vec { 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[0].asLittleEndianBytes(4), (byte_vec { 0x00, 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[0].asLittleEndianBytes(5), (byte_vec { 0x00, 0x00, 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[0].asLittleEndianBytes(6), (byte_vec { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[0].asLittleEndianBytes(7), (byte_vec { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[0].asLittleEndianBytes(8), (byte_vec { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }));
+
+        ASSERT_EQ(vec[1].asLittleEndianBytes(1), (byte_vec { 0x0A }));
+        ASSERT_EQ(vec[1].asLittleEndianBytes(2), (byte_vec { 0x0A, 0x00, }));
+        ASSERT_EQ(vec[1].asLittleEndianBytes(3), (byte_vec { 0x0A, 0x00, 0x00 }));
+        ASSERT_EQ(vec[1].asLittleEndianBytes(4), (byte_vec { 0x0A, 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[1].asLittleEndianBytes(5), (byte_vec { 0x0A, 0x00, 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[1].asLittleEndianBytes(6), (byte_vec { 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[1].asLittleEndianBytes(7), (byte_vec { 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[1].asLittleEndianBytes(8), (byte_vec { 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }));
+
+        ASSERT_EQ(vec[2].asLittleEndianBytes(1), (byte_vec { 0x0F }));
+        ASSERT_EQ(vec[2].asLittleEndianBytes(2), (byte_vec { 0x0F, 0x00, }));
+        ASSERT_EQ(vec[2].asLittleEndianBytes(3), (byte_vec { 0x0F, 0x00, 0x00 }));
+        ASSERT_EQ(vec[2].asLittleEndianBytes(4), (byte_vec { 0x0F, 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[2].asLittleEndianBytes(5), (byte_vec { 0x0F, 0x00, 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[2].asLittleEndianBytes(6), (byte_vec { 0x0F, 0x00, 0x00, 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[2].asLittleEndianBytes(7), (byte_vec { 0x0F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[2].asLittleEndianBytes(8), (byte_vec { 0x0F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }));
+
+        ASSERT_EQ(vec[3].asLittleEndianBytes(1), (byte_vec { 0xFE }));
+        ASSERT_EQ(vec[3].asLittleEndianBytes(2), (byte_vec { 0xFE, 0xFF, }));
+        ASSERT_EQ(vec[3].asLittleEndianBytes(3), (byte_vec { 0xFE, 0xFF, 0xFF }));
+        ASSERT_EQ(vec[3].asLittleEndianBytes(4), (byte_vec { 0xFE, 0xFF, 0xFF, 0xFF }));
+        ASSERT_EQ(vec[3].asLittleEndianBytes(5), (byte_vec { 0xFE, 0xFF, 0xFF, 0xFF, 0x00 }));
+        ASSERT_EQ(vec[3].asLittleEndianBytes(6), (byte_vec { 0xFE, 0xFF, 0xFF, 0xFF, 0x00, 0x00 }));
+        ASSERT_EQ(vec[3].asLittleEndianBytes(7), (byte_vec { 0xFE, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[3].asLittleEndianBytes(8), (byte_vec { 0xFE, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00 }));
+
+        ASSERT_EQ(vec[4].asLittleEndianBytes(1), (byte_vec { 0x00 }));
+        ASSERT_EQ(vec[4].asLittleEndianBytes(2), (byte_vec { 0x00, 0x00, }));
+        ASSERT_EQ(vec[4].asLittleEndianBytes(3), (byte_vec { 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[4].asLittleEndianBytes(4), (byte_vec { 0x00, 0x00, 0x00, 0x00 }));
+        ASSERT_EQ(vec[4].asLittleEndianBytes(5), (byte_vec { 0x00, 0x00, 0x00, 0x00, 0x01 }));
+        ASSERT_EQ(vec[4].asLittleEndianBytes(6), (byte_vec { 0x00, 0x00, 0x00, 0x00, 0x01, 0x00 }));
+        ASSERT_EQ(vec[4].asLittleEndianBytes(7), (byte_vec { 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00 }));
+        ASSERT_EQ(vec[4].asLittleEndianBytes(8), (byte_vec { 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00 }));
+
+        ASSERT_EQ(vec[5].asLittleEndianBytes(1), (byte_vec { 0xEF }));
+        ASSERT_EQ(vec[5].asLittleEndianBytes(2), (byte_vec { 0xEF, 0xD8, }));
+        ASSERT_EQ(vec[5].asLittleEndianBytes(3), (byte_vec { 0xEF, 0xD8, 0xFF }));
+        ASSERT_EQ(vec[5].asLittleEndianBytes(4), (byte_vec { 0xEF, 0xD8, 0xFF, 0xFF }));
+        ASSERT_EQ(vec[5].asLittleEndianBytes(5), (byte_vec { 0xEF, 0xD8, 0xFF, 0xFF, 0xFF }));
+        ASSERT_EQ(vec[5].asLittleEndianBytes(6), (byte_vec { 0xEF, 0xD8, 0xFF, 0xFF, 0xFF, 0xFF }));
+        ASSERT_EQ(vec[5].asLittleEndianBytes(7), (byte_vec { 0xEF, 0xD8, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }));
+        ASSERT_EQ(vec[5].asLittleEndianBytes(8), (byte_vec { 0xEF, 0xD8, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }));
+
+        ASSERT_EQ(vec[6].asLittleEndianBytes(1), (byte_vec { 0xFF }));
+        ASSERT_EQ(vec[6].asLittleEndianBytes(2), (byte_vec { 0xFF, 0xFF, }));
+        ASSERT_EQ(vec[6].asLittleEndianBytes(3), (byte_vec { 0xFF, 0xFF, 0xFF }));
+        ASSERT_EQ(vec[6].asLittleEndianBytes(4), (byte_vec { 0xFF, 0xFF, 0xFF, 0xFF }));
+        ASSERT_EQ(vec[6].asLittleEndianBytes(5), (byte_vec { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }));
+        ASSERT_EQ(vec[6].asLittleEndianBytes(6), (byte_vec { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }));
+        ASSERT_EQ(vec[6].asLittleEndianBytes(7), (byte_vec { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }));
+        ASSERT_EQ(vec[6].asLittleEndianBytes(8), (byte_vec { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }));
     }
 }
 

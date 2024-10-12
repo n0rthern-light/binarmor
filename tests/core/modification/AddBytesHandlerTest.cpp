@@ -2,8 +2,6 @@
 #include "../BinaryMother.hpp"
 #include "core/application/container.hpp"
 #include "core/application/behave.hpp"
-#include "core/format/IFormat.hpp"
-#include "core/format/pe/PeFormat.hpp"
 #include "core/format/pe/defines.hpp"
 #include "core/modification/AddBytesCommand.hpp"
 #include "core/shared/SectionPermissions.hpp"

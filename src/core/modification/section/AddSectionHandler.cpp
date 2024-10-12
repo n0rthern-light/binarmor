@@ -28,7 +28,7 @@ void CAddSectionHandler::handle(const CAddSectionCommand& command)
 
     const auto modification = CBinaryModification {
         CUuid { command.sectionId() },
-        BinaryModificationType::APPEND_SECTION,
+        BinaryModificationType::ADD_SECTION,
         diff,
         { }
     };

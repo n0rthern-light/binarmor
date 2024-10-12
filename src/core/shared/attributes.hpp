@@ -33,4 +33,12 @@ enum class Endianness
     BIG = 2,
 };
 
+struct Attributes_t
+{
+    Format format;
+    Architecture architecture;
+    Type type;
+    Endianness endianness;
+};
+
 #endif // CORE_SHARED_ATTRIBUTES_HPP_
