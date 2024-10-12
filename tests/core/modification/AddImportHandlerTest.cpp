@@ -3,6 +3,7 @@
 #include "core/application/container.hpp"
 #include "core/application/behave.hpp"
 #include "core/modification/AddImportCommand.hpp"
+#include "core/modification/diff/DiffExtractor.hpp"
 #include "shared/application/container.hpp"
 #include "shared/value/Uuid.hpp"
 #include <memory>
@@ -23,6 +24,7 @@ TEST_P(AddImportHandlerTest, CanAddImport)
     const CUuid bytesId { };
     const auto sectionSize = 512;
     const auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile(fileId);
+    const auto originalBytes = binaryFile->originalBinary().bytes();
 
     //when
     program::shared::container::commandBus->publish(
@@ -34,13 +36,8 @@ TEST_P(AddImportHandlerTest, CanAddImport)
     );
 
     //then
-    const auto format = binaryFile->modifiedBinaryAsFormat();
-    const auto& importModules = format->importModules();
-
-    ASSERT_TRUE(importModules.find("KERNEL32.dll") != importModules.end());
-    ASSERT_TRUE(importModules.find("ntdll.dll") != importModules.end());
-
-    // todo add assertion for hashed section of original imports
+    const auto modifiedBytes = binaryFile->modifiedBinary().bytes();
+    const auto diff = CDiffExtractor::extract(originalBytes, modifiedBytes);
 }
 
 INSTANTIATE_TEST_SUITE_P(

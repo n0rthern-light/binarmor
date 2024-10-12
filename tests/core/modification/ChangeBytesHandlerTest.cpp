@@ -3,17 +3,10 @@
 #include "core/application/container.hpp"
 #include "core/application/behave.hpp"
 #include "core/file/BinaryModification.hpp"
-#include "core/format/IFormat.hpp"
-#include "core/format/pe/PeFormat.hpp"
-#include "core/format/pe/defines.hpp"
-#include "core/modification/AddBytesCommand.hpp"
 #include "core/modification/ChangeBytesCommand.hpp"
-#include "core/shared/SectionPermissions.hpp"
 #include "shared/application/container.hpp"
-#include "shared/value/ByteVecOperations.hpp"
 #include "shared/value/Uuid.hpp"
 #include <memory>
-#include <optional>
 #include <stdio.h>
 #include <unistd.h>
 

@@ -13,5 +13,4 @@ class CAddImportHandler
 public:
     CAddImportHandler(CBinaryFileStateManager* fileManager, ICrypter* cryper, IMessageBus* commandBus);
     void handle(const CAddImportCommand& command);
-private:
 };

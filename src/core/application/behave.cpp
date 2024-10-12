@@ -6,6 +6,8 @@
 #include "core/modification/AddImportCommand.hpp"
 #include "core/modification/AddSectionCommand.hpp"
 #include "core/modification/ChangeBytesCommand.hpp"
+#include "core/modification/EncryptOriginalImportsCommand.hpp"
+#include "core/modification/InitializeMainProtectionSectionCommand.hpp"
 #include "core/modification/resize/BinarySizeChangedEvent.hpp"
 #include "core/modification/resize/FixBinaryResizeCommand.hpp"
 #include "core/modification/import/AddImportHandler.hpp"
@@ -57,6 +59,16 @@ void program::core::application::behave(int argc, char** argv)
     program::shared::container::commandBus->subscribe(typeid(CAddImportCommand), [&](message_ptr command) {
         auto castedCommand = std::dynamic_pointer_cast<CAddImportCommand>(command);
         program::core::container::handler::addImportHandler->handle(*castedCommand);
+    });
+
+    program::shared::container::commandBus->subscribe(typeid(CEncryptOriginalImportsCommand), [&](message_ptr command) {
+        auto castedCommand = std::dynamic_pointer_cast<CEncryptOriginalImportsCommand>(command);
+        program::core::container::handler::encryptOriginalImportsHandler->handle(*castedCommand);
+    });
+
+    program::shared::container::commandBus->subscribe(typeid(CInitializeMainProtectionSectionCommand), [&](message_ptr command) {
+        auto castedCommand = std::dynamic_pointer_cast<CInitializeMainProtectionSectionCommand>(command);
+        program::core::container::handler::initializeMainProtectionSectionHandler->handle(*castedCommand);
     });
 
     program::shared::container::commandBus->subscribe(typeid(CFixBinaryResizeCommand), [&](message_ptr command) {

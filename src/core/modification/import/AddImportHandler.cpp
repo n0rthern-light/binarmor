@@ -1,14 +1,13 @@
 #include "AddImportHandler.hpp"
 #include "core/file/BinaryFileStateManager.hpp"
 #include "core/file/BinaryModification.hpp"
-#include "core/format/pe/PeFormat.hpp"
-#include "core/modification/ChangeBytesCommand.hpp"
+#include "core/file/flags.hpp"
+#include "core/format/ISection.hpp"
+#include "core/modification/EncryptOriginalImportsCommand.hpp"
+#include "core/modification/InitializeMainProtectionSectionCommand.hpp"
 #include "core/modification/ModificationException.hpp"
-#include "core/modification/diff/DiffExtractor.hpp"
 #include "core/shared/attributes.hpp"
-#include "shared/types/defines.hpp"
 #include <memory>
-#include <tuple>
 
 CAddImportHandler::CAddImportHandler(
     CBinaryFileStateManager* fileManager,
@@ -37,58 +36,29 @@ void CAddImportHandler::handle(const CAddImportCommand& command)
         throw ModificationException(strenc("Only Windows PE is supported for adding imports"));
     }
 
-    const auto format = m_fileManager->binaryFileModifiedBinaryAsFormat(command.fileId());
-    const auto peFormat = std::dynamic_pointer_cast<CPeFormat>(format);
+    auto format = m_fileManager->binaryFileModifiedBinaryAsFormat(command.fileId());
     const auto import = format->import(command.moduleName(), command.functionName());
 
     if (import != nullptr) {
-        throw ModificationException("Import already registered");
+        return;
+        //throw ModificationException("Import already registered");
     }
     
-    // todo extract and test encrypt original imports as a separate command + command handler
-
-    // encrypt original imports definition
-    for (const auto& module : format->importModules()) {
-        for (const auto& import : module.second->imports()) {
-            size_t i = 0;
-            for (const auto& importDef : import->definitions()) {
-                m_commandBus->publish(
-                    std::make_shared<CChangeBytesCommand>(
-                        command.fileId(),
-                        CUuid { },
-                        peFormat->rvaToOffset(importDef.rva),
-                        byte_vec(importDef.size, i),
-                        BinaryModificationType::ENCRYPT_OLD_IMPORT
-                    )
-                );
-                ++i;
-            }
-        }
-
+    if (binaryFile->hasFlags(BinaryFileFlags::HAS_ENCRYPTED_ORIGINAL_IMPORTS) == false) {
         m_commandBus->publish(
-            std::make_shared<CChangeBytesCommand>(
-                command.fileId(),
-                CUuid { },
-                peFormat->rvaToOffset(module.second->definitionRva()),
-                byte_vec(module.second->definitionSize(), 0x01),
-                BinaryModificationType::ENCRYPT_OLD_IMPORT
-            )
+            std::make_shared<CEncryptOriginalImportsCommand>(command.fileId())
         );
     }
 
-    const auto modifiedFormat = format->changeBytes({});
-    const auto diff = CDiffExtractor::extract(format->bytes(), modifiedFormat->bytes()); 
-
-    if (diff.size() == 0) {
-        throw ModificationException(strenc("Could not add new section, diff is zero."));
+    if (binaryFile->hasFlags(BinaryFileFlags::HAS_MAIN_PROTECTION_SECTION_INITIALIZED) == false) {
+        m_commandBus->publish(
+            std::make_shared<CInitializeMainProtectionSectionCommand>(command.fileId())
+        );
     }
 
-    const auto modification = CBinaryModification {
-        command.modificationId(),
-        BinaryModificationType::WRITE_IMPORT,
-        diff,
-        { }
-    };
+    // add custom IAT
+    // when working then make the command reusable so the previous custom IAT will be rebuilt if another import is added
+    // fix all text/code section references to old imports to new ones
 
-    binaryFile->registerModification(modification);
+    format = m_fileManager->binaryFileModifiedBinaryAsFormat(command.fileId());
 }

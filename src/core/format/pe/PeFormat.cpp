@@ -1,6 +1,7 @@
 #include "PeFormat.hpp"
 #include "core/format/IFormat.hpp"
 #include "core/format/IModule.hpp"
+#include "core/format/ISection.hpp"
 #include "core/format/pe/PeSection.hpp"
 #include "core/shared/attributes.hpp"
 #include "defines.hpp"
@@ -113,6 +114,18 @@ section_vec CPeFormat::sections() const
     return res;
 }
 
+section_ptr CPeFormat::findSectionByName(const std::string& name) const
+{
+    section_ptr ret = nullptr;
+    for(const auto& section : sections()) {
+        if(section->name() == name) {
+            ret = section;
+        }
+    }
+
+    return ret;
+}
+
 binary_offset CPeFormat::rvaToOffset(const binary_offset& rva) const
 {
     return format::pe::rvaToOffset(*this, rva);
@@ -134,7 +147,7 @@ module_map CPeFormat::importModules() const
     auto res = module_map { };
 
     for (const auto& keyVal : pe) {
-        res[keyVal.first] = std::static_pointer_cast<IModule>(keyVal.second);
+        res[keyVal.first] = std::dynamic_pointer_cast<IModule>(keyVal.second);
     }
 
     return res;

@@ -7,7 +7,7 @@
 namespace modification
 {
     namespace sectionName {
-        constexpr const auto MAIN = strenc(".bnrmr");
+        constexpr const auto MAIN = strenc(".bnrmr1");
     }
 }
 

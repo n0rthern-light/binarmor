@@ -27,6 +27,7 @@ public:
     virtual CUnsigned entryPoint() const = 0;
     virtual uint_16 sectionCount() const = 0;
     virtual section_vec sections() const = 0;
+    virtual section_ptr findSectionByName(const std::string& name) const = 0;
     virtual module_map importModules() const = 0;
     virtual import_ptr import(const std::string& module, const std::string& function) const = 0;
     virtual format_ptr addSection(

@@ -31,6 +31,7 @@ public:
     pe_section_vec peSections() const;
     uint_16 sectionCount() const;
     section_vec sections() const;
+    section_ptr findSectionByName(const std::string& name) const;
     pe_module_map peImportModules() const;
     module_map importModules() const;
     import_ptr import(const std::string& module, const std::string& function) const;

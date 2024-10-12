@@ -5,6 +5,7 @@
 #include "defines.hpp"
 #include "shared/value/AddressType.hpp"
 #include "shared/value/ByteVecOperations.hpp"
+#include <format>
 #include <shared/self_obfuscation/strenc.hpp>
 #include <shared/RuntimeException.hpp>
 #include <stdio.h>
@@ -125,7 +126,7 @@ binary_offset format::pe::rvaToOffset(const CPeFormat& peFormat, const binary_of
         return offset;
     }
 
-    throw RuntimeException(strenc("Could not convert RVA to Raw Offset"));
+    throw RuntimeException(std::format(strenc("Could not convert RVA: 0x{:x} to Raw Offset"), rva));
 }
 
 IMAGE_DATA_DIRECTORY* format::pe::imageDataDirectory(const CPeFormat& peFormat)
