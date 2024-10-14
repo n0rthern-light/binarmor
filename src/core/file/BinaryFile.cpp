@@ -104,7 +104,7 @@ void CBinaryFile::disableFlags(BinaryFileFlags flags)
 
 bool CBinaryFile::hasFlags(BinaryFileFlags flags) const
 {
-    if (flags == BinaryFileFlags::None && m_flags > 0) {
+    if (flags == BinaryFileFlags::NONE && m_flags > 0) {
         return false;
     }
 

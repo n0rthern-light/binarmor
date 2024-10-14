@@ -11,6 +11,8 @@
 #include "shared/value/ByteVecOperations.hpp"
 #include <memory>
 
+using namespace program::core::modification::encrypt;
+
 CEncryptOriginalImportsHandler::CEncryptOriginalImportsHandler(
     CBinaryFileStateManager* fileManager,
     ICrypter* crypter

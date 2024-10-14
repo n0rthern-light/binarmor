@@ -5,7 +5,7 @@
 #include "../assembler/keystone/KeystoneAssembler.hpp"
 #include "core/modification/bytes/AddBytesHandler.hpp"
 #include "core/modification/bytes/ChangeBytesHandler.hpp"
-#include "core/modification/import/AddImportHandler.hpp"
+#include "core/modification/import/AddImportsHandler.hpp"
 #include "core/modification/import/EncryptOriginalImportsHandler.hpp"
 #include "core/modification/resize/FixBinaryResizeHandler.hpp"
 #include "core/modification/section/AddSectionHandler.hpp"
@@ -23,8 +23,8 @@ std::unique_ptr<IPayloadProcessor> program::core::container::payload::payloadPro
 std::unique_ptr<CAddSectionHandler> program::core::container::handler::addSectionHandler = nullptr;
 std::unique_ptr<CAddBytesHandler> program::core::container::handler::addBytesHandler = nullptr;
 std::unique_ptr<CChangeBytesHandler> program::core::container::handler::changeBytesHandler = nullptr;
-std::unique_ptr<CAddImportHandler> program::core::container::handler::addImportHandler = nullptr;
-std::unique_ptr<CEncryptOriginalImportsHandler> program::core::container::handler::encryptOriginalImportsHandler = nullptr;
+std::unique_ptr<modification::import::CAddImportsHandler> program::core::container::handler::addImportsHandler = nullptr;
+std::unique_ptr<modification::encrypt::CEncryptOriginalImportsHandler> program::core::container::handler::encryptOriginalImportsHandler = nullptr;
 std::unique_ptr<CInitializeMainProtectionSectionHandler> program::core::container::handler::initializeMainProtectionSectionHandler = nullptr;
 std::unique_ptr<CFixBinaryResizeHandler> program::core::container::handler::fixBinaryResizeHandler = nullptr;
 
@@ -56,12 +56,12 @@ void program::core::container::init(int argc, char** argv)
     program::core::container::handler::changeBytesHandler = std::make_unique<CChangeBytesHandler>(
         program::core::container::file::binaryFileStateManager.get()
     );
-    program::core::container::handler::addImportHandler = std::make_unique<CAddImportHandler>(
+    program::core::container::handler::addImportsHandler = std::make_unique<modification::import::CAddImportsHandler>(
         program::core::container::file::binaryFileStateManager.get(),
         program::shared::container::crypter.get(),
         program::shared::container::commandBus.get()
     );
-    program::core::container::handler::encryptOriginalImportsHandler = std::make_unique<CEncryptOriginalImportsHandler>(
+    program::core::container::handler::encryptOriginalImportsHandler = std::make_unique<modification::encrypt::CEncryptOriginalImportsHandler>(
         program::core::container::file::binaryFileStateManager.get(),
         program::shared::container::crypter.get()
     );
@@ -89,7 +89,7 @@ void program::core::container::exit()
     program::core::container::handler::addBytesHandler = nullptr;
     program::core::container::handler::changeBytesHandler = nullptr;
     program::core::container::handler::encryptOriginalImportsHandler = nullptr;
-    program::core::container::handler::addImportHandler = nullptr;
+    program::core::container::handler::addImportsHandler = nullptr;
     program::core::container::handler::initializeMainProtectionSectionHandler = nullptr;
     program::core::container::handler::fixBinaryResizeHandler  = nullptr;
 }

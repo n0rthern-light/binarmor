@@ -1,15 +1,18 @@
-#include "AddImportHandler.hpp"
+#include "AddImportsHandler.hpp"
 #include "core/file/BinaryFileStateManager.hpp"
-#include "core/file/BinaryModification.hpp"
 #include "core/file/flags.hpp"
-#include "core/format/ISection.hpp"
+#include "core/modification/AddImportsCommand.hpp"
 #include "core/modification/EncryptOriginalImportsCommand.hpp"
 #include "core/modification/InitializeMainProtectionSectionCommand.hpp"
 #include "core/modification/ModificationException.hpp"
 #include "core/shared/attributes.hpp"
 #include <memory>
 
-CAddImportHandler::CAddImportHandler(
+
+using namespace program::core::modification::import;
+using namespace program::core::modification::encrypt;
+
+CAddImportsHandler::CAddImportsHandler(
     CBinaryFileStateManager* fileManager,
     ICrypter* crypter,
     IMessageBus* commandBus
@@ -19,7 +22,7 @@ CAddImportHandler::CAddImportHandler(
     m_commandBus(commandBus)
 { }
 
-void CAddImportHandler::handle(const CAddImportCommand& command)
+void CAddImportsHandler::handle(const CAddImportsCommand& command)
 {
     // to add we need to hash / encrypt original import table + rename section
     // store original import table in buffer 
@@ -37,11 +40,21 @@ void CAddImportHandler::handle(const CAddImportCommand& command)
     }
 
     auto format = m_fileManager->binaryFileModifiedBinaryAsFormat(command.fileId());
-    const auto import = format->import(command.moduleName(), command.functionName());
+    auto filteredImports = import_pair_vec_t { };
 
-    if (import != nullptr) {
+    for(const auto& importReq : command.imports()) {
+        const std::string& importModuleName = std::get<0>(importReq);
+        const std::string& importFunctionName = std::get<1>(importReq);
+
+        const auto import = format->import(importModuleName, importFunctionName);
+
+        if (import == nullptr) {
+            filteredImports.push_back({ importModuleName, importFunctionName });
+        }
+    }
+
+    if (filteredImports.empty() == true) {
         return;
-        //throw ModificationException("Import already registered");
     }
     
     if (binaryFile->hasFlags(BinaryFileFlags::HAS_ENCRYPTED_ORIGINAL_IMPORTS) == false) {

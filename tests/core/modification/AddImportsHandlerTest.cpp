@@ -2,7 +2,7 @@
 #include "../BinaryMother.hpp"
 #include "core/application/container.hpp"
 #include "core/application/behave.hpp"
-#include "core/modification/AddImportCommand.hpp"
+#include "core/modification/AddImportsCommand.hpp"
 #include "core/modification/diff/DiffExtractor.hpp"
 #include "shared/application/container.hpp"
 #include "shared/value/Uuid.hpp"
@@ -10,10 +10,12 @@
 #include <stdio.h>
 #include <unistd.h>
 
-class AddImportHandlerTest : public ::testing::TestWithParam<std::string> {
+using namespace program::core::modification::import;
+
+class AddImportsHandlerTest : public ::testing::TestWithParam<std::string> {
 };
 
-TEST_P(AddImportHandlerTest, CanAddImport)
+TEST_P(AddImportsHandlerTest, CanAddImport)
 {
     //given
     program::shared::container::init(0, nullptr);
@@ -27,12 +29,14 @@ TEST_P(AddImportHandlerTest, CanAddImport)
     const auto originalBytes = binaryFile->originalBinary().bytes();
 
     //when
-    program::shared::container::commandBus->publish(
-        std::make_shared<CAddImportCommand>(
-            fileId,
+    const import_pair_vec_t imports = {
+        { 
             "ntdll.dll",
             "NtRaiseHardError"
-        )
+        }
+    };
+    program::shared::container::commandBus->publish(
+        std::make_shared<CAddImportsCommand>(fileId, imports)
     );
 
     //then
@@ -41,7 +45,7 @@ TEST_P(AddImportHandlerTest, CanAddImport)
 }
 
 INSTANTIATE_TEST_SUITE_P(
-    AddImportHandlerMultipleFilesTest,
-    AddImportHandlerTest,
+    AddImportsHandlerMultipleFilesTest,
+    AddImportsHandlerTest,
     ::testing::Values("/windows/x86.dll", "/windows/x86.exe", "/windows/x86_64.dll", "/windows/x86_64.exe")
 );

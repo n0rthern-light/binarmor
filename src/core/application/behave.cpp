@@ -3,19 +3,22 @@
 #include <memory>
 #include <shared/application/container.hpp>
 #include "core/modification/AddBytesCommand.hpp"
-#include "core/modification/AddImportCommand.hpp"
+#include "core/modification/AddImportsCommand.hpp"
 #include "core/modification/AddSectionCommand.hpp"
 #include "core/modification/ChangeBytesCommand.hpp"
 #include "core/modification/EncryptOriginalImportsCommand.hpp"
 #include "core/modification/InitializeMainProtectionSectionCommand.hpp"
 #include "core/modification/resize/BinarySizeChangedEvent.hpp"
 #include "core/modification/resize/FixBinaryResizeCommand.hpp"
-#include "core/modification/import/AddImportHandler.hpp"
+#include "core/modification/import/AddImportsHandler.hpp"
 #include "events/FileUnloadRequestedEvent.hpp"
 #include "events/WorkFileChangeRequestedEvent.hpp"
 #include "events/NewFileSelectedEvent.hpp"
 #include "shared/message/IMessageBus.hpp"
 #include <shared/RuntimeException.hpp>
+
+
+using namespace program::core;
 
 void program::core::application::behave(int argc, char** argv)
 {
@@ -56,13 +59,13 @@ void program::core::application::behave(int argc, char** argv)
         program::core::container::handler::changeBytesHandler->handle(*castedCommand);
     });
 
-    program::shared::container::commandBus->subscribe(typeid(CAddImportCommand), [&](message_ptr command) {
-        auto castedCommand = std::dynamic_pointer_cast<CAddImportCommand>(command);
-        program::core::container::handler::addImportHandler->handle(*castedCommand);
+    program::shared::container::commandBus->subscribe(typeid(modification::import::CAddImportsCommand), [&](message_ptr command) {
+        auto castedCommand = std::dynamic_pointer_cast<modification::import::CAddImportsCommand>(command);
+        program::core::container::handler::addImportsHandler->handle(*castedCommand);
     });
 
-    program::shared::container::commandBus->subscribe(typeid(CEncryptOriginalImportsCommand), [&](message_ptr command) {
-        auto castedCommand = std::dynamic_pointer_cast<CEncryptOriginalImportsCommand>(command);
+    program::shared::container::commandBus->subscribe(typeid(modification::encrypt::CEncryptOriginalImportsCommand), [&](message_ptr command) {
+        auto castedCommand = std::dynamic_pointer_cast<modification::encrypt::CEncryptOriginalImportsCommand>(command);
         program::core::container::handler::encryptOriginalImportsHandler->handle(*castedCommand);
     });
 

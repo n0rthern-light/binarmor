@@ -7,12 +7,14 @@
 #include "core/file/IFileSystem.hpp"
 #include "core/modification/bytes/AddBytesHandler.hpp"
 #include "core/modification/bytes/ChangeBytesHandler.hpp"
-#include "core/modification/import/AddImportHandler.hpp"
+#include "core/modification/import/AddImportsHandler.hpp"
 #include "core/modification/import/EncryptOriginalImportsHandler.hpp"
 #include "core/modification/resize/FixBinaryResizeHandler.hpp"
 #include "core/modification/section/AddSectionHandler.hpp"
 #include "core/modification/section/InitializeMainProtectionSectionHandler.hpp"
 #include "core/payload/processor/PayloadProcessor.hpp"
+
+using namespace program::core;
 
 namespace program
 {
@@ -42,8 +44,8 @@ namespace program
                 extern std::unique_ptr<CAddSectionHandler> addSectionHandler;
                 extern std::unique_ptr<CAddBytesHandler> addBytesHandler;
                 extern std::unique_ptr<CChangeBytesHandler> changeBytesHandler;
-                extern std::unique_ptr<CAddImportHandler> addImportHandler;
-                extern std::unique_ptr<CEncryptOriginalImportsHandler> encryptOriginalImportsHandler;
+                extern std::unique_ptr<modification::import::CAddImportsHandler> addImportsHandler;
+                extern std::unique_ptr<modification::encrypt::CEncryptOriginalImportsHandler> encryptOriginalImportsHandler;
                 extern std::unique_ptr<CInitializeMainProtectionSectionHandler> initializeMainProtectionSectionHandler;
                 extern std::unique_ptr<CFixBinaryResizeHandler> fixBinaryResizeHandler;
             }
