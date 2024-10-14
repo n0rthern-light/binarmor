@@ -5,13 +5,14 @@
 #include "core/format/pe/PeFormat.hpp"
 #include "core/modification/EncryptOriginalImportsCommand.hpp"
 #include "core/modification/ModificationException.hpp"
-#include "core/modification/diff/DiffExtractor.hpp"
+#include "core/file/diff/DiffExtractor.hpp"
 #include "core/shared/attributes.hpp"
 #include "shared/types/defines.hpp"
 #include "shared/value/ByteVecOperations.hpp"
 #include <memory>
 
 using namespace program::core::modification::encrypt;
+using namespace program::core::file::diff;
 
 CEncryptOriginalImportsHandler::CEncryptOriginalImportsHandler(
     CBinaryFileStateManager* fileManager,

@@ -10,6 +10,8 @@
 #include "shared/self_obfuscation/strenc.hpp"
 #include <memory>
 
+using namespace program::core::modification::section;
+
 CInitializeMainProtectionSectionHandler::CInitializeMainProtectionSectionHandler(IMessageBus* commandBus, CBinaryFileStateManager* binaryFileManager):
     m_commandBus(commandBus), m_binaryFileManager(binaryFileManager) { }
 

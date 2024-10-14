@@ -3,7 +3,7 @@
 #include "core/application/container.hpp"
 #include "core/application/behave.hpp"
 #include "core/modification/AddImportsCommand.hpp"
-#include "core/modification/diff/DiffExtractor.hpp"
+#include "core/file/diff/DiffExtractor.hpp"
 #include "shared/application/container.hpp"
 #include "shared/value/Uuid.hpp"
 #include <memory>
@@ -41,7 +41,7 @@ TEST_P(AddImportsHandlerTest, CanAddImport)
 
     //then
     const auto modifiedBytes = binaryFile->modifiedBinary().bytes();
-    const auto diff = CDiffExtractor::extract(originalBytes, modifiedBytes);
+    const auto diff = program::core::file::diff::CDiffExtractor::extract(originalBytes, modifiedBytes);
 }
 
 INSTANTIATE_TEST_SUITE_P(

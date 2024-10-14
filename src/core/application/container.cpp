@@ -20,13 +20,13 @@ std::unique_ptr<IAssembler> program::core::container::assembly::assembler_x86 = 
 std::unique_ptr<IAssembler> program::core::container::assembly::assembler_x86_64 = nullptr;
 std::unique_ptr<IAssembler> program::core::container::assembly::assembler_arm64 = nullptr;
 std::unique_ptr<IPayloadProcessor> program::core::container::payload::payloadProcessor = nullptr;
-std::unique_ptr<CAddSectionHandler> program::core::container::handler::addSectionHandler = nullptr;
-std::unique_ptr<CAddBytesHandler> program::core::container::handler::addBytesHandler = nullptr;
-std::unique_ptr<CChangeBytesHandler> program::core::container::handler::changeBytesHandler = nullptr;
+std::unique_ptr<modification::section::CAddSectionHandler> program::core::container::handler::addSectionHandler = nullptr;
+std::unique_ptr<modification::bytes::CAddBytesHandler> program::core::container::handler::addBytesHandler = nullptr;
+std::unique_ptr<modification::bytes::CChangeBytesHandler> program::core::container::handler::changeBytesHandler = nullptr;
 std::unique_ptr<modification::import::CAddImportsHandler> program::core::container::handler::addImportsHandler = nullptr;
 std::unique_ptr<modification::encrypt::CEncryptOriginalImportsHandler> program::core::container::handler::encryptOriginalImportsHandler = nullptr;
-std::unique_ptr<CInitializeMainProtectionSectionHandler> program::core::container::handler::initializeMainProtectionSectionHandler = nullptr;
-std::unique_ptr<CFixBinaryResizeHandler> program::core::container::handler::fixBinaryResizeHandler = nullptr;
+std::unique_ptr<modification::section::CInitializeMainProtectionSectionHandler> program::core::container::handler::initializeMainProtectionSectionHandler = nullptr;
+std::unique_ptr<modification::resize::CFixBinaryResizeHandler> program::core::container::handler::fixBinaryResizeHandler = nullptr;
 
 void program::core::container::init(int argc, char** argv)
 {
@@ -46,14 +46,14 @@ void program::core::container::init(int argc, char** argv)
     program::core::container::payload::payloadProcessor = std::make_unique<program::core::payload::nasm::CNasmPayloadProcessor>(
         program::core::container::file::binaryFileStateManager.get()
     );
-    program::core::container::handler::addSectionHandler = std::make_unique<CAddSectionHandler>(
+    program::core::container::handler::addSectionHandler = std::make_unique<modification::section::CAddSectionHandler>(
         program::core::container::file::binaryFileStateManager.get()
     );
-    program::core::container::handler::addBytesHandler = std::make_unique<CAddBytesHandler>(
+    program::core::container::handler::addBytesHandler = std::make_unique<modification::bytes::CAddBytesHandler>(
         program::shared::container::commandBus.get(),
         program::core::container::file::binaryFileStateManager.get()
     );
-    program::core::container::handler::changeBytesHandler = std::make_unique<CChangeBytesHandler>(
+    program::core::container::handler::changeBytesHandler = std::make_unique<modification::bytes::CChangeBytesHandler>(
         program::core::container::file::binaryFileStateManager.get()
     );
     program::core::container::handler::addImportsHandler = std::make_unique<modification::import::CAddImportsHandler>(
@@ -65,12 +65,12 @@ void program::core::container::init(int argc, char** argv)
         program::core::container::file::binaryFileStateManager.get(),
         program::shared::container::crypter.get()
     );
-    program::core::container::handler::initializeMainProtectionSectionHandler = std::make_unique<CInitializeMainProtectionSectionHandler>(
+    program::core::container::handler::initializeMainProtectionSectionHandler = std::make_unique<modification::section::CInitializeMainProtectionSectionHandler>(
         program::shared::container::commandBus.get(),
         program::core::container::file::binaryFileStateManager.get()
     );
 
-    program::core::container::handler::fixBinaryResizeHandler = std::make_unique<CFixBinaryResizeHandler>(
+    program::core::container::handler::fixBinaryResizeHandler = std::make_unique<modification::resize::CFixBinaryResizeHandler>(
         program::core::container::file::binaryFileStateManager.get()
     );
 

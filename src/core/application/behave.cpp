@@ -37,25 +37,25 @@ void program::core::application::behave(int argc, char** argv)
         program::core::container::file::binaryFileStateManager->unload(castedEvent->fileId());
     });
 
-    program::shared::container::eventBus->subscribe(typeid(CBinarySizeChangedEvent), [&](message_ptr event) {
-        auto castedEvent = std::dynamic_pointer_cast<CBinarySizeChangedEvent>(event);
+    program::shared::container::eventBus->subscribe(typeid(modification::resize::CBinarySizeChangedEvent), [&](message_ptr event) {
+        auto castedEvent = std::dynamic_pointer_cast<modification::resize::CBinarySizeChangedEvent>(event);
         program::shared::container::commandBus->publish(
-            std::make_shared<CFixBinaryResizeCommand>(*castedEvent)
+            std::make_shared<modification::resize::CFixBinaryResizeCommand>(*castedEvent)
         );
     });
 
-    program::shared::container::commandBus->subscribe(typeid(CAddSectionCommand), [&](message_ptr command) {
-        auto castedCommand = std::dynamic_pointer_cast<CAddSectionCommand>(command);
+    program::shared::container::commandBus->subscribe(typeid(modification::section::CAddSectionCommand), [&](message_ptr command) {
+        auto castedCommand = std::dynamic_pointer_cast<modification::section::CAddSectionCommand>(command);
         program::core::container::handler::addSectionHandler->handle(*castedCommand);
     });
 
-    program::shared::container::commandBus->subscribe(typeid(CAddBytesCommand), [&](message_ptr command) {
-        auto castedCommand = std::dynamic_pointer_cast<CAddBytesCommand>(command);
+    program::shared::container::commandBus->subscribe(typeid(modification::bytes::CAddBytesCommand), [&](message_ptr command) {
+        auto castedCommand = std::dynamic_pointer_cast<modification::bytes::CAddBytesCommand>(command);
         program::core::container::handler::addBytesHandler->handle(*castedCommand);
     });
 
-    program::shared::container::commandBus->subscribe(typeid(CChangeBytesCommand), [&](message_ptr command) {
-        auto castedCommand = std::dynamic_pointer_cast<CChangeBytesCommand>(command);
+    program::shared::container::commandBus->subscribe(typeid(modification::bytes::CChangeBytesCommand), [&](message_ptr command) {
+        auto castedCommand = std::dynamic_pointer_cast<modification::bytes::CChangeBytesCommand>(command);
         program::core::container::handler::changeBytesHandler->handle(*castedCommand);
     });
 
@@ -69,13 +69,13 @@ void program::core::application::behave(int argc, char** argv)
         program::core::container::handler::encryptOriginalImportsHandler->handle(*castedCommand);
     });
 
-    program::shared::container::commandBus->subscribe(typeid(CInitializeMainProtectionSectionCommand), [&](message_ptr command) {
-        auto castedCommand = std::dynamic_pointer_cast<CInitializeMainProtectionSectionCommand>(command);
+    program::shared::container::commandBus->subscribe(typeid(modification::section::CInitializeMainProtectionSectionCommand), [&](message_ptr command) {
+        auto castedCommand = std::dynamic_pointer_cast<modification::section::CInitializeMainProtectionSectionCommand>(command);
         program::core::container::handler::initializeMainProtectionSectionHandler->handle(*castedCommand);
     });
 
-    program::shared::container::commandBus->subscribe(typeid(CFixBinaryResizeCommand), [&](message_ptr command) {
-        auto castedCommand = std::dynamic_pointer_cast<CFixBinaryResizeCommand>(command);
+    program::shared::container::commandBus->subscribe(typeid(modification::resize::CFixBinaryResizeCommand), [&](message_ptr command) {
+        auto castedCommand = std::dynamic_pointer_cast<modification::resize::CFixBinaryResizeCommand>(command);
         program::core::container::handler::fixBinaryResizeHandler->handle(*castedCommand);
     });
 }

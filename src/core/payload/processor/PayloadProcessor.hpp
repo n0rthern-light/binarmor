@@ -8,6 +8,6 @@
 class IPayloadProcessor
 {
 public:
-    virtual const std::shared_ptr<IModificationCommand> next(const file_id& fileId, const IPayload* payload) const = 0;
+    virtual const std::shared_ptr<program::core::modification::IModificationCommand> next(const file_id& fileId, const IPayload* payload) const = 0;
     virtual ~IPayloadProcessor() { };
 };

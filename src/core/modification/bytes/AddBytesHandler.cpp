@@ -5,12 +5,15 @@
 #include "core/modification/AddBytesCommand.hpp"
 #include "core/modification/AddSectionCommand.hpp"
 #include "core/modification/ModificationException.hpp"
-#include "core/modification/diff/DiffExtractor.hpp"
+#include "core/file/diff/DiffExtractor.hpp"
 #include "core/modification/ids.hpp"
 #include "../../shared/SectionPermissions.hpp"
 #include "shared/message/IMessageBus.hpp"
 #include "shared/value/ByteVecOperations.hpp"
 #include <memory>
+
+using namespace program::core::modification::bytes;
+using namespace program::core::file::diff;
 
 CAddBytesHandler::CAddBytesHandler(
     IMessageBus* commandBus,
@@ -53,7 +56,7 @@ void CAddBytesHandler::handle(const CAddBytesCommand& command) const
 
     if (requestedSectionExists == false) {
         m_commandBus->publish(
-            std::make_shared<CAddSectionCommand>(
+            std::make_shared<section::CAddSectionCommand>(
                 command.fileId(),
                 requestedSectionId,
                 requestedPermissions,

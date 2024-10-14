@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
+using namespace program::core::modification::section;
+
 class AddSectionHandlerTest : public ::testing::TestWithParam<std::string> {
 };
 

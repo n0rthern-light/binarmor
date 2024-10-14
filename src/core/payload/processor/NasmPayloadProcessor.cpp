@@ -15,12 +15,12 @@
 #include <vector>
 
 using namespace program::core::payload::nasm;
-using namespace program::core::modification::import;
+using namespace program::core::modification;
 
  const std::shared_ptr<IModificationCommand> CNasmPayloadProcessor::processImports(const file_id& fileId, const IPayload* payload) const
 {
     const auto fileFormat = m_fileManager->binaryFileModifiedBinaryAsFormat(fileId);
-    auto imports = import_pair_vec_t { };
+    auto imports = import::import_pair_vec_t { };
 
     for(const auto& requiredImport : payload->imports()) {
         const auto& import = fileFormat->import(requiredImport.moduleName, requiredImport.functionName);
@@ -33,7 +33,7 @@ using namespace program::core::modification::import;
         return nullptr;
     }
 
-    return std::make_shared<CAddImportsCommand>(fileId, imports);
+    return std::make_shared<import::CAddImportsCommand>(fileId, imports);
 }
 
 const CDependencyGraph CNasmPayloadProcessor::buildDependencyGraph(const file_id& fileId, const IPayload* payload) const
@@ -84,7 +84,7 @@ const std::shared_ptr<IModificationCommand> CNasmPayloadProcessor::processData(c
             }
 
             if (dependencies.size() == 0) {
-                return std::make_shared<CAddBytesCommand>(
+                return std::make_shared<bytes::CAddBytesCommand>(
                     fileId,
                     modificationId,
                     section.sectionName,
@@ -110,7 +110,7 @@ const std::shared_ptr<IModificationCommand> CNasmPayloadProcessor::processData(c
                 requiredModificationIds.push_back(dependencyModificationId);
             }
 
-            return std::make_shared<CAddBytesCommand>(
+            return std::make_shared<bytes::CAddBytesCommand>(
                 fileId,
                 modificationId,
                 section.sectionName,

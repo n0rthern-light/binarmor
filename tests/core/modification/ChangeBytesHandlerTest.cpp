@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
+using namespace program::core::modification::bytes;
+
 class AddBytesHandlerTest : public ::testing::TestWithParam<std::string> {
 };
 

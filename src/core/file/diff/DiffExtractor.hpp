@@ -3,10 +3,12 @@
 
 #include "core/file/BinaryModification.hpp"
 
-class CDiffExtractor
-{
-public:
-    static const vec_diff extract(const byte_vec& original, const byte_vec& modified);
-};
+namespace program::core::file::diff {
+    class CDiffExtractor
+    {
+    public:
+        static const vec_diff extract(const byte_vec& original, const byte_vec& modified);
+    };
+}
 
 #endif // CORE_MODIFICATION_DIFF__DIFF_EXTRACTOR_HPP_

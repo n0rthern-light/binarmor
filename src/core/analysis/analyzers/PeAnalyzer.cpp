@@ -31,7 +31,7 @@ void CPeAnalyzer::analyze(const CBinary& binary, BinaryFileAttributes_t& attribu
 
     uint_auto sizeOfCode = 0;
     for(const auto& section : sections) {
-        if (section->name() == modification::sectionName::MAIN) {
+        if (section->name() == program::core::modification::sectionName::MAIN) {
             attributes.isProtected = true;
         }
 

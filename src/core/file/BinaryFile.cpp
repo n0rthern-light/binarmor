@@ -160,7 +160,7 @@ void CBinaryFile::registerModification(const CBinaryModification& modification)
     const auto totalSizeDiff = modification.totalSizeDiff();
     if (totalSizeDiff != 0) {
         m_eventBus->publish(
-            std::make_shared<CBinarySizeChangedEvent>(
+            std::make_shared<program::core::modification::resize::CBinarySizeChangedEvent>(
                 fileId(),
                 modification.id(),
                 modification.firstByteAddress(),

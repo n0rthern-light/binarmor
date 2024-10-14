@@ -41,13 +41,13 @@ namespace program
             }
 
             namespace handler {
-                extern std::unique_ptr<CAddSectionHandler> addSectionHandler;
-                extern std::unique_ptr<CAddBytesHandler> addBytesHandler;
-                extern std::unique_ptr<CChangeBytesHandler> changeBytesHandler;
+                extern std::unique_ptr<modification::section::CAddSectionHandler> addSectionHandler;
+                extern std::unique_ptr<modification::bytes::CAddBytesHandler> addBytesHandler;
+                extern std::unique_ptr<modification::bytes::CChangeBytesHandler> changeBytesHandler;
                 extern std::unique_ptr<modification::import::CAddImportsHandler> addImportsHandler;
                 extern std::unique_ptr<modification::encrypt::CEncryptOriginalImportsHandler> encryptOriginalImportsHandler;
-                extern std::unique_ptr<CInitializeMainProtectionSectionHandler> initializeMainProtectionSectionHandler;
-                extern std::unique_ptr<CFixBinaryResizeHandler> fixBinaryResizeHandler;
+                extern std::unique_ptr<modification::section::CInitializeMainProtectionSectionHandler> initializeMainProtectionSectionHandler;
+                extern std::unique_ptr<modification::resize::CFixBinaryResizeHandler> fixBinaryResizeHandler;
             }
 
             void init(int argc, char** argv);

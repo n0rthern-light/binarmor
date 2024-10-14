@@ -73,7 +73,7 @@ const byte_vec CBinaryModification::apply(byte_vec targetBytes) const
         } else if (dmDiff.type == BinaryModificationDiffType::REMOVE) {
             infDiff.push_back(diff::Diff { diff::EditType::Delete, dmDiff.offset, dmDiff.oldBytes });
         } else {
-            throw ModificationException(strenc("Unexpected diff type"));
+            throw program::core::modification::ModificationException(strenc("Unexpected diff type"));
         }
     }
 

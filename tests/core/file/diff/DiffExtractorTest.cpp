@@ -1,6 +1,8 @@
-#include "core/modification/diff/DiffExtractor.hpp"
+#include "core/file/diff/DiffExtractor.hpp"
 #include "core/file/BinaryModification.hpp"
 #include <gtest/gtest.h>
+
+using namespace program::core::file::diff;
 
 const auto bytes = byte_vec {0xAA, 0x90, 0xCC, 0x00, 0x00, 0x00, 0x0F, 0xBC, 0x01, 0x00, 0xFF, 0xFF, 0x0A};
 

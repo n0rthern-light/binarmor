@@ -3,9 +3,11 @@
 #include "core/file/BinaryModification.hpp"
 #include "core/modification/ChangeBytesCommand.hpp"
 #include "core/modification/ModificationException.hpp"
-#include "core/modification/diff/DiffExtractor.hpp"
+#include "core/file/diff/DiffExtractor.hpp"
 #include "shared/value/ByteVecOperations.hpp"
 #include <memory>
+
+using namespace program::core::modification::bytes;
 
 CChangeBytesHandler::CChangeBytesHandler(
     CBinaryFileStateManager* binaryFilesManager
@@ -23,7 +25,7 @@ void CChangeBytesHandler::handle(const CChangeBytesCommand& command) const
     auto fmt = binaryFile->modifiedBinaryAsFormat();
     const auto newBytes = CByteVecOperations::bytesModify(fmt->bytes(), command.offset(), command.bytes());
     auto fmtModified = fmt->changeBytes(newBytes);
-    const auto diff = CDiffExtractor::extract(fmt->bytes(), fmtModified->bytes()); 
+    const auto diff = file::diff::CDiffExtractor::extract(fmt->bytes(), fmtModified->bytes()); 
 
     if (diff.size() == 0) {
         throw ModificationException(strenc("Could not change bytes, diff is zero."));

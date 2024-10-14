@@ -8,7 +8,6 @@
 #include "core/shared/attributes.hpp"
 #include <memory>
 
-
 using namespace program::core::modification::import;
 using namespace program::core::modification::encrypt;
 
@@ -59,13 +58,13 @@ void CAddImportsHandler::handle(const CAddImportsCommand& command)
     
     if (binaryFile->hasFlags(BinaryFileFlags::HAS_ENCRYPTED_ORIGINAL_IMPORTS) == false) {
         m_commandBus->publish(
-            std::make_shared<CEncryptOriginalImportsCommand>(command.fileId())
+            std::make_shared<encrypt::CEncryptOriginalImportsCommand>(command.fileId())
         );
     }
 
     if (binaryFile->hasFlags(BinaryFileFlags::HAS_MAIN_PROTECTION_SECTION_INITIALIZED) == false) {
         m_commandBus->publish(
-            std::make_shared<CInitializeMainProtectionSectionCommand>(command.fileId())
+            std::make_shared<section::CInitializeMainProtectionSectionCommand>(command.fileId())
         );
     }
 
