@@ -24,13 +24,13 @@ void program::loader::application::behave(int argc, char** argv)
         program::loader::container::guiApp->promptOpenFile();
     });
 
-    program::shared::container::eventBus->subscribe(typeid(CNewFileSelectedEvent), [&](message_ptr event) {
-        auto castedEvent = std::dynamic_pointer_cast<CNewFileSelectedEvent>(event);
+    program::shared::container::eventBus->subscribe(typeid(program::core::application::events::CNewFileSelectedEvent), [&](message_ptr event) {
+        auto castedEvent = std::dynamic_pointer_cast<program::core::application::events::CNewFileSelectedEvent>(event);
         program::loader::container::guiApp->displayStatus(strenc("Opening a file: ") + castedEvent->path() + strenc("..."));
     });
 
-    program::shared::container::eventBus->subscribe(typeid(CFileLoadedEvent), [&](message_ptr event) {
-        auto castedEvent = std::dynamic_pointer_cast<CFileLoadedEvent>(event);
+    program::shared::container::eventBus->subscribe(typeid(program::core::application::events::CFileLoadedEvent), [&](message_ptr event) {
+        auto castedEvent = std::dynamic_pointer_cast<program::core::application::events::CFileLoadedEvent>(event);
         auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile(castedEvent->fileId());
         program::loader::container::guiApp->appendToLoadedFiles(binaryFile.get());
         program::loader::container::guiApp->highlightBinaryInFileList(castedEvent->fileId());
@@ -38,14 +38,14 @@ void program::loader::application::behave(int argc, char** argv)
         program::loader::container::guiApp->displayStatus(strenc("File Loaded: ") + binaryFile->filePath().string());
     });
 
-    program::shared::container::eventBus->subscribe(typeid(CWorkFileChangeRequestedEvent), [&](message_ptr event) {
-        auto castedEvent = std::dynamic_pointer_cast<CWorkFileChangeRequestedEvent>(event);
+    program::shared::container::eventBus->subscribe(typeid(program::core::application::events::CWorkFileChangeRequestedEvent), [&](message_ptr event) {
+        auto castedEvent = std::dynamic_pointer_cast<program::core::application::events::CWorkFileChangeRequestedEvent>(event);
         auto binaryFile = program::core::container::file::binaryFileStateManager->binaryFile(castedEvent->fileId());
         program::loader::container::guiApp->displayBinaryFile(*binaryFile.get());
     });
 
-    program::shared::container::eventBus->subscribe(typeid(CFileUnloadedEvent), [&](message_ptr event) {
-        auto castedEvent = std::dynamic_pointer_cast<CFileUnloadedEvent>(event);
+    program::shared::container::eventBus->subscribe(typeid(program::core::application::events::CFileUnloadedEvent), [&](message_ptr event) {
+        auto castedEvent = std::dynamic_pointer_cast<program::core::application::events::CFileUnloadedEvent>(event);
 
         program::loader::container::guiApp->displayStatus(strenc("File ") + castedEvent->fileId() + strenc(" has been unloaded."));
         program::loader::container::guiApp->removeFromFileList(castedEvent->fileId());

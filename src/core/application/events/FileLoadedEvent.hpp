@@ -4,13 +4,15 @@
 #include <shared/message/IMessage.hpp>
 #include <core/file/BinaryFile.hpp>
 
-class CFileLoadedEvent : public IMessage
-{
-    program::core::file::file_id m_fileId;
+namespace program::core::application::events {
+    class CFileLoadedEvent : public IMessage
+    {
+        program::core::file::file_id m_fileId;
 
-public:
-    CFileLoadedEvent(const program::core::file::file_id& fileId): m_fileId(fileId) { }
-    program::core::file::file_id fileId() { return m_fileId; }
-};
+    public:
+        CFileLoadedEvent(const program::core::file::file_id& fileId): m_fileId(fileId) { }
+        program::core::file::file_id fileId() { return m_fileId; }
+    };
+}
 
 #endif // CORE_APPLICATION_EVENTS__FILE_LOADED_EVENT_HPP_

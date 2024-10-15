@@ -68,7 +68,7 @@ void CBinaryFileStateManager::load(const std::filesystem::path& filePath)
     m_vecBinaryFileId.push_back(fileId);
     setCurrentWorkFile(fileId);
 
-    m_eventBus->publish(std::make_shared<CFileLoadedEvent>(fileId));
+    m_eventBus->publish(std::make_shared<program::core::application::events::CFileLoadedEvent>(fileId));
 }
 
 void CBinaryFileStateManager::setCurrentWorkFile(const file_id& fileId)
@@ -93,7 +93,7 @@ void CBinaryFileStateManager::unload(const file_id& fileId)
         }
     }
 
-    m_eventBus->publish(std::make_shared<CFileUnloadedEvent>(fileId));
+    m_eventBus->publish(std::make_shared<program::core::application::events::CFileUnloadedEvent>(fileId));
 }
 
 std::vector<file_id> CBinaryFileStateManager::loadedFiles() const

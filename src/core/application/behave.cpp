@@ -22,18 +22,18 @@ using namespace program::core;
 
 void program::core::application::behave(int argc, char** argv)
 {
-    program::shared::container::eventBus->subscribe(typeid(CNewFileSelectedEvent), [&](message_ptr event) {
-        auto castedEvent = std::dynamic_pointer_cast<CNewFileSelectedEvent>(event);
+    program::shared::container::eventBus->subscribe(typeid(program::core::application::events::CNewFileSelectedEvent), [&](message_ptr event) {
+        auto castedEvent = std::dynamic_pointer_cast<program::core::application::events::CNewFileSelectedEvent>(event);
         program::core::container::file::binaryFileStateManager->load(castedEvent->path());
     });
 
-    program::shared::container::eventBus->subscribe(typeid(CWorkFileChangeRequestedEvent), [&](message_ptr event) {
-        auto castedEvent = std::dynamic_pointer_cast<CWorkFileChangeRequestedEvent>(event);
+    program::shared::container::eventBus->subscribe(typeid(program::core::application::events::CWorkFileChangeRequestedEvent), [&](message_ptr event) {
+        auto castedEvent = std::dynamic_pointer_cast<program::core::application::events::CWorkFileChangeRequestedEvent>(event);
         program::core::container::file::binaryFileStateManager->setCurrentWorkFile(castedEvent->fileId());
     });
 
-    program::shared::container::eventBus->subscribe(typeid(CFileUnloadRequestedEvent), [&](message_ptr event) {
-        auto castedEvent = std::dynamic_pointer_cast<CFileUnloadRequestedEvent>(event);
+    program::shared::container::eventBus->subscribe(typeid(program::core::application::events::CFileUnloadRequestedEvent), [&](message_ptr event) {
+        auto castedEvent = std::dynamic_pointer_cast<program::core::application::events::CFileUnloadRequestedEvent>(event);
         program::core::container::file::binaryFileStateManager->unload(castedEvent->fileId());
     });
 

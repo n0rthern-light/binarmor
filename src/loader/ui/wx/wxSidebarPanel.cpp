@@ -104,7 +104,7 @@ void CwxSidebarPanel::onFileDoubleClicked(const wxListEvent& wxEvent)
 {
     int index = wxEvent.GetIndex();
 
-    m_eventBus->publish(std::make_shared<CWorkFileChangeRequestedEvent>(m_fileListIds.at(index)));
+    m_eventBus->publish(std::make_shared<program::core::application::events::CWorkFileChangeRequestedEvent>(m_fileListIds.at(index)));
 }
 
 void CwxSidebarPanel::onUnloadBtn(const wxEvent& event)
@@ -113,7 +113,7 @@ void CwxSidebarPanel::onUnloadBtn(const wxEvent& event)
         throw RuntimeException(strenc("Select a file first."));
     }
 
-    m_eventBus->publish(std::make_shared<CFileUnloadRequestedEvent>(m_fileListIds.at(m_fileListSelected)));
+    m_eventBus->publish(std::make_shared<program::core::application::events::CFileUnloadRequestedEvent>(m_fileListIds.at(m_fileListSelected)));
 }
 
 void CwxSidebarPanel::toggleFileManagementButtons()
