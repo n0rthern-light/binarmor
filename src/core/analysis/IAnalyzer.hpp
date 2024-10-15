@@ -4,11 +4,14 @@
 #include "../file/BinaryFileAttributes.hpp"
 #include "core/shared/Binary.hpp"
 
-class IAnalyzer
+namespace program::core::analysis
 {
-public:
-    virtual ~IAnalyzer() {}
-    virtual void analyze(const CBinary& binary, program::core::file::BinaryFileAttributes_t& attributes) = 0;
-};
+    class IAnalyzer
+    {
+    public:
+        virtual ~IAnalyzer() {}
+        virtual void analyze(const CBinary& binary, program::core::file::BinaryFileAttributes_t& attributes) = 0;
+    };
+}
 
 #endif // CORE_ANALYSIS__I_ANALYZER_HPP_

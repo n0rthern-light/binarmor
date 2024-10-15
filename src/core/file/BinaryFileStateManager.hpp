@@ -17,12 +17,12 @@ namespace program::core::file {
         std::map<file_id, binary_file_ptr> m_binaryFileMap;
         binary_file_ptr m_binaryFileCurrent;
 
-        CAnalysisRunner* m_analysisRunner;
+        program::core::analysis::CAnalysisRunner* m_analysisRunner;
     public:
         CBinaryFileStateManager(
             IMessageBus* eventBus,
             IFileSystem* fileSystem,
-            CAnalysisRunner* analysisRunner
+            program::core::analysis::CAnalysisRunner* analysisRunner
         );
         binary_file_ptr binaryFile(const file_id& fileId) const;
         CBinary binaryFileModifiedBinary(const file_id& fileId) const;

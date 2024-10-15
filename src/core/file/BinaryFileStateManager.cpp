@@ -9,6 +9,7 @@
 #include <shared/self_obfuscation/strenc.hpp>
 
 using namespace program::core::file;
+using namespace program::core::analysis;
 
 CBinaryFileStateManager::CBinaryFileStateManager(
     IMessageBus* eventBus,

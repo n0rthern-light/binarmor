@@ -15,7 +15,7 @@
 
 std::unique_ptr<program::core::file::IFileSystem> program::core::container::file::fileSystem = nullptr;
 std::unique_ptr<program::core::file::CBinaryFileStateManager> program::core::container::file::binaryFileStateManager = nullptr;
-std::unique_ptr<CAnalysisRunner> program::core::container::file::analysis::runner = nullptr;
+std::unique_ptr<program::core::analysis::CAnalysisRunner> program::core::container::file::analysis::runner = nullptr;
 std::unique_ptr<IAssembler> program::core::container::assembly::assembler_x86 = nullptr;
 std::unique_ptr<IAssembler> program::core::container::assembly::assembler_x86_64 = nullptr;
 std::unique_ptr<IAssembler> program::core::container::assembly::assembler_arm64 = nullptr;
@@ -31,7 +31,7 @@ std::unique_ptr<program::core::modification::resize::CFixBinaryResizeHandler> pr
 void program::core::container::init(int argc, char** argv)
 {
     program::core::container::file::fileSystem = std::make_unique<program::core::file::fstream::CfstreamFileSystem>();
-    program::core::container::file::analysis::runner = std::make_unique<CAnalysisRunner>(
+    program::core::container::file::analysis::runner = std::make_unique<program::core::analysis::CAnalysisRunner>(
         program::shared::container::eventBus.get(),
         program::shared::container::hasher.get()
     );

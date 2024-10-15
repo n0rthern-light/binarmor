@@ -3,10 +3,12 @@
 
 #include "../IAnalyzer.hpp"
 
-class CFormatAnalyzer : public IAnalyzer
-{
-public:
-    void analyze(const CBinary& binaryFile, program::core::file::BinaryFileAttributes_t& attributes);
-};
+namespace program::core::analysis::analyzers {
+    class CFormatAnalyzer : public IAnalyzer
+    {
+    public:
+        void analyze(const CBinary& binaryFile, program::core::file::BinaryFileAttributes_t& attributes);
+    };
+}
 
 #endif // CORE_ANALYSIS_ANALYZERS__FORMAT_ANALYZER_HPP_

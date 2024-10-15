@@ -24,7 +24,7 @@ namespace program
                 extern std::unique_ptr<program::core::file::IFileSystem> fileSystem;
                 extern std::unique_ptr<program::core::file::CBinaryFileStateManager> binaryFileStateManager;
                 namespace analysis {
-                    extern std::unique_ptr<CAnalysisRunner> runner;
+                    extern std::unique_ptr<program::core::analysis::CAnalysisRunner> runner;
                 }
             }
 

@@ -6,6 +6,8 @@
 #include <memory>
 #include <shared/self_obfuscation/strenc.hpp>
 
+using namespace program::core::analysis::analyzers;
+using namespace program::core::analysis::exceptions;
 using namespace program::core::file;
 
 void CPeAnalyzer::analyze(const CBinary& binary, BinaryFileAttributes_t& attributes)

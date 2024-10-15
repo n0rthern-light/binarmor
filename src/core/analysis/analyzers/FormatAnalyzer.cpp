@@ -4,6 +4,8 @@
 #include "core/shared/attributes.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
 
+using namespace program::core::analysis::analyzers;
+using namespace program::core::analysis::exceptions;
 using namespace program::core::file;
 
 bool isWindowsPE(const CBinary& binary) {
