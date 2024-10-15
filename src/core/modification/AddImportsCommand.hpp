@@ -10,20 +10,20 @@ namespace program::core::modification::import {
 
     class CAddImportsCommand : public IModificationCommand
     {
-        const file_id m_fileId;
+        const file::file_id m_fileId;
         const import_pair_vec_t m_imports;
 
     public:
         CAddImportsCommand(
-            const file_id& fileId,
+            const program::core::file::file_id& fileId,
             const import_pair_vec_t& imports
         ):
             m_fileId(fileId),
             m_imports(imports)
         { }
-        file_id fileId() const { return m_fileId; }
+        file::file_id fileId() const { return m_fileId; }
         CUuid modificationId() const { return { std::format(strenc("imports")) }; }
-        BinaryModificationType type() const { return BinaryModificationType::WRITE_IMPORT; }
+        file::BinaryModificationType type() const { return file::BinaryModificationType::WRITE_IMPORT; }
         import_pair_vec_t imports() const { return m_imports; }
     };
 };

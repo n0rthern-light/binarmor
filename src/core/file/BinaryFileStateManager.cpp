@@ -8,6 +8,8 @@
 #include <shared/RuntimeException.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
 
+using namespace program::core::file;
+
 CBinaryFileStateManager::CBinaryFileStateManager(
     IMessageBus* eventBus,
     IFileSystem* fileSystem,

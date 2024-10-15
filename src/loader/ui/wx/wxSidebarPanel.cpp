@@ -9,6 +9,8 @@
 #include <memory>
 #include <wx/listbase.h>
 
+using namespace program::core::file;
+
 CwxSidebarPanel::CwxSidebarPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {
     m_eventBus = t_eventBus;

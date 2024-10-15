@@ -8,9 +8,9 @@
 class BinaryMother
 {
 public:
-    static CfstreamFileSystem* fileReader()
+    static program::core::file::fstream::CfstreamFileSystem* fileReader()
     {
-        static CfstreamFileSystem* fr = new CfstreamFileSystem();
+        static program::core::file::fstream::CfstreamFileSystem* fr = new program::core::file::fstream::CfstreamFileSystem();
 
         return fr;
     }

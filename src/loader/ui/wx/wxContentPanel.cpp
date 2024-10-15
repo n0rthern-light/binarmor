@@ -1,6 +1,8 @@
 #include "wxContentPanel.hpp"
 #include "loader/ui/wx/content/wxNotepadPanel.hpp"
 
+using namespace program::core::file;
+
 CwxContentPanel::CwxContentPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {
     m_eventBus = t_eventBus;

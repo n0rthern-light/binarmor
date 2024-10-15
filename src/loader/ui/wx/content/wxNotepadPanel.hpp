@@ -16,7 +16,7 @@ class CwxNotepadPanel : public wxPanel
     wxSizer* m_binaryFileInfoPanelSizer;
 public:
     CwxNotepadPanel(wxWindow* parent, IMessageBus* t_eventBus);
-    void loadFileData(const CBinaryFile& binaryFile);
+    void loadFileData(const program::core::file::CBinaryFile& binaryFile);
 };
 
 #endif // LOADER_UI_WX_CONTENT_WX_NOTEPAD_PANEL_HPP_

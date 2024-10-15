@@ -16,7 +16,7 @@ class CwxContentPanel : public wxPanel
 public:
     CwxContentPanel(wxWindow* parent, IMessageBus* t_eventBus);
     void hideAll();
-    void showFile(const CBinaryFile& binaryFile);
+    void showFile(const program::core::file::CBinaryFile& binaryFile);
     void showDragAndDrop();
 };
 

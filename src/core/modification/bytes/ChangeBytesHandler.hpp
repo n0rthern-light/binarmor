@@ -6,10 +6,10 @@
 namespace program::core::modification::bytes {
     class CChangeBytesHandler
     {
-        CBinaryFileStateManager* m_binaryFilesManager;
+        file::CBinaryFileStateManager* m_binaryFilesManager;
     public:
         CChangeBytesHandler(
-            CBinaryFileStateManager* binaryFileManager
+            file::CBinaryFileStateManager* binaryFileManager
         );
         void handle(const CChangeBytesCommand& command) const;
     };

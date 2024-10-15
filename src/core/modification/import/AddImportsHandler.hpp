@@ -9,11 +9,11 @@
 namespace program::core::modification::import {
     class CAddImportsHandler
     {
-        const CBinaryFileStateManager* m_fileManager;
+        const file::CBinaryFileStateManager* m_fileManager;
         const ICrypter* m_crypter;
         IMessageBus* m_commandBus;
     public:
-        CAddImportsHandler(CBinaryFileStateManager* fileManager, ICrypter* cryper, IMessageBus* commandBus);
+        CAddImportsHandler(file::CBinaryFileStateManager* fileManager, ICrypter* cryper, IMessageBus* commandBus);
         void handle(const CAddImportsCommand& command);
     };
 };

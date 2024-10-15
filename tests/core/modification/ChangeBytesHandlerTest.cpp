@@ -11,6 +11,7 @@
 #include <unistd.h>
 
 using namespace program::core::modification::bytes;
+using namespace program::core::file;
 
 class AddBytesHandlerTest : public ::testing::TestWithParam<std::string> {
 };

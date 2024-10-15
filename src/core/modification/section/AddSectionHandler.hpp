@@ -7,9 +7,9 @@
 namespace program::core::modification::section {
     class CAddSectionHandler
     {
-        CBinaryFileStateManager* m_binaryFilesManager;
+        file::CBinaryFileStateManager* m_binaryFilesManager;
     public:
-        CAddSectionHandler(CBinaryFileStateManager* binaryFileManager);
+        CAddSectionHandler(file::CBinaryFileStateManager* binaryFileManager);
         void handle(const CAddSectionCommand& command);
     };
 }

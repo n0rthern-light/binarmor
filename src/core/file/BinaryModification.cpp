@@ -4,10 +4,10 @@
 #include "shared/diff/diff_match_patch.hpp"
 #include "shared/self_obfuscation/strenc.hpp"
 #include "shared/types/defines.hpp"
-#include "shared/value/ByteVecOperations.hpp"
 #include "shared/value/Uuid.hpp"
-#include <algorithm>
 #include <stdexcept>
+
+using namespace program::core::file;
 
 BinaryModificationDiff_t BinaryModificationDiff_t::add(binary_offset offset, const byte_vec& newBytes)
 {

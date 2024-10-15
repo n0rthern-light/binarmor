@@ -7,6 +7,8 @@
 #include <vector>
 #include <stdio.h>
 
+using namespace program::core::file;
+
 const auto x86exe = BinaryMother::x86exe();
 const auto x86_64dll = BinaryMother::x86_64dll();
 const auto hasher = new COpenSslHasher();
@@ -122,8 +124,8 @@ TEST(BinaryModificationTest, CanModifyUsingDiffAlgorithmDirectly)
     const auto target = x86_64dll->binary().part(1000, 250).bytes();
 
     // when
-    const auto diff = diff::match(source, target);
-    const auto modified = diff::patch(source, diff);
+    const auto diff = ::diff::match(source, target);
+    const auto modified = ::diff::patch(source, diff);
 
     // then
     ASSERT_EQ(modified.size(), target.size());

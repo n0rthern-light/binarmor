@@ -10,7 +10,7 @@
 namespace program::core::modification::bytes {
     class CAddBytesCommand : public IModificationCommand
     {
-        const file_id m_fileId;
+        const file::file_id m_fileId;
         const CUuid m_bytesId;
         const std::optional<std::string> m_sectionId;
         const byte_vec m_bytes;
@@ -20,7 +20,7 @@ namespace program::core::modification::bytes {
         const std::vector<CUuid> m_requiredModificationIds;
     public:
         CAddBytesCommand(
-            const file_id& fileId,
+            const file::file_id& fileId,
             const CUuid& bytesId,
             const std::optional<std::string>& sectionId,
             const byte_vec& bytes,
@@ -37,9 +37,9 @@ namespace program::core::modification::bytes {
             m_executeOnStartup(executeOnStartup),
             m_requiredModificationIds(requiredModificationIds)
         { }
-        file_id fileId() const { return m_fileId; }
+        file::file_id fileId() const { return m_fileId; }
         CUuid bytesId() const { return m_bytesId; }
-        BinaryModificationType type() const { return executable() ? BinaryModificationType::WRITE_CODE : BinaryModificationType::WRITE_DATA; } 
+        file::BinaryModificationType type() const { return executable() ? file::BinaryModificationType::WRITE_CODE : file::BinaryModificationType::WRITE_DATA; } 
         CUuid modificationId() const { return bytesId(); }
         std::optional<std::string> sectionId() const { return m_sectionId; }
         byte_vec bytes() const { return m_bytes; }

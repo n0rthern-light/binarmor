@@ -27,7 +27,7 @@ class CwxBinaryFileInfoPanel : public wxPanel
     wxBoxSizer* createInfoRow(const TextInfoRow_t& row);
 public:
     CwxBinaryFileInfoPanel(wxWindow* parent, IMessageBus* t_eventBus);
-    void loadFileData(const CBinaryFile& binaryFile);
+    void loadFileData(const program::core::file::CBinaryFile& binaryFile);
 };
 
 #endif // LOADER_UI_WX_CONTENT_WX_BINARY_FILE_INFO_PANEL_HPP_

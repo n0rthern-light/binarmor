@@ -12,6 +12,8 @@
 #include <stdexcept>
 #include <vector>
 
+using namespace program::core::file;
+
 CBinaryFile::CBinaryFile(
     IMessageBus* eventBus,
     const std::string& filePath,

@@ -10,8 +10,8 @@ namespace program::core::modification {
     {
     public:
         virtual ~IModificationCommand() { };
-        virtual file_id fileId() const = 0;
+        virtual file::file_id fileId() const = 0;
         virtual CUuid modificationId() const = 0;
-        virtual BinaryModificationType type() const = 0;
+        virtual file::BinaryModificationType type() const = 0;
     };
 }

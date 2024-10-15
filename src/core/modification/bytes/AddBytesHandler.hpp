@@ -9,11 +9,11 @@ namespace program::core::modification::bytes {
     class CAddBytesHandler
     {
         IMessageBus* m_commandBus;
-        CBinaryFileStateManager* m_binaryFilesManager;
+        file::CBinaryFileStateManager* m_binaryFilesManager;
     public:
         CAddBytesHandler(
             IMessageBus* commandBus,
-            CBinaryFileStateManager* binaryFileManager
+            file::CBinaryFileStateManager* binaryFileManager
         );
         void handle(const CAddBytesCommand& command) const;
     };

@@ -8,6 +8,8 @@
 #include <core/application/events/NewFileSelectedEvent.hpp>
 #include <wx/event.h>
 
+using namespace program::core::file;
+
 wxDECLARE_EVENT(EVENT_DISPLAY_WINDOW_OPEN_FILE, wxCommandEvent);
 wxDEFINE_EVENT(EVENT_DISPLAY_WINDOW_OPEN_FILE, wxCommandEvent);
 

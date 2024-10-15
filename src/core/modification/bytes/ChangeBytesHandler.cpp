@@ -8,6 +8,7 @@
 #include <memory>
 
 using namespace program::core::modification::bytes;
+using namespace program::core::file;
 
 CChangeBytesHandler::CChangeBytesHandler(
     CBinaryFileStateManager* binaryFilesManager

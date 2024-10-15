@@ -6,9 +6,9 @@
 namespace program::core::modification::resize {
     class CFixBinaryResizeHandler
     {
-        CBinaryFileStateManager* m_fileManager;
+        file::CBinaryFileStateManager* m_fileManager;
     public:
-        CFixBinaryResizeHandler(CBinaryFileStateManager* fileManager);
+        CFixBinaryResizeHandler(file::CBinaryFileStateManager* fileManager);
         void handle(const CFixBinaryResizeCommand& command);
     };
 }

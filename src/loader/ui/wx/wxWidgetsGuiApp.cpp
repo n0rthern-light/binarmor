@@ -2,6 +2,8 @@
 #include "shared/message/simple/SimpleMessageBus.hpp"
 #include <shared/message/IMessageBus.hpp>
 
+using namespace program::core::file;
+
 CwxWidgetsGuiApp::CwxWidgetsGuiApp(int t_argc, char** t_argv, IMessageBus* t_eventBus)
 {
     m_argc = t_argc;

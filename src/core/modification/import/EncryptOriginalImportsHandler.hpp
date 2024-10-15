@@ -8,10 +8,10 @@
 namespace program::core::modification::encrypt {
     class CEncryptOriginalImportsHandler
     {
-        const CBinaryFileStateManager* m_fileManager;
+        const file::CBinaryFileStateManager* m_fileManager;
         const ICrypter* m_crypter;
     public:
-        CEncryptOriginalImportsHandler(CBinaryFileStateManager* fileManager, ICrypter* cryper);
+        CEncryptOriginalImportsHandler(file::CBinaryFileStateManager* fileManager, ICrypter* cryper);
         void handle(const CEncryptOriginalImportsCommand& command);
     };
 };

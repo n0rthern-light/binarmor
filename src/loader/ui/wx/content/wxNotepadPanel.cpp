@@ -3,6 +3,8 @@
 #include "loader/ui/wx/wx_headers.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
 
+using namespace program::core::file;
+
 CwxNotepadPanel::CwxNotepadPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {
     m_eventBus = t_eventBus;

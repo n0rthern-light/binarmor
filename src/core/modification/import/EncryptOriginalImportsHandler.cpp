@@ -13,6 +13,7 @@
 
 using namespace program::core::modification::encrypt;
 using namespace program::core::file::diff;
+using namespace program::core::file;
 
 CEncryptOriginalImportsHandler::CEncryptOriginalImportsHandler(
     CBinaryFileStateManager* fileManager,

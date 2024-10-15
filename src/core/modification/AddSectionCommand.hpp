@@ -13,14 +13,14 @@
 namespace program::core::modification::section {
     class CAddSectionCommand : public IModificationCommand
     {
-        const file_id m_fileId;
+        const file::file_id m_fileId;
         const std::string m_sectionId;
         const CSectionPermissions m_permissions;
         const binary_offset m_size;
 
     public:
         CAddSectionCommand(
-            const file_id& fileId,
+            const file::file_id& fileId,
             const std::string& sectionId,
             const CSectionPermissions& permissions,
             const binary_offset size
@@ -35,9 +35,9 @@ namespace program::core::modification::section {
                 throw ModificationException(strenc("Section name is max 7 chars"));
             }
         }
-        file_id fileId() const { return m_fileId; }
+        file::file_id fileId() const { return m_fileId; }
         CUuid modificationId() const { return { sectionId() }; }
-        BinaryModificationType type() const { return BinaryModificationType::ADD_SECTION; }
+        file::BinaryModificationType type() const { return file::BinaryModificationType::ADD_SECTION; }
         std::string sectionId() const { return m_sectionId; }
         CSectionPermissions permissions() const { return m_permissions; }
         binary_offset size() const { return m_size; }

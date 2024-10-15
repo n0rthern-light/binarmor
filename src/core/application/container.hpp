@@ -12,9 +12,7 @@
 #include "core/modification/resize/FixBinaryResizeHandler.hpp"
 #include "core/modification/section/AddSectionHandler.hpp"
 #include "core/modification/section/InitializeMainProtectionSectionHandler.hpp"
-#include "core/payload/processor/PayloadProcessor.hpp"
-
-using namespace program::core;
+#include "core/payload/PayloadProcessor.hpp"
 
 namespace program
 {
@@ -23,8 +21,8 @@ namespace program
         namespace container
         {
             namespace file {
-                extern std::unique_ptr<IFileSystem> fileSystem;
-                extern std::unique_ptr<CBinaryFileStateManager> binaryFileStateManager;
+                extern std::unique_ptr<program::core::file::IFileSystem> fileSystem;
+                extern std::unique_ptr<program::core::file::CBinaryFileStateManager> binaryFileStateManager;
                 namespace analysis {
                     extern std::unique_ptr<CAnalysisRunner> runner;
                 }
@@ -37,17 +35,17 @@ namespace program
             }
 
             namespace payload {
-                extern std::unique_ptr<IPayloadProcessor> payloadProcessor;
+                extern std::unique_ptr<program::core::payload::IPayloadProcessor> payloadProcessor;
             }
 
             namespace handler {
-                extern std::unique_ptr<modification::section::CAddSectionHandler> addSectionHandler;
-                extern std::unique_ptr<modification::bytes::CAddBytesHandler> addBytesHandler;
-                extern std::unique_ptr<modification::bytes::CChangeBytesHandler> changeBytesHandler;
-                extern std::unique_ptr<modification::import::CAddImportsHandler> addImportsHandler;
-                extern std::unique_ptr<modification::encrypt::CEncryptOriginalImportsHandler> encryptOriginalImportsHandler;
-                extern std::unique_ptr<modification::section::CInitializeMainProtectionSectionHandler> initializeMainProtectionSectionHandler;
-                extern std::unique_ptr<modification::resize::CFixBinaryResizeHandler> fixBinaryResizeHandler;
+                extern std::unique_ptr<program::core::modification::section::CAddSectionHandler> addSectionHandler;
+                extern std::unique_ptr<program::core::modification::bytes::CAddBytesHandler> addBytesHandler;
+                extern std::unique_ptr<program::core::modification::bytes::CChangeBytesHandler> changeBytesHandler;
+                extern std::unique_ptr<program::core::modification::import::CAddImportsHandler> addImportsHandler;
+                extern std::unique_ptr<program::core::modification::encrypt::CEncryptOriginalImportsHandler> encryptOriginalImportsHandler;
+                extern std::unique_ptr<program::core::modification::section::CInitializeMainProtectionSectionHandler> initializeMainProtectionSectionHandler;
+                extern std::unique_ptr<program::core::modification::resize::CFixBinaryResizeHandler> fixBinaryResizeHandler;
             }
 
             void init(int argc, char** argv);

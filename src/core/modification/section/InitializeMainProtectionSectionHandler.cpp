@@ -11,6 +11,7 @@
 #include <memory>
 
 using namespace program::core::modification::section;
+using namespace program::core::file;
 
 CInitializeMainProtectionSectionHandler::CInitializeMainProtectionSectionHandler(IMessageBus* commandBus, CBinaryFileStateManager* binaryFileManager):
     m_commandBus(commandBus), m_binaryFileManager(binaryFileManager) { }

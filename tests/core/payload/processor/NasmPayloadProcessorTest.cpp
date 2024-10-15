@@ -13,6 +13,8 @@
 
 using namespace program::core::container::payload;
 using namespace program::core::modification;
+using namespace program::core::payload;
+using namespace program::core::file;
 
 class CPayloadStub : public IPayload
 {
