@@ -43,7 +43,7 @@ namespace program::core::payload
     struct DataResolved_t
     {
         const binary_offset address;
-        const std::optional<CBinary> value = std::nullopt;
+        const std::optional<program::core::shared::CBinary> value = std::nullopt;
     };
 
     using resolved_data_map = std::map<data_id, DataResolved_t>;

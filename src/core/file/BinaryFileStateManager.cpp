@@ -11,6 +11,7 @@
 using namespace program::core::file;
 using namespace program::core::analysis;
 using namespace program::core::format;
+using namespace program::core::shared;
 
 CBinaryFileStateManager::CBinaryFileStateManager(
     IMessageBus* eventBus,

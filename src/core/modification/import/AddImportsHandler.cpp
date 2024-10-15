@@ -11,6 +11,7 @@
 using namespace program::core::modification::import;
 using namespace program::core::modification::encrypt;
 using namespace program::core::file;
+using namespace program::core::shared;
 
 CAddImportsHandler::CAddImportsHandler(
     CBinaryFileStateManager* fileManager,

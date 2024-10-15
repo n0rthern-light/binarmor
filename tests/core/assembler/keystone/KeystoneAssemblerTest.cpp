@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 
 using namespace program::core::assembler::keystone;
+using namespace program::core::shared;
 
 TEST(KeystoneAssemblerTest, ProduceX86Opcodes)
 {

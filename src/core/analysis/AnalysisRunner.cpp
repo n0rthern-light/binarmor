@@ -8,6 +8,7 @@
 using namespace program::core::analysis;
 using namespace program::core::analysis::analyzers;
 using namespace program::core::file;
+using namespace program::core::shared;
 
 CAnalysisRunner::CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hasher): m_eventBus(t_eventBus), m_hasher(t_hasher)
 {

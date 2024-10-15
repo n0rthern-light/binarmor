@@ -18,12 +18,12 @@ namespace program::core::format {
     {
     public:
         virtual ~IFormat() { };
-        virtual Format format() const = 0;
+        virtual program::core::shared::Format format() const = 0;
         virtual byte_vec bytes() const = 0;
-        virtual CBinary binary() const = 0;
-        virtual Architecture architecture() const = 0;
-        virtual Type type() const = 0;
-        virtual Endianness endianness() const = 0;
+        virtual program::core::shared::CBinary binary() const = 0;
+        virtual program::core::shared::Architecture architecture() const = 0;
+        virtual program::core::shared::Type type() const = 0;
+        virtual program::core::shared::Endianness endianness() const = 0;
         virtual AddressType addressType() const = 0;
         virtual CUnsigned entryPoint() const = 0;
         virtual uint_16 sectionCount() const = 0;
@@ -34,7 +34,7 @@ namespace program::core::format {
         virtual format_ptr addSection(
             const std::string& name,
             binary_offset size,
-            const CSectionPermissions permissions
+            const program::core::shared::CSectionPermissions permissions
         ) const = 0;
         virtual format_ptr changeBytes(
             const byte_vec& bytes

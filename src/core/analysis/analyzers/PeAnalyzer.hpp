@@ -7,7 +7,7 @@ namespace program::core::analysis::analyzers {
     class CPeAnalyzer : public IAnalyzer
     {
     public:
-        void analyze(const CBinary& binary, program::core::file::BinaryFileAttributes_t& attributes);
+        void analyze(const program::core::shared::CBinary& binary, program::core::file::BinaryFileAttributes_t& attributes);
     };
 }
 

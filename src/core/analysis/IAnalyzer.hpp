@@ -10,7 +10,7 @@ namespace program::core::analysis
     {
     public:
         virtual ~IAnalyzer() {}
-        virtual void analyze(const CBinary& binary, program::core::file::BinaryFileAttributes_t& attributes) = 0;
+        virtual void analyze(const program::core::shared::CBinary& binary, program::core::file::BinaryFileAttributes_t& attributes) = 0;
     };
 }
 

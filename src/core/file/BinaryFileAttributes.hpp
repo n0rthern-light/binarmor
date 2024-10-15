@@ -9,9 +9,9 @@
 namespace program::core::file {
     struct BinaryFileAttributes_t
     {
-        Format format = Format::UNKNOWN;
-        Architecture arch = Architecture::UNKNOWN;
-        Type type = Type::UNKNOWN;
+        program::core::shared::Format format = program::core::shared::Format::UNKNOWN;
+        program::core::shared::Architecture arch = program::core::shared::Architecture::UNKNOWN;
+        program::core::shared::Type type = program::core::shared::Type::UNKNOWN;
         std::string hash = "";
         uint_8 sectionCount = 0;
         uint_8 importedModuleCount = 0;

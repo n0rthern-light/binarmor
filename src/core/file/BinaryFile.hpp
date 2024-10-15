@@ -21,7 +21,7 @@ namespace program::core::file {
     {
         IMessageBus* m_eventBus;
         const std::filesystem::path m_filePath;
-        const CBinary m_originalBinary;
+        const program::core::shared::CBinary m_originalBinary;
         std::vector<const CBinaryModification> m_vecBinaryModification;
         uint_32 m_flags;
         BinaryFileAttributes_t m_attributes;
@@ -29,18 +29,18 @@ namespace program::core::file {
         CBinaryFile(
             IMessageBus* eventBus,
             const std::string& filePath,
-            const CBinary& binary,
+            const program::core::shared::CBinary& binary,
             uint_32 flags,
             const BinaryFileAttributes_t& attributes
         );
         std::filesystem::path filePath() const;
         std::string fileName() const;
         file_id fileId() const;
-        CBinary originalBinary() const;
-        CBinary modifiedBinary() const;
+        program::core::shared::CBinary originalBinary() const;
+        program::core::shared::CBinary modifiedBinary() const;
         std::shared_ptr<program::core::format::IFormat> modifiedBinaryAsFormat() const;
-        Format format() const;
-        Architecture arch() const;
+        program::core::shared::Format format() const;
+        program::core::shared::Architecture arch() const;
         BinaryFileAttributes_t attributes() const;
         void enableFlags(BinaryFileFlags flags);
         void disableFlags(BinaryFileFlags flags);

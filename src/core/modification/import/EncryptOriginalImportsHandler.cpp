@@ -6,7 +6,6 @@
 #include "core/modification/EncryptOriginalImportsCommand.hpp"
 #include "core/modification/ModificationException.hpp"
 #include "core/file/diff/DiffExtractor.hpp"
-#include "core/shared/attributes.hpp"
 #include "shared/types/defines.hpp"
 #include "shared/value/ByteVecOperations.hpp"
 #include <memory>
@@ -15,6 +14,7 @@ using namespace program::core::modification::encrypt;
 using namespace program::core::file::diff;
 using namespace program::core::file;
 using namespace program::core::format;
+using namespace program::core::shared;
 
 CEncryptOriginalImportsHandler::CEncryptOriginalImportsHandler(
     CBinaryFileStateManager* fileManager,

@@ -22,7 +22,7 @@ public:
 
     static program::core::format::pe::CPeFormat* readPeFromDisk(const char* path)
     {
-        return new program::core::format::pe::CPeFormat(*(new CBinary(fileReader()->read(path))));
+        return new program::core::format::pe::CPeFormat(*(new program::core::shared::CBinary(fileReader()->read(path))));
     }
 
     static program::core::format::pe::CPeFormat* x86exe()

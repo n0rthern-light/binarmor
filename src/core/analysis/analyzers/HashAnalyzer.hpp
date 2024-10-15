@@ -9,7 +9,7 @@ namespace program::core::analysis::analyzers {
         const IHasher* m_hasher;
     public:
         CHashAnalyzer(const IHasher* hasher);
-        void analyze(const CBinary& binary, program::core::file::BinaryFileAttributes_t& attributes);
+        void analyze(const program::core::shared::CBinary& binary, program::core::file::BinaryFileAttributes_t& attributes);
     };
 }
 

@@ -46,7 +46,7 @@ namespace program::core::format::pe {
         CUnsigned baseAddress() const;
         size_t size() const;
         binary_offset headerOffset() const;
-        CSectionPermissions permissions() const;
+        program::core::shared::CSectionPermissions permissions() const;
         unsigned char nullByteRepresentation() const;
 
         CUnsigned rawAddress() const;

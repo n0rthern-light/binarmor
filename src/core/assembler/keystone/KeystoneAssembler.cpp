@@ -7,6 +7,7 @@
 
 using namespace program::core::assembler::keystone;
 using namespace program::core::assembler;
+using namespace program::core::shared;
 
 CKeystoneAssembler::CKeystoneAssembler(Architecture architecture, Endianness endianness): m_architecture(architecture), m_endianness(endianness) { }
 

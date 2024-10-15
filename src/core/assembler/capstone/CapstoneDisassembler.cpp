@@ -7,6 +7,7 @@
 
 using namespace program::core::assembler::capstone;
 using namespace program::core::assembler;
+using namespace program::core::shared;
 
 CCapstoneDisassembler::CCapstoneDisassembler(Architecture architecture, Endianness endianness): m_architecture(architecture), m_endianness(endianness) { }
 

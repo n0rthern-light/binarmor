@@ -12,6 +12,7 @@
 
 using namespace program::core::format;
 using namespace program::core::format::pe;
+using namespace program::core::shared;
 
 CPeFormat::CPeFormat(const CPeFormat& other): m_binary(other.binary()) { }
 

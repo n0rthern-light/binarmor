@@ -9,8 +9,8 @@ namespace program::core::file {
     {
     public:
         virtual ~IFileSystem() {};
-        virtual CBinary read(const std::string& filePath) const = 0;
-        virtual void save(const CBinary& binary, const std::string& filePath) const = 0;
+        virtual program::core::shared::CBinary read(const std::string& filePath) const = 0;
+        virtual void save(const program::core::shared::CBinary& binary, const std::string& filePath) const = 0;
         virtual void remove(const std::string& filePath) const = 0;
     };
 }

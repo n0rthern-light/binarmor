@@ -15,6 +15,7 @@ using namespace program::core::container::payload;
 using namespace program::core::modification;
 using namespace program::core::payload;
 using namespace program::core::file;
+using namespace program::core::shared;
 
 class CPayloadStub : public IPayload
 {

@@ -14,6 +14,7 @@
 
 using namespace program::core::file;
 using namespace program::core::format;
+using namespace program::core::shared;
 
 CBinaryFile::CBinaryFile(
     IMessageBus* eventBus,

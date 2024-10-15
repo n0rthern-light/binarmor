@@ -6,6 +6,7 @@
 #include "shared/value/Unsigned.hpp"
 
 using namespace program::core::file;
+using namespace program::core::shared;
 
 CwxBinaryFileInfoPanel::CwxBinaryFileInfoPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {

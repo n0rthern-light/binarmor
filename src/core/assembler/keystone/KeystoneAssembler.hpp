@@ -7,10 +7,10 @@
 namespace program::core::assembler::keystone {
     class CKeystoneAssembler : public IAssembler
     {
-        Architecture m_architecture;
-        Endianness m_endianness;
+        program::core::shared::Architecture m_architecture;
+        program::core::shared::Endianness m_endianness;
     public:
-        CKeystoneAssembler(Architecture architecture, Endianness endianness);
+        CKeystoneAssembler(program::core::shared::Architecture architecture, program::core::shared::Endianness endianness);
         asm_opcodes assemble(const asm_instructions& input) override;
     };
 }

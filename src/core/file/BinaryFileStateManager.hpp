@@ -25,7 +25,7 @@ namespace program::core::file {
             program::core::analysis::CAnalysisRunner* analysisRunner
         );
         binary_file_ptr binaryFile(const file_id& fileId) const;
-        CBinary binaryFileModifiedBinary(const file_id& fileId) const;
+        program::core::shared::CBinary binaryFileModifiedBinary(const file_id& fileId) const;
         program::core::format::format_ptr binaryFileModifiedBinaryAsFormat(const file_id& fileId) const;
         void load(const std::filesystem::path& filePath);
         void setCurrentWorkFile(const file_id& fileId);

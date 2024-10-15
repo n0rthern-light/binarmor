@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 
 using namespace program::core::assembler::capstone;
+using namespace program::core::shared;
 
 TEST(CapstoneDisassemblerTest, DecodeX86Opcodes)
 {

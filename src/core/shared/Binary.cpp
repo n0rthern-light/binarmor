@@ -5,6 +5,8 @@
 #include <shared/types/defines.hpp>
 #include <stdio.h>
 
+using namespace program::core::shared;
+
 CBinary::CBinary(const byte_vec& bytes): m_bytes(bytes) { }
 
 byte_ptr CBinary::at(const binary_offset& offset) const

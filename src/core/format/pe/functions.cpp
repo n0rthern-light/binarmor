@@ -12,6 +12,7 @@
 #include <string>
 
 using namespace program::core::format::pe;
+using namespace program::core::shared;
 
 IMAGE_DOS_HEADER* program::core::format::pe::dosHeader(const CBinary& binary)
 {

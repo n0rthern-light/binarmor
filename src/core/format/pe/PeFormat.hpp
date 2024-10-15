@@ -15,20 +15,20 @@
 namespace program::core::format::pe {
     class CPeFormat : public IFormat
     {
-        CBinary m_binary;
+        program::core::shared::CBinary m_binary;
     public:
         CPeFormat(const CPeFormat& other);
-        CPeFormat(const CBinary& binary);
-        Format format() const;
-        CBinary binary() const;
+        CPeFormat(const program::core::shared::CBinary& binary);
+        program::core::shared::Format format() const;
+        program::core::shared::CBinary binary() const;
         byte_vec bytes() const;
-        Architecture architecture() const;
-        Type type() const;
-        Endianness endianness() const;
+        program::core::shared::Architecture architecture() const;
+        program::core::shared::Type type() const;
+        program::core::shared::Endianness endianness() const;
         AddressType addressType() const;
         CUnsigned entryPoint() const;
         binary_offset rvaToOffset(const binary_offset& rva) const;
-        CBinaryPointer rvaToPointer(const binary_offset& rva) const;
+        program::core::shared::CBinaryPointer rvaToPointer(const binary_offset& rva) const;
         pe_section_vec peSections() const;
         uint_16 sectionCount() const;
         section_vec sections() const;
@@ -39,12 +39,12 @@ namespace program::core::format::pe {
         CPeFormat addPeSection(
             const std::string& name,
             binary_offset size,
-            const CSectionPermissions permissions
+            const program::core::shared::CSectionPermissions permissions
         ) const;
         format_ptr addSection(
             const std::string& name,
             binary_offset size,
-            const CSectionPermissions permissions
+            const program::core::shared::CSectionPermissions permissions
         ) const;
         format_ptr changeBytes(
             const byte_vec& bytes

@@ -6,6 +6,7 @@
 
 using namespace program::core::payload;
 using namespace program::core::payload::nasm;
+using namespace program::core::shared;
 
 bool CNasmData::isImmediateValue(const std::string& value) const
 {

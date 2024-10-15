@@ -4,6 +4,7 @@
 #include "shared/types/defines.hpp"
 
 using namespace program::core::format::pe;
+using namespace program::core::shared;
 
 CPeSection::CPeSection(
     const std::string& name,

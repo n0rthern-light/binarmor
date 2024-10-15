@@ -16,6 +16,7 @@ using namespace program::core::modification::bytes;
 using namespace program::core::file::diff;
 using namespace program::core::file;
 using namespace program::core::format;
+using namespace program::core::shared;
 
 CAddBytesHandler::CAddBytesHandler(
     IMessageBus* commandBus,

@@ -20,7 +20,7 @@ namespace program::core::format {
         virtual CUnsigned baseAddress() const = 0;
         virtual size_t size() const = 0;
         virtual binary_offset headerOffset() const = 0;
-        virtual CSectionPermissions permissions() const = 0;
+        virtual program::core::shared::CSectionPermissions permissions() const = 0;
         virtual unsigned char nullByteRepresentation() const = 0;
     };
 }

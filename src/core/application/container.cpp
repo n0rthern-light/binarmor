@@ -40,9 +40,9 @@ void program::core::container::init(int argc, char** argv)
         program::core::container::file::fileSystem.get(),
         program::core::container::file::analysis::runner.get()
     );
-    program::core::container::assembly::assembler_x86 = std::make_unique<program::core::assembler::keystone::CKeystoneAssembler>(Architecture::X86, Endianness::LITTLE);
-    program::core::container::assembly::assembler_x86_64 = std::make_unique<program::core::assembler::keystone::CKeystoneAssembler>(Architecture::X86_64, Endianness::LITTLE);
-    program::core::container::assembly::assembler_arm64 = std::make_unique<program::core::assembler::keystone::CKeystoneAssembler>(Architecture::ARM64, Endianness::LITTLE);
+    program::core::container::assembly::assembler_x86 = std::make_unique<program::core::assembler::keystone::CKeystoneAssembler>(program::core::shared::Architecture::X86, program::core::shared::Endianness::LITTLE);
+    program::core::container::assembly::assembler_x86_64 = std::make_unique<program::core::assembler::keystone::CKeystoneAssembler>(program::core::shared::Architecture::X86_64, program::core::shared::Endianness::LITTLE);
+    program::core::container::assembly::assembler_arm64 = std::make_unique<program::core::assembler::keystone::CKeystoneAssembler>(program::core::shared::Architecture::ARM64, program::core::shared::Endianness::LITTLE);
     program::core::container::payload::payloadProcessor = std::make_unique<program::core::payload::nasm::CNasmPayloadProcessor>(
         program::core::container::file::binaryFileStateManager.get()
     );

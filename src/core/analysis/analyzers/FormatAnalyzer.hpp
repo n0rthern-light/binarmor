@@ -7,7 +7,7 @@ namespace program::core::analysis::analyzers {
     class CFormatAnalyzer : public IAnalyzer
     {
     public:
-        void analyze(const CBinary& binaryFile, program::core::file::BinaryFileAttributes_t& attributes);
+        void analyze(const program::core::shared::CBinary& binaryFile, program::core::file::BinaryFileAttributes_t& attributes);
     };
 }
 

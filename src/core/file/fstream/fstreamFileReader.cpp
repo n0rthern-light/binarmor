@@ -5,6 +5,7 @@
 #include <shared/self_obfuscation/strenc.hpp>
 
 using namespace program::core::file::fstream;
+using namespace program::core::shared;
 
 CBinary CfstreamFileSystem::read(const std::string& filePath) const
 {

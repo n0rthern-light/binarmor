@@ -11,7 +11,7 @@
 
 namespace program::core::analysis {
     typedef std::vector<IAnalyzer*> analyzer_vec;
-    typedef std::map<Format, analyzer_vec> analyzer_vec_map;
+    typedef std::map<program::core::shared::Format, analyzer_vec> analyzer_vec_map;
 
     class CAnalysisRunner
     {
@@ -20,7 +20,7 @@ namespace program::core::analysis {
         analyzer_vec_map m_analyzers;
     public:
         CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hasher);
-        void run(const CBinary& binary, program::core::file::BinaryFileAttributes_t& attributes);
+        void run(const program::core::shared::CBinary& binary, program::core::file::BinaryFileAttributes_t& attributes);
     };
 }
 

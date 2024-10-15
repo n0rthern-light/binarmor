@@ -30,7 +30,7 @@ void CInitializeMainProtectionSectionHandler::handle(const CInitializeMainProtec
     m_commandBus->publish(std::make_shared<CAddSectionCommand>(
         command.fileId(),
         modification::sectionName::MAIN,
-        SectionPermissionType::EXECUTE,
+        program::core::shared::SectionPermissionType::EXECUTE,
         4096
     ));
 

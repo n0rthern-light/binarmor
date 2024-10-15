@@ -8,8 +8,8 @@ namespace program::core::file::fstream
     class CfstreamFileSystem : public IFileSystem
     {
     public:
-        CBinary read(const std::string& filePath) const;
-        void save(const CBinary& binary, const std::string& filePath) const;
+        program::core::shared::CBinary read(const std::string& filePath) const;
+        void save(const program::core::shared::CBinary& binary, const std::string& filePath) const;
         void remove(const std::string& filePath) const;
     };
 }
