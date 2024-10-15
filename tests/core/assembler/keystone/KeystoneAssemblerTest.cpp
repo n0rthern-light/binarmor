@@ -3,6 +3,8 @@
 #include "core/shared/attributes.hpp"
 #include <gtest/gtest.h>
 
+using namespace program::core::assembler::keystone;
+
 TEST(KeystoneAssemblerTest, ProduceX86Opcodes)
 {
     auto assembler = new CKeystoneAssembler(Architecture::X86, Endianness::LITTLE);

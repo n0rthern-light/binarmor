@@ -16,9 +16,9 @@
 std::unique_ptr<program::core::file::IFileSystem> program::core::container::file::fileSystem = nullptr;
 std::unique_ptr<program::core::file::CBinaryFileStateManager> program::core::container::file::binaryFileStateManager = nullptr;
 std::unique_ptr<program::core::analysis::CAnalysisRunner> program::core::container::file::analysis::runner = nullptr;
-std::unique_ptr<IAssembler> program::core::container::assembly::assembler_x86 = nullptr;
-std::unique_ptr<IAssembler> program::core::container::assembly::assembler_x86_64 = nullptr;
-std::unique_ptr<IAssembler> program::core::container::assembly::assembler_arm64 = nullptr;
+std::unique_ptr<program::core::assembler::IAssembler> program::core::container::assembly::assembler_x86 = nullptr;
+std::unique_ptr<program::core::assembler::IAssembler> program::core::container::assembly::assembler_x86_64 = nullptr;
+std::unique_ptr<program::core::assembler::IAssembler> program::core::container::assembly::assembler_arm64 = nullptr;
 std::unique_ptr<program::core::payload::IPayloadProcessor> program::core::container::payload::payloadProcessor = nullptr;
 std::unique_ptr<program::core::modification::section::CAddSectionHandler> program::core::container::handler::addSectionHandler = nullptr;
 std::unique_ptr<program::core::modification::bytes::CAddBytesHandler> program::core::container::handler::addBytesHandler = nullptr;
@@ -40,9 +40,9 @@ void program::core::container::init(int argc, char** argv)
         program::core::container::file::fileSystem.get(),
         program::core::container::file::analysis::runner.get()
     );
-    program::core::container::assembly::assembler_x86 = std::make_unique<CKeystoneAssembler>(Architecture::X86, Endianness::LITTLE);
-    program::core::container::assembly::assembler_x86_64 = std::make_unique<CKeystoneAssembler>(Architecture::X86_64, Endianness::LITTLE);
-    program::core::container::assembly::assembler_arm64 = std::make_unique<CKeystoneAssembler>(Architecture::ARM64, Endianness::LITTLE);
+    program::core::container::assembly::assembler_x86 = std::make_unique<program::core::assembler::keystone::CKeystoneAssembler>(Architecture::X86, Endianness::LITTLE);
+    program::core::container::assembly::assembler_x86_64 = std::make_unique<program::core::assembler::keystone::CKeystoneAssembler>(Architecture::X86_64, Endianness::LITTLE);
+    program::core::container::assembly::assembler_arm64 = std::make_unique<program::core::assembler::keystone::CKeystoneAssembler>(Architecture::ARM64, Endianness::LITTLE);
     program::core::container::payload::payloadProcessor = std::make_unique<program::core::payload::nasm::CNasmPayloadProcessor>(
         program::core::container::file::binaryFileStateManager.get()
     );

@@ -5,6 +5,9 @@
 #include <shared/self_obfuscation/strenc.hpp>
 #include <keystone/keystone.h>
 
+using namespace program::core::assembler::keystone;
+using namespace program::core::assembler;
+
 CKeystoneAssembler::CKeystoneAssembler(Architecture architecture, Endianness endianness): m_architecture(architecture), m_endianness(endianness) { }
 
 asm_opcodes CKeystoneAssembler::assemble(const asm_instructions& input)

@@ -29,9 +29,9 @@ namespace program
             }
 
             namespace assembly {
-                extern std::unique_ptr<IAssembler> assembler_x86;
-                extern std::unique_ptr<IAssembler> assembler_x86_64;
-                extern std::unique_ptr<IAssembler> assembler_arm64;
+                extern std::unique_ptr<program::core::assembler::IAssembler> assembler_x86;
+                extern std::unique_ptr<program::core::assembler::IAssembler> assembler_x86_64;
+                extern std::unique_ptr<program::core::assembler::IAssembler> assembler_arm64;
             }
 
             namespace payload {

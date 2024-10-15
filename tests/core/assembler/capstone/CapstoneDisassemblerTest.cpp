@@ -3,6 +3,8 @@
 #include "core/shared/attributes.hpp"
 #include <gtest/gtest.h>
 
+using namespace program::core::assembler::capstone;
+
 TEST(CapstoneDisassemblerTest, DecodeX86Opcodes)
 {
     auto disassembler = new CCapstoneDisassembler(Architecture::X86, Endianness::LITTLE);
