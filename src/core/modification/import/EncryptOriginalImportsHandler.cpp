@@ -14,6 +14,7 @@
 using namespace program::core::modification::encrypt;
 using namespace program::core::file::diff;
 using namespace program::core::file;
+using namespace program::core::format;
 
 CEncryptOriginalImportsHandler::CEncryptOriginalImportsHandler(
     CBinaryFileStateManager* fileManager,
@@ -35,7 +36,7 @@ void CEncryptOriginalImportsHandler::handle(const CEncryptOriginalImportsCommand
     }
 
     const auto format = m_fileManager->binaryFileModifiedBinaryAsFormat(command.fileId());
-    const auto peFormat = std::dynamic_pointer_cast<CPeFormat>(format);
+    const auto peFormat = std::dynamic_pointer_cast<pe::CPeFormat>(format);
     
     if (binaryFile->hasFlags(BinaryFileFlags::HAS_ENCRYPTED_ORIGINAL_IMPORTS) == true) {
         throw ModificationException("Imports already encrypted");

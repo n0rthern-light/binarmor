@@ -12,6 +12,7 @@
 #include <unistd.h>
 
 using namespace program::core::modification::section;
+using namespace program::core::format::pe;
 
 class AddSectionHandlerTest : public ::testing::TestWithParam<std::string> {
 };

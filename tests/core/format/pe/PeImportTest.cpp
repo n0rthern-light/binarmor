@@ -2,6 +2,8 @@
 #include "../../BinaryMother.hpp"
 #include <stdio.h>
 
+using namespace program::core::format::pe;
+
 TEST(PeImportTest, X86ExeImportsAreCorrect)
 {
     auto pe = BinaryMother::x86exe();

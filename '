@@ -13,7 +13,7 @@
 
 using namespace program::core::format::pe;
 
-IMAGE_DOS_HEADER* program::core::format::pe::dosHeader(const CBinary& binary)
+IMAGE_DOS_HEADER* dosHeader(const CBinary& binary)
 {
     IMAGE_DOS_HEADER* dosHeader = reinterpret_cast<IMAGE_DOS_HEADER*>(binary.pointer(0).ptr());
 
@@ -25,7 +25,7 @@ IMAGE_DOS_HEADER* program::core::format::pe::dosHeader(const CBinary& binary)
 }
 
 template <typename NT_HEADERS>
-NT_HEADERS* program::core::format::pe::ntHeaders(const CBinary& binary)
+NT_HEADERS* ntHeaders(const CBinary& binary)
 {
     auto dosHeader = ::dosHeader(binary);
 
@@ -38,18 +38,18 @@ NT_HEADERS* program::core::format::pe::ntHeaders(const CBinary& binary)
     return ntHeaders;
 }
 
-IMAGE_NT_HEADERS32* program::core::format::pe::ntHeaders32(const CBinary& binary)
+IMAGE_NT_HEADERS32* ntHeaders32(const CBinary& binary)
 {
     return ::ntHeaders<IMAGE_NT_HEADERS32>(binary);
 }
 
-IMAGE_NT_HEADERS64* program::core::format::pe::ntHeaders64(const CBinary& binary)
+IMAGE_NT_HEADERS64* ntHeaders64(const CBinary& binary)
 {
     return ::ntHeaders<IMAGE_NT_HEADERS64>(binary);
 }
 
 
-uint_16 program::core::format::pe::numberOfSections(const CPeFormat& peFormat)
+uint_16 numberOfSections(const CPeFormat& peFormat)
 {
     auto binary = peFormat.binary();
     auto addressType = peFormat.addressType();
@@ -63,7 +63,7 @@ uint_16 program::core::format::pe::numberOfSections(const CPeFormat& peFormat)
     }
 }
 
-binary_offset program::core::format::pe::sectionsStartOffset(const CPeFormat& peFormat)
+binary_offset sectionsStartOffset(const CPeFormat& peFormat)
 {
     auto binary = peFormat.binary();
     auto addressType = peFormat.addressType();
@@ -82,7 +82,7 @@ binary_offset program::core::format::pe::sectionsStartOffset(const CPeFormat& pe
     return dosHeader->e_lfanew + sizeOfImageNtHeaders;
 }
 
-pe_section_vec program::core::format::pe::readSectionList(const CPeFormat& peFormat)
+pe_section_vec readSectionList(const CPeFormat& peFormat)
 {
     auto vec = pe_section_vec();
 
@@ -102,7 +102,7 @@ pe_section_vec program::core::format::pe::readSectionList(const CPeFormat& peFor
     return vec;
 }
 
-binary_offset program::core::format::pe::rvaToOffset(const CPeFormat& peFormat, const binary_offset rva)
+binary_offset rvaToOffset(const CPeFormat& peFormat, const binary_offset rva)
 {
     auto sections = ::readSectionList(peFormat);
 
@@ -131,7 +131,7 @@ binary_offset program::core::format::pe::rvaToOffset(const CPeFormat& peFormat, 
     throw RuntimeException(std::format(strenc("Could not convert RVA: 0x{:x} to Raw Offset"), rva));
 }
 
-IMAGE_DATA_DIRECTORY* program::core::format::pe::imageDataDirectory(const CPeFormat& peFormat)
+IMAGE_DATA_DIRECTORY* imageDataDirectory(const CPeFormat& peFormat)
 {
     auto binary = peFormat.binary();
     auto addressType = peFormat.addressType();
@@ -146,7 +146,7 @@ IMAGE_DATA_DIRECTORY* program::core::format::pe::imageDataDirectory(const CPeFor
 }
 
 template <typename IMAGE_THUNK_DATA, typename IMAGE_ORDINAL_FLAG>
-pe_import_vec program::core::format::pe::readModuleImports(const CPeFormat& peFormat, const IMAGE_IMPORT_DESCRIPTOR* imageImportDescriptor, const IMAGE_ORDINAL_FLAG& imageOrdinalFlag)
+pe_import_vec readModuleImports(const CPeFormat& peFormat, const IMAGE_IMPORT_DESCRIPTOR* imageImportDescriptor, const IMAGE_ORDINAL_FLAG& imageOrdinalFlag)
 {
     pe_import_vec moduleImports { };
 
@@ -200,7 +200,7 @@ pe_import_vec program::core::format::pe::readModuleImports(const CPeFormat& peFo
     return moduleImports;
 }
 
-pe_module_map program::core::format::pe::readImportModules(const CPeFormat& peFormat)
+pe_module_map readImportModules(const CPeFormat& peFormat)
 {
     pe_module_map map { };
 
@@ -237,7 +237,7 @@ pe_module_map program::core::format::pe::readImportModules(const CPeFormat& peFo
     return map;
 }
 
-uint_32 program::core::format::pe::convertSectionPermissionsToCharacteristics(const CSectionPermissions& permissions)
+uint_32 convertSectionPermissionsToCharacteristics(const CSectionPermissions& permissions)
 {
     uint_32 characteristics = IMAGE_SCN_MEM_READ;
 
@@ -261,7 +261,7 @@ uint_32 program::core::format::pe::convertSectionPermissionsToCharacteristics(co
     return characteristics;
 }
 
-CSectionPermissions program::core::format::pe::convertCharacteristicsToSectionPermissions(const uint_32 characteristics)
+CSectionPermissions convertCharacteristicsToSectionPermissions(const uint_32 characteristics)
 {
     auto permissions = CSectionPermissions { };
     auto checkProperty = [=](uint_32 property) -> bool { return (characteristics & property) == property; };
@@ -281,7 +281,7 @@ CSectionPermissions program::core::format::pe::convertCharacteristicsToSectionPe
     return permissions;
 }
 
-IMAGE_SECTION_HEADER program::core::format::pe::createNextSectionHeader(
+IMAGE_SECTION_HEADER createNextSectionHeader(
     const uint_32 fileAlignment,
     const uint_32 sectionAlignment,
     const IMAGE_SECTION_HEADER& previousSectionHeader,
@@ -301,7 +301,7 @@ IMAGE_SECTION_HEADER program::core::format::pe::createNextSectionHeader(
     return newSectionHeader;
 }
 
-CPeFormat program::core::format::pe::addSection(
+CPeFormat addSection(
         const CPeFormat& peFormat,
         const std::string& name,
         binary_offset size,

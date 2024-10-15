@@ -4,6 +4,8 @@
 #include <vector>
 #include <stdio.h>
 
+using namespace program::core::format::pe;
+
 auto x86exe_Sections = BinaryMother::x86exe()->peSections();
 auto x86dll_Sections = BinaryMother::x86dll()->peSections();
 auto x86_64exe_Sections = BinaryMother::x86_64exe()->peSections();

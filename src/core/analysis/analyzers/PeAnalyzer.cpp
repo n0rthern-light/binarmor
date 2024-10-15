@@ -9,6 +9,7 @@
 using namespace program::core::analysis::analyzers;
 using namespace program::core::analysis::exceptions;
 using namespace program::core::file;
+using namespace program::core::format;
 
 void CPeAnalyzer::analyze(const CBinary& binary, BinaryFileAttributes_t& attributes)
 {
@@ -16,7 +17,7 @@ void CPeAnalyzer::analyze(const CBinary& binary, BinaryFileAttributes_t& attribu
         throw UnsupportedFileException(strenc("Not detected any supported file format"));
     }
 
-    auto pe = CPeFormat(binary);
+    auto pe = format::pe::CPeFormat(binary);
 
     attributes.arch = pe.architecture();
     attributes.type = pe.type();

@@ -13,6 +13,7 @@
 #include <vector>
 
 using namespace program::core::file;
+using namespace program::core::format;
 
 CBinaryFile::CBinaryFile(
     IMessageBus* eventBus,
@@ -73,7 +74,7 @@ std::shared_ptr<IFormat> CBinaryFile::modifiedBinaryAsFormat() const
 {
     const auto& fmt = format();
     if (fmt == Format::Windows_PE) {
-        return std::make_shared<CPeFormat>(modifiedBinary());
+        return std::make_shared<format::pe::CPeFormat>(modifiedBinary());
     } else {
         throw RuntimeException(strenc("Unsupported format"));
     }

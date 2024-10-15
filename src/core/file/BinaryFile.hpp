@@ -38,7 +38,7 @@ namespace program::core::file {
         file_id fileId() const;
         CBinary originalBinary() const;
         CBinary modifiedBinary() const;
-        std::shared_ptr<IFormat> modifiedBinaryAsFormat() const;
+        std::shared_ptr<program::core::format::IFormat> modifiedBinaryAsFormat() const;
         Format format() const;
         Architecture arch() const;
         BinaryFileAttributes_t attributes() const;

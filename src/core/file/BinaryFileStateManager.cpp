@@ -10,6 +10,7 @@
 
 using namespace program::core::file;
 using namespace program::core::analysis;
+using namespace program::core::format;
 
 CBinaryFileStateManager::CBinaryFileStateManager(
     IMessageBus* eventBus,

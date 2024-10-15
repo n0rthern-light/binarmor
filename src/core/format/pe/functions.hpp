@@ -8,7 +8,7 @@
 #include "PeSection.hpp"
 #include "PeModule.hpp"
 
-namespace format::pe {
+namespace program::core::format::pe {
     IMAGE_DOS_HEADER* dosHeader(const CBinary& binary);
     template <typename NT_HEADERS>
     NT_HEADERS* ntHeaders(const CBinary& binary);
