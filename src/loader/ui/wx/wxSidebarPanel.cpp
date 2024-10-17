@@ -10,6 +10,7 @@
 #include <wx/listbase.h>
 
 using namespace program::core::file;
+using namespace program::shared;
 
 CwxSidebarPanel::CwxSidebarPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {

@@ -11,6 +11,7 @@
 #include <unistd.h>
 
 using namespace program::core::modification::import;
+using namespace program::shared::value;
 
 class AddImportsHandlerTest : public ::testing::TestWithParam<std::string> {
 };

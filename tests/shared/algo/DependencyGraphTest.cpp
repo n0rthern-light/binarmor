@@ -2,6 +2,8 @@
 #include <shared/RuntimeException.hpp>
 #include <gtest/gtest.h>
 
+using namespace program::shared;
+
 TEST(CDependencyGraphTest, SimpleGraph) {
     CDependencyGraph graph;
     graph.addDependency("A", "B");

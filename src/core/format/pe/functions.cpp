@@ -13,6 +13,9 @@
 
 using namespace program::core::format::pe;
 using namespace program::core::shared;
+using namespace program::shared;
+using namespace program::shared::types;
+using namespace program::shared::value;
 
 IMAGE_DOS_HEADER* program::core::format::pe::dosHeader(const CBinary& binary)
 {

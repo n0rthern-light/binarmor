@@ -5,6 +5,9 @@
 #include <limits>
 #include <vector>
 
+using namespace program::shared::value;
+using namespace program::shared::types;
+
 uint32_t maxUint32 = std::numeric_limits<uint_32>::max();
 uint64_t maxUint64 = std::numeric_limits<uint_64>::max();
 

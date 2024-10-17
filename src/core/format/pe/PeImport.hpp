@@ -15,32 +15,32 @@ namespace program::core::format::pe {
     class CPeImport : public IImport
     {
         std::string m_name;
-        uint_16 m_hint;
-        uint_32 m_ordinal;
-        uint_32 m_rvaOriginalThunk;
-        uint_32 m_rvaThunk;
-        uint_32 m_rvaOriginalThunkAddressOfData;
-        uint_32 m_rvaThunkAddressOfData;
-        uint_32 m_sizeOfThunk;
+        program::shared::types::uint_16 m_hint;
+        program::shared::types::uint_32 m_ordinal;
+        program::shared::types::uint_32 m_rvaOriginalThunk;
+        program::shared::types::uint_32 m_rvaThunk;
+        program::shared::types::uint_32 m_rvaOriginalThunkAddressOfData;
+        program::shared::types::uint_32 m_rvaThunkAddressOfData;
+        program::shared::types::uint_32 m_sizeOfThunk;
     public:
         CPeImport(
             const std::string& name,
-            const uint_16& hint,
-            const uint_32& ordinal,
-            const uint_32& rvaOriginalThunk,
-            const uint_32& rvaThunk,
-            const uint_32& rvaOriginalThunkAddressOfData,
-            const uint_32& rvaThunkAddressOfData,
-            const uint_32& sizeOfThunk
+            const program::shared::types::uint_16& hint,
+            const program::shared::types::uint_32& ordinal,
+            const program::shared::types::uint_32& rvaOriginalThunk,
+            const program::shared::types::uint_32& rvaThunk,
+            const program::shared::types::uint_32& rvaOriginalThunkAddressOfData,
+            const program::shared::types::uint_32& rvaThunkAddressOfData,
+            const program::shared::types::uint_32& sizeOfThunk
         );
         std::string name() const;
-        uint_16 hint() const;
-        uint_32 ordinal() const;
-        uint_32 rvaOriginalThunk() const;
-        uint_32 rvaThunk() const;
-        uint_32 rvaOriginalThunkAddressOfData() const;
-        uint_32 rvaThunkAddressOfData() const;
-        uint_32 sizeOfThunk() const;
+        program::shared::types::uint_16 hint() const;
+        program::shared::types::uint_32 ordinal() const;
+        program::shared::types::uint_32 rvaOriginalThunk() const;
+        program::shared::types::uint_32 rvaThunk() const;
+        program::shared::types::uint_32 rvaOriginalThunkAddressOfData() const;
+        program::shared::types::uint_32 rvaThunkAddressOfData() const;
+        program::shared::types::uint_32 sizeOfThunk() const;
         definitions_t definitions() const;
     };
 }

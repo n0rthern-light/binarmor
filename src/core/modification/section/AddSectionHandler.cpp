@@ -8,6 +8,7 @@
 using namespace program::core::file::diff;
 using namespace program::core::modification::section;
 using namespace program::core::file;
+using namespace program::shared::value;
 
 CAddSectionHandler::CAddSectionHandler(CBinaryFileStateManager* binaryFileManager):
     m_binaryFilesManager(binaryFileManager) { }

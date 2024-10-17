@@ -34,7 +34,7 @@ namespace program::core::payload
 
     struct ImportResolved_t
     {
-        const binary_offset address;
+        const program::shared::types::binary_offset address;
     };
 
     using import_ref = ImportRequirement_t;
@@ -42,7 +42,7 @@ namespace program::core::payload
 
     struct DataResolved_t
     {
-        const binary_offset address;
+        const program::shared::types::binary_offset address;
         const std::optional<program::core::shared::CBinary> value = std::nullopt;
     };
 
@@ -63,7 +63,7 @@ namespace program::core::payload
     struct ResolvedProcedure_t
     {
         const procedure_id procedureId;
-        const binary_offset address;
+        const program::shared::types::binary_offset address;
     };
 
     using resolved_procedure_map = std::map<procedure_id, ResolvedProcedure_t>;
@@ -79,7 +79,7 @@ namespace program::core::payload
     struct DataToInitialize_t
     {
         const data_id id;
-        const byte_vec bytes;
+        const program::shared::types::byte_vec bytes;
         const DataType type;
     };
 

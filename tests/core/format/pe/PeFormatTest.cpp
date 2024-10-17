@@ -6,6 +6,8 @@
 #include <shared/value/AddressType.hpp>
 
 using namespace program::core::shared;
+using namespace program::shared::value;
+using namespace program::shared::types;
 
 auto x86exe = BinaryMother::x86exe();
 auto x86dll = BinaryMother::x86dll();

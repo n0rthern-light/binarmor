@@ -11,6 +11,8 @@ using namespace program::core::analysis::exceptions;
 using namespace program::core::file;
 using namespace program::core::format;
 using namespace program::core::shared;
+using namespace program::shared::value;
+using namespace program::shared::types;
 
 void CPeAnalyzer::analyze(const CBinary& binary, BinaryFileAttributes_t& attributes)
 {

@@ -2,6 +2,8 @@
 #include <shared/crypto/openssl/OpenSslCrypter.hpp>
 #include <tuple>
 
+using namespace program::shared::types;
+
 class OpenSslCrypterStringTest : public ::testing::TestWithParam<std::tuple<std::string, std::string>> { };
 class OpenSslCrypterByteTest : public ::testing::TestWithParam<std::tuple<byte_vec, std::string>> { };
 

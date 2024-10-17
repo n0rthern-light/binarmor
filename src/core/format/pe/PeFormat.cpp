@@ -13,6 +13,9 @@
 using namespace program::core::format;
 using namespace program::core::format::pe;
 using namespace program::core::shared;
+using namespace program::shared;
+using namespace program::shared::types;
+using namespace program::shared::value;
 
 CPeFormat::CPeFormat(const CPeFormat& other): m_binary(other.binary()) { }
 

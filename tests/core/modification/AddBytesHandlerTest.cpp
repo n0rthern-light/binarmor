@@ -16,6 +16,8 @@
 using namespace program::core::modification::bytes;
 using namespace program::core::format::pe;
 using namespace program::core::shared;
+using namespace program::shared::types;
+using namespace program::shared::value;
 
 class AddBytesHandlerTest : public ::testing::TestWithParam<std::string> {
 };

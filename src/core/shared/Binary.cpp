@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 using namespace program::core::shared;
+using namespace program::shared::types;
 
 CBinary::CBinary(const byte_vec& bytes): m_bytes(bytes) { }
 

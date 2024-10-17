@@ -5,6 +5,7 @@
 
 using namespace program::core::format;
 using namespace program::core::format::pe;
+using namespace program::shared::types;
 
 CPeImport::CPeImport(
     const std::string& name,

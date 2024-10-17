@@ -1,6 +1,7 @@
 #include "BinaryPointer.hpp"
 
 using namespace program::core::shared;
+using namespace program::shared::types;
 
 CBinaryPointer::CBinaryPointer(binary_offset offsetInBinary, uint_auto loadedAtAddress)
 {

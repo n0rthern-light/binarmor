@@ -117,7 +117,7 @@ namespace program::shared::string
             return result;
         }
 
-        static CUnsigned convertToUnsigned(const std::string& str)
+        static value::CUnsigned convertToUnsigned(const std::string& str)
         {
             if (isHexValue(str)) {
                 std::string hexStr = str;
@@ -133,7 +133,7 @@ namespace program::shared::string
                 if (ss.fail()) {
                     throw RuntimeException(std::format(strenc("{} is not a valid hex value!"), str));
                 }
-                return CUnsigned { value };
+                return value::CUnsigned { value };
             } else if (isDecValue(str)) {
                 unsigned int value;
                 try {
@@ -143,15 +143,15 @@ namespace program::shared::string
                 } catch (const std::out_of_range& e) {
                     throw RuntimeException(std::format(strenc("{} is out of range for unsigned int!"), str));
                 }
-                return CUnsigned { value };
+                return value::CUnsigned { value };
             } else {
                 throw RuntimeException(std::format(strenc("{} is neither a decimal nor a hexadecimal value!"), str));
             }
         }
 
-        static byte_vec convertToBytes(const std::string& str, bool terminatingZeroByte = true)
+        static types::byte_vec convertToBytes(const std::string& str, bool terminatingZeroByte = true)
         {
-            byte_vec bytes(str.begin(), str.end());
+            types::byte_vec bytes(str.begin(), str.end());
 
             if (terminatingZeroByte == true) {
                 bytes.push_back(0);

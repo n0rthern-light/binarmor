@@ -16,24 +16,24 @@ namespace program::core::format::pe {
     class CPeModule : public IModule
     {
         std::string m_name;
-        uint_32 m_rvaImportDescriptor;
-        uint_32 m_sizeOfImportDescriptor;
+        program::shared::types::uint_32 m_rvaImportDescriptor;
+        program::shared::types::uint_32 m_sizeOfImportDescriptor;
         pe_import_vec m_imports;
 
     public:
         CPeModule(
             const std::string& name,
-            const uint_32& rvaImportDescriptor,
-            const uint_32& sizeOfImportDescriptor,
+            const program::shared::types::uint_32& rvaImportDescriptor,
+            const program::shared::types::uint_32& sizeOfImportDescriptor,
             const pe_import_vec& imports
         );
         std::string name() const;
-        uint_32 rvaImportDescriptor() const;
-        uint_32 sizeOfImportDescriptor() const;
+        program::shared::types::uint_32 rvaImportDescriptor() const;
+        program::shared::types::uint_32 sizeOfImportDescriptor() const;
         import_vec imports() const;
         pe_import_vec peImports() const;
-        uint_auto definitionRva() const;
-        uint_auto definitionSize() const;
+        program::shared::types::uint_auto definitionRva() const;
+        program::shared::types::uint_auto definitionSize() const;
     };
 }
 

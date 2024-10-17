@@ -6,6 +6,7 @@
 
 using namespace program::core::file::fstream;
 using namespace program::core::shared;
+using namespace program::shared;
 
 CBinary CfstreamFileSystem::read(const std::string& filePath) const
 {

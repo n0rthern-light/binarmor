@@ -7,6 +7,9 @@
 
 using namespace program::core::file;
 using namespace program::core::shared;
+using namespace program::shared;
+using namespace program::shared::value;
+using namespace program::shared::types;
 
 CwxBinaryFileInfoPanel::CwxBinaryFileInfoPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {

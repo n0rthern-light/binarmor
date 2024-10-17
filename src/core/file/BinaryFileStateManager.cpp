@@ -30,7 +30,7 @@ CBinaryFileStateManager::CBinaryFileStateManager(
 binary_file_ptr CBinaryFileStateManager::binaryFile(const file_id& fileId) const
 {
     if (m_binaryFileMap.find(fileId) == m_binaryFileMap.end()) {
-        throw RuntimeException("Requested file id is not loaded");
+        throw program::shared::RuntimeException("Requested file id is not loaded");
     }
 
     return m_binaryFileMap.at(fileId);
@@ -63,7 +63,7 @@ void CBinaryFileStateManager::load(const std::filesystem::path& filePath)
     const auto fileId = tmpBinary->fileId();
 
     if (m_binaryFileMap.find(fileId) != m_binaryFileMap.end()) {
-        throw RuntimeException(strenc("The choosen file is already loaded. Please, select another one."));
+        throw program::shared::RuntimeException(strenc("The choosen file is already loaded. Please, select another one."));
     }
 
     m_binaryFileMap[fileId] = std::move(tmpBinary);
@@ -83,7 +83,7 @@ void CBinaryFileStateManager::unload(const file_id& fileId)
     auto res = m_binaryFileMap.find(fileId);
 
     if (res == m_binaryFileMap.end()) {
-        throw RuntimeException(strenc("Cannot find file: ") + fileId);
+        throw program::shared::RuntimeException(strenc("Cannot find file: ") + fileId);
     }
     m_binaryFileMap.erase(res);
 

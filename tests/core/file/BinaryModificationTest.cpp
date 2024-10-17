@@ -8,6 +8,8 @@
 #include <stdio.h>
 
 using namespace program::core::file;
+using namespace program::shared::value;
+using namespace program::shared::types;
 
 const auto x86exe = BinaryMother::x86exe();
 const auto x86_64dll = BinaryMother::x86_64dll();
