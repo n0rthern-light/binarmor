@@ -54,6 +54,6 @@ std::vector<std::string> CDependencyGraph::topologicalSort() const {
     if (sorted.size() == m_graph.size()) {
         return sorted;
     } else {
-        throw RuntimeException("Dependency graph cycle detected!");
+        throw program::shared::RuntimeException("Dependency graph cycle detected!");
     }
 }

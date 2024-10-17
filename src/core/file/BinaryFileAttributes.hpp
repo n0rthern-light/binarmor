@@ -13,12 +13,12 @@ namespace program::core::file {
         program::core::shared::Architecture arch = program::core::shared::Architecture::UNKNOWN;
         program::core::shared::Type type = program::core::shared::Type::UNKNOWN;
         std::string hash = "";
-        uint_8 sectionCount = 0;
-        uint_8 importedModuleCount = 0;
-        uint_8 importedFunctionsCount = 0;
-        CUnsigned entryPoint = CUnsigned(0);
-        CUnsigned sizeOfBinary = CUnsigned(0);
-        CUnsigned sizeOfCode = CUnsigned(0);
+        program::shared::types::uint_8 sectionCount = 0;
+        program::shared::types::uint_8 importedModuleCount = 0;
+        program::shared::types::uint_8 importedFunctionsCount = 0;
+        program::shared::value::CUnsigned entryPoint = program::shared::value::CUnsigned(0);
+        program::shared::value::CUnsigned sizeOfBinary = program::shared::value::CUnsigned(0);
+        program::shared::value::CUnsigned sizeOfCode = program::shared::value::CUnsigned(0);
         bool isProtected = false;
     };
 }

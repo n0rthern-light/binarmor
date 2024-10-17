@@ -17,7 +17,7 @@ namespace program::core::modification::section {
             m_fileId(fileId)
         { }
         file::file_id fileId() const { return m_fileId; }
-        CUuid modificationId() const { return { strenc("main_protection_section_init") }; }
+        program::shared::value::CUuid modificationId() const { return { strenc("main_protection_section_init") }; }
         file::BinaryModificationType type() const { return file::BinaryModificationType::ADD_SECTION; }
     };
 }

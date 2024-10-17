@@ -8,6 +8,9 @@
 #include <stdexcept>
 
 using namespace program::core::file;
+using namespace program::shared::value;
+using namespace program::shared::types;
+using namespace program::shared;
 
 BinaryModificationDiff_t BinaryModificationDiff_t::add(binary_offset offset, const byte_vec& newBytes)
 {

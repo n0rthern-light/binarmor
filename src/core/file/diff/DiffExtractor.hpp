@@ -7,7 +7,7 @@ namespace program::core::file::diff {
     class CDiffExtractor
     {
     public:
-        static const vec_diff extract(const byte_vec& original, const byte_vec& modified);
+        static const vec_diff extract(const program::shared::types::byte_vec& original, const program::shared::types::byte_vec& modified);
     };
 }
 

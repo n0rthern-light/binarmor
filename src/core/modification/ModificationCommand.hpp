@@ -11,7 +11,7 @@ namespace program::core::modification {
     public:
         virtual ~IModificationCommand() { };
         virtual file::file_id fileId() const = 0;
-        virtual CUuid modificationId() const = 0;
+        virtual program::shared::value::CUuid modificationId() const = 0;
         virtual file::BinaryModificationType type() const = 0;
     };
 }

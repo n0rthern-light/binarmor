@@ -11,23 +11,23 @@ namespace program::core::modification::bytes {
     class CAddBytesCommand : public IModificationCommand
     {
         const file::file_id m_fileId;
-        const CUuid m_bytesId;
+        const program::shared::value::CUuid m_bytesId;
         const std::optional<std::string> m_sectionId;
-        const byte_vec m_bytes;
+        const program::shared::types::byte_vec m_bytes;
         const bool m_executeOnStartup;
         const bool m_executable;
         const bool m_writeable;
-        const std::vector<CUuid> m_requiredModificationIds;
+        const std::vector<program::shared::value::CUuid> m_requiredModificationIds;
     public:
         CAddBytesCommand(
             const file::file_id& fileId,
-            const CUuid& bytesId,
+            const program::shared::value::CUuid& bytesId,
             const std::optional<std::string>& sectionId,
-            const byte_vec& bytes,
+            const program::shared::types::byte_vec& bytes,
             bool executable = false,
             bool writeable = false,
             bool executeOnStartup = false,
-            const std::vector<CUuid>& requiredModificationIds = { }
+            const std::vector<program::shared::value::CUuid>& requiredModificationIds = { }
         ):  m_fileId(fileId),
             m_bytesId(bytesId),
             m_sectionId(sectionId),
@@ -38,15 +38,15 @@ namespace program::core::modification::bytes {
             m_requiredModificationIds(requiredModificationIds)
         { }
         file::file_id fileId() const { return m_fileId; }
-        CUuid bytesId() const { return m_bytesId; }
+        program::shared::value::CUuid bytesId() const { return m_bytesId; }
         file::BinaryModificationType type() const { return executable() ? file::BinaryModificationType::WRITE_CODE : file::BinaryModificationType::WRITE_DATA; } 
-        CUuid modificationId() const { return bytesId(); }
+        program::shared::value::CUuid modificationId() const { return bytesId(); }
         std::optional<std::string> sectionId() const { return m_sectionId; }
-        byte_vec bytes() const { return m_bytes; }
+        program::shared::types::byte_vec bytes() const { return m_bytes; }
         bool executeOnStartup() const { return m_executeOnStartup; }
         bool executable() const { return m_executable; }
         bool writeable() const { return m_writeable; }
-        const std::vector<CUuid> requiredModificationIds() const { return m_requiredModificationIds; }
+        const std::vector<program::shared::value::CUuid> requiredModificationIds() const { return m_requiredModificationIds; }
     };
 }
 

@@ -15,8 +15,8 @@ namespace program::core::format {
 
     struct ImportDefinition_t
     {
-        binary_offset rva;
-        binary_offset size;
+        program::shared::types::binary_offset rva;
+        program::shared::types::binary_offset size;
     };
 
     class IImport

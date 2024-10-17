@@ -3,6 +3,9 @@
 #include <stdexcept>
 #include "../self_obfuscation/strenc.hpp"
 
+using namespace program::shared::value;
+using namespace program::shared::types;
+
 CUnsigned::CUnsigned(int address) : m_type(AddressType::_32_BIT) {
     m_address.m_32 = as_32(address);
 }

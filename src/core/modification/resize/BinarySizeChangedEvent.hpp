@@ -9,14 +9,14 @@ namespace program::core::modification::resize {
     class CBinarySizeChangedEvent: public IMessage
     {
         const file::file_id m_fileId;
-        const CUuid m_modificationId;
-        const binary_offset m_offset;
+        const program::shared::value::CUuid m_modificationId;
+        const program::shared::types::binary_offset m_offset;
         const int m_diffSize;
     public:
         CBinarySizeChangedEvent(
             const file::file_id& fileId,
-            const CUuid& modificationId,
-            const binary_offset offset,
+            const program::shared::value::CUuid& modificationId,
+            const program::shared::types::binary_offset offset,
             const int diffSize
         ):
             m_fileId(fileId),
@@ -26,8 +26,8 @@ namespace program::core::modification::resize {
         { }
 
         file::file_id fileId() const { return m_fileId; }
-        CUuid modificationId() const { return m_modificationId; }
-        binary_offset offset() const { return m_offset; }
+        program::shared::value::CUuid modificationId() const { return m_modificationId; }
+        program::shared::types::binary_offset offset() const { return m_offset; }
         int diffSize() const { return m_diffSize; }
     };
 }

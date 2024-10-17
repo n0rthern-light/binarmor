@@ -16,14 +16,14 @@ namespace program::core::modification::section {
         const file::file_id m_fileId;
         const std::string m_sectionId;
         const program::core::shared::CSectionPermissions m_permissions;
-        const binary_offset m_size;
+        const program::shared::types::binary_offset m_size;
 
     public:
         CAddSectionCommand(
             const file::file_id& fileId,
             const std::string& sectionId,
             const program::core::shared::CSectionPermissions& permissions,
-            const binary_offset size
+            const program::shared::types::binary_offset size
         ):
             m_fileId(fileId),
             m_sectionId(sectionId),
@@ -36,11 +36,11 @@ namespace program::core::modification::section {
             }
         }
         file::file_id fileId() const { return m_fileId; }
-        CUuid modificationId() const { return { sectionId() }; }
+        program::shared::value::CUuid modificationId() const { return { sectionId() }; }
         file::BinaryModificationType type() const { return file::BinaryModificationType::ADD_SECTION; }
         std::string sectionId() const { return m_sectionId; }
         program::core::shared::CSectionPermissions permissions() const { return m_permissions; }
-        binary_offset size() const { return m_size; }
+        program::shared::types::binary_offset size() const { return m_size; }
     };
 }
 

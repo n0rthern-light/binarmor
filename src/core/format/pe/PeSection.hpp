@@ -17,46 +17,46 @@ namespace program::core::format::pe {
     class CPeSection : public ISection
     {
         std::string m_name;
-        binary_offset m_headerOffset;
-        CUnsigned m_rawAddress;
-        uint_32 m_rawSize;
-        CUnsigned m_virtualAddress;
-        uint_32 m_virtualSize;
-        CUnsigned m_pointerToRelocations;
-        uint_16 m_numberOfLinenumbers;
-        uint_16 m_numberOfRelocations;
-        uint_32 m_characteristics;
+        program::shared::types::binary_offset m_headerOffset;
+        program::shared::value::CUnsigned m_rawAddress;
+        program::shared::types::uint_32 m_rawSize;
+        program::shared::value::CUnsigned m_virtualAddress;
+        program::shared::types::uint_32 m_virtualSize;
+        program::shared::value::CUnsigned m_pointerToRelocations;
+        program::shared::types::uint_16 m_numberOfLinenumbers;
+        program::shared::types::uint_16 m_numberOfRelocations;
+        program::shared::types::uint_32 m_characteristics;
     public:
         CPeSection(
             const std::string& name,
-            const binary_offset& headerOffset,
-            const CUnsigned& rawAddress,
-            const uint_32& rawSize,
-            const CUnsigned& virtualAddress,
-            const uint_32& virtualSize,
-            const CUnsigned& pointerToRelocations,
-            const uint_16& numberOfLinenumbers,
-            const uint_16& numberOfRelocations,
-            const uint_32& characteristics
+            const program::shared::types::binary_offset& headerOffset,
+            const program::shared::value::CUnsigned& rawAddress,
+            const program::shared::types::uint_32& rawSize,
+            const program::shared::value::CUnsigned& virtualAddress,
+            const program::shared::types::uint_32& virtualSize,
+            const program::shared::value::CUnsigned& pointerToRelocations,
+            const program::shared::types::uint_16& numberOfLinenumbers,
+            const program::shared::types::uint_16& numberOfRelocations,
+            const program::shared::types::uint_32& characteristics
         );
 
-        CPeSection(const binary_offset& headerOffset, const IMAGE_SECTION_HEADER& header);
+        CPeSection(const program::shared::types::binary_offset& headerOffset, const IMAGE_SECTION_HEADER& header);
 
         std::string name() const;
-        CUnsigned baseAddress() const;
+        program::shared::value::CUnsigned baseAddress() const;
         size_t size() const;
-        binary_offset headerOffset() const;
+        program::shared::types::binary_offset headerOffset() const;
         program::core::shared::CSectionPermissions permissions() const;
         unsigned char nullByteRepresentation() const;
 
-        CUnsigned rawAddress() const;
-        uint_32 rawSize() const;
-        CUnsigned virtualAddress() const;
-        uint_32 virtualSize() const;
-        CUnsigned pointerToRelocations() const;
-        uint_16 numberOfLinenumbers() const;
-        uint_16 numberOfRelocations() const;
-        uint_32 characteristics() const;
+        program::shared::value::CUnsigned rawAddress() const;
+        program::shared::types::uint_32 rawSize() const;
+        program::shared::value::CUnsigned virtualAddress() const;
+        program::shared::types::uint_32 virtualSize() const;
+        program::shared::value::CUnsigned pointerToRelocations() const;
+        program::shared::types::uint_16 numberOfLinenumbers() const;
+        program::shared::types::uint_16 numberOfRelocations() const;
+        program::shared::types::uint_32 characteristics() const;
 
         bool operator==(const CPeSection& other) const;
     };

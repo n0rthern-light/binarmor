@@ -25,39 +25,39 @@ namespace program::core::file {
 
     struct BinaryModificationDiff_t
     {
-        const CUuid id;
+        const program::shared::value::CUuid id;
         const BinaryModificationDiffType type;
-        const binary_offset offset;
-        const binary_offset size;
-        const byte_vec oldBytes;
-        const byte_vec newBytes;
+        const program::shared::types::binary_offset offset;
+        const program::shared::types::binary_offset size;
+        const program::shared::types::byte_vec oldBytes;
+        const program::shared::types::byte_vec newBytes;
 
-        static BinaryModificationDiff_t add(binary_offset offset, const byte_vec& newBytes);
-        static BinaryModificationDiff_t remove(binary_offset offset, const byte_vec& oldBytes);
+        static BinaryModificationDiff_t add(program::shared::types::binary_offset offset, const program::shared::types::byte_vec& newBytes);
+        static BinaryModificationDiff_t remove(program::shared::types::binary_offset offset, const program::shared::types::byte_vec& oldBytes);
     };
 
     using vec_diff = std::vector<const BinaryModificationDiff_t>;
 
     class CBinaryModification
     {
-        const CUuid m_id;
+        const program::shared::value::CUuid m_id;
         const BinaryModificationType m_type;
         const vec_diff m_vecDiff;
-        const std::vector<CUuid> m_requiredModificationIds;
+        const std::vector<program::shared::value::CUuid> m_requiredModificationIds;
     public:
         CBinaryModification(
-            const CUuid& id,
+            const program::shared::value::CUuid& id,
             BinaryModificationType type,
             const vec_diff& vecDiff,
-            const std::vector<CUuid>& requiredModificationIds
+            const std::vector<program::shared::value::CUuid>& requiredModificationIds
         );
-        CUuid id() const;
+        program::shared::value::CUuid id() const;
         BinaryModificationType type() const;
-        std::vector<CUuid> requiredModificationIds() const;
-        const byte_vec apply(byte_vec targetBytes) const;
-        const binary_offset firstByteAddress() const;
-        const binary_offset firstByteAddressOfType(BinaryModificationDiffType type) const;
-        const binary_offset firstAddByteAddress() const;
+        std::vector<program::shared::value::CUuid> requiredModificationIds() const;
+        const program::shared::types::byte_vec apply(program::shared::types::byte_vec targetBytes) const;
+        const program::shared::types::binary_offset firstByteAddress() const;
+        const program::shared::types::binary_offset firstByteAddressOfType(BinaryModificationDiffType type) const;
+        const program::shared::types::binary_offset firstAddByteAddress() const;
         int totalSizeDiff() const;
         bool operator ==(const CBinaryModification& other) const;
     };

@@ -22,7 +22,7 @@ namespace program::core::modification::import {
             m_imports(imports)
         { }
         file::file_id fileId() const { return m_fileId; }
-        CUuid modificationId() const { return { std::format(strenc("imports")) }; }
+        program::shared::value::CUuid modificationId() const { return { std::format(strenc("imports")) }; }
         file::BinaryModificationType type() const { return file::BinaryModificationType::WRITE_IMPORT; }
         import_pair_vec_t imports() const { return m_imports; }
     };

@@ -1,6 +1,7 @@
 #include "diff_match_patch.hpp"
-#include "../value/ByteVecOperations.hpp"
 #include <optional>
+
+using namespace program::shared::types;
 
 std::vector<diff::Diff> diff::match(const byte_vec &original, const byte_vec &target, std::optional<binary_offset> offset) {
     std::vector<diff::Diff> diffs;

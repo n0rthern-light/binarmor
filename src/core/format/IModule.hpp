@@ -18,8 +18,8 @@ namespace program::core::format {
         virtual ~IModule() {};
         virtual std::string name() const = 0;
         virtual import_vec imports() const = 0;
-        virtual binary_offset definitionRva() const = 0;
-        virtual binary_offset definitionSize() const = 0;
+        virtual program::shared::types::binary_offset definitionRva() const = 0;
+        virtual program::shared::types::binary_offset definitionSize() const = 0;
     };
 }
 

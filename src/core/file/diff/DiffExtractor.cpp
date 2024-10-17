@@ -5,6 +5,7 @@
 
 using namespace program::core::file::diff;
 using namespace program::core::file;
+using namespace program::shared::types;
 
 const vec_diff CDiffExtractor::extract(const byte_vec& original, const byte_vec& modified) {
     std::vector<const BinaryModificationDiff_t> diffs;

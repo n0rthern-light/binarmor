@@ -15,6 +15,8 @@ using namespace program::core::file::diff;
 using namespace program::core::file;
 using namespace program::core::format;
 using namespace program::core::shared;
+using namespace program::shared::types;
+using namespace program::shared::value;
 
 CEncryptOriginalImportsHandler::CEncryptOriginalImportsHandler(
     CBinaryFileStateManager* fileManager,

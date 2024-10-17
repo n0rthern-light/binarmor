@@ -9,6 +9,7 @@
 
 using namespace program::core::modification::bytes;
 using namespace program::core::file;
+using namespace program::shared::value;
 
 CChangeBytesHandler::CChangeBytesHandler(
     CBinaryFileStateManager* binaryFilesManager

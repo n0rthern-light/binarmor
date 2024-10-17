@@ -16,7 +16,7 @@ namespace program::core::modification::encrypt {
             m_fileId(fileId)
         { }
         file::file_id fileId() const { return m_fileId; }
-        CUuid modificationId() const { return { std::format(strenc("encrypt_imports:{}"), m_fileId) }; }
+        program::shared::value::CUuid modificationId() const { return { std::format(strenc("encrypt_imports:{}"), m_fileId) }; }
         file::BinaryModificationType type() const { return file::BinaryModificationType::ENCRYPT_OLD_IMPORT; }
     };
 }

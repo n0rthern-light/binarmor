@@ -23,14 +23,14 @@ namespace program::core::file {
         const std::filesystem::path m_filePath;
         const program::core::shared::CBinary m_originalBinary;
         std::vector<const CBinaryModification> m_vecBinaryModification;
-        uint_32 m_flags;
+        program::shared::types::uint_32 m_flags;
         BinaryFileAttributes_t m_attributes;
     public:
         CBinaryFile(
             IMessageBus* eventBus,
             const std::string& filePath,
             const program::core::shared::CBinary& binary,
-            uint_32 flags,
+            program::shared::types::uint_32 flags,
             const BinaryFileAttributes_t& attributes
         );
         std::filesystem::path filePath() const;
@@ -47,8 +47,8 @@ namespace program::core::file {
         bool hasFlags(BinaryFileFlags flags) const;
         bool hasAnyFlags() const;
         bool isProtectedByBinarmor() const;
-        bool hasModification(const CUuid& modificationId) const;
-        std::shared_ptr<const CBinaryModification> modification(const CUuid& modificationId) const;
+        bool hasModification(const program::shared::value::CUuid& modificationId) const;
+        std::shared_ptr<const CBinaryModification> modification(const program::shared::value::CUuid& modificationId) const;
         void registerModification(const CBinaryModification& modification);
     };
 }
