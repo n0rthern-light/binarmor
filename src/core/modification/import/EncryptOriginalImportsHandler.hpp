@@ -9,9 +9,9 @@ namespace program::core::modification::encrypt {
     class CEncryptOriginalImportsHandler
     {
         const file::CBinaryFileStateManager* m_fileManager;
-        const ICrypter* m_crypter;
+        const program::shared::crypto::ICrypter* m_crypter;
     public:
-        CEncryptOriginalImportsHandler(file::CBinaryFileStateManager* fileManager, ICrypter* cryper);
+        CEncryptOriginalImportsHandler(file::CBinaryFileStateManager* fileManager, program::shared::crypto::ICrypter* cryper);
         void handle(const CEncryptOriginalImportsCommand& command);
     };
 };

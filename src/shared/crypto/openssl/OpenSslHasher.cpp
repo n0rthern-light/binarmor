@@ -5,6 +5,7 @@
 #include <iomanip>
 
 using namespace program::shared::types;
+using namespace program::shared::crypto::openssl;
 
 std::string COpenSslHasher::sha256FromString(const std::string& str) const
 {

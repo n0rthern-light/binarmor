@@ -19,6 +19,7 @@
 
 
 using namespace program::core;
+using namespace program::shared::message;
 
 void program::core::application::behave(int argc, char** argv)
 {

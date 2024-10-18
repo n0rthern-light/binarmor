@@ -9,7 +9,7 @@
 
 class CwxSidebarPanel : public wxPanel
 {
-    IMessageBus* m_eventBus;
+    program::shared::message::IMessageBus* m_eventBus;
 
     wxBoxSizer* m_sizer;
 
@@ -29,7 +29,7 @@ class CwxSidebarPanel : public wxPanel
     void toggleFileManagementButtons();
     void update();
 public:
-    CwxSidebarPanel(wxWindow* parent, IMessageBus* t_eventBus);
+    CwxSidebarPanel(wxWindow* parent, program::shared::message::IMessageBus* t_eventBus);
     void appendToLoadedFiles(const program::core::file::CBinaryFile* binary);
     void removeFromLoadedFiles(const program::core::file::file_id& itemId);
     void highlightFile(const program::core::file::file_id& fileId);

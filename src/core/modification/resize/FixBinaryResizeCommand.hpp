@@ -7,7 +7,7 @@
 #include "BinarySizeChangedEvent.hpp"
 
 namespace program::core::modification::resize {
-    class CFixBinaryResizeCommand: public IMessage
+    class CFixBinaryResizeCommand: public program::shared::message::IMessage
     {
         const file::file_id m_fileId;
         const program::shared::value::CUuid m_modificationId;

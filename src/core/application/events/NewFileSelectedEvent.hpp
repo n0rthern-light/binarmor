@@ -5,9 +5,9 @@
 #include <string>
 
 namespace program::core::application::events {
-    class CNewFileSelectedEvent : public IMessage
+    class CNewFileSelectedEvent : public program::shared::message::IMessage
     {
-        std::string _path;
+        std::string m_path;
 
     public:
         CNewFileSelectedEvent(const char* path);

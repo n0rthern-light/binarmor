@@ -7,6 +7,7 @@
 
 using namespace program::core::shared;
 using namespace program::shared::types;
+using namespace program::shared::crypto;
 
 CBinary::CBinary(const byte_vec& bytes): m_bytes(bytes) { }
 

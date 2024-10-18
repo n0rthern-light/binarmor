@@ -14,7 +14,7 @@ namespace program::core::payload::nasm
     {
         const file::CBinaryFileStateManager* m_fileManager;
         const std::shared_ptr<program::core::modification::IModificationCommand> processImports(const file::file_id& fileId, const IPayload* payload) const;
-        const CDependencyGraph buildDependencyGraph(const file::file_id& fileId, const IPayload* payload) const;
+        const program::shared::algo::CDependencyGraph buildDependencyGraph(const file::file_id& fileId, const IPayload* payload) const;
         const std::shared_ptr<program::core::modification::IModificationCommand> processData(const data_id& dataId, const file::file_id& fileId, const IPayload* payload) const;
         const std::shared_ptr<program::core::modification::IModificationCommand> processProcedure(const procedure_id& procedureId, const file::file_id& fileId, const IPayload* payload) const;
         const std::shared_ptr<program::core::modification::IModificationCommand> processPayloadChunks(const std::vector<std::string>& dependencies, const file::file_id& fileId, const IPayload* payload) const;

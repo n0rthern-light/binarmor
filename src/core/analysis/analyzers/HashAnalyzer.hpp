@@ -6,9 +6,9 @@
 namespace program::core::analysis::analyzers {
     class CHashAnalyzer : public IAnalyzer
     {
-        const IHasher* m_hasher;
+        const program::shared::crypto::IHasher* m_hasher;
     public:
-        CHashAnalyzer(const IHasher* hasher);
+        CHashAnalyzer(const program::shared::crypto::IHasher* hasher);
         void analyze(const program::core::shared::CBinary& binary, program::core::file::BinaryFileAttributes_t& attributes);
     };
 }

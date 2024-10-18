@@ -10,7 +10,7 @@
 namespace program::core::file {
     class CBinaryFileStateManager
     {
-        IMessageBus* m_eventBus;
+        program::shared::message::IMessageBus* m_eventBus;
         IFileSystem* m_fileSystem;
 
         std::vector<file_id> m_vecBinaryFileId;
@@ -20,7 +20,7 @@ namespace program::core::file {
         program::core::analysis::CAnalysisRunner* m_analysisRunner;
     public:
         CBinaryFileStateManager(
-            IMessageBus* eventBus,
+            program::shared::message::IMessageBus* eventBus,
             IFileSystem* fileSystem,
             program::core::analysis::CAnalysisRunner* analysisRunner
         );

@@ -19,6 +19,7 @@ using namespace program::core::modification;
 using namespace program::core::file;
 using namespace program::shared;
 using namespace program::shared::value;
+using namespace program::shared::algo;
 
  const std::shared_ptr<IModificationCommand> CNasmPayloadProcessor::processImports(const file_id& fileId, const IPayload* payload) const
 {

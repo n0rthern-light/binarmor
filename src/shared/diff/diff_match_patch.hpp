@@ -4,7 +4,7 @@
 #include "../types/defines.hpp"
 #include <optional>
 
-namespace diff
+namespace program::shared::diff
 {
     enum class EditType { None, Insert, Delete };
 

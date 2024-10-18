@@ -12,6 +12,9 @@
 #include <core/application/events/FileLoadedEvent.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
 
+using namespace program::shared::message;
+using namespace program::shared::message::events;
+
 void program::loader::application::behave(int argc, char** argv)
 {
     program::shared::container::eventBus->subscribe(typeid(CRuntimeExceptionOccuredEvent), [&](message_ptr event) {

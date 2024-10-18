@@ -8,14 +8,14 @@
 
 class CwxNotepadPanel : public wxPanel
 {
-    IMessageBus* m_eventBus;
+    program::shared::message::IMessageBus* m_eventBus;
     wxBoxSizer* m_sizer;
     wxStaticText* m_fileName;
     wxNotebook* m_notebook;
     CwxBinaryFileInfoPanel* m_binaryFileInfoPanel;
     wxSizer* m_binaryFileInfoPanelSizer;
 public:
-    CwxNotepadPanel(wxWindow* parent, IMessageBus* t_eventBus);
+    CwxNotepadPanel(wxWindow* parent, program::shared::message::IMessageBus* t_eventBus);
     void loadFileData(const program::core::file::CBinaryFile& binaryFile);
 };
 

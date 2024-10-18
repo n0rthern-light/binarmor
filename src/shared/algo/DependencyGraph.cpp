@@ -2,6 +2,8 @@
 #include "../RuntimeException.hpp"
 #include <queue>
 
+using namespace program::shared::algo;
+
 void CDependencyGraph::addNode(const std::string& node) {
     if (m_graph.find(node) == m_graph.end()) {
         m_graph[node] = {};

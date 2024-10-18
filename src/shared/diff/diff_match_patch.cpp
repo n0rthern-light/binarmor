@@ -2,9 +2,10 @@
 #include <optional>
 
 using namespace program::shared::types;
+using namespace program::shared::diff;
 
-std::vector<diff::Diff> diff::match(const byte_vec &original, const byte_vec &target, std::optional<binary_offset> offset) {
-    std::vector<diff::Diff> diffs;
+std::vector<Diff> program::shared::diff::match(const byte_vec &original, const byte_vec &target, std::optional<binary_offset> offset) {
+    std::vector<Diff> diffs;
     binary_offset i = 0, j = 0;
     binary_offset offsetAddy = offset.has_value() ? offset.value() : 0;
 
@@ -29,16 +30,16 @@ std::vector<diff::Diff> diff::match(const byte_vec &original, const byte_vec &ta
     }
 
     if (i < original.size()) {
-        diffs.emplace_back(diff::EditType::Delete, i + offsetAddy, byte_vec(original.begin() + i, original.end()));
+        diffs.emplace_back(EditType::Delete, i + offsetAddy, byte_vec(original.begin() + i, original.end()));
     }
     if (j < target.size()) {
-        diffs.emplace_back(diff::EditType::Insert, i + offsetAddy, byte_vec(target.begin() + j, target.end()));
+        diffs.emplace_back(EditType::Insert, i + offsetAddy, byte_vec(target.begin() + j, target.end()));
     }
 
     return diffs;
 }
 
-byte_vec diff::patch(const byte_vec &original, const std::vector<diff::Diff> &diffs) {
+byte_vec program::shared::diff::patch(const byte_vec &original, const std::vector<Diff> &diffs) {
     byte_vec result = { };
     binary_offset currentIndex = 0;
 
@@ -48,9 +49,9 @@ byte_vec diff::patch(const byte_vec &original, const std::vector<diff::Diff> &di
             currentIndex = diff.index;
         }
 
-        if (diff.type == diff::EditType::Delete) {
+        if (diff.type == EditType::Delete) {
             currentIndex += diff.values.size();
-        } else if (diff.type == diff::EditType::Insert) {
+        } else if (diff.type == EditType::Insert) {
             result.insert(result.end(), diff.values.begin(), diff.values.end());
         }
     }

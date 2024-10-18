@@ -11,11 +11,11 @@ class CwxWidgetsGuiApp : public CwxApp, public IGuiApp
 {
     int m_argc;
     char** m_argv;
-    IMessageBus* m_eventBus;
+    program::shared::message::IMessageBus* m_eventBus;
     CwxFrame* m_frame;
 
 public:
-    CwxWidgetsGuiApp(int t_argc, char** t_argv, IMessageBus* t_eventBus);
+    CwxWidgetsGuiApp(int t_argc, char** t_argv, program::shared::message::IMessageBus* t_eventBus);
     void overrideEventBusHandlerType();
     void start();
     void promptOpenFile();

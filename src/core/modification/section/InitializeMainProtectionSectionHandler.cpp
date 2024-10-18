@@ -12,6 +12,7 @@
 
 using namespace program::core::modification::section;
 using namespace program::core::file;
+using namespace program::shared::message;
 
 CInitializeMainProtectionSectionHandler::CInitializeMainProtectionSectionHandler(IMessageBus* commandBus, CBinaryFileStateManager* binaryFileManager):
     m_commandBus(commandBus), m_binaryFileManager(binaryFileManager) { }

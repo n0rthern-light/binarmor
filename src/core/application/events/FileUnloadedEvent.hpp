@@ -5,7 +5,7 @@
 #include <shared/message/IMessage.hpp>
 
 namespace program::core::application::events {
-    class CFileUnloadedEvent : public IMessage
+    class CFileUnloadedEvent : public program::shared::message::IMessage
     {
         program::core::file::file_id m_fileId;
     public:

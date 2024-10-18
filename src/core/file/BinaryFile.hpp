@@ -19,7 +19,7 @@ namespace program::core::file {
 
     class CBinaryFile
     {
-        IMessageBus* m_eventBus;
+        program::shared::message::IMessageBus* m_eventBus;
         const std::filesystem::path m_filePath;
         const program::core::shared::CBinary m_originalBinary;
         std::vector<const CBinaryModification> m_vecBinaryModification;
@@ -27,7 +27,7 @@ namespace program::core::file {
         BinaryFileAttributes_t m_attributes;
     public:
         CBinaryFile(
-            IMessageBus* eventBus,
+            program::shared::message::IMessageBus* eventBus,
             const std::string& filePath,
             const program::core::shared::CBinary& binary,
             program::shared::types::uint_32 flags,

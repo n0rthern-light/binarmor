@@ -17,6 +17,7 @@ using namespace program::core::format;
 using namespace program::core::shared;
 using namespace program::shared::types;
 using namespace program::shared::value;
+using namespace program::shared::message;
 using namespace program::shared;
 
 CBinaryFile::CBinaryFile(

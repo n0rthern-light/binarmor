@@ -5,7 +5,7 @@
 #include <core/file/BinaryFile.hpp>
 
 namespace program::core::application::events {
-    class CFileLoadedEvent : public IMessage
+    class CFileLoadedEvent : public program::shared::message::IMessage
     {
         program::core::file::file_id m_fileId;
 

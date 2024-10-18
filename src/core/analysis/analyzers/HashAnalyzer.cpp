@@ -3,6 +3,7 @@
 using namespace program::core::analysis::analyzers;
 using namespace program::core::file;
 using namespace program::core::shared;
+using namespace program::shared::crypto;
 
 CHashAnalyzer::CHashAnalyzer(const IHasher* hasher): m_hasher(hasher) { }
 

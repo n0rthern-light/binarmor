@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 
 using namespace program::shared;
+using namespace program::shared::algo;
 
 TEST(CDependencyGraphTest, SimpleGraph) {
     CDependencyGraph graph;

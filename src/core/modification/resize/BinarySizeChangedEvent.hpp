@@ -6,7 +6,7 @@
 #include "shared/value/Uuid.hpp"
 
 namespace program::core::modification::resize {
-    class CBinarySizeChangedEvent: public IMessage
+    class CBinarySizeChangedEvent: public program::shared::message::IMessage
     {
         const file::file_id m_fileId;
         const program::shared::value::CUuid m_modificationId;

@@ -3,6 +3,8 @@
 #include <shared/message/IMessageBus.hpp>
 
 using namespace program::core::file;
+using namespace program::shared::message;
+using namespace program::shared::message::simple;
 
 CwxWidgetsGuiApp::CwxWidgetsGuiApp(int t_argc, char** t_argv, IMessageBus* t_eventBus)
 {

@@ -6,7 +6,7 @@
 #include <string>
 
 namespace program::core::application::events {
-    class CWorkFileChangeRequestedEvent : public IMessage
+    class CWorkFileChangeRequestedEvent : public program::shared::message::IMessage
     {
         program::core::file::file_id m_fileId;
     public:

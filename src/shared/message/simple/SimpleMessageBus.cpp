@@ -3,6 +3,9 @@
 #include "../../RuntimeException.hpp"
 #include "../../self_obfuscation/strenc.hpp"
 
+using namespace program::shared::message::simple;
+using namespace program::shared::message::events;
+
 CSimpleMessageBus::CSimpleMessageBus(bool t_bCommandBusMode):
     m_handlerType(handler_type_sync),
     m_bCommandBusMode(t_bCommandBusMode)

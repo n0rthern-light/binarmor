@@ -11,10 +11,10 @@ namespace program
     {
         namespace container
         {
-            extern std::unique_ptr<IMessageBus> eventBus;
-            extern std::unique_ptr<IMessageBus> commandBus;
-            extern std::unique_ptr<IHasher> hasher;
-            extern std::unique_ptr<ICrypter> crypter;
+            extern std::unique_ptr<program::shared::message::IMessageBus> eventBus;
+            extern std::unique_ptr<program::shared::message::IMessageBus> commandBus;
+            extern std::unique_ptr<program::shared::crypto::IHasher> hasher;
+            extern std::unique_ptr<program::shared::crypto::ICrypter> crypter;
 
             void init(int argc, char** argv);
             void exit();

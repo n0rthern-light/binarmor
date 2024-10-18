@@ -8,9 +8,9 @@ namespace program::core::modification::section {
     class CInitializeMainProtectionSectionHandler
     {
         file::CBinaryFileStateManager* m_binaryFileManager;
-        IMessageBus* m_commandBus;
+        program::shared::message::IMessageBus* m_commandBus;
     public:
-        CInitializeMainProtectionSectionHandler(IMessageBus* commandBus, file::CBinaryFileStateManager* binaryFileManager);
+        CInitializeMainProtectionSectionHandler(program::shared::message::IMessageBus* commandBus, file::CBinaryFileStateManager* binaryFileManager);
         void handle(const CInitializeMainProtectionSectionCommand& command);
     };
 }

@@ -6,7 +6,7 @@
 #include "shared/value/Uuid.hpp"
 
 namespace program::core::modification {
-    class IModificationCommand : public IMessage
+    class IModificationCommand : public program::shared::message::IMessage
     {
     public:
         virtual ~IModificationCommand() { };

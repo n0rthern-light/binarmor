@@ -19,7 +19,7 @@ namespace program::core::shared {
         program::shared::types::binary_offset size() const;
         CBinaryPointer pointer(const program::shared::types::binary_offset& offset) const;
         bool offsetExists(const program::shared::types::binary_offset& offset) const;
-        std::string hash(const IHasher* hasher) const;
+        std::string hash(const program::shared::crypto::IHasher* hasher) const;
         bool allBytesAre(unsigned char byte) const;
 
         bool operator==(const CBinary& other) const;
