@@ -3,10 +3,12 @@
 
 #include <shared/RuntimeException.hpp>
 
-class UnsupportedFileException : public RuntimeException
-{
-public:
-    inline UnsupportedFileException(const string& msg) : RuntimeException(msg) { };
-};
+namespace program::core::analysis::exceptions {
+    class UnsupportedFileException : public program::shared::RuntimeException
+    {
+    public:
+        inline UnsupportedFileException(const std::string& msg) : program::shared::RuntimeException(msg) { };
+    };
+}
 
 #endif // CORE_ANALYSIS_EXCEPTIONS__UNSUPPORTED_FILE_EXCEPTION_HPP_

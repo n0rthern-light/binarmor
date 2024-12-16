@@ -8,6 +8,12 @@
 #include <shared/RuntimeException.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
 
+using namespace program::core::file;
+using namespace program::core::analysis;
+using namespace program::core::format;
+using namespace program::core::shared;
+using namespace program::shared::message;
+
 CBinaryFileStateManager::CBinaryFileStateManager(
     IMessageBus* eventBus,
     IFileSystem* fileSystem,
@@ -25,7 +31,7 @@ CBinaryFileStateManager::CBinaryFileStateManager(
 binary_file_ptr CBinaryFileStateManager::binaryFile(const file_id& fileId) const
 {
     if (m_binaryFileMap.find(fileId) == m_binaryFileMap.end()) {
-        throw RuntimeException("Requested file id is not loaded");
+        throw program::shared::RuntimeException("Requested file id is not loaded");
     }
 
     return m_binaryFileMap.at(fileId);
@@ -58,14 +64,14 @@ void CBinaryFileStateManager::load(const std::filesystem::path& filePath)
     const auto fileId = tmpBinary->fileId();
 
     if (m_binaryFileMap.find(fileId) != m_binaryFileMap.end()) {
-        throw RuntimeException(strenc("The choosen file is already loaded. Please, select another one."));
+        throw program::shared::RuntimeException(strenc("The choosen file is already loaded. Please, select another one."));
     }
 
     m_binaryFileMap[fileId] = std::move(tmpBinary);
     m_vecBinaryFileId.push_back(fileId);
     setCurrentWorkFile(fileId);
 
-    m_eventBus->publish(std::make_shared<CFileLoadedEvent>(fileId));
+    m_eventBus->publish(std::make_shared<program::core::application::events::CFileLoadedEvent>(fileId));
 }
 
 void CBinaryFileStateManager::setCurrentWorkFile(const file_id& fileId)
@@ -78,7 +84,7 @@ void CBinaryFileStateManager::unload(const file_id& fileId)
     auto res = m_binaryFileMap.find(fileId);
 
     if (res == m_binaryFileMap.end()) {
-        throw RuntimeException(strenc("Cannot find file: ") + fileId);
+        throw program::shared::RuntimeException(strenc("Cannot find file: ") + fileId);
     }
     m_binaryFileMap.erase(res);
 
@@ -90,7 +96,7 @@ void CBinaryFileStateManager::unload(const file_id& fileId)
         }
     }
 
-    m_eventBus->publish(std::make_shared<CFileUnloadedEvent>(fileId));
+    m_eventBus->publish(std::make_shared<program::core::application::events::CFileUnloadedEvent>(fileId));
 }
 
 std::vector<file_id> CBinaryFileStateManager::loadedFiles() const

@@ -10,6 +10,11 @@
 #include <stdio.h>
 #include <unistd.h>
 
+using namespace program::core::modification::bytes;
+using namespace program::core::file;
+using namespace program::shared::types;
+using namespace program::shared::value;
+
 class AddBytesHandlerTest : public ::testing::TestWithParam<std::string> {
 };
 

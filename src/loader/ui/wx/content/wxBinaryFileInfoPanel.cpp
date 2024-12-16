@@ -5,6 +5,13 @@
 #include "shared/self_obfuscation/strenc.hpp"
 #include "shared/value/Unsigned.hpp"
 
+using namespace program::core::file;
+using namespace program::core::shared;
+using namespace program::shared;
+using namespace program::shared::value;
+using namespace program::shared::types;
+using namespace program::shared::message;
+
 CwxBinaryFileInfoPanel::CwxBinaryFileInfoPanel(wxWindow* parent, IMessageBus* t_eventBus) : wxPanel(parent, wxID_ANY)
 {
     m_eventBus = t_eventBus;

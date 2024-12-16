@@ -3,6 +3,10 @@
 #include <shared/value/AddressType.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
 
+using namespace program::core::format;
+using namespace program::core::format::pe;
+using namespace program::shared::types;
+
 CPeImport::CPeImport(
     const std::string& name,
     const uint_16& hint,

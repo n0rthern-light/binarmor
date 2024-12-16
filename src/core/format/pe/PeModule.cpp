@@ -2,6 +2,10 @@
 #include "core/format/pe/PeImport.hpp"
 #include <memory>
 
+using namespace program::core::format;
+using namespace program::core::format::pe;
+using namespace program::shared::types;
+
 CPeModule::CPeModule(
     const std::string& name,
     const uint_32& rvaImportDescriptor,

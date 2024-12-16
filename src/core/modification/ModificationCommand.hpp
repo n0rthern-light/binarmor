@@ -5,11 +5,13 @@
 #include "shared/message/IMessage.hpp"
 #include "shared/value/Uuid.hpp"
 
-class IModificationCommand : public IMessage
-{
-public:
-    virtual ~IModificationCommand() { };
-    virtual file_id fileId() const = 0;
-    virtual CUuid modificationId() const = 0;
-    virtual BinaryModificationType type() const = 0;
-};
+namespace program::core::modification {
+    class IModificationCommand : public program::shared::message::IMessage
+    {
+    public:
+        virtual ~IModificationCommand() { };
+        virtual file::file_id fileId() const = 0;
+        virtual program::shared::value::CUuid modificationId() const = 0;
+        virtual file::BinaryModificationType type() const = 0;
+    };
+}

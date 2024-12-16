@@ -8,9 +8,9 @@
 class BinaryMother
 {
 public:
-    static CfstreamFileSystem* fileReader()
+    static program::core::file::fstream::CfstreamFileSystem* fileReader()
     {
-        static CfstreamFileSystem* fr = new CfstreamFileSystem();
+        static program::core::file::fstream::CfstreamFileSystem* fr = new program::core::file::fstream::CfstreamFileSystem();
 
         return fr;
     }
@@ -20,12 +20,12 @@ public:
         return std::string(_TEST_BINARIES_DIR) + relativeBinaryPath;
     }
 
-    static CPeFormat* readPeFromDisk(const char* path)
+    static program::core::format::pe::CPeFormat* readPeFromDisk(const char* path)
     {
-        return new CPeFormat(*(new CBinary(fileReader()->read(path))));
+        return new program::core::format::pe::CPeFormat(*(new program::core::shared::CBinary(fileReader()->read(path))));
     }
 
-    static CPeFormat* x86exe()
+    static program::core::format::pe::CPeFormat* x86exe()
     {
         auto path = testBinaryPath("/windows/x86.exe");
         static auto binary = readPeFromDisk(path.c_str());
@@ -33,7 +33,7 @@ public:
         return binary;
     }
 
-    static CPeFormat* metin2exe()
+    static program::core::format::pe::CPeFormat* metin2exe()
     {
         auto path = testBinaryPath("/windows/metin2clientVMPDumpFixedTotalDisabledTls.exe");
         static auto binary = readPeFromDisk(path.c_str());
@@ -41,7 +41,7 @@ public:
         return binary;
     }
 
-    static CPeFormat* x86dll()
+    static program::core::format::pe::CPeFormat* x86dll()
     {
         auto path = testBinaryPath("/windows/x86.dll");
         static auto binary = readPeFromDisk(path.c_str());
@@ -49,7 +49,7 @@ public:
         return binary;
     }
 
-    static CPeFormat* x86_64exe()
+    static program::core::format::pe::CPeFormat* x86_64exe()
     {
         auto path = testBinaryPath("/windows/x86_64.exe");
         static auto binary = readPeFromDisk(path.c_str());
@@ -57,7 +57,7 @@ public:
         return binary;
     }
 
-    static CPeFormat* x86_64dll()
+    static program::core::format::pe::CPeFormat* x86_64dll()
     {
         auto path = testBinaryPath("/windows/x86_64.dll");
         static auto binary = readPeFromDisk(path.c_str());

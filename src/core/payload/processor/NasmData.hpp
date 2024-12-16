@@ -22,9 +22,9 @@ namespace program::core::payload::nasm
         std::string dataLabel() const;
         data_id dataId(const std::string& payloadPrefix) const;
         bool isValidType(const std::string& type) const;
-        byte_vec produceDataBytes(Endianness endianness, Architecture architecture) const;
+        program::shared::types::byte_vec produceDataBytes(program::core::shared::Endianness endianness, program::core::shared::Architecture architecture) const;
         std::vector<std::string> dependencies() const;
-        CNasmData resolveDependency(const std::string& dependency, binary_offset dependencyOffset) const;
+        CNasmData resolveDependency(const std::string& dependency, program::shared::types::binary_offset dependencyOffset) const;
         bool isStructData() const;
     };
 }

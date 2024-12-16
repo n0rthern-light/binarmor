@@ -8,6 +8,9 @@
 #include <core/application/events/NewFileSelectedEvent.hpp>
 #include <wx/event.h>
 
+using namespace program::core::file;
+using namespace program::shared::message;
+
 wxDECLARE_EVENT(EVENT_DISPLAY_WINDOW_OPEN_FILE, wxCommandEvent);
 wxDEFINE_EVENT(EVENT_DISPLAY_WINDOW_OPEN_FILE, wxCommandEvent);
 
@@ -56,7 +59,7 @@ void CwxFrame::onEventDisplayWindowOpenFile(wxCommandEvent& wxCommandEvent)
     }
 
     wxString filePath = fileDialog.GetPath();
-    m_eventBus->publish(std::make_shared<CNewFileSelectedEvent>(filePath.c_str()));
+    m_eventBus->publish(std::make_shared<program::core::application::events::CNewFileSelectedEvent>(filePath.c_str()));
 }
 
 void CwxFrame::initFileDrop()
@@ -107,6 +110,6 @@ void CwxFrame::displayStatus(const std::string& statusText)
 
 void CwxFrame::notifyAboutNewFile(const std::string& path)
 {
-    m_eventBus->publish(std::make_shared<CNewFileSelectedEvent>(path.c_str()));
+    m_eventBus->publish(std::make_shared<program::core::application::events::CNewFileSelectedEvent>(path.c_str()));
 }
 

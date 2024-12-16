@@ -10,6 +10,10 @@
 #include "shared/self_obfuscation/strenc.hpp"
 #include <memory>
 
+using namespace program::core::modification::section;
+using namespace program::core::file;
+using namespace program::shared::message;
+
 CInitializeMainProtectionSectionHandler::CInitializeMainProtectionSectionHandler(IMessageBus* commandBus, CBinaryFileStateManager* binaryFileManager):
     m_commandBus(commandBus), m_binaryFileManager(binaryFileManager) { }
 
@@ -27,7 +31,7 @@ void CInitializeMainProtectionSectionHandler::handle(const CInitializeMainProtec
     m_commandBus->publish(std::make_shared<CAddSectionCommand>(
         command.fileId(),
         modification::sectionName::MAIN,
-        SectionPermissionType::EXECUTE,
+        program::core::shared::SectionPermissionType::EXECUTE,
         4096
     ));
 

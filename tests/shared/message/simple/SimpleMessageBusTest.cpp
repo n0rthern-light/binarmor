@@ -2,6 +2,9 @@
 #include <memory>
 #include <shared/message/simple/SimpleMessageBus.hpp>
 
+using namespace program::shared::message;
+using namespace program::shared::message::simple;
+
 class DummyEvent : public IMessage
 {
 public:

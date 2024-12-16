@@ -5,6 +5,10 @@
 #include <shared/self_obfuscation/strenc.hpp>
 #include <capstone/capstone.h>
 
+using namespace program::core::assembler::capstone;
+using namespace program::core::assembler;
+using namespace program::core::shared;
+
 CCapstoneDisassembler::CCapstoneDisassembler(Architecture architecture, Endianness endianness): m_architecture(architecture), m_endianness(endianness) { }
 
 asm_instructions CCapstoneDisassembler::disassemble(const asm_opcodes& input)

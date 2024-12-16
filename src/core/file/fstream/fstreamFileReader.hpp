@@ -3,12 +3,15 @@
 
 #include "core/file/IFileSystem.hpp"
 
-class CfstreamFileSystem : public IFileSystem
+namespace program::core::file::fstream
 {
-public:
-    CBinary read(const std::string& filePath) const;
-    void save(const CBinary& binary, const std::string& filePath) const;
-    void remove(const std::string& filePath) const;
-};
+    class CfstreamFileSystem : public IFileSystem
+    {
+    public:
+        program::core::shared::CBinary read(const std::string& filePath) const;
+        void save(const program::core::shared::CBinary& binary, const std::string& filePath) const;
+        void remove(const std::string& filePath) const;
+    };
+}
 
 #endif // CORE_FILE_FSTREAM_FSTREAM_FILE_READER_HPP_

@@ -20,7 +20,7 @@ public:
             return wxBitmap(image);
         }
         else {
-            throw RuntimeException(strenc("Could not load PNG bitmap"));
+            throw program::shared::RuntimeException(strenc("Could not load PNG bitmap"));
         }
     }
 };

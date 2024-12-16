@@ -1,11 +1,14 @@
 #include "AddSectionHandler.hpp"
-#include "core/modification/diff/DiffExtractor.hpp"
-#include "core/shared/attributes.hpp"
-#include "core/format/pe/PeFormat.hpp"
+#include "core/file/diff/DiffExtractor.hpp"
 #include "core/modification/AddSectionCommand.hpp"
 #include "core/modification/ModificationException.hpp"
 #include "shared/self_obfuscation/strenc.hpp"
 #include <memory>
+
+using namespace program::core::file::diff;
+using namespace program::core::modification::section;
+using namespace program::core::file;
+using namespace program::shared::value;
 
 CAddSectionHandler::CAddSectionHandler(CBinaryFileStateManager* binaryFileManager):
     m_binaryFilesManager(binaryFileManager) { }

@@ -11,6 +11,11 @@
 #include <stdio.h>
 #include <unistd.h>
 
+using namespace program::core::modification::section;
+using namespace program::core::format::pe;
+using namespace program::core::shared;
+using namespace program::shared::types;
+
 class AddSectionHandlerTest : public ::testing::TestWithParam<std::string> {
 };
 

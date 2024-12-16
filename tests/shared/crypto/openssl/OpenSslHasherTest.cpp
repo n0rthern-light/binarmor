@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include <shared/crypto/openssl/OpenSslHasher.hpp>
 
+using namespace program::shared::crypto::openssl;
+
 TEST(OpenSslHasherTest, WillCreateAValidHash) {
     auto hasher = std::make_unique<COpenSslHasher>();
 

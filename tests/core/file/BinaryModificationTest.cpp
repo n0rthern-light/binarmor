@@ -1,11 +1,17 @@
 #include "core/file/BinaryModification.hpp"
 #include <gtest/gtest.h>
-#include "core/modification/diff/DiffExtractor.hpp"
+#include "core/file/diff/DiffExtractor.hpp"
 #include "shared/crypto/openssl/OpenSslHasher.hpp"
 #include "shared/diff/diff_match_patch.hpp"
 #include "../BinaryMother.hpp"
 #include <vector>
 #include <stdio.h>
+
+using namespace program::core::file;
+using namespace program::shared::value;
+using namespace program::shared::types;
+using namespace program::shared::diff;
+using namespace program::shared::crypto::openssl;
 
 const auto x86exe = BinaryMother::x86exe();
 const auto x86_64dll = BinaryMother::x86_64dll();
@@ -18,7 +24,7 @@ TEST(BinaryModificationTest, CanModifyFullExecutablesUsingDomainDiff)
     const auto target = x86_64dll->binary().bytes();
 
     // when
-    const auto diff = CDiffExtractor::extract(source, target);
+    const auto diff = program::core::file::diff::CDiffExtractor::extract(source, target);
 
     const auto modification = CBinaryModification {
         CUuid { "BINARY_TRANSLATION" },
@@ -44,7 +50,7 @@ TEST(BinaryModificationTest, CanModifyWhenSourceIsBiggerThanTarget)
     const auto target = x86_64dll->binary().part(963, 723).bytes();
 
     // when
-    const auto diff = CDiffExtractor::extract(source, target);
+    const auto diff = program::core::file::diff::CDiffExtractor::extract(source, target);
 
     const auto modification = CBinaryModification {
         CUuid { "BINARY_TRANSLATION" },
@@ -70,7 +76,7 @@ TEST(BinaryModificationTest, CanModifyWhenSourceIsSmallerThanTarget)
     const auto target = x86_64dll->binary().part(958, 4321).bytes();
 
     // when
-    const auto diff = CDiffExtractor::extract(source, target);
+    const auto diff = program::core::file::diff::CDiffExtractor::extract(source, target);
 
     const auto modification = CBinaryModification {
         CUuid { "BINARY_TRANSLATION" },
@@ -96,7 +102,7 @@ TEST(BinaryModificationTest, CanModifyWhenTheSizeIsTheSame)
     const auto target = x86_64dll->binary().part(958, 500).bytes();
 
     // when
-    const auto diff = CDiffExtractor::extract(source, target);
+    const auto diff = program::core::file::diff::CDiffExtractor::extract(source, target);
 
     const auto modification = CBinaryModification {
         CUuid { "BINARY_TRANSLATION" },
@@ -122,8 +128,8 @@ TEST(BinaryModificationTest, CanModifyUsingDiffAlgorithmDirectly)
     const auto target = x86_64dll->binary().part(1000, 250).bytes();
 
     // when
-    const auto diff = diff::match(source, target);
-    const auto modified = diff::patch(source, diff);
+    const auto diff = match(source, target);
+    const auto modified = patch(source, diff);
 
     // then
     ASSERT_EQ(modified.size(), target.size());

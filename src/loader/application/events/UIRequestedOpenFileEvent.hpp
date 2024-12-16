@@ -3,7 +3,7 @@
 
 #include <shared/message/IMessage.hpp>
 
-class CUIRequestedOpenFileEvent : public IMessage
+class CUIRequestedOpenFileEvent : public program::shared::message::IMessage
 {
 };
 

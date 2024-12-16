@@ -3,6 +3,9 @@
 #include <cstring>
 #include <string>
 
+using namespace program::shared::types;
+using namespace program::shared::crypto::openssl;
+
 byte_vec COpenSslCrypter::xorBytes(const byte_vec& input, const std::string& key) const
 {
     auto output = input;

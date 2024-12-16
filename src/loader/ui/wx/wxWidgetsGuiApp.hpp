@@ -11,21 +11,21 @@ class CwxWidgetsGuiApp : public CwxApp, public IGuiApp
 {
     int m_argc;
     char** m_argv;
-    IMessageBus* m_eventBus;
+    program::shared::message::IMessageBus* m_eventBus;
     CwxFrame* m_frame;
 
 public:
-    CwxWidgetsGuiApp(int t_argc, char** t_argv, IMessageBus* t_eventBus);
+    CwxWidgetsGuiApp(int t_argc, char** t_argv, program::shared::message::IMessageBus* t_eventBus);
     void overrideEventBusHandlerType();
     void start();
     void promptOpenFile();
     void displayErrorMessageBox(const std::string& title, const std::string& message);
     void displayInfoMessageBox(const std::string& title, const std::string& message);
     void displayStatus(const std::string& statusText);
-    void highlightBinaryInFileList(const file_id& fileId);
-    void removeFromFileList(const file_id& fileId);
-    void displayBinaryFile(const CBinaryFile& binaryFile);
-    void appendToLoadedFiles(const CBinaryFile* binary);
+    void highlightBinaryInFileList(const program::core::file::file_id& fileId);
+    void removeFromFileList(const program::core::file::file_id& fileId);
+    void displayBinaryFile(const program::core::file::CBinaryFile& binaryFile);
+    void appendToLoadedFiles(const program::core::file::CBinaryFile* binary);
     void displayEmpty();
     void exit();
 };

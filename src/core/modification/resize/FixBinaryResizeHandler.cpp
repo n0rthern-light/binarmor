@@ -2,6 +2,9 @@
 #include "shared/RuntimeException.hpp"
 #include "shared/self_obfuscation/strenc.hpp"
 
+using namespace program::core::modification::resize;
+using namespace program::core::file;
+
 CFixBinaryResizeHandler::CFixBinaryResizeHandler(CBinaryFileStateManager* fileManager):
     m_fileManager(fileManager)
 { }

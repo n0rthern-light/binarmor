@@ -4,6 +4,11 @@
 #include "core/shared/attributes.hpp"
 #include <shared/self_obfuscation/strenc.hpp>
 
+using namespace program::core::analysis::analyzers;
+using namespace program::core::analysis::exceptions;
+using namespace program::core::file;
+using namespace program::core::shared;
+
 bool isWindowsPE(const CBinary& binary) {
     auto firstBytes = binary.part(0, 2).string();
 

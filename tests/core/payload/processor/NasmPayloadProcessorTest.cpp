@@ -6,13 +6,18 @@
 #include <stdexcept>
 #include "../../BinaryMother.hpp"
 #include "core/file/BinaryModification.hpp"
-#include "core/modification/AddBytesCommand.hpp"
 #include "core/modification/ModificationCommand.hpp"
 #include "core/payload/IPayload.hpp"
 #include "core/shared/attributes.hpp"
 #include "shared/value/Uuid.hpp"
 
 using namespace program::core::container::payload;
+using namespace program::core::modification;
+using namespace program::core::payload;
+using namespace program::core::file;
+using namespace program::core::shared;
+using namespace program::shared::value;
+using namespace program::shared::types;
 
 class CPayloadStub : public IPayload
 {

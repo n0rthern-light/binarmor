@@ -4,6 +4,10 @@
 #include <shared/RuntimeException.hpp>
 #include <shared/self_obfuscation/strenc.hpp>
 
+using namespace program::core::file::fstream;
+using namespace program::core::shared;
+using namespace program::shared;
+
 CBinary CfstreamFileSystem::read(const std::string& filePath) const
 {
     std::ifstream file(filePath, std::ios::binary);

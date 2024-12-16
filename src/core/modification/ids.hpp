@@ -4,8 +4,7 @@
 #include "shared/self_obfuscation/strenc.hpp"
 #include <string>
 
-namespace modification
-{
+namespace program::core::modification {
     namespace sectionName {
         constexpr const auto MAIN = strenc(".bnrmr1");
     }

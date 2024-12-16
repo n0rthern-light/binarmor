@@ -2,6 +2,9 @@
 #include <gtest/gtest.h>
 #include "shared/types/defines.hpp"
 
+using namespace program::shared::types;
+using namespace program::shared::value;
+
 TEST(CByteVecOperationsTest, AssertWithinRangeThrowsOutOfRange) {
     byte_vec vec = {0xAA, 0xBB, 0xCC};
     EXPECT_THROW(CByteVecOperations::assertWithinRange(vec, 3), std::out_of_range);

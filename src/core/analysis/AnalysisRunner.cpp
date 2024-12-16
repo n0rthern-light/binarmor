@@ -5,6 +5,13 @@
 #include "../shared/attributes.hpp"
 #include "core/file/BinaryFileAttributes.hpp"
 
+using namespace program::core::analysis;
+using namespace program::core::analysis::analyzers;
+using namespace program::core::file;
+using namespace program::core::shared;
+using namespace program::shared::crypto;
+using namespace program::shared::message;
+
 CAnalysisRunner::CAnalysisRunner(IMessageBus* t_eventBus, const IHasher* t_hasher): m_eventBus(t_eventBus), m_hasher(t_hasher)
 {
     m_analyzers = { };

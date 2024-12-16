@@ -10,7 +10,7 @@
 class CwxFrame : public wxFrame
 {
 private:
-    IMessageBus* m_eventBus;
+    program::shared::message::IMessageBus* m_eventBus;
     wxPanel* m_mainPanel;
     wxBoxSizer* m_mainSizer;
     CwxSidebarPanel* m_sidebarPanel;
@@ -22,13 +22,13 @@ private:
     void initFileDrop();
     void onEventDisplayWindowOpenFile(wxCommandEvent& event);
 public:
-    CwxFrame(IMessageBus* t_eventBus);
+    CwxFrame(program::shared::message::IMessageBus* t_eventBus);
     void promptOpenFile();
     void displayStatus(const std::string& statusText);
-    void highlightBinaryFileInList(const file_id& fileId);
-    void removeFromFileList(const file_id& fileId);
-    void displayBinaryFile(const CBinaryFile& binaryFile);
-    void appendToLoadedFiles(const CBinaryFile* binary);
+    void highlightBinaryFileInList(const program::core::file::file_id& fileId);
+    void removeFromFileList(const program::core::file::file_id& fileId);
+    void displayBinaryFile(const program::core::file::CBinaryFile& binaryFile);
+    void appendToLoadedFiles(const program::core::file::CBinaryFile* binary);
     void displayEmpty();
     void notifyAboutNewFile(const std::string& path);
 };

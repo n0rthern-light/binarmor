@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "shared/value/Uuid.hpp"
 
+using namespace program::shared::value;
+
 TEST(UuidTest, CanGenerateUuid)
 {
     auto uuid = new CUuid();

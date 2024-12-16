@@ -5,16 +5,10 @@
 #include <string>
 #include <shared/types/defines.hpp>
 
-namespace program
+namespace program::core::assembler
 {
-    namespace core
-    {
-        namespace assembler
-        {
-            using asm_instructions = std::vector<std::string>;
-            using asm_opcodes = byte_vec;
-        }
-    }
+    using asm_instructions = std::vector<std::string>;
+    using asm_opcodes = program::shared::types::byte_vec;
 }
 
 #endif // CORE_ASSEMBLER_DEFINES_HPP_

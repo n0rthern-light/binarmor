@@ -3,13 +3,14 @@
 
 #include "../assembler/defines.hpp"
 
-using namespace program::core::assembler;
-
-class IAssembler
+namespace program::core::assembler
 {
-public:
-    virtual asm_opcodes assemble(const asm_instructions& input) = 0;
-    virtual ~IAssembler() { };
-};
+    class IAssembler
+    {
+    public:
+        virtual asm_opcodes assemble(const asm_instructions& input) = 0;
+        virtual ~IAssembler() { };
+    };
+}
 
 #endif // CORE_ASSEMBLER__ASSEMBLER_HPP_

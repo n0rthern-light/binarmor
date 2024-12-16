@@ -6,13 +6,21 @@
 #include <memory>
 #include <shared/self_obfuscation/strenc.hpp>
 
+using namespace program::core::analysis::analyzers;
+using namespace program::core::analysis::exceptions;
+using namespace program::core::file;
+using namespace program::core::format;
+using namespace program::core::shared;
+using namespace program::shared::value;
+using namespace program::shared::types;
+
 void CPeAnalyzer::analyze(const CBinary& binary, BinaryFileAttributes_t& attributes)
 {
     if (attributes.format != Format::Windows_PE) {
         throw UnsupportedFileException(strenc("Not detected any supported file format"));
     }
 
-    auto pe = CPeFormat(binary);
+    auto pe = format::pe::CPeFormat(binary);
 
     attributes.arch = pe.architecture();
     attributes.type = pe.type();
@@ -31,7 +39,7 @@ void CPeAnalyzer::analyze(const CBinary& binary, BinaryFileAttributes_t& attribu
 
     uint_auto sizeOfCode = 0;
     for(const auto& section : sections) {
-        if (section->name() == modification::sectionName::MAIN) {
+        if (section->name() == program::core::modification::sectionName::MAIN) {
             attributes.isProtected = true;
         }
 

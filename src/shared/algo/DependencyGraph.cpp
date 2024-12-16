@@ -2,6 +2,8 @@
 #include "../RuntimeException.hpp"
 #include <queue>
 
+using namespace program::shared::algo;
+
 void CDependencyGraph::addNode(const std::string& node) {
     if (m_graph.find(node) == m_graph.end()) {
         m_graph[node] = {};
@@ -54,6 +56,6 @@ std::vector<std::string> CDependencyGraph::topologicalSort() const {
     if (sorted.size() == m_graph.size()) {
         return sorted;
     } else {
-        throw RuntimeException("Dependency graph cycle detected!");
+        throw program::shared::RuntimeException("Dependency graph cycle detected!");
     }
 }

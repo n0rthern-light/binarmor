@@ -4,6 +4,9 @@
 #include <sstream>
 #include <iomanip>
 
+using namespace program::shared::types;
+using namespace program::shared::crypto::openssl;
+
 std::string COpenSslHasher::sha256FromString(const std::string& str) const
 {
     return sha256FromByteArray(reinterpret_cast<const unsigned char*>(str.data()), str.size());

@@ -2,12 +2,13 @@
 
 #include "../assembler/defines.hpp"
 
-using namespace program::core::assembler;
-
-class IDisassembler
+namespace program::core::assembler
 {
-public:
-    virtual asm_instructions disassemble(const asm_opcodes& input) = 0;
-    virtual ~IDisassembler() { };
-};
+    class IDisassembler
+    {
+    public:
+        virtual asm_instructions disassemble(const asm_opcodes& input) = 0;
+        virtual ~IDisassembler() { };
+    };
+}
 

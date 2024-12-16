@@ -4,14 +4,14 @@
 #include "core/assembler/defines.hpp"
 #include "core/shared/attributes.hpp"
 
-using namespace program::core::assembler;
-
-class CCapstoneDisassembler : public IDisassembler
-{
-    Architecture m_architecture;
-    Endianness m_endianness;
-public:
-    CCapstoneDisassembler(Architecture architecture, Endianness endianness);
-    asm_instructions disassemble(const asm_opcodes& input) override;
-};
+namespace program::core::assembler::capstone {
+    class CCapstoneDisassembler : public IDisassembler
+    {
+        program::core::shared::Architecture m_architecture;
+        program::core::shared::Endianness m_endianness;
+    public:
+        CCapstoneDisassembler(program::core::shared::Architecture architecture, program::core::shared::Endianness endianness);
+        asm_instructions disassemble(const asm_opcodes& input) override;
+    };
+}
 

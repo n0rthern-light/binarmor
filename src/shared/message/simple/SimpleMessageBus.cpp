@@ -3,6 +3,9 @@
 #include "../../RuntimeException.hpp"
 #include "../../self_obfuscation/strenc.hpp"
 
+using namespace program::shared::message::simple;
+using namespace program::shared::message::events;
+
 CSimpleMessageBus::CSimpleMessageBus(bool t_bCommandBusMode):
     m_handlerType(handler_type_sync),
     m_bCommandBusMode(t_bCommandBusMode)
@@ -12,7 +15,7 @@ void CSimpleMessageBus::subscribe(const std::type_index& type, const std::functi
     std::lock_guard<std::mutex> lock(m_mtx);
 
     if (m_bCommandBusMode == true && m_subscribers[type].size() > 0) {
-        throw new RuntimeException(strenc("Cannot register more than one subscriber when MessageBus in CommandBus mode!"));
+        throw new program::shared::RuntimeException(strenc("Cannot register more than one subscriber when MessageBus in CommandBus mode!"));
     }
 
     m_subscribers[type].push_back(listener);

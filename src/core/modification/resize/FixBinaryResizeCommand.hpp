@@ -6,34 +6,36 @@
 #include "shared/value/Uuid.hpp"
 #include "BinarySizeChangedEvent.hpp"
 
-class CFixBinaryResizeCommand: public IMessage
-{
-    const file_id m_fileId;
-    const CUuid m_modificationId;
-    const binary_offset m_offset;
-    const int m_diffSize;
-public:
-    CFixBinaryResizeCommand(
-        const file_id& fileId,
-        const CUuid& modificationId,
-        const binary_offset offset,
-        const int diffSize
-    ):
-        m_fileId(fileId),
-        m_modificationId(modificationId),
-        m_offset(offset),
-        m_diffSize(diffSize)
-    { }
+namespace program::core::modification::resize {
+    class CFixBinaryResizeCommand: public program::shared::message::IMessage
+    {
+        const file::file_id m_fileId;
+        const program::shared::value::CUuid m_modificationId;
+        const program::shared::types::binary_offset m_offset;
+        const int m_diffSize;
+    public:
+        CFixBinaryResizeCommand(
+            const file::file_id& fileId,
+            const program::shared::value::CUuid& modificationId,
+            const program::shared::types::binary_offset offset,
+            const int diffSize
+        ):
+            m_fileId(fileId),
+            m_modificationId(modificationId),
+            m_offset(offset),
+            m_diffSize(diffSize)
+        { }
 
-    CFixBinaryResizeCommand(const CBinarySizeChangedEvent& event):
-        m_fileId(event.fileId()),
-        m_modificationId(event.modificationId()),
-        m_offset(event.offset()),
-        m_diffSize(event.diffSize())
-    { }
+        CFixBinaryResizeCommand(const CBinarySizeChangedEvent& event):
+            m_fileId(event.fileId()),
+            m_modificationId(event.modificationId()),
+            m_offset(event.offset()),
+            m_diffSize(event.diffSize())
+        { }
 
-    file_id fileId() const { return m_fileId; }
-    CUuid modificationId() const { return m_modificationId; }
-    binary_offset offset() const { return m_offset; }
-    int diffSize() const { return m_diffSize; }
-};
+        file::file_id fileId() const { return m_fileId; }
+        program::shared::value::CUuid modificationId() const { return m_modificationId; }
+        program::shared::types::binary_offset offset() const { return m_offset; }
+        int diffSize() const { return m_diffSize; }
+    };
+}

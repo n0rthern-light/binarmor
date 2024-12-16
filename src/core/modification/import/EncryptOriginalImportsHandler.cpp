@@ -5,11 +5,19 @@
 #include "core/format/pe/PeFormat.hpp"
 #include "core/modification/EncryptOriginalImportsCommand.hpp"
 #include "core/modification/ModificationException.hpp"
-#include "core/modification/diff/DiffExtractor.hpp"
-#include "core/shared/attributes.hpp"
+#include "core/file/diff/DiffExtractor.hpp"
 #include "shared/types/defines.hpp"
 #include "shared/value/ByteVecOperations.hpp"
 #include <memory>
+
+using namespace program::core::modification::encrypt;
+using namespace program::core::file::diff;
+using namespace program::core::file;
+using namespace program::core::format;
+using namespace program::core::shared;
+using namespace program::shared::types;
+using namespace program::shared::value;
+using namespace program::shared::crypto;
 
 CEncryptOriginalImportsHandler::CEncryptOriginalImportsHandler(
     CBinaryFileStateManager* fileManager,
@@ -31,7 +39,7 @@ void CEncryptOriginalImportsHandler::handle(const CEncryptOriginalImportsCommand
     }
 
     const auto format = m_fileManager->binaryFileModifiedBinaryAsFormat(command.fileId());
-    const auto peFormat = std::dynamic_pointer_cast<CPeFormat>(format);
+    const auto peFormat = std::dynamic_pointer_cast<pe::CPeFormat>(format);
     
     if (binaryFile->hasFlags(BinaryFileFlags::HAS_ENCRYPTED_ORIGINAL_IMPORTS) == true) {
         throw ModificationException("Imports already encrypted");

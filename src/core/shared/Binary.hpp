@@ -6,22 +6,24 @@
 #include "BinaryPointer.hpp"
 #include <shared/crypto/IHasher.hpp>
 
-class CBinary
-{
-    const byte_vec m_bytes;
-    byte_ptr at(const binary_offset& offset) const;
-public:
-    CBinary(const byte_vec& bytes);
-    CBinary part(const binary_offset& offset = 0, const binary_offset& count = 0) const;
-    byte_vec bytes() const;
-    std::string string(const binary_offset& offset = 0) const;
-    binary_offset size() const;
-    CBinaryPointer pointer(const binary_offset& offset) const;
-    bool offsetExists(const binary_offset& offset) const;
-    std::string hash(const IHasher* hasher) const;
-    bool allBytesAre(unsigned char byte) const;
+namespace program::core::shared {
+    class CBinary
+    {
+        const program::shared::types::byte_vec m_bytes;
+        program::shared::types::byte_ptr at(const program::shared::types::binary_offset& offset) const;
+    public:
+        CBinary(const program::shared::types::byte_vec& bytes);
+        CBinary part(const program::shared::types::binary_offset& offset = 0, const program::shared::types::binary_offset& count = 0) const;
+        program::shared::types::byte_vec bytes() const;
+        std::string string(const program::shared::types::binary_offset& offset = 0) const;
+        program::shared::types::binary_offset size() const;
+        CBinaryPointer pointer(const program::shared::types::binary_offset& offset) const;
+        bool offsetExists(const program::shared::types::binary_offset& offset) const;
+        std::string hash(const program::shared::crypto::IHasher* hasher) const;
+        bool allBytesAre(unsigned char byte) const;
 
-    bool operator==(const CBinary& other) const;
-};
+        bool operator==(const CBinary& other) const;
+    };
+}
 
 #endif // CORE_SHARED__BINARY_HPP_

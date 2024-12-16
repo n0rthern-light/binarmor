@@ -4,11 +4,13 @@
 #include "core/modification/InitializeMainProtectionSectionCommand.hpp"
 #include "shared/message/IMessageBus.hpp"
 
-class CInitializeMainProtectionSectionHandler
-{
-    CBinaryFileStateManager* m_binaryFileManager;
-    IMessageBus* m_commandBus;
-public:
-    CInitializeMainProtectionSectionHandler(IMessageBus* commandBus, CBinaryFileStateManager* binaryFileManager);
-    void handle(const CInitializeMainProtectionSectionCommand& command);
-};
+namespace program::core::modification::section {
+    class CInitializeMainProtectionSectionHandler
+    {
+        file::CBinaryFileStateManager* m_binaryFileManager;
+        program::shared::message::IMessageBus* m_commandBus;
+    public:
+        CInitializeMainProtectionSectionHandler(program::shared::message::IMessageBus* commandBus, file::CBinaryFileStateManager* binaryFileManager);
+        void handle(const CInitializeMainProtectionSectionCommand& command);
+    };
+}

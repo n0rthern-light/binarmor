@@ -3,6 +3,11 @@
 #include "core/format/pe/functions.hpp"
 #include "shared/types/defines.hpp"
 
+using namespace program::core::format::pe;
+using namespace program::core::shared;
+using namespace program::shared::types;
+using namespace program::shared::value;
+
 CPeSection::CPeSection(
     const std::string& name,
     const binary_offset& headerOffset,

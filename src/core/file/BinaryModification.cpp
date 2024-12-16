@@ -4,10 +4,13 @@
 #include "shared/diff/diff_match_patch.hpp"
 #include "shared/self_obfuscation/strenc.hpp"
 #include "shared/types/defines.hpp"
-#include "shared/value/ByteVecOperations.hpp"
 #include "shared/value/Uuid.hpp"
-#include <algorithm>
 #include <stdexcept>
+
+using namespace program::core::file;
+using namespace program::shared::value;
+using namespace program::shared::types;
+using namespace program::shared;
 
 BinaryModificationDiff_t BinaryModificationDiff_t::add(binary_offset offset, const byte_vec& newBytes)
 {
@@ -73,7 +76,7 @@ const byte_vec CBinaryModification::apply(byte_vec targetBytes) const
         } else if (dmDiff.type == BinaryModificationDiffType::REMOVE) {
             infDiff.push_back(diff::Diff { diff::EditType::Delete, dmDiff.offset, dmDiff.oldBytes });
         } else {
-            throw ModificationException(strenc("Unexpected diff type"));
+            throw program::core::modification::ModificationException(strenc("Unexpected diff type"));
         }
     }
 
