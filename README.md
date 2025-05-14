@@ -1,5 +1,5 @@
 # BinArmor
-![binarmor](https://github.com/user-attachments/assets/cdcff464-6397-4aef-bee3-8af662ee1e6b)
+<img width="804" alt="gui" src="https://github.com/user-attachments/assets/f731ca95-f137-42e4-ac39-454de38f1640" />
 
 Binary Armor: Binary protection Software.
 
